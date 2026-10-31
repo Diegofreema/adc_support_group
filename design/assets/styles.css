@@ -547,3 +547,11 @@ a.list-item:hover { background: var(--surface-2); }
 
 /* Danger zone */
 .danger-zone { border: 1px solid var(--red-line); border-radius: var(--r-lg); padding: 18px; }
+
+/* Auth side panel headline */
+.auth-visual h2 { font-size: clamp(2.25rem, 4vw, 3.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.auth-visual h2 span { color: var(--green); }
+
+/* Two-column home layout */
+.home-grid { display: grid; gap: 0; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 960px) { .home-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; } .home-grid .first, .home-grid .home-first { margin-top: 0; } }
