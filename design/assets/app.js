@@ -113,7 +113,7 @@
       </aside>
       <div class="app-body">
         <header class="topbar">
-          ${back ? `<a class="icon-btn back" href="${back}" aria-label="Go back">${icon("arrow-left", "i i-lg")}</a>` : `<span class="hide-desktop">${brand(dark).replace("Support Groups<small>", "<span class='sr-only'>").replace("</small>", "</span>")}</span>`}
+          ${back ? `<a class="icon-btn back${/more\.html$/.test(back) ? " hide-desktop" : ""}" href="${back}" aria-label="Go back">${icon("arrow-left", "i i-lg")}</a>` : `<span class="hide-desktop">${brand(dark).replace("Support Groups<small>", "<span class='sr-only'>").replace("</small>", "</span>")}</span>`}
           <div class="topbar-title">${title}</div>
           <a class="icon-btn" href="${dark ? "admin-groups.html" : "notifications.html"}" aria-label="Notifications, 3 new">${icon("bell", "i i-lg")}<span class="badge-dot">3</span></a>
           <a class="icon-btn hide-mobile" href="${dark ? "admin-settings.html" : "profile.html"}" aria-label="My profile"><span class="avatar avatar-sm">${user[0]}</span></a>
