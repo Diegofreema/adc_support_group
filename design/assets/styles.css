@@ -480,7 +480,7 @@ a.list-item:hover { background: var(--surface-2); }
    Shared patterns (use these; don't re-create per page)
    ========================================================================== */
 /* Page header with actions: stacks on phones */
-.page-head-row { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+.page-head-row { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
 @media (min-width: 640px) { .page-head-row { flex-direction: row; align-items: center; justify-content: space-between; } }
 
 /* Label / value rows (summaries, details, receipts) */
