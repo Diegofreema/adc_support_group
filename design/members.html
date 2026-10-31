@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F5F6F8">
   <title>Members · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-b.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
@@ -16,111 +16,105 @@
 <main id="page">
 
   <div class="page-head-row">
-    <div>
-      <h1 class="h1">Members</h1>
-      <p class="muted mt-1">3,482 people in Atiku Women Network</p>
-    </div>
-    <div class="page-actions">
-      <a class="btn btn-primary grow" href="add-members.html"><i data-lucide="user-plus" class="i"></i>Add members</a>
-      <button class="btn" data-toast="Your Excel file is downloading"><i data-lucide="download" class="i"></i>Export</button>
-    </div>
+    <div><h1 class="h1">Members</h1><p class="muted mt-1">3,482 people</p></div>
+    <div class="row"><button class="btn" data-toast="Downloading"><i data-lucide="download" class="i"></i>Export</button><a class="btn btn-primary" href="add-members.html"><i data-lucide="user-plus" class="i"></i>Add</a></div>
   </div>
 
-  <div class="search"><i data-lucide="search" class="i"></i><input class="input" type="search" placeholder="Search by name or phone" aria-label="Search members"></div>
-  <div class="pills mt-3" data-pressed-group role="group" aria-label="Filter members">
-    <button class="pill" aria-pressed="true">All <span class="muted">3,482</span></button>
-    <button class="pill" aria-pressed="false">Joined by link</button>
-    <button class="pill" aria-pressed="false">Imported</button>
+  <div class="search"><i data-lucide="search" class="i"></i><input class="input" placeholder="Name or phone" aria-label="Search members"></div>
+  <div class="pills mt-3" data-pressed-group>
+    <button class="pill" aria-pressed="true">All</button>
+    <button class="pill" aria-pressed="false">Link</button>
+    <button class="pill" aria-pressed="false">Excel</button>
     <button class="pill" aria-pressed="false">Executives</button>
-    <button class="pill" aria-pressed="false">Lagos chapter</button>
-    <button class="pill" aria-pressed="false">Kano chapter</button>
-    <button class="pill" aria-pressed="false"><i data-lucide="sliders-horizontal" class="i i-sm"></i>More filters</button>
+    <button class="pill" aria-pressed="false">Lagos</button>
+    <button class="pill" aria-pressed="false">Kano</button>
   </div>
 
   <div class="card card-flush mt-4">
     <table class="table table-cards">
-      <thead><tr><th>Name</th><th>Ward</th><th>Chapter</th><th>How they joined</th><th class="t-right"><span class="sr-only">Actions</span></th></tr></thead>
+      <thead><tr><th>Name</th><th>Ward</th><th>Chapter</th><th>Joined by</th><th></th></tr></thead>
       <tbody>
         <tr>
-          <td class="t-main"><div class="who"><span class="avatar">CN</span><div><b>Chioma Nwosu</b><div class="muted small">0806 221 4590</div></div></div></td>
-          <td data-label="Ward">Surulere Ward 4</td><td data-label="Chapter">Lagos</td>
-          <td data-label="Joined"><span class="chip chip-info"><i data-lucide="link" class="i"></i>Join link</span></td>
-          <td class="t-right" data-label=""><button class="btn btn-sm" data-open="member">View</button></td>
+          <td class="t-main"><div class="row"><span class="avatar avatar-sm ">CN</span><span class="grow"><span class="bold" style="display:block">Chioma Nwosu</span><span class="tiny muted">0806 221 4590</span></span><button class="icon-btn hide-desktop" data-open="member" aria-label="Open Chioma Nwosu"><i data-lucide="ellipsis-vertical" class="i"></i></button></div></td>
+          <td data-label="Ward">Surulere 4</td>
+          <td data-label="Chapter">Lagos</td>
+          <td data-label="Joined by"><span class="chip chip-info"><i data-lucide="link" class="i"></i>Link</span></td>
+          <td class="t-right hide-mobile"><button class="icon-btn" data-open="member" aria-label="Open Chioma Nwosu"><i data-lucide="ellipsis-vertical" class="i"></i></button></td>
         </tr>
         <tr>
-          <td class="t-main"><div class="who"><span class="avatar a3">HM</span><div><b>Hadiza Musa</b><div class="muted small">0813 900 1123</div></div></div></td>
-          <td data-label="Ward">Gwale</td><td data-label="Chapter">Kano</td>
-          <td data-label="Joined"><span class="chip chip-neutral"><i data-lucide="file-spreadsheet" class="i"></i>Imported</span></td>
-          <td class="t-right" data-label=""><button class="btn btn-sm" data-open="member">View</button></td>
+          <td class="t-main"><div class="row"><span class="avatar avatar-sm a3">HM</span><span class="grow"><span class="bold" style="display:block">Hadiza Musa</span><span class="tiny muted">0813 900 1123</span></span><button class="icon-btn hide-desktop" data-open="member" aria-label="Open Hadiza Musa"><i data-lucide="ellipsis-vertical" class="i"></i></button></div></td>
+          <td data-label="Ward">Gwale</td>
+          <td data-label="Chapter">Kano</td>
+          <td data-label="Joined by"><span class="chip chip-neutral"><i data-lucide="file-spreadsheet" class="i"></i>Excel</span></td>
+          <td class="t-right hide-mobile"><button class="icon-btn" data-open="member" aria-label="Open Hadiza Musa"><i data-lucide="ellipsis-vertical" class="i"></i></button></td>
         </tr>
         <tr>
-          <td class="t-main"><div class="who"><span class="avatar a2">GE</span><div><b>Grace Eze</b> <span class="tag">Treasurer</span><div class="muted small">0805 117 0042</div></div></div></td>
-          <td data-label="Ward">Wuse</td><td data-label="Chapter">FCT</td>
-          <td data-label="Joined"><span class="chip chip-info"><i data-lucide="link" class="i"></i>Join link</span></td>
-          <td class="t-right" data-label=""><button class="btn btn-sm" data-open="member">View</button></td>
+          <td class="t-main"><div class="row"><span class="avatar avatar-sm a2">TY</span><span class="grow"><span class="bold" style="display:block">Tunde Yusuf</span><span class="tiny muted">0802 334 7781</span></span><button class="icon-btn hide-desktop" data-open="member" aria-label="Open Tunde Yusuf"><i data-lucide="ellipsis-vertical" class="i"></i></button></div></td>
+          <td data-label="Ward">Fagge</td>
+          <td data-label="Chapter">Kano</td>
+          <td data-label="Joined by"><span class="chip chip-info"><i data-lucide="link" class="i"></i>Link</span></td>
+          <td class="t-right hide-mobile"><button class="icon-btn" data-open="member" aria-label="Open Tunde Yusuf"><i data-lucide="ellipsis-vertical" class="i"></i></button></td>
         </tr>
         <tr>
-          <td class="t-main"><div class="who"><span class="avatar a5">RD</span><div><b>Ruth Dung</b> <span class="tag">Coordinator</span><div class="muted small">0703 448 2019</div></div></div></td>
-          <td data-label="Ward">Jos North</td><td data-label="Chapter">Plateau</td>
-          <td data-label="Joined"><span class="chip chip-neutral"><i data-lucide="user-plus" class="i"></i>Added by leader</span></td>
-          <td class="t-right" data-label=""><button class="btn btn-sm" data-open="member">View</button></td>
+          <td class="t-main"><div class="row"><span class="avatar avatar-sm a4">BA</span><span class="grow"><span class="bold" style="display:block">Bisi Adeyemi</span><span class="tiny muted">0802 551 9087</span></span><button class="icon-btn hide-desktop" data-open="member" aria-label="Open Bisi Adeyemi"><i data-lucide="ellipsis-vertical" class="i"></i></button></div></td>
+          <td data-label="Ward">Ikeja</td>
+          <td data-label="Chapter">Lagos</td>
+          <td data-label="Joined by"><span class="chip chip-info"><i data-lucide="link" class="i"></i>Link</span></td>
+          <td class="t-right hide-mobile"><button class="icon-btn" data-open="member" aria-label="Open Bisi Adeyemi"><i data-lucide="ellipsis-vertical" class="i"></i></button></td>
         </tr>
         <tr>
-          <td class="t-main"><div class="who"><span class="avatar a4">OA</span><div><b>Oluwaseun Afolabi</b><div class="muted small">0816 330 7781</div></div></div></td>
-          <td data-label="Ward">Ikeja GRA</td><td data-label="Chapter">Lagos</td>
-          <td data-label="Joined"><span class="chip chip-neutral"><i data-lucide="file-spreadsheet" class="i"></i>Imported</span></td>
-          <td class="t-right" data-label=""><button class="btn btn-sm" data-open="member">View</button></td>
+          <td class="t-main"><div class="row"><span class="avatar avatar-sm a5">FG</span><span class="grow"><span class="bold" style="display:block">Fatima Garba</span><span class="tiny muted">0705 112 6640</span></span><button class="icon-btn hide-desktop" data-open="member" aria-label="Open Fatima Garba"><i data-lucide="ellipsis-vertical" class="i"></i></button></div></td>
+          <td data-label="Ward">Jos North</td>
+          <td data-label="Chapter">Plateau</td>
+          <td data-label="Joined by"><span class="chip chip-neutral"><i data-lucide="file-spreadsheet" class="i"></i>Excel</span></td>
+          <td class="t-right hide-mobile"><button class="icon-btn" data-open="member" aria-label="Open Fatima Garba"><i data-lucide="ellipsis-vertical" class="i"></i></button></td>
+        </tr>
+        <tr>
+          <td class="t-main"><div class="row"><span class="avatar avatar-sm a2">NE</span><span class="grow"><span class="bold" style="display:block">Ngozi Eze</span><span class="tiny muted">0809 445 2210</span></span><button class="icon-btn hide-desktop" data-open="member" aria-label="Open Ngozi Eze"><i data-lucide="ellipsis-vertical" class="i"></i></button></div></td>
+          <td data-label="Ward">Wuse</td>
+          <td data-label="Chapter">FCT</td>
+          <td data-label="Joined by"><span class="chip chip-info"><i data-lucide="link" class="i"></i>Link</span></td>
+          <td class="t-right hide-mobile"><button class="icon-btn" data-open="member" aria-label="Open Ngozi Eze"><i data-lucide="ellipsis-vertical" class="i"></i></button></td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="row-between mt-4 small"><span class="muted">Showing 1–5 of 3,482</span><div class="row" style="gap:8px"><button class="btn btn-sm" disabled><i data-lucide="chevron-left" class="i i-sm"></i>Back</button><button class="btn btn-sm">Next<i data-lucide="chevron-right" class="i i-sm"></i></button></div></div>
+  <div class="row-between mt-4 small muted"><span>1–6 of 3,482</span><div class="row" style="gap:6px"><button class="btn btn-sm" aria-label="Previous page"><i data-lucide="chevron-left" class="i i-sm"></i></button><button class="btn btn-sm" aria-label="Next page"><i data-lucide="chevron-right" class="i i-sm"></i></button></div></div>
 
 </main>
 
 <div class="dialog-backdrop" id="member" role="dialog" aria-modal="true" aria-labelledby="m-t">
   <div class="dialog">
-    <div class="row"><span class="avatar avatar-lg">CN</span><div><h2 id="m-t">Chioma Nwosu</h2><span class="chip chip-info mt-1"><i data-lucide="link" class="i"></i>Joined by link · 12 Oct</span></div></div>
-    <dl class="kv mt-4" style="margin-bottom:0">
-      <div><dt>Phone</dt><dd>0806 221 4590</dd></div>
-      <div><dt>Email</dt><dd>chioma.n@gmail.com</dd></div>
-      <div><dt>Location</dt><dd>Surulere, Ward 4, Lagos</dd></div>
+    <div class="row"><span class="avatar avatar-lg">CN</span><div><h2 id="m-t">Chioma Nwosu</h2><p class="muted small">0806 221 4590</p></div></div>
+    <dl class="kv mt-4">
+      <div><dt>Ward</dt><dd>Surulere 4</dd></div>
       <div><dt>Chapter</dt><dd>Lagos</dd></div>
-      <div><dt>Activities</dt><dd>7 approved</dd></div>
+      <div><dt>Joined</dt><dd>12 Oct · Link</dd></div>
+      <div><dt>Activities</dt><dd>7</dd></div>
     </dl>
-    <div class="stack stack-sm mt-4">
-      <button class="btn btn-block" data-close data-open="make-exec"><i data-lucide="award" class="i"></i>Make executive</button>
-      <button class="btn btn-block" data-close data-open="move"><i data-lucide="arrow-right-left" class="i"></i>Move to another chapter</button>
-      <button class="btn btn-danger btn-block" data-close data-open="remove"><i data-lucide="user-minus" class="i"></i>Remove from group</button>
+    <div class="grid mt-4">
+      <button class="btn btn-block" data-close data-toast="Now an executive"><i data-lucide="crown" class="i"></i>Make executive</button>
+      <button class="btn btn-block" data-open="move"><i data-lucide="arrow-right-left" class="i"></i>Move chapter</button>
+      <button class="btn btn-danger btn-block" data-open="remove"><i data-lucide="user-minus" class="i"></i>Remove</button>
     </div>
     <button class="btn btn-ghost btn-block mt-2" data-close>Close</button>
   </div>
 </div>
 
-<div class="dialog-backdrop" id="make-exec" role="dialog" aria-modal="true" aria-labelledby="me-t">
-  <div class="dialog">
-    <h2 id="me-t">Make Chioma an executive</h2>
-    <div class="field mt-4"><label class="label" for="me-r">Role</label><select id="me-r" class="select"><option>Secretary</option><option>Treasurer (can pay for the group)</option><option>Public relations officer</option><option>Other</option></select></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Chioma is now an executive">Save</button></div>
-  </div>
-</div>
-
 <div class="dialog-backdrop" id="move" role="dialog" aria-modal="true" aria-labelledby="mv-t">
   <div class="dialog">
-    <h2 id="mv-t">Move Chioma to another chapter</h2>
-    <div class="field mt-4"><label class="label" for="mv-c">New chapter</label><select id="mv-c" class="select"><option>Lagos chapter (now)</option><option>Ogun chapter</option><option>FCT chapter</option><option>No chapter (main group)</option></select></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Chioma moved">Move</button></div>
+    <h2 id="mv-t">Move chapter</h2>
+    <div class="field mt-5"><label class="label" for="mv-c">Chapter</label><select id="mv-c" class="select"><option>Lagos</option><option>Kano</option><option>Plateau</option><option>FCT</option></select></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Moved">Move</button></div>
   </div>
 </div>
 
-<div class="dialog-backdrop" id="remove" role="alertdialog" aria-modal="true" aria-labelledby="rm-t">
+<div class="dialog-backdrop" id="remove" role="dialog" aria-modal="true" aria-labelledby="rm-t">
   <div class="dialog">
-    <span class="icon-tile red"><i data-lucide="user-minus" class="i"></i></span>
-    <h2 id="rm-t" class="mt-4">Remove Chioma from the group?</h2>
-    <p class="muted mt-2">She will no longer see this group. Her account and her past activities stay. She can join again with your link.</p>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Chioma removed">Remove</button></div>
+    <h2 id="rm-t">Remove Chioma?</h2>
+    <p class="muted mt-1">Her account stays. She leaves this group.</p>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Removed">Remove</button></div>
   </div>
 </div>
-
 </body>
 </html>

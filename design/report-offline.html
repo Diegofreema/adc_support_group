@@ -3,106 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Report an outside payment · ADC Support Groups</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Offline payment · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-c.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
-<body data-shell="leader" data-active="payments" data-title="Report a payment" data-back="payments.html">
+<body data-shell="leader" data-active="payments" data-title="Offline payment" data-back="payments.html">
 <main id="page" class="main-narrow">
+  <h1 class="h1">Paid offline</h1>
+  <div class="banner banner-info mt-4"><i data-lucide="info" class="i"></i><span>Counts after staff check.</span></div>
 
-  <div class="page-head">
-    <h1 class="h1">Report a payment made outside the website</h1>
-    <p>Did your group pay the campaign by bank transfer or cash? Tell us here so it counts.</p>
-  </div>
-
-  <div class="banner banner-info">
-    <i data-lucide="shield-check" class="i"></i>
-    <div><span class="banner-title">It counts once the Directorate confirms it.</span><br>Staff will check your proof. This usually takes 1 to 2 days.</div>
-  </div>
-
-  <form class="mt-6" onsubmit="return false">
-    <label class="field">
-      <span class="label">What was it for?</span>
-      <select class="select">
-        <option>Lagos mega rally: logistics (cause)</option>
-        <option>Posters for the North West (cause)</option>
-        <option>Radio jingles (cause)</option>
-        <option>General support: Mobilisation</option>
-        <option>General support: Logistics</option>
-        <option>General support: Media</option>
-        <option>General support: Materials</option>
-        <option>General support: Other</option>
-      </select>
-    </label>
-
-    <label class="field">
-      <span class="label">Which part of your group paid?</span>
-      <select class="select">
-        <option>The whole group</option>
-        <option>Lagos chapter</option>
-        <option>Plateau chapter</option>
-        <option selected>Kano chapter</option>
-      </select>
-    </label>
-
-    <label class="field">
-      <span class="label">Amount</span>
-      <span class="amount-input"><span class="cur">₦</span><input class="input" inputmode="numeric" placeholder="0" value="300,000"></span>
-    </label>
-
-    <label class="field">
-      <span class="label">Date you paid</span>
-      <input class="input" type="date" value="2026-10-29">
-    </label>
-
-    <fieldset class="field" style="border:0;padding:0;margin-inline:0">
-      <legend class="label">How did you pay?</legend>
-      <div class="choices">
-        <label class="choice"><input type="radio" name="how" checked><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Bank transfer</span><span class="choice-desc">To the campaign's bank account</span></span></label>
-        <label class="choice"><input type="radio" name="how"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Cash</span><span class="choice-desc">Handed to a campaign office</span></span></label>
-      </div>
-    </fieldset>
-
-    <label class="field">
-      <span class="label">Transfer reference <span class="opt">(if you have one)</span></span>
-      <span class="hint">You'll find it on your bank alert or receipt.</span>
-      <input class="input" placeholder="For example: 0000142610291122">
-    </label>
-
-    <label class="field">
-      <span class="label">Who received it?</span>
-      <span class="hint">The name of the campaign official or office.</span>
-      <input class="input" placeholder="For example: Kano Campaign Office, Zoo Road" value="Kano Campaign Office, Zoo Road">
-    </label>
-
-    <div class="field">
-      <span class="label">Proof of payment</span>
-      <span class="hint">A photo of the receipt or a screenshot of the transfer.</span>
-      <label class="dropzone">
-        <input type="file" accept="image/*,application/pdf" class="sr-only">
-        <span class="icon-tile"><i data-lucide="camera" class="i"></i></span>
-        <span class="bold">Take a photo or choose a file</span>
-        <span class="small muted">Photo or PDF, up to 5 MB</span>
-      </label>
-      <div class="list mt-3">
-        <div class="list-item">
-          <span class="icon-tile blue"><i data-lucide="image" class="i"></i></span>
-          <span class="grow"><span class="title" style="display:block">transfer-screenshot.jpg</span><span class="meta">1.2 MB · Uploaded</span></span>
-          <button class="icon-btn" type="button" aria-label="Remove file" data-toast="File removed"><i data-lucide="trash-2" class="i"></i></button>
-        </div>
-      </div>
+  <form class="mt-5" onsubmit="event.preventDefault()">
+    <div class="field"><label class="label" for="for">For</label><select id="for" class="select"><option>Lagos rally logistics</option><option>North West posters</option><option>General support</option></select></div>
+    <div class="field"><label class="label" for="ch">Paid by</label><select id="ch" class="select"><option>Whole group</option><option>Lagos chapter</option><option>Kano chapter</option></select></div>
+    <div class="field"><label class="label" for="amt">Amount</label><label class="amount-input" for="amt"><span>₦</span><input id="amt" inputmode="numeric" placeholder="0"></label></div>
+    <div class="grid-2 mt-4" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+      <div class="field"><label class="label" for="dt">Date</label><input id="dt" class="input" type="date" value="2026-10-28"></div>
+      <div class="field" style="margin-top:0"><label class="label" for="how">How</label><select id="how" class="select"><option>Transfer</option><option>Cash</option></select></div>
     </div>
-
-    <div class="action-bar">
-      <a class="btn btn-primary btn-lg btn-block" href="payments.html" data-toast="Sent. The Directorate will check it."><i data-lucide="send" class="i"></i>Send for checking</a>
+    <div class="field mt-4"><label class="label" for="ref">Reference <span class="opt">(optional)</span></label><input id="ref" class="input" placeholder="Bank reference"></div>
+    <div class="field"><span class="label">Proof</span>
+      <label class="dropzone"><i data-lucide="upload" class="i i-lg"></i><span class="bold">Add photo or PDF</span><span class="faint small">Receipt or screenshot</span><input type="file" accept="image/*,.pdf" hidden></label>
     </div>
+    <div class="action-bar"><a class="btn btn-primary btn-lg btn-block" href="payments.html" data-toast="Sent for check">Send</a></div>
   </form>
-
 </main>
 </body>
 </html>

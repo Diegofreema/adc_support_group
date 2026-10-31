@@ -3,109 +3,68 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>My profile · ADC Support Groups</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Profile · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-a.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
-<body data-shell="leader" data-active="profile" data-title="My profile">
+<body data-shell="leader" data-active="profile" data-title="Profile" data-back="more.html">
 <main id="page" class="main-narrow">
 
-  <div class="row" style="gap:16px">
+  <div class="row">
     <span class="avatar avatar-lg">AO</span>
-    <div class="grow">
-      <h1 class="h1">Amaka Okafor</h1>
-      <p class="muted">0803 555 0142 · amaka.okafor@gmail.com</p>
-    </div>
+    <div class="grow"><h1 class="h2">Amaka Okafor</h1><p class="muted small">0803 555 0142</p></div>
   </div>
 
-  <!-- Personal details -->
-  <div class="section-title"><h2>My details</h2></div>
-  <form class="card" onsubmit="event.preventDefault();toast('Details saved')">
-    <div class="field"><label class="label" for="p-name">Full name</label><input class="input" id="p-name" value="Amaka Okafor"></div>
-    <div class="field"><label class="label" for="p-phone">Phone number</label>
-      <span class="hint">To change your number we'll send a code to the new one.</span>
-      <div class="input-group"><span class="prefix">+234</span><input class="input" id="p-phone" value="803 555 0142" inputmode="numeric"></div></div>
-    <div class="field"><label class="label" for="p-email">Email <span class="opt">(optional)</span></label><input class="input" id="p-email" type="email" value="amaka.okafor@gmail.com"></div>
-    <div class="grid-2" style="margin-top:20px">
-      <div><label class="label" for="p-state">State</label><select class="select" id="p-state"><option>Lagos</option></select></div>
-      <div><label class="label" for="p-lga">LGA</label><select class="select" id="p-lga"><option>Ikeja</option></select></div>
+  <div class="section-title"><h2>Details</h2></div>
+  <form class="card" onsubmit="event.preventDefault(); toast('Saved')">
+    <div class="field"><label class="label" for="nm">Full name</label><input id="nm" class="input" value="Amaka Okafor"></div>
+    <div class="field"><label class="label" for="em">Email <span class="opt">(optional)</span></label><input id="em" class="input" type="email" value="amaka.okafor@gmail.com"></div>
+    <div class="field"><label class="label" for="st">State</label><select id="st" class="select"><option>Lagos</option></select></div>
+    <div class="grid-2 mt-4" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+      <div class="field"><label class="label" for="lg">LGA</label><select id="lg" class="select"><option>Ikeja</option></select></div>
+      <div class="field" style="margin-top:0"><label class="label" for="wd">Ward</label><select id="wd" class="select"><option>Ward 2</option></select></div>
     </div>
-    <div class="field mt-5"><label class="label" for="p-ward">Ward</label><select class="select" id="p-ward"><option>Ward 02 · Alausa</option></select></div>
-    <button class="btn btn-primary btn-block mt-6" type="submit">Save changes</button>
+    <button class="btn btn-primary btn-block mt-6" type="submit">Save</button>
   </form>
 
-  <!-- Groups & roles -->
   <div class="section-title"><h2>My groups</h2></div>
   <div class="list">
-    <a class="list-item" href="group.html">
-      <span class="group-mark">AW</span>
-      <span class="grow"><span class="title" style="display:block">Atiku Women Network</span><span class="meta">Leader · National Coordinator</span></span>
-      <span class="chip chip-verified hide-mobile"><i data-lucide="badge-check" class="i"></i>Verified</span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
-    <a class="list-item" href="group.html">
-      <span class="group-mark g5">SM</span>
-      <span class="grow"><span class="title" style="display:block">Surulere Market Women</span><span class="meta">Member</span></span>
-      <span class="chip chip-verified hide-mobile"><i data-lucide="badge-check" class="i"></i>Verified</span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
+    <a class="list-item" href="group.html"><span class="group-mark">AW</span><span class="grow"><span class="title truncate" style="display:block">Atiku Women Network</span><span class="meta">Leader</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="group.html"><span class="group-mark g5">SM</span><span class="grow"><span class="title truncate" style="display:block">Surulere Market Women</span><span class="meta">Member</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
   </div>
-  <p class="small muted mt-2">You can lead one group and be a member of as many as you like.</p>
 
-  <!-- Messages -->
-  <div class="section-title"><h2>How we reach you</h2></div>
+  <div class="section-title"><h2>Alerts</h2></div>
   <div class="list">
-    <div class="setting">
-      <span class="icon-tile"><i data-lucide="mail" class="i"></i></span>
-      <span class="grow"><b style="display:block">Email</b><span class="muted small">Updates, receipts and approvals</span></span>
-      <label class="toggle"><input type="checkbox" checked aria-label="Email updates"><span></span></label>
-    </div>
-    <div class="setting">
-      <span class="icon-tile amber"><i data-lucide="message-square" class="i"></i></span>
-      <span class="grow"><b style="display:block">SMS</b><span class="muted small">Only important things, like verification and payments</span></span>
-      <label class="toggle"><input type="checkbox" checked aria-label="SMS updates"><span></span></label>
-    </div>
-    <div class="setting">
-      <span class="icon-tile blue"><i data-lucide="languages" class="i"></i></span>
-      <span class="grow"><b style="display:block">Language</b><span class="muted small">English · Pidgin, Hausa, Yoruba and Igbo coming soon</span></span>
-    </div>
+    <label class="setting"><span class="row"><i data-lucide="mail" class="i faint"></i>Email</span><span class="toggle"><input type="checkbox" checked><span></span></span></label>
+    <label class="setting"><span class="row"><i data-lucide="message-square" class="i faint"></i>SMS</span><span class="toggle"><input type="checkbox" checked><span></span></span></label>
+    <label class="setting"><span class="row"><i data-lucide="languages" class="i faint"></i>Language</span><select class="select" style="width:auto;min-height:44px" aria-label="Language"><option>English</option></select></label>
   </div>
 
-  <!-- Security -->
   <div class="section-title"><h2>Security</h2></div>
   <div class="list">
-    <a class="list-item" href="#" data-open="change-pw">
-      <span class="icon-tile"><i data-lucide="key-round" class="i"></i></span>
-      <span class="grow"><span class="title" style="display:block">Change password</span><span class="meta">Last changed 3 weeks ago</span></span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
+    <button class="list-item w-full" style="border:0;background:none;text-align:left;cursor:pointer" data-open="pw"><span class="icon-tile grey"><i data-lucide="key-round" class="i"></i></span><span class="grow title">Change password</span><i data-lucide="chevron-right" class="i chev"></i></button>
+    <button class="list-item w-full" style="border:0;border-top:1px solid var(--line);background:none;text-align:left;cursor:pointer" data-open="out"><span class="icon-tile red"><i data-lucide="log-out" class="i"></i></span><span class="grow title red">Log out</span></button>
   </div>
-
-  <button class="btn btn-danger btn-block mt-8" data-open="logout"><i data-lucide="log-out" class="i"></i>Log out</button>
-
 </main>
 
-<!-- Change password -->
-<div class="dialog-backdrop" id="change-pw" role="dialog" aria-modal="true" aria-labelledby="cp-title">
+<div class="dialog-backdrop" id="pw" role="dialog" aria-modal="true" aria-labelledby="pw-t">
   <div class="dialog">
-    <h2 id="cp-title">Change password</h2>
-    <div class="field mt-4"><label class="label" for="cp-old">Current password</label><input class="input" id="cp-old" type="password" autocomplete="current-password"></div>
-    <div class="field"><label class="label" for="cp-new">New password</label><span class="hint">At least 8 characters, with a number.</span><input class="input" id="cp-new" type="password" autocomplete="new-password"></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Password changed">Save password</button></div>
+    <h2 id="pw-t">Change password</h2>
+    <div class="field mt-5"><label class="label" for="op">Current</label><input id="op" class="input" type="password"></div>
+    <div class="field"><label class="label" for="np">New</label><input id="np" class="input" type="password" placeholder="8+ characters"></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Password changed">Save</button></div>
   </div>
 </div>
 
-<!-- Log out confirm -->
-<div class="dialog-backdrop" id="logout" role="alertdialog" aria-modal="true" aria-labelledby="lo-title" aria-describedby="lo-desc">
+<div class="dialog-backdrop" id="out" role="dialog" aria-modal="true" aria-labelledby="out-t">
   <div class="dialog">
-    <h2 id="lo-title">Log out?</h2>
-    <p class="muted mt-2" id="lo-desc">You'll need your phone number and password to log back in.</p>
-    <div class="dialog-actions"><button class="btn" data-close>Stay logged in</button><a class="btn btn-danger-solid" href="index.html">Log out</a></div>
+    <h2 id="out-t">Log out?</h2>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><a class="btn btn-danger-solid" href="index.html">Log out</a></div>
   </div>
 </div>
 </body>

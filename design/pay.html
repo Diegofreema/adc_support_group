@@ -3,184 +3,125 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Pay as a group · ADC Support Groups</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Pay · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-c.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
-<body data-shell="leader" data-active="payments" data-title="Pay as a group" data-back="payments.html">
+<body data-shell="leader" data-active="payments" data-title="Pay" data-back="payments.html">
 <main id="page" class="main-narrow">
+<form data-wizard>
+  <span class="step-count">Step 1 of 4</span>
+  <div class="stepper mt-2"><span></span><span></span><span></span><span></span></div>
 
-  <form data-wizard id="pay-wizard" aria-label="Pay as a group">
-    <div class="row-between mb-3"><span class="step-count">Step 1 of 4</span><span class="tiny muted">Paying for Atiku Women Network</span></div>
-    <div class="stepper mb-6" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-
-    <!-- Step 1: what for -->
-    <section data-step>
-      <h1 class="h1">What is this payment for?</h1>
-      <p class="muted mt-2">Pick a cause from the Campaign Directorate, or give general support.</p>
-
-      <div class="segmented mt-6" data-pressed-group role="group" aria-label="Type of payment">
-        <button type="button" aria-pressed="true" data-show="cause">A campaign cause</button>
-        <button type="button" aria-pressed="false" data-show="general">General support</button>
-      </div>
-
-      <div data-view="cause" class="choices mt-4">
-        <label class="choice cause-choice">
-          <input type="radio" name="cause" checked>
-          <span class="top"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Lagos mega rally: logistics</span><span class="choice-desc">Buses, sound and stage for Tafawa Balewa Square</span></span></span>
-          <span class="progress progress-sm"><span style="width:68%"></span></span>
-          <span class="foot"><span><b style="color:var(--ink)">₦34m</b> of ₦50m</span><span><i data-lucide="clock" class="i i-sm" style="display:inline;vertical-align:-3px"></i> Ends 10 Dec</span></span>
-        </label>
-        <label class="choice cause-choice">
-          <input type="radio" name="cause">
-          <span class="top"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Posters for the North West</span><span class="choice-desc">500,000 posters for Kano, Kaduna, Katsina and Sokoto</span></span></span>
-          <span class="progress progress-sm"><span style="width:31%"></span></span>
-          <span class="foot"><span><b style="color:var(--ink)">₦9.3m</b> of ₦30m</span><span><i data-lucide="clock" class="i i-sm" style="display:inline;vertical-align:-3px"></i> Ends 20 Dec</span></span>
-        </label>
-        <label class="choice cause-choice">
-          <input type="radio" name="cause">
-          <span class="top"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Radio jingles in Hausa, Yoruba and Igbo</span><span class="choice-desc">Airtime on 24 radio stations for one month</span></span></span>
-          <span class="progress progress-sm"><span style="width:84%"></span></span>
-          <span class="foot"><span><b style="color:var(--ink)">₦16.8m</b> of ₦20m</span><span><i data-lucide="clock" class="i i-sm" style="display:inline;vertical-align:-3px"></i> Ends 5 Dec</span></span>
-        </label>
-      </div>
-
-      <div data-view="general" hidden class="mt-4">
-        <p class="label">What will the money be used for?</p>
-        <div class="choice-grid">
-          <label class="choice choice-tile"><input type="radio" name="purpose" checked><span class="tile-icon"><i data-lucide="megaphone" class="i"></i></span><span class="choice-title">Mobilisation</span></label>
-          <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="bus" class="i"></i></span><span class="choice-title">Logistics</span></label>
-          <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="radio" class="i"></i></span><span class="choice-title">Media</span></label>
-          <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="shirt" class="i"></i></span><span class="choice-title">Materials</span></label>
-          <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="circle-ellipsis" class="i"></i></span><span class="choice-title">Other</span></label>
-        </div>
-        <label class="field mt-5">
-          <span class="label">Add a note <span class="opt">(optional)</span></span>
-          <span class="hint">Tell the Directorate what this money is for.</span>
-          <textarea class="textarea" placeholder="For example: fuel for buses to the Ikeja rally"></textarea>
-        </label>
-      </div>
-
-      <div class="action-bar"><button class="btn btn-primary btn-lg btn-block" data-next>Continue <i data-lucide="arrow-right" class="i"></i></button></div>
-    </section>
-
-    <!-- Step 2: who is paying -->
-    <section data-step hidden>
-      <h1 class="h1">Who is paying?</h1>
-      <p class="muted mt-2">Choose the whole group, or one of your chapters.</p>
-      <div class="choices mt-6">
-        <label class="choice"><input type="radio" name="payer" checked><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">The whole group</span><span class="choice-desc">Atiku Women Network · National</span></span></label>
-        <label class="choice"><input type="radio" name="payer"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Lagos chapter</span><span class="choice-desc">Coordinator: Funke Adeyemi · 912 members</span></span></label>
-        <label class="choice"><input type="radio" name="payer"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Plateau chapter</span><span class="choice-desc">Coordinator: Rifkatu Dung · 406 members</span></span></label>
-        <label class="choice"><input type="radio" name="payer"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Kano chapter</span><span class="choice-desc">Coordinator: Hadiza Sani · 655 members</span></span></label>
-      </div>
-      <div class="banner banner-info mt-4"><i data-lucide="info" class="i"></i><div>A chapter payment is recorded under <b>Atiku Women Network</b> too, so it counts for the whole group.</div></div>
-      <div class="action-bar">
-        <div class="grid" style="grid-template-columns:auto 1fr">
-          <button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button>
-          <button class="btn btn-primary btn-lg" data-next>Continue <i data-lucide="arrow-right" class="i"></i></button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 3: amount -->
-    <section data-step hidden>
-      <h1 class="h1">How much?</h1>
-      <p class="muted mt-2">Type the amount in Naira, or tap one below.</p>
-      <label class="field mt-6">
-        <span class="label">Amount</span>
-        <span class="amount-input"><span class="cur">₦</span><input class="input" id="amount" inputmode="numeric" value="250,000" aria-label="Amount in Naira"></span>
-      </label>
-      <div class="pills mt-3" data-pressed-group role="group" aria-label="Quick amounts" id="quick">
-        <button type="button" class="pill" aria-pressed="false" data-amt="50,000">₦50k</button>
-        <button type="button" class="pill" aria-pressed="false" data-amt="100,000">₦100k</button>
-        <button type="button" class="pill" aria-pressed="true" data-amt="250,000">₦250k</button>
-        <button type="button" class="pill" aria-pressed="false" data-amt="500,000">₦500k</button>
-        <button type="button" class="pill" aria-pressed="false" data-amt="1,000,000">₦1m</button>
-      </div>
-
-      <label class="field mt-6">
-        <span class="label">Is this for an activity? <span class="opt">(optional)</span></span>
-        <span class="hint">Link it so the Directorate sees the money and the event together.</span>
-        <select class="select">
-          <option>No, not for a particular activity</option>
-          <option>Rally, Ikeja · 12 Nov</option>
-          <option>Town hall, Jos North · 8 Nov</option>
-          <option>Door-to-door, Surulere · Today</option>
-        </select>
-      </label>
-      <div class="action-bar">
-        <div class="grid" style="grid-template-columns:auto 1fr">
-          <button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button>
-          <button class="btn btn-primary btn-lg" data-next>Continue <i data-lucide="arrow-right" class="i"></i></button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Step 4: review -->
-    <section data-step hidden>
-      <h1 class="h1">Check and pay</h1>
-      <p class="muted mt-2">Make sure everything is right.</p>
-      <div class="card mt-6">
-        <dl class="kv" style="margin:0">
-          <div><dt>For</dt><dd>Lagos mega rally: logistics</dd></div>
-          <div><dt>Paid by</dt><dd>The whole group</dd></div>
-          <div><dt>Group</dt><dd>Atiku Women Network</dd></div>
-          <div><dt>Activity</dt><dd>Rally, Ikeja · 12 Nov</dd></div>
-          <div><dt>Paying as</dt><dd>Amaka Okafor (Leader)</dd></div>
-          <div class="total"><dt>Amount</dt><dd class="v">₦250,000</dd></div>
-        </dl>
-      </div>
-      <div class="banner banner-success mt-4"><i data-lucide="lock" class="i"></i><div><span class="banner-title">You'll be taken to Funz to pay securely.</span><br>Pay by card, bank transfer or USSD. Come back here when you're done.</div></div>
-      <div class="action-bar">
-        <div class="grid" style="grid-template-columns:auto 1fr">
-          <button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button>
-          <button class="btn btn-primary btn-lg" id="pay-btn"><i data-lucide="lock" class="i"></i> Pay ₦250,000</button>
-        </div>
-      </div>
-    </section>
-  </form>
-
-  <!-- After Funz returns -->
-  <section id="pay-done" hidden class="center">
-    <div class="success-mark mt-6"><i data-lucide="check" class="i"></i></div>
-    <h1 class="h1 mt-6">Payment received</h1>
-    <p class="muted mt-2">Thank you. Atiku Women Network's support is on record.</p>
-    <div class="card mt-6" style="text-align:left">
-      <dl class="kv" style="margin:0">
-        <div><dt>Receipt number</dt><dd class="num">FZ-2026-118204</dd></div>
-        <div><dt>For</dt><dd>Lagos mega rally: logistics</dd></div>
-        <div><dt>Date</dt><dd>31 Oct 2026, 10:42 am</dd></div>
-        <div class="total"><dt>Amount</dt><dd class="v">₦250,000</dd></div>
-      </dl>
+  <!-- 1. For -->
+  <section data-step class="mt-6" data-tab-scope>
+    <h1 class="h1">Pay for</h1>
+    <div class="segmented mt-5" data-pressed-group>
+      <button type="button" aria-pressed="true" data-show="cause">Cause</button>
+      <button type="button" aria-pressed="false" data-show="general">General</button>
     </div>
-    <p class="small muted mt-4 row" style="justify-content:center"><i data-lucide="mail" class="i i-sm"></i>Receipt sent to amaka.okafor@gmail.com</p>
-    <div class="grid mt-6" style="grid-template-columns:1fr 1fr">
-      <a class="btn" href="receipt.html"><i data-lucide="receipt" class="i"></i>View receipt</a>
-      <button class="btn" data-toast="Opening WhatsApp…"><i data-lucide="share-2" class="i"></i>Share</button>
+
+    <div class="choices mt-4" data-view="cause">
+      <label class="choice" style="align-items:flex-start">
+        <input type="radio" name="for" checked><span class="dot" style="margin-top:2px"></span>
+        <span class="grow">
+          <span class="choice-title">Lagos rally logistics</span>
+          <span class="progress progress-sm mt-3" style="display:block"><span style="width:68%"></span></span>
+          <span class="row-between choice-desc mt-2"><span>₦34m of ₦50m</span><span>10 Dec</span></span>
+        </span>
+      </label>
+      <label class="choice" style="align-items:flex-start">
+        <input type="radio" name="for"><span class="dot" style="margin-top:2px"></span>
+        <span class="grow">
+          <span class="choice-title">North West posters</span>
+          <span class="progress progress-sm mt-3" style="display:block"><span style="width:31%"></span></span>
+          <span class="row-between choice-desc mt-2"><span>₦9.3m of ₦30m</span><span>20 Dec</span></span>
+        </span>
+      </label>
+      <label class="choice" style="align-items:flex-start">
+        <input type="radio" name="for"><span class="dot" style="margin-top:2px"></span>
+        <span class="grow">
+          <span class="choice-title">Radio jingles</span>
+          <span class="progress progress-sm mt-3" style="display:block"><span style="width:12%"></span></span>
+          <span class="row-between choice-desc mt-2"><span>₦2.4m of ₦20m</span><span>5 Jan</span></span>
+        </span>
+      </label>
     </div>
-    <a class="btn btn-primary btn-lg btn-block mt-3" href="payments.html">Done</a>
+
+    <div data-view="general" hidden>
+      <div class="choice-grid mt-4">
+        <label class="choice choice-tile"><input type="radio" name="purpose" checked><span class="tile-icon"><i data-lucide="users" class="i"></i></span><span class="choice-title">Mobilisation</span></label>
+        <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="bus" class="i"></i></span><span class="choice-title">Logistics</span></label>
+        <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="radio" class="i"></i></span><span class="choice-title">Media</span></label>
+        <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="package" class="i"></i></span><span class="choice-title">Materials</span></label>
+        <label class="choice choice-tile"><input type="radio" name="purpose"><span class="tile-icon"><i data-lucide="ellipsis" class="i"></i></span><span class="choice-title">Other</span></label>
+      </div>
+      <div class="field mt-4"><label class="label" for="note">Note <span class="opt">(optional)</span></label><input id="note" class="input" placeholder="e.g. Buses for Ikeja"></div>
+    </div>
+
+    <div class="action-bar"><button class="btn btn-primary btn-lg btn-block" data-next>Next</button></div>
   </section>
 
+  <!-- 2. Who -->
+  <section data-step class="mt-6">
+    <h1 class="h1">Who is paying?</h1>
+    <div class="choices mt-5">
+      <label class="choice"><input type="radio" name="who" checked><span class="dot"></span><span class="icon-tile grey"><i data-lucide="users-round" class="i"></i></span><span class="grow"><span class="choice-title">Whole group</span><span class="choice-desc" style="display:block">Atiku Women Network</span></span></label>
+      <label class="choice"><input type="radio" name="who"><span class="dot"></span><span class="icon-tile grey"><i data-lucide="network" class="i"></i></span><span class="grow"><span class="choice-title">A chapter</span><span class="choice-desc" style="display:block">Counts for the group too</span></span></label>
+    </div>
+    <div class="field mt-4"><label class="label" for="ch">Chapter</label><select id="ch" class="select"><option>Lagos</option><option>Plateau</option><option>Kano</option></select></div>
+    <div class="action-bar row"><button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Next</button></div>
+  </section>
+
+  <!-- 3. Amount -->
+  <section data-step class="mt-6">
+    <h1 class="h1">Amount</h1>
+    <label class="amount-input mt-5" for="amt"><span>₦</span><input id="amt" inputmode="numeric" value="250,000" aria-label="Amount in Naira"></label>
+    <div class="pills mt-3" data-pressed-group>
+      <button type="button" class="pill" aria-pressed="false">50k</button>
+      <button type="button" class="pill" aria-pressed="false">100k</button>
+      <button type="button" class="pill" aria-pressed="true">250k</button>
+      <button type="button" class="pill" aria-pressed="false">500k</button>
+      <button type="button" class="pill" aria-pressed="false">1m</button>
+    </div>
+    <div class="field mt-6"><label class="label" for="act">Link activity <span class="opt">(optional)</span></label><select id="act" class="select"><option>None</option><option>Rally, Ikeja · 12 Nov</option><option>Town hall, Jos · Sat</option></select></div>
+    <div class="action-bar row"><button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Next</button></div>
+  </section>
+
+  <!-- 4. Check -->
+  <section data-step class="mt-6">
+    <h1 class="h1">Check</h1>
+    <div class="card mt-5">
+      <p class="eyebrow">Amount</p>
+      <p class="display mt-1" style="font-size:2.25rem">₦250,000</p>
+      <dl class="kv mt-3" style="margin-bottom:0">
+        <div><dt>For</dt><dd>Lagos rally logistics</dd></div>
+        <div><dt>Paid by</dt><dd>Lagos chapter</dd></div>
+        <div><dt>Activity</dt><dd>Rally, Ikeja</dd></div>
+      </dl>
+    </div>
+    <p class="faint small mt-3 row" style="gap:6px"><i data-lucide="lock" class="i i-sm"></i>Secure payment by Funz</p>
+    <div class="action-bar row"><button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" type="button" data-open="paid">Pay with Funz</button></div>
+  </section>
+</form>
 </main>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const amt = document.getElementById("amount");
-    document.getElementById("quick").addEventListener("click", (e) => {
-      const b = e.target.closest("[data-amt]"); if (b) amt.value = b.dataset.amt;
-    });
-    document.getElementById("pay-btn").addEventListener("click", (e) => {
-      e.preventDefault();
-      document.getElementById("pay-wizard").hidden = true;
-      document.getElementById("pay-done").hidden = false;
-      window.scrollTo({ top: 0 });
-    });
-  });
-</script>
+
+<div class="dialog-backdrop" id="paid" role="dialog" aria-modal="true" aria-labelledby="paid-t">
+  <div class="dialog">
+    <div class="result">
+      <span class="icon-tile"><i data-lucide="check" class="i"></i></span>
+      <h2 id="paid-t">Paid</h2>
+      <p class="display mt-2" style="font-size:2rem">₦250,000</p>
+      <p class="faint small mt-1">Receipt FZ-2026-118204</p>
+    </div>
+    <a class="btn btn-primary btn-block mt-6" href="receipt.html">View receipt</a>
+    <a class="btn btn-ghost btn-block mt-2" href="payments.html">Done</a>
+  </div>
+</div>
 </body>
 </html>
