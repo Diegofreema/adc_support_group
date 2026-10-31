@@ -90,6 +90,7 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.2; letter-spacing: -0.01em; }
 p { margin: 0; }
 ul, ol { margin: 0; padding: 0; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+[hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* ---------- Type helpers ---------- */
@@ -123,8 +124,8 @@ ul, ol { margin: 0; padding: 0; }
 @media (min-width: 960px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } .grid-4 { grid-template-columns: repeat(4, 1fr); } }
 .stats { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
 @media (min-width: 960px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-.hide-mobile { display: none !important; }
-@media (min-width: 960px) { .hide-mobile { display: revert !important; } .hide-desktop { display: none !important; } }
+@media (max-width: 959px) { .hide-mobile { display: none !important; } }
+@media (min-width: 960px) { .hide-desktop { display: none !important; } }
 
 /* ---------- Icons (lucide) ---------- */
 .i { width: 20px; height: 20px; flex: none; stroke-width: 2; }
