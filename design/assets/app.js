@@ -150,7 +150,12 @@
         (c ? c.closest(".dialog-backdrop") : e.target).classList.remove("open");
       }
       const t = e.target.closest("[data-toast]");
-      if (t) { e.preventDefault(); toast(t.dataset.toast); }
+      if (t) {
+        e.preventDefault();
+        toast(t.dataset.toast);
+        const href = t.getAttribute("href");
+        if (href && href !== "#") setTimeout(() => (location.href = href), 900);
+      }
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") document.querySelectorAll(".dialog-backdrop.open").forEach((d) => d.classList.remove("open"));

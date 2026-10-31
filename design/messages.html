@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Messages · ADC Support Groups</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/extra-c.css">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body data-shell="leader" data-active="messages" data-title="Messages">
+<main id="page">
+<div data-tab-scope>
+
+  <div class="page-head">
+    <h1 class="h1">Messages</h1>
+    <p>Send news and reminders to your members.</p>
+  </div>
+
+  <div class="tabs mb-6" data-tabs role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-tab="new"><i data-lucide="pencil-line" class="i i-sm"></i>New message</button>
+    <button class="tab" role="tab" aria-selected="false" data-tab="sent">Sent <span class="count">8</span></button>
+  </div>
+
+  <!-- New message -->
+  <section data-panel="new">
+    <div class="with-aside">
+      <form onsubmit="return false">
+        <fieldset class="field" style="border:0;padding:0;margin:0">
+          <legend class="label">Who should get it?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="to" checked><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">All members</span><span class="choice-desc">3,482 people</span></span></label>
+            <label class="choice"><input type="radio" name="to"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">One chapter</span><span class="choice-desc">Lagos 912 · Plateau 406 · Kano 655 · and 11 more</span></span></label>
+            <label class="choice"><input type="radio" name="to"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Executives and coordinators only</span><span class="choice-desc">22 people</span></span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="field" style="border:0;padding:0;margin-inline:0">
+          <legend class="label">How should we send it?</legend>
+          <div class="choices">
+            <label class="choice"><input type="radio" name="how"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">Email and app notification <span class="chip chip-verified" style="margin-left:4px">Free</span></span><span class="choice-desc">2,104 members have email. Everyone sees it in the app.</span></span></label>
+            <label class="choice"><input type="radio" name="how" checked><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">SMS to every phone <span class="chip chip-pending" style="margin-left:4px">Uses points</span></span><span class="choice-desc">Reaches everyone, even members without email or data.</span></span></label>
+          </div>
+        </fieldset>
+
+        <label class="field">
+          <span class="label">Subject</span>
+          <input class="input" value="Rally on Saturday: buses leave 7am">
+        </label>
+
+        <label class="field">
+          <span class="label">Your message</span>
+          <textarea class="textarea" id="msg" rows="5">Good evening. Our buses for the Ikeja rally leave Surulere Ward 4 at 7am on Saturday. Wear your green T-shirt and bring your member card. God bless Nigeria. - Amaka</textarea>
+          <span class="counter-line"><span id="chars">172 characters</span><span id="pages">2 SMS pages</span></span>
+        </label>
+
+        <div class="points mt-5 hide-desktop">
+          <span class="icon-tile amber"><i data-lucide="coins" class="i"></i></span>
+          <span class="grow"><span class="muted small" style="display:block">Your SMS points</span><b class="num" style="font-size:1.25rem">1,240</b></span>
+        </div>
+
+        <div class="banner banner-warn mt-3">
+          <i data-lucide="coins" class="i"></i>
+          <div><span class="banner-title">Not enough SMS points for this message</span><br>3,482 people × 2 pages = <b>6,964 points</b>. You have 1,240. You need <b>5,724 more</b>.</div>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn btn-primary btn-lg btn-block" data-open="buy-points"><i data-lucide="coins" class="i"></i>Buy points to send</button>
+          <p class="tiny muted center mt-2">Or choose <b>Email and app notification</b> above to send free.</p>
+        </div>
+      </form>
+
+      <aside class="aside-sticky stack hide-mobile">
+        <div class="points">
+          <span class="icon-tile amber"><i data-lucide="coins" class="i"></i></span>
+          <span class="grow"><span class="muted small" style="display:block">SMS points</span><b class="num" style="font-size:1.375rem">1,240</b></span>
+          <button class="btn btn-sm" data-open="buy-points">Buy points</button>
+        </div>
+        <div class="card">
+          <p class="label">Preview</p>
+          <div class="phone-preview">
+            <div class="bubble"><div class="bubble-from">ADC Groups</div>Good evening. Our buses for the Ikeja rally leave Surulere Ward 4 at 7am on Saturday. Wear your green T-shirt and bring your member card. God bless Nigeria. - Amaka</div>
+          </div>
+          <p class="tiny muted mt-3">1 SMS page is 160 characters. Longer messages use more pages.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Sent -->
+  <section data-panel="sent" hidden>
+    <div class="list">
+      <div class="list-item">
+        <span class="icon-tile amber"><i data-lucide="message-square-text" class="i"></i></span>
+        <span class="grow"><span class="title" style="display:block">Rally on Saturday: buses leave 7am</span><span class="meta">SMS · All members · 3,482 people · 6,964 points</span></span>
+        <span class="tiny muted hide-mobile">Yesterday</span>
+      </div>
+      <div class="list-item">
+        <span class="icon-tile"><i data-lucide="mail" class="i"></i></span>
+        <span class="grow"><span class="title" style="display:block">Welcome to our new Kano members</span><span class="meta">Email + app · Kano chapter · 655 people · Free</span></span>
+        <span class="tiny muted hide-mobile">28 Oct</span>
+      </div>
+      <div class="list-item">
+        <span class="icon-tile"><i data-lucide="mail" class="i"></i></span>
+        <span class="grow"><span class="title" style="display:block">Executive meeting on Zoom, Thursday 8pm</span><span class="meta">Email + app · Executives · 22 people · Free</span></span>
+        <span class="tiny muted hide-mobile">24 Oct</span>
+      </div>
+      <div class="list-item">
+        <span class="icon-tile amber"><i data-lucide="message-square-text" class="i"></i></span>
+        <span class="grow"><span class="title" style="display:block">Collect your T-shirts at the Jos office</span><span class="meta">SMS · Plateau chapter · 406 people · 406 points</span></span>
+        <span class="tiny muted hide-mobile">19 Oct</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!-- Dialog: buy SMS points -->
+<div class="dialog-backdrop" id="buy-points" role="dialog" aria-modal="true" aria-labelledby="bp-title">
+  <div class="dialog">
+    <h2 id="bp-title">Buy SMS points</h2>
+    <p class="muted mt-1">1 point sends 1 SMS page to 1 person.</p>
+    <div class="choices mt-4">
+      <label class="choice"><input type="radio" name="pack"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">2,000 points</span><span class="choice-desc">About 1 message to 2,000 people</span></span><span class="pack-price">₦8,000</span></label>
+      <label class="choice"><input type="radio" name="pack" checked><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">6,000 points</span><span class="choice-desc">Enough for this message</span></span><span class="pack-price">₦22,800</span></label>
+      <label class="choice"><input type="radio" name="pack"><span class="dot"></span><span class="grow"><span class="choice-title" style="display:block">20,000 points</span><span class="choice-desc">Best value</span></span><span class="pack-price">₦70,000</span></label>
+    </div>
+    <p class="small muted mt-4 row"><i data-lucide="lock" class="i i-sm"></i>You'll pay securely with Funz.</p>
+    <div class="dialog-actions">
+      <button class="btn" data-close>Cancel</button>
+      <button class="btn btn-primary" data-close data-toast="6,000 points added">Pay ₦22,800</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const m = document.getElementById("msg");
+    const upd = () => {
+      const n = m.value.length;
+      document.getElementById("chars").textContent = n + " characters";
+      document.getElementById("pages").textContent = Math.max(1, Math.ceil(n / 160)) + " SMS page" + (n > 160 ? "s" : "");
+      document.querySelector(".bubble").lastChild.textContent = m.value;
+    };
+    m.addEventListener("input", upd); upd();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Chapters · ADC Support Groups</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/extra-b.css">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body data-shell="leader" data-active="chapters" data-title="Chapters">
+<main id="page">
+
+  <div class="page-head-row">
+    <div>
+      <h1 class="h1">Chapters</h1>
+      <p class="muted mt-1">14 chapters in 11 states. Each chapter has a coordinator and its own join link.</p>
+    </div>
+    <div class="page-actions"><button class="btn btn-primary grow" data-open="new-chapter"><i data-lucide="plus" class="i"></i>New chapter</button></div>
+  </div>
+
+  <div class="search"><i data-lucide="search" class="i"></i><input class="input" type="search" placeholder="Search chapters or coordinators" aria-label="Search chapters"></div>
+
+  <div class="card card-flush mt-4">
+    <table class="table table-cards">
+      <thead><tr><th>Chapter</th><th>Coordinator</th><th>Level</th><th class="t-right">Members</th><th class="t-right">Activities</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="t-main"><a href="chapter.html" class="who" style="text-decoration:none;color:inherit"><span class="icon-tile"><i data-lucide="map-pin" class="i"></i></span><b>Lagos chapter</b></a></td><td data-label="Coordinator">Bisi Adeyemi</td><td data-label="Level">State</td><td data-label="Members" class="t-right num">812</td><td data-label="Activities" class="t-right num">31</td><td class="t-right" data-label=""><a class="btn btn-sm" href="chapter.html">Open</a></td></tr>
+        <tr><td class="t-main"><a href="chapter.html" class="who" style="text-decoration:none;color:inherit"><span class="icon-tile"><i data-lucide="map-pin" class="i"></i></span><b>Kano chapter</b></a></td><td data-label="Coordinator">Fatima Bello</td><td data-label="Level">State</td><td data-label="Members" class="t-right num">640</td><td data-label="Activities" class="t-right num">22</td><td class="t-right" data-label=""><a class="btn btn-sm" href="chapter.html">Open</a></td></tr>
+        <tr><td class="t-main"><a href="chapter.html" class="who" style="text-decoration:none;color:inherit"><span class="icon-tile"><i data-lucide="map-pin" class="i"></i></span><b>FCT chapter</b></a></td><td data-label="Coordinator">Zainab Adamu</td><td data-label="Level">State</td><td data-label="Members" class="t-right num">455</td><td data-label="Activities" class="t-right num">14</td><td class="t-right" data-label=""><a class="btn btn-sm" href="chapter.html">Open</a></td></tr>
+        <tr><td class="t-main"><a href="chapter.html" class="who" style="text-decoration:none;color:inherit"><span class="icon-tile"><i data-lucide="map-pin" class="i"></i></span><b>Plateau chapter</b></a></td><td data-label="Coordinator">Ruth Dung</td><td data-label="Level">State</td><td data-label="Members" class="t-right num">377</td><td data-label="Activities" class="t-right num">9</td><td class="t-right" data-label=""><a class="btn btn-sm" href="chapter.html">Open</a></td></tr>
+        <tr><td class="t-main"><a href="chapter.html" class="who" style="text-decoration:none;color:inherit"><span class="icon-tile amber"><i data-lucide="map-pin" class="i"></i></span><b>Surulere LGA chapter</b></a></td><td data-label="Coordinator"><span class="chip chip-pending"><i data-lucide="user-round-x" class="i"></i>No coordinator</span></td><td data-label="Level">LGA · Lagos</td><td data-label="Members" class="t-right num">96</td><td data-label="Activities" class="t-right num">3</td><td class="t-right" data-label=""><a class="btn btn-sm" href="chapter.html">Open</a></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<div class="dialog-backdrop" id="new-chapter" role="dialog" aria-modal="true" aria-labelledby="nc-t">
+  <div class="dialog">
+    <h2 id="nc-t">New chapter</h2>
+    <p class="muted mt-1">Chapters belong to your group and are verified with it.</p>
+    <div class="field mt-4"><label class="label">Chapter level</label>
+      <div class="segmented" data-pressed-group><button type="button" aria-pressed="true">State</button><button type="button" aria-pressed="false">LGA</button><button type="button" aria-pressed="false">Ward</button></div>
+    </div>
+    <div class="field"><label class="label" for="nc-s">State</label><select id="nc-s" class="select"><option>Kaduna</option><option>Kano</option><option>Lagos</option></select></div>
+    <div class="field"><label class="label" for="nc-n">Chapter name</label><input id="nc-n" class="input" value="Atiku Women Network — Kaduna"><span class="hint mt-2">We filled this in for you. You can change it.</span></div>
+    <div class="field"><label class="label" for="nc-p">Coordinator's phone number</label><div class="input-group"><span class="prefix">+234</span><input id="nc-p" class="input" inputmode="tel" placeholder="803 000 0000"></div><span class="hint mt-2">If they don't have an account yet, we'll create one and text them.</span></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Kaduna chapter created">Create chapter</button></div>
+  </div>
+</div>
+
+</body>
+</html>
