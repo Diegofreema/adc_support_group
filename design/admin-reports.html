@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Reports and export · ADC Support Groups Directorate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/extra-d.css">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body data-shell="directorate" data-active="reports" data-title="Reports &amp; export" data-back="admin-more.html">
+<main id="page">
+
+  <div class="page-head">
+    <h1 class="h1">Reports &amp; export</h1>
+    <p>Download any list as Excel or CSV.</p>
+  </div>
+
+  <div class="split">
+    <form class="card card-lg" onsubmit="return false">
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="label">What do you want?</legend>
+        <div class="choice-grid mt-2">
+          <label class="choice choice-tile"><input type="radio" name="what" checked><span class="tile-icon"><i data-lucide="users-round" class="i"></i></span><span class="choice-title">Groups</span></label>
+          <label class="choice choice-tile"><input type="radio" name="what"><span class="tile-icon"><i data-lucide="contact-round" class="i"></i></span><span class="choice-title">Members</span></label>
+          <label class="choice choice-tile"><input type="radio" name="what"><span class="tile-icon"><i data-lucide="megaphone" class="i"></i></span><span class="choice-title">Activities</span></label>
+          <label class="choice choice-tile"><input type="radio" name="what"><span class="tile-icon"><i data-lucide="hand-coins" class="i"></i></span><span class="choice-title">Payments</span></label>
+        </div>
+      </fieldset>
+
+      <hr class="divider" style="margin:24px 0">
+      <p class="label">Narrow it down <span class="opt">(optional)</span></p>
+      <div class="grid-2 mt-2" style="gap:16px">
+        <label class="field" style="margin:0"><span class="label small">State</span><select class="select"><option>All states</option><option>Lagos</option><option>Kano</option></select></label>
+        <label class="field" style="margin:0"><span class="label small">LGA</span><select class="select" disabled><option>Pick a state first</option></select></label>
+        <label class="field" style="margin:0"><span class="label small">Category</span><select class="select"><option>All categories</option><option>Women</option><option>Youth</option></select></label>
+        <label class="field" style="margin:0"><span class="label small">Status</span><select class="select"><option>Verified only</option><option>All</option></select></label>
+        <label class="field" style="margin:0"><span class="label small">From</span><input class="input" type="date"></label>
+        <label class="field" style="margin:0"><span class="label small">To</span><input class="input" type="date"></label>
+      </div>
+
+      <hr class="divider" style="margin:24px 0">
+      <p class="label">File type</p>
+      <div class="segmented mt-2" data-pressed-group role="group" aria-label="File type">
+        <button type="button" aria-pressed="true">Excel (.xlsx)</button>
+        <button type="button" aria-pressed="false">CSV</button>
+      </div>
+
+      <div class="banner banner-info mt-6"><i data-lucide="info" class="i"></i><p class="small">About <b>4,812 groups</b> will be in this file.</p></div>
+      <button type="button" class="btn btn-primary btn-lg btn-block mt-4" data-toast="Preparing your file. We'll tell you when it's ready."><i data-lucide="download" class="i"></i>Prepare download</button>
+    </form>
+
+    <aside class="split-side">
+      <div class="section-title mt-0"><h2>Recent downloads</h2></div>
+      <div class="list">
+        <div class="list-item"><span class="icon-tile"><i data-lucide="file-spreadsheet" class="i"></i></span><span class="grow"><span class="title" style="display:block">Groups · All states</span><span class="meta">Excel · Today, 9:14 am</span></span><a class="icon-btn" href="#" aria-label="Download Groups file" data-toast="Downloading…"><i data-lucide="download" class="i"></i></a></div>
+        <div class="list-item"><span class="icon-tile"><i data-lucide="file-spreadsheet" class="i"></i></span><span class="grow"><span class="title" style="display:block">Payments · October</span><span class="meta">CSV · 1 Nov</span></span><a class="icon-btn" href="#" aria-label="Download Payments file" data-toast="Downloading…"><i data-lucide="download" class="i"></i></a></div>
+        <div class="list-item"><span class="icon-tile amber"><i data-lucide="loader" class="i"></i></span><span class="grow"><span class="title" style="display:block">Members · Kano</span><span class="meta">Excel · Preparing…</span></span></div>
+      </div>
+      <p class="muted small mt-3">Files are kept for 7 days.</p>
+    </aside>
+  </div>
+
+</main>
+</body>
+
+</html>

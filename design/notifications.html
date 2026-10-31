@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Notifications · ADC Support Groups</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/extra-a.css">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body data-shell="leader" data-active="notifications" data-title="Notifications">
+<main id="page" class="main-narrow" data-tab-scope>
+
+  <div class="row-between page-head wrap">
+    <div><h1 class="h1">Notifications</h1><p>3 new</p></div>
+    <button class="btn btn-sm btn-ghost" data-toast="All marked as read"><i data-lucide="check-check" class="i i-sm"></i>Mark all as read</button>
+  </div>
+
+  <div class="pills mb-4" data-pressed-group role="group" aria-label="Show">
+    <button class="pill" aria-pressed="true">All</button>
+    <button class="pill" aria-pressed="false">Activities</button>
+    <button class="pill" aria-pressed="false">Payments</button>
+    <button class="pill" aria-pressed="false">Members</button>
+    <button class="pill" aria-pressed="false">From the Directorate</button>
+  </div>
+
+  <h2 class="eyebrow mt-4 mb-3" style="color:var(--ink-3)">Today</h2>
+  <div class="list">
+    <a class="notif unread" href="activities.html">
+      <span class="icon-tile"><i data-lucide="circle-check" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">Activity approved</span>
+        <span class="n-text" style="display:block">"Door-to-door in Surulere, Ward 4" now counts for Atiku Women Network.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>9:12 am · Directorate</span>
+      </span>
+    </a>
+    <a class="notif unread" href="members.html">
+      <span class="icon-tile blue"><i data-lucide="user-plus" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">38 people joined through your link</span>
+        <span class="n-text" style="display:block">Most joined the Lagos chapter. You now have 3,482 members.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>8:40 am</span>
+      </span>
+    </a>
+    <a class="notif unread" href="activities.html">
+      <span class="icon-tile red"><i data-lucide="circle-x" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">Activity sent back</span>
+        <span class="n-text" style="display:block">"Women's prayer rally, Jos North" needs a headcount before it can be approved.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>7:05 am · Directorate</span>
+        <span class="n-actions"><span class="btn btn-sm"><i data-lucide="pencil" class="i i-sm"></i>Fix it</span></span>
+      </span>
+    </a>
+  </div>
+
+  <h2 class="eyebrow mt-6 mb-3" style="color:var(--ink-3)">This week</h2>
+  <div class="list">
+    <a class="notif" href="payments.html">
+      <span class="icon-tile"><i data-lucide="receipt" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">Payment received: ₦750,000</span>
+        <span class="n-text" style="display:block">For "Lagos mega rally: logistics". Receipt FZ-20931.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>Mon, 4:18 pm</span>
+      </span>
+    </a>
+    <a class="notif" href="pay.html">
+      <span class="icon-tile amber"><i data-lucide="target" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">New cause from the Directorate</span>
+        <span class="n-text" style="display:block">"Kano road show: fuel and sound". Target ₦20,000,000.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>Mon, 11:02 am</span>
+      </span>
+    </a>
+    <a class="notif" href="import.html">
+      <span class="icon-tile amber"><i data-lucide="file-spreadsheet" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">Your Excel upload is finished</span>
+        <span class="n-text" style="display:block">1,268 members added. 12 rows need fixing.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>Sun, 6:47 pm</span>
+      </span>
+    </a>
+    <a class="notif" href="group.html">
+      <span class="icon-tile"><i data-lucide="badge-check" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">Your group is verified</span>
+        <span class="n-text" style="display:block">Atiku Women Network has been checked by the Campaign Directorate. Your activities and payments now count.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>Sat, 2:30 pm · Directorate</span>
+      </span>
+    </a>
+    <a class="notif" href="group.html">
+      <span class="icon-tile blue"><i data-lucide="repeat-2" class="i"></i></span>
+      <span class="grow">
+        <span class="n-title" style="display:block">Leadership handover approved</span>
+        <span class="n-text" style="display:block">Halima Danjuma is now leader of the Plateau chapter.</span>
+        <span class="n-time"><i data-lucide="clock" class="i i-sm"></i>Fri, 10:15 am · Directorate</span>
+      </span>
+    </a>
+  </div>
+
+  <p class="center muted small mt-6">That's everything from the last 30 days.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Log in · ADC Support Groups</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/extra-a.css">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+<div class="auth-wrap">
+
+  <aside class="auth-art">
+    <a class="brand" href="landing.html"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></a>
+    <div>
+      <h2>Every meeting. Every street. <em>Every vote.</em></h2>
+      <p>Groups across 37 states are recording their work for Atiku. Welcome back.</p>
+      <div class="art-stats"><div><b>4,812</b><span>groups</span></div><div><b>1.24m</b><span>members</span></div></div>
+    </div>
+    <p class="tiny" style="color:#8FAE97">adcsupportgroups.ng</p>
+    <div class="weave"></div>
+  </aside>
+
+  <section class="auth-panel">
+    <div class="auth-inner" data-tab-scope>
+      <div class="auth-top">
+        <a class="brand" href="landing.html"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></a>
+        <a class="btn btn-sm btn-ghost" href="landing.html">Home</a>
+      </div>
+
+      <h1 class="h1 mt-4">Welcome back</h1>
+      <p class="muted mt-2">Log in with the phone number or email you joined with.</p>
+
+      <div class="segmented mt-6" data-pressed-group role="group" aria-label="Log in with">
+        <button type="button" aria-pressed="true" data-show="phone">Phone number</button>
+        <button type="button" aria-pressed="false" data-show="email">Email</button>
+      </div>
+
+      <form class="mt-6" onsubmit="event.preventDefault();location.href='home.html'">
+        <div data-view="phone" class="field">
+          <label class="label" for="phone">Phone number</label>
+          <div class="input-group"><span class="prefix">+234</span><input class="input" id="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="803 123 4567"></div>
+        </div>
+        <div data-view="email" class="field" hidden>
+          <label class="label" for="email">Email</label>
+          <input class="input" id="email" type="email" autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="field">
+          <div class="row-between"><label class="label" for="pw">Password</label><a class="small bold" href="#" data-open="forgot">Forgot password?</a></div>
+          <input class="input" id="pw" type="password" autocomplete="current-password">
+          <span class="hint mt-2" style="margin-top:8px">Got a password by SMS or email? Use it here. We'll ask you to change it.</span>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block mt-6" type="submit">Log in</button>
+      </form>
+
+      <div class="divider mt-8"></div>
+      <p class="muted small center">New here?</p>
+      <div class="grid-2 mt-3">
+        <a class="btn" href="register-group.html"><i data-lucide="flag" class="i"></i>Register group</a>
+        <a class="btn" href="join.html"><i data-lucide="link" class="i"></i>Join group</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="dialog-backdrop" id="forgot" role="dialog" aria-modal="true" aria-labelledby="fp-title">
+  <div class="dialog">
+    <h2 id="fp-title">Reset your password</h2>
+    <p class="muted mt-1">Enter your phone number. We'll send a code so you can make a new password.</p>
+    <div class="field mt-4">
+      <label class="label" for="fp-phone">Phone number</label>
+      <div class="input-group"><span class="prefix">+234</span><input class="input" id="fp-phone" type="tel" inputmode="numeric" placeholder="803 123 4567"></div>
+    </div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Code sent by SMS">Send code</button></div>
+  </div>
+</div>
+</body>
+</html>
