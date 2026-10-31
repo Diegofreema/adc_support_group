@@ -4,7 +4,7 @@
    Dark modern UI. Fonts: Plus Jakarta Sans (headings) + Inter (text).
    ========================================================================== */
 
-/* Option A "Dim" (default): soft slate dark. Option B "Light": add data-theme="light" on <html>. */
+/* Light is the default theme. A dim theme is kept for later: data-theme="dim" on <html>. */
 :root {
   color-scheme: dark;
   --bg: #1A1E23;
@@ -59,7 +59,7 @@
   --blue-700: var(--blue); --blue-50: var(--blue-soft);
   --font-display: var(--font-head);
 }
-:root[data-theme="light"] {
+:root:not([data-theme="dim"]) {
   color-scheme: light;
   --bg: #F5F6F8;
   --surface: #FFFFFF;
@@ -472,3 +472,75 @@ a.list-item:hover { background: var(--surface-2); }
 .mb-2 { margin-bottom: 8px; } .mb-3 { margin-bottom: 12px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
 .w-full { width: 100%; }
 .center { text-align: center; }
+
+/* ==========================================================================
+   Shared patterns (use these; don't re-create per page)
+   ========================================================================== */
+/* Page header with actions: stacks on phones */
+.page-head-row { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+@media (min-width: 640px) { .page-head-row { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+/* Label / value rows (summaries, details, receipts) */
+.kv { display: grid; }
+.kv > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.kv > div:last-child { border-bottom: 0; }
+.kv dt, .kv .k { color: var(--text-3); font-size: .875rem; }
+.kv dd, .kv .v { margin: 0; font-weight: 600; text-align: right; }
+
+/* Timeline (approvals, history, pending checks) */
+.timeline { display: grid; gap: 0; }
+.tl-item { position: relative; display: flex; gap: 14px; padding-bottom: 18px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before { content: ""; position: absolute; left: 13px; top: 28px; bottom: 0; width: 2px; background: var(--line-2); }
+.tl-item:last-child::before { display: none; }
+.tl-dot { width: 28px; height: 28px; border-radius: 50%; flex: none; display: grid; place-items: center; background: var(--surface-3); color: var(--text-3); }
+.tl-dot .i { width: 14px; height: 14px; }
+.tl-item.done .tl-dot { background: var(--green); color: var(--green-ink); }
+.tl-item.now .tl-dot { background: var(--amber-soft); color: var(--amber); box-shadow: 0 0 0 4px var(--amber-soft); }
+.tl-title { font-weight: 600; }
+.tl-meta { color: var(--text-3); font-size: .8125rem; }
+
+/* Success / result header */
+.result { text-align: center; padding: 12px 0 4px; }
+.result .icon-tile { width: 72px; height: 72px; border-radius: 24px; margin: 0 auto 16px; }
+.result .icon-tile .i { width: 32px; height: 32px; }
+
+/* Big money input */
+.amount-input { display: flex; align-items: center; gap: 6px; padding: 8px 18px; border: 1px solid var(--line-2); border-radius: var(--r); background: var(--surface); }
+.amount-input:focus-within { border-color: var(--green); box-shadow: 0 0 0 4px var(--green-soft); }
+.amount-input span { font-family: var(--font-head); font-size: 2rem; font-weight: 800; color: var(--text-3); }
+.amount-input input { border: 0; background: none; outline: none; width: 100%; min-width: 0; font-family: var(--font-head); font-size: 2.25rem; font-weight: 800; letter-spacing: -0.03em; padding: 8px 0; }
+
+/* Horizontal bars (breakdowns) */
+.hbars { display: grid; gap: 12px; }
+.hbar-top { display: flex; justify-content: space-between; gap: 12px; font-size: .875rem; margin-bottom: 6px; }
+.hbar-top b { font-weight: 600; }
+
+/* Photo strip / gallery */
+.thumbs { display: flex; gap: 6px; }
+.thumbs > * { width: 56px; height: 56px; border-radius: 12px; overflow: hidden; flex: none; }
+.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; border-radius: var(--r-lg); overflow: hidden; }
+.gallery > :first-child { grid-column: span 2; aspect-ratio: 16 / 9; }
+.gallery > * { aspect-ratio: 1; }
+@media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); } .gallery > :first-child { grid-column: span 3; aspect-ratio: 21 / 9; } }
+
+/* Settings row: label left, control right */
+.setting { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; min-height: 64px; }
+.setting + .setting { border-top: 1px solid var(--line); }
+
+/* Reason box (why something was rejected) */
+.reason { padding: 12px 14px; border-radius: var(--r-sm); background: var(--red-soft); color: var(--on-tint-red); font-size: .875rem; }
+
+/* Wide tables scroll inside their card on phones */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Filter bar: search + selects */
+.filterbar { display: grid; gap: 10px; }
+@media (min-width: 768px) { .filterbar { grid-template-columns: 1fr auto auto; align-items: center; } }
+
+/* Two columns with sticky side panel on desktop */
+.split { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 960px) { .split { grid-template-columns: minmax(0, 1fr) 340px; align-items: start; } .split-side { position: sticky; top: calc(var(--topbar-h) + 20px); } }
+
+/* Danger zone */
+.danger-zone { border: 1px solid var(--red-line); border-radius: var(--r-lg); padding: 18px; }
