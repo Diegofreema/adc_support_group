@@ -91,8 +91,15 @@
       return `<a class="side-link" href="${href}" ${key === active ? 'aria-current="page"' : ""}>${icon(ic)}<span>${label}</span>${count ? `<span class="count">${count}</span>` : ""}</a>`;
     }).join("");
 
+    // Pages not in the bottom bar light up their parent tab
+    const ALIAS = {
+      leader: { members: "group", chapters: "group", messages: "more", notifications: "more", profile: "more" },
+      member: {},
+      directorate: { causes: "more", messages: "more", reports: "more", settings: "more" },
+    };
+    const bottomActive = ALIAS[shell][active] || active;
     const bottom = nav.bottom.map(([href, ic, label, key]) =>
-      `<a href="${href}" ${key === active ? 'aria-current="page"' : ""}>${icon(ic)}<span>${label}</span></a>`).join("");
+      `<a href="${href}" ${key === bottomActive ? 'aria-current="page"' : ""}>${icon(ic)}<span>${label}</span></a>`).join("");
 
     const app = document.createElement("div");
     app.className = "app" + (dark ? " directorate" : "");

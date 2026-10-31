@@ -74,8 +74,16 @@
 .setting + .setting { border-top: 1px solid var(--line-2); }
 
 /* Reason box for rejected items */
-.reason { margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: var(--red-50); border: 1px solid #F5CDD0; color: #7D1419; font-size: .9375rem; }
+.reason { display: block; margin-top: 12px; padding: 12px 14px; border-radius: 10px; background: var(--red-50); border: 1px solid #F5CDD0; color: #7D1419; font-size: .9375rem; }
 .reason b { display: block; }
 
 /* Announcement */
 .announce { border-left: 4px solid var(--green-600); }
+
+/* Sticky form actions on white auth panels */
+.auth-panel .action-bar { background: linear-gradient(to top, #fff 75%, rgba(255,255,255,0)); padding-bottom: 16px; }
+
+/* PROMOTE: [hidden] must win over component display rules (.field etc.) */
+[hidden] { display: none !important; }
+/* PROMOTE: .hide-mobile uses display:revert, which turns chips/flex items back to inline on desktop */
+@media (min-width: 960px) { .chip.hide-mobile { display: inline-flex !important; } }

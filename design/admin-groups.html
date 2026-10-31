@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Groups · ADC Support Groups Directorate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="stylesheet" href="assets/extra-d.css">
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body data-shell="directorate" data-active="groups" data-title="Groups">
+<main id="page" data-tab-scope>
+
+  <div class="page-head">
+    <h1 class="h1">Groups</h1>
+    <p>Check each new group before it can count. Look out for duplicates.</p>
+  </div>
+
+  <div class="tabs" data-tabs role="tablist" aria-label="Group status">
+    <button class="tab" role="tab" data-tab="verify" aria-selected="true">To verify <span class="count">18</span></button>
+    <button class="tab" role="tab" data-tab="verified" aria-selected="false">Verified <span class="count">4,812</span></button>
+    <button class="tab" role="tab" data-tab="rejected" aria-selected="false">Rejected <span class="count">96</span></button>
+    <button class="tab" role="tab" data-tab="suspended" aria-selected="false">Suspended <span class="count">7</span></button>
+  </div>
+
+  <div class="filterbar mt-4">
+    <div class="search"><i data-lucide="search" class="i"></i><input class="input" type="search" placeholder="Search group or leader name" aria-label="Search groups"></div>
+    <select class="select" aria-label="State"><option>All states</option><option>Lagos</option><option>Kano</option><option>Kaduna</option><option>Adamawa</option><option>FCT</option><option>Diaspora</option></select>
+  </div>
+  <div class="pills mt-3" data-pressed-group role="group" aria-label="Category">
+    <button class="pill" aria-pressed="true">All categories</button>
+    <button class="pill" aria-pressed="false">Women</button>
+    <button class="pill" aria-pressed="false">Youth</button>
+    <button class="pill" aria-pressed="false">Students</button>
+    <button class="pill" aria-pressed="false">Traders</button>
+    <button class="pill" aria-pressed="false">Transport</button>
+    <button class="pill" aria-pressed="false">Professionals</button>
+    <button class="pill" aria-pressed="false">Faith</button>
+    <button class="pill" aria-pressed="false">Diaspora</button>
+  </div>
+
+  <!-- To verify -->
+  <section data-panel="verify" class="mt-4">
+    <div class="card card-flush">
+      <table class="table table-cards">
+        <thead><tr><th>Group</th><th>Location</th><th>Leader</th><th class="t-right">Members</th><th>Sent in</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="t-main"><div class="cell-main"><span class="group-mark g4">AW</span><div style="min-width:0"><a href="admin-group-review.html" class="bold" style="color:inherit;text-decoration:none">Atiku Women's Network Abuja</a><div class="row wrap mt-1" style="gap:6px"><span class="tag">Women</span><span class="chip chip-pending"><i data-lucide="copy" class="i"></i>Possible duplicate</span></div></div></div></td>
+            <td data-label="Location">State · FCT</td>
+            <td data-label="Leader">Fatima Garba</td>
+            <td data-label="Members" class="t-right num">214</td>
+            <td data-label="Sent in">3 days ago</td>
+            <td class="t-right"><a class="btn btn-sm btn-primary" href="admin-group-review.html">Review</a></td>
+          </tr>
+          <tr>
+            <td class="t-main"><div class="cell-main"><span class="group-mark g2">IO</span><div style="min-width:0"><a href="admin-group-review.html" class="bold" style="color:inherit;text-decoration:none">Ilorin Okada Union for Atiku</a><div class="row wrap mt-1" style="gap:6px"><span class="tag">Transport</span></div></div></div></td>
+            <td data-label="Location">LGA · Ilorin West, Kwara</td>
+            <td data-label="Leader">Abdulrazaq Salami</td>
+            <td data-label="Members" class="t-right num">58</td>
+            <td data-label="Sent in">2 hours ago</td>
+            <td class="t-right"><a class="btn btn-sm" href="admin-group-review.html">Review</a></td>
+          </tr>
+          <tr>
+            <td class="t-main"><div class="cell-main"><span class="group-mark g3">UN</span><div style="min-width:0"><a href="admin-group-review.html" class="bold" style="color:inherit;text-decoration:none">UNN Students for Atiku</a><div class="row wrap mt-1" style="gap:6px"><span class="tag">Students</span></div></div></div></td>
+            <td data-label="Location">Ward · Nsukka, Enugu</td>
+            <td data-label="Leader">Chidera Eze</td>
+            <td data-label="Members" class="t-right num">131</td>
+            <td data-label="Sent in">Yesterday</td>
+            <td class="t-right"><a class="btn btn-sm" href="admin-group-review.html">Review</a></td>
+          </tr>
+          <tr>
+            <td class="t-main"><div class="cell-main"><span class="group-mark g5">AH</span><div style="min-width:0"><a href="admin-group-review.html" class="bold" style="color:inherit;text-decoration:none">Atiku Houston Diaspora</a><div class="row wrap mt-1" style="gap:6px"><span class="tag">Diaspora</span></div></div></div></td>
+            <td data-label="Location">Houston, United States</td>
+            <td data-label="Leader">Segun Adeyemi</td>
+            <td data-label="Members" class="t-right num">44</td>
+            <td data-label="Sent in">Yesterday</td>
+            <td class="t-right"><a class="btn btn-sm" href="admin-group-review.html">Review</a></td>
+          </tr>
+          <tr>
+            <td class="t-main"><div class="cell-main"><span class="group-mark">KK</span><div style="min-width:0"><a href="admin-group-review.html" class="bold" style="color:inherit;text-decoration:none">Kano Keke Riders Association</a><div class="row wrap mt-1" style="gap:6px"><span class="tag">Transport</span><span class="chip chip-pending"><i data-lucide="copy" class="i"></i>Possible duplicate</span></div></div></div></td>
+            <td data-label="Location">State · Kano</td>
+            <td data-label="Leader">Musa Ibrahim</td>
+            <td data-label="Members" class="t-right num">0</td>
+            <td data-label="Sent in">2 days ago</td>
+            <td class="t-right"><a class="btn btn-sm" href="admin-group-review.html">Review</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row-between" style="padding:12px 16px;border-top:1px solid var(--line-2)"><span class="muted small">Showing 5 of 18</span><a class="btn btn-sm btn-ghost" href="#">Show more</a></div>
+    </div>
+  </section>
+
+  <!-- Verified -->
+  <section data-panel="verified" class="mt-4" hidden>
+    <div class="card card-flush">
+      <table class="table table-cards">
+        <thead><tr><th>Group</th><th>Location</th><th>Leader</th><th class="t-right">Members</th><th class="t-right">Activities</th><th></th></tr></thead>
+        <tbody>
+          <tr><td class="t-main"><div class="cell-main"><span class="group-mark">AW</span><div><b>Atiku Women Network</b><div class="row mt-1"><span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified</span></div></div></div></td><td data-label="Location">National · 14 chapters</td><td data-label="Leader">Amaka Okafor</td><td data-label="Members" class="t-right num">18,902</td><td data-label="Activities" class="t-right num">412</td><td class="t-right"><a class="btn btn-sm" href="admin-group-review.html">Open</a></td></tr>
+          <tr><td class="t-main"><div class="cell-main"><span class="group-mark g2">KK</span><div><b>Kano Keke Riders</b><div class="row mt-1"><span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified</span></div></div></div></td><td data-label="Location">State · Kano</td><td data-label="Leader">Sani Danladi</td><td data-label="Members" class="t-right num">21,480</td><td data-label="Activities" class="t-right num">367</td><td class="t-right"><a class="btn btn-sm" href="admin-group-review.html">Open</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Rejected -->
+  <section data-panel="rejected" class="mt-4" hidden>
+    <div class="list">
+      <div class="list-item"><span class="group-mark g3">AF</span><span class="grow"><span class="title" style="display:block">Atiku Friends Forum</span><span class="meta">Rejected 4 Nov · "Leader could not be reached on phone"</span></span><span class="chip chip-rejected"><i data-lucide="x" class="i"></i>Rejected</span></div>
+      <div class="list-item"><span class="group-mark g5">TN</span><span class="grow"><span class="title" style="display:block">Test Nigeria Group</span><span class="meta">Rejected 1 Nov · "Not a real group"</span></span><span class="chip chip-rejected"><i data-lucide="x" class="i"></i>Rejected</span></div>
+    </div>
+  </section>
+
+  <!-- Suspended -->
+  <section data-panel="suspended" class="mt-4" hidden>
+    <div class="list">
+      <div class="list-item"><span class="group-mark g2">BY</span><span class="grow"><span class="title" style="display:block">Bauchi Youth Mobilisers</span><span class="meta">Suspended 28 Oct · "Fake photos in 3 activities"</span></span><span class="chip chip-suspended"><i data-lucide="pause" class="i"></i>Suspended</span></div>
+    </div>
+  </section>
+
+</main>
+</body>
+
+</html>
