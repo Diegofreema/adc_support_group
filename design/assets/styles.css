@@ -309,6 +309,8 @@ a.list-item:hover { background: var(--surface-2); }
 .progress { height: 8px; border-radius: 99px; background: var(--surface-4); overflow: hidden; }
 .progress > span { display: block; height: 100%; background: var(--green); border-radius: 99px; }
 .progress-sm { height: 5px; }
+/* Progress inside a selected/tinted card: give the track contrast */
+.choice:has(input:checked) .progress, .banner .progress { background: var(--surface); box-shadow: inset 0 0 0 1px var(--green-line); }
 .stepper { display: flex; gap: 6px; }
 .stepper span { flex: 1; height: 4px; border-radius: 99px; background: var(--surface-4); }
 .stepper span.done { background: var(--green); }

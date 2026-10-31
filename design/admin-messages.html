@@ -44,12 +44,13 @@
         </div>
       </div>
       <div class="field"><label class="label" for="m-t">Message</label><textarea id="m-t" class="textarea" placeholder="Type your message"></textarea><div class="row-between tiny faint mt-1"><span>0 / 160</span><span>1 SMS page</span></div></div>
-      <div class="action-bar"><button class="btn btn-primary btn-lg btn-block" data-open="send"><i data-lucide="send" class="i"></i>Send to 4,812</button></div>
+      <div class="mt-6"><button class="btn btn-primary btn-lg btn-block" data-open="send"><i data-lucide="send" class="i"></i>Send to 4,812</button></div>
     </div>
     <aside class="split-side">
       <div class="card">
         <div class="stat-label"><i data-lucide="message-square" class="i i-sm"></i>SMS points</div>
         <div class="stat-value">48,200</div>
+        <p class="faint small mt-1">6 points per SMS · ₦1 = 1 point</p>
         <button class="btn btn-sm btn-block mt-4" data-open="buy"><i data-lucide="plus" class="i i-sm"></i>Buy points</button>
       </div>
     </aside>
@@ -77,9 +78,9 @@
   <div class="dialog">
     <h2 id="by-t">Buy SMS points</h2>
     <div class="choices mt-4">
-      <label class="choice"><input type="radio" name="p" checked><span class="dot"></span><span class="grow choice-title">10,000 points</span><span class="bold num">₦45,000</span></label>
-      <label class="choice"><input type="radio" name="p"><span class="dot"></span><span class="grow choice-title">50,000 points</span><span class="bold num">₦215,000</span></label>
-      <label class="choice"><input type="radio" name="p"><span class="dot"></span><span class="grow choice-title">200,000 points</span><span class="bold num">₦820,000</span></label>
+      <label class="choice"><input type="radio" name="p" checked><span class="dot"></span><span class="grow"><span class="choice-title">100,000 points</span><span class="choice-desc" style="display:block">About 16,660 SMS</span></span><span class="bold num">₦100,000</span></label>
+      <label class="choice"><input type="radio" name="p"><span class="dot"></span><span class="grow"><span class="choice-title">500,000 points</span><span class="choice-desc" style="display:block">About 83,330 SMS</span></span><span class="bold num">₦500,000</span></label>
+      <label class="choice"><input type="radio" name="p"><span class="dot"></span><span class="grow"><span class="choice-title">1,000,000 points</span><span class="choice-desc" style="display:block">About 166,660 SMS</span></span><span class="bold num">₦1,000,000</span></label>
     </div>
     <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Opening Funz">Pay with Funz</button></div>
   </div>
