@@ -71,7 +71,7 @@
   const brand = (dark) => `
     <a class="brand" href="${dark ? "admin-dashboard.html" : "home.html"}" aria-label="ADC Support Groups home">
       <span class="brand-mark"><b>ADC</b></span>
-      <span class="brand-name">Support Groups<small>${dark ? "Campaign Directorate" : "Atiku 2027"}</small></span>
+      <span class="brand-name">Support Groups<small>${dark ? "Directorate" : "Atiku 2027"}</small></span>
     </a>`;
 
   function buildShell() {
@@ -99,7 +99,7 @@
     };
     const bottomActive = ALIAS[shell][active] || active;
     const bottom = nav.bottom.map(([href, ic, label, key]) =>
-      `<a href="${href}" ${key === bottomActive ? 'aria-current="page"' : ""}>${icon(ic)}<span>${label}</span></a>`).join("");
+      `<a href="${href}" ${key === bottomActive ? 'aria-current="page"' : ""}><span class="nav-ico">${icon(ic)}</span><span>${label}</span></a>`).join("");
 
     const app = document.createElement("div");
     app.className = "app" + (dark ? " directorate" : "");

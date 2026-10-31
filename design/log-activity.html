@@ -3,114 +3,91 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Record an activity · ADC Support Groups</title>
+  <meta name="theme-color" content="#070B09">
+  <title>Record activity · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-b.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
-<body data-shell="leader" data-active="activities" data-title="Record an activity" data-back="activities.html">
+<body data-shell="leader" data-active="activities" data-title="Record activity" data-back="home.html">
 <main id="page" class="main-narrow">
 <form data-wizard>
+  <div class="row-between"><span class="step-count">Step 1 of 4</span></div>
+  <div class="stepper mt-2"><span></span><span></span><span></span><span></span></div>
 
-  <div class="row-between mb-3"><span class="step-count">Step 1 of 5</span><a class="small bold" href="activities.html">Cancel</a></div>
-  <div class="stepper mb-6"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-
-  <!-- 1. Type -->
-  <section data-step>
+  <!-- 1. What -->
+  <section data-step class="mt-6">
     <h1 class="h1">What did you do?</h1>
-    <p class="muted mt-2">Pick the one that fits best.</p>
     <div class="choice-grid mt-5">
-      <label class="choice choice-tile"><input type="radio" name="type" checked><span class="tile-icon"><i data-lucide="flag" class="i"></i></span><span class="choice-title">Rally or road show</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="mic" class="i"></i></span><span class="choice-title">Town hall</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="footprints" class="i"></i></span><span class="choice-title">Door-to-door</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="smartphone" class="i"></i></span><span class="choice-title">Media or social media</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="award" class="i"></i></span><span class="choice-title">Endorsement event</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="book-open" class="i"></i></span><span class="choice-title">Voter education</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="package" class="i"></i></span><span class="choice-title">Materials shared</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="hammer" class="i"></i></span><span class="choice-title">Community project</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="vote" class="i"></i></span><span class="choice-title">Election-day work</span></label>
-      <label class="choice choice-tile"><input type="radio" name="type"><span class="tile-icon"><i data-lucide="ellipsis" class="i"></i></span><span class="choice-title">Something else</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t" checked><span class="tile-icon"><i data-lucide="megaphone" class="i"></i></span><span class="choice-title">Rally</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="mic" class="i"></i></span><span class="choice-title">Town hall</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="footprints" class="i"></i></span><span class="choice-title">Door-to-door</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="smartphone" class="i"></i></span><span class="choice-title">Media</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="award" class="i"></i></span><span class="choice-title">Endorsement</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="book-open" class="i"></i></span><span class="choice-title">Voter education</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="package" class="i"></i></span><span class="choice-title">Materials</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="hammer" class="i"></i></span><span class="choice-title">Community project</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="vote" class="i"></i></span><span class="choice-title">Election day</span></label>
+      <label class="choice choice-tile"><input type="radio" name="t"><span class="tile-icon"><i data-lucide="ellipsis" class="i"></i></span><span class="choice-title">Other</span></label>
     </div>
-    <div class="action-bar"><button class="btn btn-primary btn-block btn-lg" data-next>Next<i data-lucide="arrow-right" class="i"></i></button></div>
+    <div class="action-bar"><button class="btn btn-primary btn-lg btn-block" data-next>Next</button></div>
   </section>
 
   <!-- 2. Details -->
-  <section data-step hidden>
-    <h1 class="h1">Tell us about it</h1>
-    <div class="field mt-5"><label class="label" for="la-t">Give it a short name</label><input id="la-t" class="input" placeholder="e.g. Road show from Gwale to Kofar Mata"></div>
-    <div class="field"><label class="label" for="la-d">When was it?</label><input id="la-d" class="input" type="date" value="2026-10-31"></div>
-    <div class="field"><label class="label" for="la-c">Which chapter did it?</label><select id="la-c" class="select"><option>Main group</option><option selected>Kano chapter</option><option>Lagos chapter</option></select></div>
-    <div class="field"><label class="label" for="la-n">How many people did you reach?</label><span class="hint">A good guess is fine.</span><input id="la-n" class="input" inputmode="numeric" placeholder="e.g. 2400"></div>
-    <div class="field"><label class="label" for="la-x">What happened? <span class="opt">(optional)</span></label><textarea id="la-x" class="textarea" placeholder="Who spoke, what you shared, anything special"></textarea></div>
-    <div class="action-bar"><button class="btn btn-primary btn-block btn-lg" data-next>Next<i data-lucide="arrow-right" class="i"></i></button><button class="btn btn-ghost btn-block mt-2" data-prev>Go back</button></div>
+  <section data-step class="mt-6">
+    <h1 class="h1">Details</h1>
+    <div class="field mt-5"><label class="label" for="ti">Title</label><input id="ti" class="input" placeholder="e.g. Rally at Kofar Mata"></div>
+    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+      <div class="field"><label class="label" for="dt">Date</label><input id="dt" class="input" type="date" value="2026-10-31"></div>
+      <div class="field" style="margin-top:0"><label class="label" for="pp">People</label><input id="pp" class="input" inputmode="numeric" placeholder="0"></div>
+    </div>
+    <div class="field mt-4"><label class="label" for="st">State</label><select id="st" class="select"><option>Kano</option></select></div>
+    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+      <div class="field"><label class="label" for="lg">LGA</label><select id="lg" class="select"><option>Municipal</option></select></div>
+      <div class="field" style="margin-top:0"><label class="label" for="wd">Ward</label><select id="wd" class="select"><option>Kofar Mata</option></select></div>
+    </div>
+    <div class="field"><label class="label" for="nt">Note <span class="opt">(optional)</span></label><textarea id="nt" class="textarea" placeholder="Anything to add"></textarea></div>
+    <div class="action-bar row"><button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Next</button></div>
   </section>
 
-  <!-- 3. Where -->
-  <section data-step hidden>
-    <h1 class="h1">Where was it?</h1>
-    <button type="button" class="btn btn-block mt-5" data-toast="Location found: Gwale, Kano"><i data-lucide="locate-fixed" class="i"></i>Use my location</button>
-    <p class="muted small center mt-3">or choose below</p>
-    <div class="field mt-3"><label class="label" for="la-s">State</label><select id="la-s" class="select"><option>Kano</option></select></div>
-    <div class="field"><label class="label" for="la-l">LGA</label><select id="la-l" class="select"><option>Gwale</option></select></div>
-    <div class="field"><label class="label" for="la-w">Ward</label><select id="la-w" class="select"><option>Dandago</option></select></div>
-    <div class="field"><label class="label" for="la-pu">Polling unit <span class="opt">(optional)</span></label><input id="la-pu" class="input" placeholder="Start typing the name or code"></div>
-    <div class="action-bar"><button class="btn btn-primary btn-block btn-lg" data-next>Next<i data-lucide="arrow-right" class="i"></i></button><button class="btn btn-ghost btn-block mt-2" data-prev>Go back</button></div>
-  </section>
-
-  <!-- 4. Evidence -->
-  <section data-step hidden>
-    <h1 class="h1">Add proof</h1>
-    <p class="muted mt-2">Add at least one photo. Clear photos of people at the activity work best.</p>
-    <div class="row-between mt-5"><span class="label" style="margin:0">Photos</span><span class="muted small">4 of 6</span></div>
-    <div class="photo-grid mt-2">
+  <!-- 3. Photos -->
+  <section data-step class="mt-6">
+    <h1 class="h1">Add photos</h1>
+    <p class="muted mt-1">Up to 6.</p>
+    <div class="photo-grid mt-5">
       <div class="photo"><span class="ph ph-1 ph-crowd"></span><button class="x" type="button" aria-label="Remove photo"><i data-lucide="x" class="i i-sm"></i></button></div>
       <div class="photo"><span class="ph ph-2"></span><button class="x" type="button" aria-label="Remove photo"><i data-lucide="x" class="i i-sm"></i></button></div>
       <div class="photo"><span class="ph ph-3 ph-crowd"></span><button class="x" type="button" aria-label="Remove photo"><i data-lucide="x" class="i i-sm"></i></button></div>
-      <div class="photo"><span class="ph ph-6"></span><button class="x" type="button" aria-label="Remove photo"><i data-lucide="x" class="i i-sm"></i></button></div>
-      <label class="photo-add"><span><i data-lucide="camera" class="i" style="margin:0 auto 4px"></i>Add photo</span><input type="file" accept="image/*" capture="environment" class="sr-only"></label>
+      <label class="photo-add"><i data-lucide="camera" class="i i-lg"></i>Add<input type="file" accept="image/*" capture="environment" hidden></label>
     </div>
-    <div class="field mt-6"><label class="label" for="la-v">Video link <span class="opt">(optional)</span></label><span class="hint">From YouTube, TikTok, Facebook or X.</span><input id="la-v" class="input" inputmode="url" placeholder="https://"></div>
-    <button type="button" class="btn btn-ghost btn-sm mt-2"><i data-lucide="plus" class="i i-sm"></i>Add another link</button>
-    <div class="field mt-5"><span class="label">Document <span class="opt">(optional)</span></span><label class="dropzone" style="padding:18px"><span class="row"><i data-lucide="file-text" class="i"></i><span class="bold">Add a PDF</span></span><span class="muted small">Attendance sheet, programme, letter</span><input type="file" accept="application/pdf" class="sr-only"></label></div>
-    <div class="action-bar"><button class="btn btn-primary btn-block btn-lg" data-next>Next<i data-lucide="arrow-right" class="i"></i></button><button class="btn btn-ghost btn-block mt-2" data-prev>Go back</button></div>
+    <div class="field mt-6"><label class="label" for="vl">Video link <span class="opt">(optional)</span></label><input id="vl" class="input" placeholder="YouTube, TikTok, Facebook"></div>
+    <div class="action-bar row"><button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Next</button></div>
   </section>
 
-  <!-- 5. Review -->
-  <section data-step hidden>
+  <!-- 4. Check -->
+  <section data-step class="mt-6">
     <h1 class="h1">Check and send</h1>
-    <div class="card mt-5">
-      <div class="row-between"><span class="tag"><i data-lucide="flag" class="i i-sm"></i>Rally or road show</span><button type="button" class="btn btn-sm btn-ghost" data-prev>Change</button></div>
-      <h2 class="h3 mt-3">Road show from Gwale to Kofar Mata</h2>
-      <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>31 Oct 2026</span><span><i data-lucide="map-pin" class="i"></i>Dandago, Gwale, Kano</span><span><i data-lucide="users" class="i"></i>2,400 people</span><span><i data-lucide="camera" class="i"></i>4 photos</span></div>
-      <div class="thumbs mt-3"><span class="ph ph-1 ph-crowd"></span><span class="ph ph-2"></span><span class="ph ph-3 ph-crowd"></span><span class="ph ph-6"></span></div>
+    <div class="list mt-5">
+      <div class="list-item"><span class="icon-tile"><i data-lucide="megaphone" class="i"></i></span><span class="grow"><span class="meta">Activity</span><span class="title" style="display:block">Rally at Kofar Mata</span></span></div>
+      <div class="list-item"><span class="icon-tile grey"><i data-lucide="map-pin" class="i"></i></span><span class="grow"><span class="meta">Where</span><span class="title" style="display:block">Kofar Mata, Kano</span></span></div>
+      <div class="list-item"><span class="icon-tile grey"><i data-lucide="users" class="i"></i></span><span class="grow"><span class="meta">People</span><span class="title" style="display:block">2,400</span></span></div>
+      <div class="list-item"><span class="icon-tile grey"><i data-lucide="image" class="i"></i></span><span class="grow"><span class="meta">Photos</span><span class="title" style="display:block">3</span></span></div>
     </div>
-    <div class="field mt-5"><label class="label" for="la-p">Did your group pay for this? <span class="opt">(optional)</span></label><span class="hint">Link a payment so the Directorate sees both.</span><select id="la-p" class="select"><option>No payment</option><option>₦500,000 · Kano rally logistics · 28 Oct</option><option>₦120,000 · General support: materials · 19 Oct</option></select></div>
-    <div class="action-bar"><button class="btn btn-primary btn-block btn-lg" data-next><i data-lucide="send" class="i"></i>Send for approval</button><button class="btn btn-ghost btn-block mt-2" data-prev>Go back</button></div>
+    <div class="action-bar row"><button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-open="sent" type="button">Send</button></div>
   </section>
-
-  <!-- Done -->
-  <section data-step hidden>
-    <div class="result mt-6">
-      <span class="icon-tile"><i data-lucide="circle-check" class="i"></i></span>
-      <h1 class="h1">Sent for approval</h1>
-      <p class="muted mt-2">Your chapter coordinator will check it. We'll tell you when it's approved.</p>
-    </div>
-    <div class="card mt-6">
-      <ol class="timeline">
-        <li><span class="tl-dot"><i data-lucide="check" class="i"></i></span><div class="tl-title">Recorded by you</div><div class="muted small">Just now</div></li>
-        <li><span class="tl-dot wait"><i data-lucide="clock" class="i"></i></span><div class="tl-title">Chapter coordinator checks it</div><div class="muted small">Fatima Bello</div></li>
-        <li><span class="tl-dot wait"><i data-lucide="clock" class="i"></i></span><div class="tl-title">The Directorate may check it</div><div class="muted small">Then it counts on your group's record</div></li>
-      </ol>
-    </div>
-    <div class="action-bar"><a class="btn btn-primary btn-block btn-lg" href="activities.html">Done</a><a class="btn btn-ghost btn-block mt-2" href="log-activity.html">Record another</a></div>
-  </section>
-
 </form>
 </main>
 
+<div class="dialog-backdrop" id="sent" role="dialog" aria-modal="true" aria-labelledby="sent-t">
+  <div class="dialog center">
+    <span class="icon-tile" style="width:64px;height:64px;border-radius:22px;margin:0 auto"><i data-lucide="check" class="i i-lg"></i></span>
+    <h2 id="sent-t" class="mt-4">Sent</h2>
+    <p class="muted mt-1">Waiting for approval.</p>
+    <a class="btn btn-primary btn-block mt-6" href="home.html">Done</a>
+  </div>
+</div>
 </body>
 </html>
