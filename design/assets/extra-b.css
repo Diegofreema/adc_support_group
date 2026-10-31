@@ -1,0 +1,62 @@
+/* Fork B additions — generic, candidates for styles.css */
+
+/* Page header with title + actions that stacks on mobile */
+.page-head-row { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+@media (min-width: 768px) { .page-head-row { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+
+/* Group hero header */
+.group-hero { display: flex; gap: 16px; align-items: flex-start; }
+.group-hero .group-mark { width: 64px; height: 64px; font-size: 1.375rem; border-radius: 18px; }
+.meta-line { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--ink-3); font-size: .9375rem; margin-top: 6px; }
+.meta-line span { display: inline-flex; gap: 6px; align-items: center; }
+
+/* Key/value rows */
+.kv { display: grid; grid-template-columns: 1fr; gap: 0; }
+.kv > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line-2); }
+.kv > div:last-child { border-bottom: 0; }
+.kv dt { color: var(--ink-3); }
+.kv dd { margin: 0; font-weight: 700; text-align: right; }
+
+/* Danger zone */
+.danger-zone { border: 1.5px solid #F0C9CC; background: #FFFAFA; }
+
+/* Vertical timeline */
+.timeline { list-style: none; position: relative; }
+.timeline li { position: relative; padding: 0 0 22px 40px; }
+.timeline li:last-child { padding-bottom: 0; }
+.timeline li::before { content: ""; position: absolute; left: 13px; top: 30px; bottom: 0; width: 2px; background: var(--line); }
+.timeline li:last-child::before { display: none; }
+.timeline .tl-dot { position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--green-600); color: #fff; }
+.timeline .tl-dot .i { width: 16px; height: 16px; }
+.timeline .tl-dot.wait { background: var(--amber-50); color: var(--amber-700); border: 2px solid #F6DEB0; }
+.timeline .tl-title { font-weight: 700; }
+
+/* Gallery */
+.gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; border-radius: var(--r); overflow: hidden; }
+.gallery > span { aspect-ratio: 4 / 3; }
+.gallery > span:first-child { grid-column: span 2; aspect-ratio: 16 / 9; }
+@media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); } .gallery > span:first-child { grid-column: span 3; aspect-ratio: 21 / 9; } }
+
+/* Thumb strip for review cards */
+.thumbs { display: flex; gap: 6px; }
+.thumbs > span { width: 64px; height: 64px; border-radius: 10px; flex: none; }
+
+/* Scrollable table container */
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--paper); }
+.table-scroll .table { min-width: 560px; }
+
+/* Numbered summary tiles */
+.summary-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.summary-3 > div { border-radius: 12px; padding: 12px; text-align: center; }
+.summary-3 b { display: block; font-size: 1.5rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.summary-3 span { font-size: .8125rem; font-weight: 600; }
+
+/* Result hero (success screens) */
+.result { text-align: center; padding: 12px 0 4px; }
+.result .icon-tile { width: 72px; height: 72px; border-radius: 22px; margin: 0 auto 16px; }
+.result .icon-tile .i { width: 34px; height: 34px; }
+
+/* Row action button inside table */
+.row-menu { width: 44px; height: 44px; border-radius: 10px; border: 0; background: transparent; display: grid; place-items: center; color: var(--ink-3); cursor: pointer; }
+.row-menu:hover { background: var(--canvas); }
+.who { display: flex; gap: 12px; align-items: center; min-width: 0; }

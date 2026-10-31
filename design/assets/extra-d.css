@@ -1,0 +1,55 @@
+/* Directorate screens — small generic additions (candidates to promote into styles.css) */
+
+/* Horizontal bar list */
+.hbars { display: grid; gap: 14px; }
+.hbar-top { display: flex; justify-content: space-between; gap: 12px; font-size: .9375rem; margin-bottom: 6px; }
+.hbar-top b { font-weight: 700; }
+.hbar { height: 10px; border-radius: 99px; background: var(--line-2); overflow: hidden; }
+.hbar > span { display: block; height: 100%; border-radius: 99px; background: var(--green-600); }
+
+/* Key/value detail list */
+.kv { display: grid; gap: 0; }
+.kv > div { display: grid; grid-template-columns: 1fr; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--line-2); }
+.kv > div:last-child { border-bottom: 0; }
+.kv dt { color: var(--ink-3); font-size: .9375rem; }
+.kv dd { margin: 0; font-weight: 600; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+@media (min-width: 640px) { .kv > div { grid-template-columns: 200px 1fr; gap: 16px; align-items: center; } }
+
+/* Timeline / audit trail */
+.timeline { position: relative; padding-left: 26px; }
+.timeline::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.tl-item { position: relative; padding-bottom: 18px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before { content: ""; position: absolute; left: -24px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 3px solid var(--green-600); }
+.tl-item.muted-dot::before { border-color: var(--ink-4); }
+
+/* Evidence thumbnails strip */
+.thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.thumbs .ph { aspect-ratio: 1; border-radius: 10px; position: relative; }
+.thumbs .ph b { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; background: rgba(0,0,0,.45); border-radius: 10px; font-weight: 800; }
+
+/* Table helpers */
+.table-scroll { overflow-x: auto; }
+.cell-main { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.cell-main .group-mark { width: 40px; height: 40px; font-size: .875rem; border-radius: 11px; }
+.rank { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; font-weight: 800; font-size: .875rem; background: var(--canvas); color: var(--ink-2); flex: none; }
+.rank.r1 { background: #FFE9A8; color: #6B4E00; }
+.rank.r2 { background: #E6EBE8; color: var(--ink-2); }
+.rank.r3 { background: #F6D9C6; color: #8A3B0A; }
+
+/* Filter bar */
+.filterbar { display: grid; gap: 10px; }
+@media (min-width: 768px) { .filterbar { grid-template-columns: 1fr 220px; align-items: center; } }
+
+/* Editable rows (settings) */
+.edit-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; min-height: 60px; }
+.edit-row + .edit-row { border-top: 1px solid var(--line-2); }
+.drag { color: var(--ink-4); cursor: grab; }
+
+/* Proof image placeholder */
+.proof { aspect-ratio: 3 / 4; max-height: 320px; width: 100%; border-radius: 12px; background: #F2F2EE; border: 1px solid var(--line); display: flex; flex-direction: column; padding: 18px; gap: 8px; font-size: .8125rem; color: var(--ink-3); }
+.proof .bar { height: 8px; border-radius: 4px; background: #DADAD3; }
+
+/* Two-column page (main + side) */
+.split { display: grid; gap: 20px; align-items: start; }
+@media (min-width: 1100px) { .split { grid-template-columns: minmax(0, 1fr) 340px; } .split-side { position: sticky; top: 84px; } }
