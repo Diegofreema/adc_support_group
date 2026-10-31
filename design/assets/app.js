@@ -71,7 +71,7 @@
   const brand = (dark) => `
     <a class="brand" href="${dark ? "admin-dashboard.html" : "home.html"}" aria-label="ADC Support Groups home">
       <span class="brand-mark"><b>ADC</b></span>
-      <span class="brand-name">Support Groups<small>${dark ? "Directorate" : "Atiku 2027"}</small></span>
+      <span class="brand-name">Support Groups${dark ? "<small>Directorate</small>" : ""}</span>
     </a>`;
 
   function buildShell() {
@@ -113,7 +113,7 @@
       </aside>
       <div class="app-body">
         <header class="topbar">
-          ${back ? `<a class="icon-btn back${/more\.html$/.test(back) ? " hide-desktop" : ""}" href="${back}" aria-label="Go back">${icon("arrow-left", "i i-lg")}</a>` : `<span class="hide-desktop">${brand(dark).replace("Support Groups<small>", "<span class='sr-only'>").replace("</small>", "</span>")}</span>`}
+          ${back ? `<a class="icon-btn back${/more\.html$/.test(back) ? " hide-desktop" : ""}" href="${back}" aria-label="Go back">${icon("arrow-left", "i i-lg")}</a>` : `<a class="brand hide-desktop" href="${dark ? "admin-dashboard.html" : "home.html"}" aria-label="Home"><span class="brand-mark"><b>ADC</b></span></a>`}
           <div class="topbar-title">${title}</div>
           <a class="icon-btn" href="${dark ? "admin-groups.html" : "notifications.html"}" aria-label="Notifications, 3 new">${icon("bell", "i i-lg")}<span class="badge-dot">3</span></a>
           <a class="icon-btn hide-mobile" href="${dark ? "admin-settings.html" : "profile.html"}" aria-label="My profile"><span class="avatar avatar-sm">${user[0]}</span></a>

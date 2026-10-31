@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#070B09">
+  <meta name="theme-color" content="#1A1E23">
   <title>Log in · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
     .auth-visual h2 { font-size: clamp(2.5rem, 4.5vw, 4rem); font-weight: 800; letter-spacing: -0.045em; line-height: .98; }
     .auth-visual h2 span { color: var(--green); }
     .pulse-list { display: grid; gap: 10px; max-width: 380px; }
-    .pulse { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid var(--line); backdrop-filter: blur(6px); }
+    .pulse { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-card); }
     .pulse b { font-weight: 600; }
   </style>
 </head>
@@ -24,8 +24,8 @@
 
     <!-- Desktop only -->
     <aside class="auth-visual" aria-hidden="true">
-      <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></span>
-      <h2>Every ward.<br>Every street.<br><span>Every vote.</span></h2>
+      <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">ADC Support Groups</span></span>
+      <h2>Your group.<br><span>All in one place.</span></h2>
       <div class="pulse-list">
         <div class="pulse"><span class="icon-tile"><i data-lucide="megaphone" class="i"></i></span><span class="grow"><b>Rally · Kano</b><br><span class="faint small">2,400 people</span></span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></div>
         <div class="pulse"><span class="icon-tile red"><i data-lucide="hand-coins" class="i"></i></span><span class="grow"><b>₦250,000</b><br><span class="faint small">Ibadan chapter</span></span><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span></div>
@@ -35,7 +35,7 @@
     <main class="auth-main" style="position:relative">
       <div class="auth-glow"></div>
       <div class="hide-desktop" style="position:relative">
-        <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></span>
+        <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">ADC Support Groups</span></span>
       </div>
 
       <div class="auth-inner" style="position:relative">
