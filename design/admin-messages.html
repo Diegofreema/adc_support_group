@@ -3,114 +3,87 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Messages · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Messages · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="directorate" data-active="messages" data-title="Messages" data-back="admin-more.html">
-<main id="page" data-tab-scope>
+<main id="page">
+<div class="page-head-row"><h1 class="h1">Messages</h1></div>
 
-  <div class="page-head">
-    <h1 class="h1">Messages</h1>
-    <p>Send news and instructions to leaders and members.</p>
-  </div>
-
+<div data-tab-scope>
   <div class="tabs" data-tabs role="tablist">
-    <button class="tab" role="tab" data-tab="new" aria-selected="true">New message</button>
-    <button class="tab" role="tab" data-tab="sent" aria-selected="false">Sent <span class="count">24</span></button>
+    <button class="tab" data-tab="new" aria-selected="true">New</button>
+    <button class="tab" data-tab="sent" aria-selected="false">Sent <span class="count">24</span></button>
   </div>
 
-  <section data-panel="new" class="split mt-4">
-    <form class="stack" style="--stack:20px" onsubmit="return false">
-      <div class="card">
-        <h2 class="h3">1. Who gets it</h2>
-        <div class="segmented mt-3" data-pressed-group role="group" aria-label="Send to">
-          <button type="button" aria-pressed="true">Leaders only</button>
+  <div class="split mt-4" data-panel="new">
+    <div class="card">
+      <div class="field">
+        <span class="label">To</span>
+        <div class="segmented" data-pressed-group>
+          <button type="button" aria-pressed="true">Leaders</button>
           <button type="button" aria-pressed="false">All members</button>
         </div>
-        <div class="grid-2 mt-4" style="gap:16px">
-          <label class="field" style="margin:0"><span class="label">State</span><select class="select"><option>All states</option><option>Lagos</option><option>Kano</option><option>Kaduna</option></select></label>
-          <label class="field" style="margin:0"><span class="label">Category</span><select class="select"><option>All categories</option><option>Women</option><option>Youth</option><option>Transport</option></select></label>
-        </div>
-        <label class="field mt-4"><span class="label">Group <span class="opt">(optional)</span></span><input class="input" placeholder="Type a group name"></label>
-        <div class="banner banner-success mt-4"><i data-lucide="users-round" class="i"></i><p><b>4,812 leaders</b> will get this message.</p></div>
       </div>
-
-      <div class="card">
-        <h2 class="h3">2. How to send</h2>
-        <div class="stack mt-3" style="--stack:10px">
-          <label class="choice"><input type="checkbox" checked><span class="dot" style="border-radius:6px"></span><span class="grow"><span class="choice-title">In the app</span><span class="choice-desc" style="display:block">Free</span></span></label>
-          <label class="choice"><input type="checkbox" checked><span class="dot" style="border-radius:6px"></span><span class="grow"><span class="choice-title">Email</span><span class="choice-desc" style="display:block">Free · 3,906 have email</span></span></label>
-          <label class="choice"><input type="checkbox" checked><span class="dot" style="border-radius:6px"></span><span class="grow"><span class="choice-title">SMS to those without email</span><span class="choice-desc" style="display:block">906 people · 906 SMS points</span></span></label>
+      <div class="grid-2 mt-4">
+        <div class="field"><label class="label" for="m-s">State</label><select id="m-s" class="select"><option>All states</option><option>Kano</option></select></div>
+        <div class="field" style="margin-top:0"><label class="label" for="m-c">Category</label><select id="m-c" class="select"><option>All categories</option><option>Women</option></select></div>
+      </div>
+      <div class="field"><label class="label" for="m-g">Group <span class="opt">(optional)</span></label><input id="m-g" class="input" placeholder="Search group"></div>
+      <div class="field">
+        <span class="label">Send by</span>
+        <div class="choices">
+          <label class="choice"><input type="checkbox" checked><span class="dot"></span><span class="grow choice-title">App + email</span><span class="chip chip-verified">Free</span></label>
+          <label class="choice"><input type="checkbox"><span class="dot"></span><span class="grow choice-title">SMS</span><span class="chip chip-neutral">Points</span></label>
         </div>
       </div>
-
+      <div class="field"><label class="label" for="m-t">Message</label><textarea id="m-t" class="textarea" placeholder="Type your message"></textarea><div class="row-between tiny faint mt-1"><span>0 / 160</span><span>1 SMS page</span></div></div>
+      <div class="mt-6"><button class="btn btn-primary btn-lg btn-block" data-open="send"><i data-lucide="send" class="i"></i>Send to 4,812</button></div>
+    </div>
+    <aside class="split-side">
       <div class="card">
-        <h2 class="h3">3. Your message</h2>
-        <label class="field mt-3"><span class="label">Title</span><input class="input" value="Lagos mega rally: 14 December"></label>
-        <label class="field"><span class="label">Message</span><textarea class="textarea" style="min-height:150px">Dear leader, the Lagos mega rally holds on Saturday 14 December at Tafawa Balewa Square. Please bring your members and record it on the app with photos.</textarea></label>
-        <p class="muted small mt-2">SMS version: 158 of 160 characters (1 SMS each)</p>
-      </div>
-
-      <div class="action-bar">
-        <button type="button" class="btn btn-primary btn-lg btn-block" data-open="send-confirm"><i data-lucide="send" class="i"></i>Send to 4,812 leaders</button>
-      </div>
-    </form>
-
-    <aside class="split-side stack">
-      <div class="card">
-        <div class="stat-label"><i data-lucide="message-square-text" class="i i-sm"></i>Directorate SMS points</div>
+        <div class="stat-label"><i data-lucide="message-square" class="i i-sm"></i>SMS points</div>
         <div class="stat-value">48,200</div>
-        <div class="stat-sub">Sent through Bunce · 1 point = 1 SMS</div>
-        <button class="btn btn-block mt-4" data-open="buy-points"><i data-lucide="plus" class="i"></i>Buy SMS points</button>
-      </div>
-      <div class="card" style="background:var(--canvas)">
-        <p class="small"><b>Email and in-app messages are free.</b> SMS is only sent to people who have no email.</p>
+        <p class="faint small mt-1">6 points per SMS · ₦1 = 1 point</p>
+        <button class="btn btn-sm btn-block mt-4" data-open="buy"><i data-lucide="plus" class="i i-sm"></i>Buy points</button>
       </div>
     </aside>
-  </section>
+  </div>
 
-  <section data-panel="sent" class="mt-4" hidden>
-    <div class="card card-flush">
-      <table class="table table-cards">
-        <thead><tr><th>Message</th><th>To</th><th>Sent by</th><th class="t-right">SMS used</th><th>Date</th></tr></thead>
-        <tbody>
-          <tr><td class="t-main"><b>Lagos mega rally: 14 December</b></td><td data-label="To">4,812 leaders</td><td data-label="Sent by">Hauwa Bello</td><td data-label="SMS used" class="t-right num">906</td><td data-label="Date">Today</td></tr>
-          <tr><td class="t-main"><b>How to record election-day work</b></td><td data-label="To">1.18m members</td><td data-label="Sent by">Hauwa Bello</td><td data-label="SMS used" class="t-right num">212,400</td><td data-label="Date">2 Nov</td></tr>
-          <tr><td class="t-main"><b>Verification is now faster</b></td><td data-label="To">Leaders · Kano</td><td data-label="Sent by">Ibrahim Lawal</td><td data-label="SMS used" class="t-right num">41</td><td data-label="Date">29 Oct</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-</main>
-
-<div class="dialog-backdrop" id="send-confirm" role="dialog" aria-modal="true" aria-labelledby="sc-t">
-  <div class="dialog">
-    <h2 id="sc-t">Send this message?</h2>
-    <p class="muted mt-2">4,812 leaders will get it in the app. 3,906 by email and 906 by SMS.</p>
-    <div class="banner banner-warn mt-4"><i data-lucide="message-square-text" class="i"></i><p class="small">This uses <b>906 SMS points</b>. You will have 47,294 left.</p></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Message is being sent">Send now</button></div>
+  <div class="list mt-4" data-panel="sent" hidden>
+    <div class="list-item"><span class="icon-tile grey"><i data-lucide="send" class="i"></i></span><span class="grow"><span class="title truncate" style="display:block">Lagos rally: buses at 7am</span><span class="meta">Leaders · Lagos · 341 · Today</span></span><span class="tag">SMS</span></div>
+    <div class="list-item"><span class="icon-tile grey"><i data-lucide="send" class="i"></i></span><span class="grow"><span class="title truncate" style="display:block">New cause: North East radio</span><span class="meta">Leaders · All · 4,812 · Mon</span></span><span class="tag">Email</span></div>
+    <div class="list-item"><span class="icon-tile grey"><i data-lucide="send" class="i"></i></span><span class="grow"><span class="title truncate" style="display:block">Record your activities</span><span class="meta">All members · 1.18m · 20 Oct</span></span><span class="tag">App</span></div>
   </div>
 </div>
-
-<div class="dialog-backdrop" id="buy-points" role="dialog" aria-modal="true" aria-labelledby="bp-t">
+</main>
+<div class="dialog-backdrop" id="send" role="dialog" aria-modal="true" aria-labelledby="sd-t">
   <div class="dialog">
-    <h2 id="bp-t">Buy SMS points</h2>
-    <p class="muted mt-1">Paid with Funz. Points are added as soon as payment goes through.</p>
+    <h2 id="sd-t">Send message?</h2>
+    <dl class="kv mt-3" style="margin-bottom:0">
+      <div><dt>To</dt><dd>4,812 leaders</dd></div>
+      <div><dt>By</dt><dd>App + email</dd></div>
+      <div><dt>Cost</dt><dd>Free</dd></div>
+    </dl>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Message sent">Send</button></div>
+  </div>
+</div>
+<div class="dialog-backdrop" id="buy" role="dialog" aria-modal="true" aria-labelledby="by-t">
+  <div class="dialog">
+    <h2 id="by-t">Buy SMS points</h2>
     <div class="choices mt-4">
-      <label class="choice"><input type="radio" name="pk"><span class="dot"></span><span class="grow"><span class="choice-title">10,000 points</span></span><b>₦45,000</b></label>
-      <label class="choice"><input type="radio" name="pk" checked><span class="dot"></span><span class="grow"><span class="choice-title">50,000 points</span></span><b>₦215,000</b></label>
-      <label class="choice"><input type="radio" name="pk"><span class="dot"></span><span class="grow"><span class="choice-title">250,000 points</span></span><b>₦1,050,000</b></label>
+      <label class="choice"><input type="radio" name="p" checked><span class="dot"></span><span class="grow"><span class="choice-title">100,000 points</span><span class="choice-desc" style="display:block">About 16,660 SMS</span></span><span class="bold num">₦100,000</span></label>
+      <label class="choice"><input type="radio" name="p"><span class="dot"></span><span class="grow"><span class="choice-title">500,000 points</span><span class="choice-desc" style="display:block">About 83,330 SMS</span></span><span class="bold num">₦500,000</span></label>
+      <label class="choice"><input type="radio" name="p"><span class="dot"></span><span class="grow"><span class="choice-title">1,000,000 points</span><span class="choice-desc" style="display:block">About 166,660 SMS</span></span><span class="bold num">₦1,000,000</span></label>
     </div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Opening Funz…">Pay with Funz</button></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Opening Funz">Pay with Funz</button></div>
   </div>
 </div>
 </body>
-
 </html>

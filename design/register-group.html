@@ -3,253 +3,138 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Register your group · ADC Support Groups</title>
+  <meta name="theme-color" content="#FFFFFF">
+  <title>New group · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-a.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
+  <style>
+    .levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .photo-pick { display: flex; align-items: center; gap: 16px; }
+    .photo-pick .avatar { width: 72px; height: 72px; background: var(--surface-3); color: var(--text-3); }
+  </style>
 </head>
-<body>
-<div class="auth-wrap">
-
-  <aside class="auth-art">
-    <a class="brand" href="landing.html"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></a>
-    <div>
-      <h2>Put your group <em>on the map.</em></h2>
-      <p>Takes about 5 minutes. The Campaign Directorate checks every group, usually within 1 to 3 days.</p>
-      <div class="timeline mt-8" style="color:#fff">
-        <div class="tl-item done"><span class="tl-dot"><i data-lucide="pencil" class="i"></i></span><div><div class="tl-title">You fill this form</div><div class="small" style="color:#A9C9B1">Name, place, leader</div></div></div>
-        <div class="tl-item"><span class="tl-dot" style="background:transparent;border-color:rgba(255,255,255,.3);color:#A9C9B1"><i data-lucide="shield-check" class="i"></i></span><div><div class="tl-title">The Directorate checks it</div><div class="small" style="color:#A9C9B1">1 to 3 days</div></div></div>
-        <div class="tl-item"><span class="tl-dot" style="background:transparent;border-color:rgba(255,255,255,.3);color:#A9C9B1"><i data-lucide="badge-check" class="i"></i></span><div><div class="tl-title">Your group is verified</div><div class="small" style="color:#A9C9B1">Your work starts to count</div></div></div>
-      </div>
-    </div>
-    <p class="tiny" style="color:#8FAE97">adcsupportgroups.ng</p>
-    <div class="weave"></div>
+<body class="no-nav">
+<div class="auth">
+  <aside class="auth-visual" aria-hidden="true">
+    <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">ADC Support Groups</span></span>
+    <h2>Start a group.<br><span>Grow it here.</span></h2>
+    <span class="faint small">adcsupportgroups.ng</span>
   </aside>
 
-  <section class="auth-panel">
-    <div class="auth-inner" style="max-width:520px" data-tab-scope>
-      <div class="auth-top">
-        <a class="brand" href="landing.html"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></a>
-        <a class="btn btn-sm btn-ghost" href="landing.html">Cancel</a>
-      </div>
-
-      <form data-wizard class="mt-2" novalidate>
-        <div class="row-between mb-3"><span class="step-count">Step 1 of 6</span></div>
-        <div class="stepper mb-6" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-
-        <!-- a. Account -->
-        <section data-step>
-          <p class="eyebrow">Your account</p>
-          <h1 class="h1 mt-2">First, who are you?</h1>
-          <p class="muted mt-2">You'll be the leader of this group. We'll check your phone with a code.</p>
-
-          <div class="card row mt-6" style="background:var(--green-50);border-color:var(--green-100)">
-            <span class="avatar">AO</span>
-            <span class="grow"><b style="display:block">Amaka Okafor</b><span class="muted small">0803 555 0142 · Logged in</span></span>
-            <span class="chip chip-verified"><i data-lucide="check" class="i"></i>Phone checked</span>
-          </div>
-          <p class="small muted mt-3">Not you? <a href="login.html">Log in as someone else</a></p>
-
-          <div class="divider mt-6"></div>
-          <p class="small muted">No account yet? You would see this instead:</p>
-          <div class="field mt-3">
-            <label class="label" for="r-name">Full name</label>
-            <input class="input" id="r-name" autocomplete="name" placeholder="As people know you">
-          </div>
-          <div class="field">
-            <label class="label" for="r-phone">Phone number</label>
-            <div class="input-group"><span class="prefix">+234</span><input class="input" id="r-phone" type="tel" inputmode="numeric" placeholder="803 123 4567"></div>
-            <span class="hint" style="margin-top:8px">We'll text you a 6-digit code next.</span>
-          </div>
-
-          <div class="action-bar" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Continue <i data-lucide="arrow-right" class="i"></i></button>
-          </div>
-        </section>
-
-        <!-- b. About -->
-        <section data-step hidden>
-          <p class="eyebrow">About the group</p>
-          <h1 class="h1 mt-2">Tell us about your group</h1>
-
-          <div class="field mt-6">
-            <label class="label" for="g-name">Group name</label>
-            <span class="hint">The name your members know.</span>
-            <input class="input" id="g-name" value="Atiku Women Network">
-          </div>
-
-          <fieldset class="field" style="border:0;padding:0;margin-inline:0">
-            <legend class="label">Who does your group bring together?</legend>
-            <span class="hint">Pick the one that fits best.</span>
-            <div class="choice-grid">
-              <label class="choice choice-tile"><input type="radio" name="cat" checked><span class="tile-icon"><i data-lucide="heart-handshake" class="i"></i></span><span class="choice-title">Women</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="zap" class="i"></i></span><span class="choice-title">Youth</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="graduation-cap" class="i"></i></span><span class="choice-title">Students</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="bike" class="i"></i></span><span class="choice-title">Keke &amp; Okada</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="store" class="i"></i></span><span class="choice-title">Market traders</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="briefcase" class="i"></i></span><span class="choice-title">Professionals</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="church" class="i"></i></span><span class="choice-title">Faith group</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="globe" class="i"></i></span><span class="choice-title">Diaspora</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="accessibility" class="i"></i></span><span class="choice-title">Persons with disability</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="tent-tree" class="i"></i></span><span class="choice-title">Community / town union</span></label>
-              <label class="choice choice-tile"><input type="radio" name="cat"><span class="tile-icon"><i data-lucide="ellipsis" class="i"></i></span><span class="choice-title">Something else</span></label>
-            </div>
-          </fieldset>
-
-          <div class="field">
-            <label class="label" for="g-desc">What does your group do? <span class="opt">(short)</span></label>
-            <textarea class="textarea" id="g-desc" rows="3">We bring women in markets, churches and mosques together to vote for Atiku.</textarea>
-            <span class="hint" style="margin-top:6px">76 of 300 letters</span>
-          </div>
-
-          <div class="action-bar" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Continue <i data-lucide="arrow-right" class="i"></i></button>
-            <button class="btn btn-ghost btn-block mt-2" data-prev><i data-lucide="arrow-left" class="i"></i> Back</button>
-          </div>
-        </section>
-
-        <!-- c. Where -->
-        <section data-step hidden>
-          <p class="eyebrow">Where</p>
-          <h1 class="h1 mt-2">Where is your group based?</h1>
-
-          <div class="segmented mt-6" data-pressed-group role="group" aria-label="Where is the group">
-            <button type="button" aria-pressed="true" data-show="ng">In Nigeria</button>
-            <button type="button" aria-pressed="false" data-show="abroad">Outside Nigeria</button>
-          </div>
-
-          <div data-view="ng">
-            <fieldset class="field mt-6" style="border:0;padding:0;margin-inline:0">
-              <legend class="label">How far does your group reach?</legend>
-              <span class="hint">Big groups can open chapters in other places later.</span>
-              <div class="choices">
-                <label class="choice"><input type="radio" name="lvl" checked><span class="dot"></span><span><span class="choice-title">All over Nigeria</span><span class="choice-desc" style="display:block">National group, with chapters in states</span></span></label>
-                <label class="choice"><input type="radio" name="lvl"><span class="dot"></span><span><span class="choice-title">One state</span><span class="choice-desc" style="display:block">e.g. Kano State</span></span></label>
-                <label class="choice"><input type="radio" name="lvl"><span class="dot"></span><span><span class="choice-title">One local government</span><span class="choice-desc" style="display:block">e.g. Surulere LGA</span></span></label>
-                <label class="choice"><input type="radio" name="lvl"><span class="dot"></span><span><span class="choice-title">One ward</span><span class="choice-desc" style="display:block">e.g. Ward 04, Itire/Ikate</span></span></label>
-              </div>
-            </fieldset>
-            <div class="field">
-              <label class="label" for="w-state">Where is your head office?</label>
-              <span class="hint">State, then LGA and ward.</span>
-              <select class="select" id="w-state"><option>Lagos</option><option>FCT</option><option>Kano</option></select>
-            </div>
-            <div class="grid-2" style="margin-top:12px">
-              <select class="select" aria-label="LGA"><option>Ikeja</option><option>Surulere</option></select>
-              <select class="select" aria-label="Ward"><option>Ward 02 · Alausa</option><option>Ward 03 · Oregun</option></select>
-            </div>
-          </div>
-
-          <div data-view="abroad" hidden>
-            <div class="banner banner-info mt-6"><i data-lucide="globe" class="i"></i><div class="small">Diaspora groups can do everything except election-day work in Nigeria.</div></div>
-            <div class="field mt-4"><label class="label" for="w-country">Country</label><select class="select" id="w-country"><option>United Kingdom</option><option>United States</option><option>Canada</option><option>Ghana</option></select></div>
-            <div class="field"><label class="label" for="w-city">City</label><input class="input" id="w-city" placeholder="e.g. London"></div>
-          </div>
-
-          <div class="action-bar" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Continue <i data-lucide="arrow-right" class="i"></i></button>
-            <button class="btn btn-ghost btn-block mt-2" data-prev><i data-lucide="arrow-left" class="i"></i> Back</button>
-          </div>
-        </section>
-
-        <!-- d. Leader -->
-        <section data-step hidden>
-          <p class="eyebrow">Leader</p>
-          <h1 class="h1 mt-2">About you as leader</h1>
-          <p class="muted mt-2">This helps the Directorate know who runs the group.</p>
-
-          <div class="field mt-6">
-            <label class="label" for="l-title">Your title in the group</label>
-            <select class="select" id="l-title"><option>National Coordinator</option><option>Chairman / Chairperson</option><option>President</option><option>Leader</option></select>
-          </div>
-          <div class="field">
-            <span class="label">Your photo</span>
-            <span class="hint">A clear photo of your face. Only the Directorate sees it.</span>
-            <div class="row" style="gap:16px">
-              <span class="avatar avatar-lg">AO</span>
-              <label class="btn"><i data-lucide="camera" class="i"></i>Take or choose photo<input type="file" accept="image/*" class="sr-only"></label>
-            </div>
-          </div>
-          <div class="field">
-            <label class="label" for="l-cac">CAC registration number <span class="opt">(optional)</span></label>
-            <span class="hint">If your group is registered with CAC, add it to get a "Registered" badge.</span>
-            <input class="input" id="l-cac" placeholder="e.g. IT/123456">
-          </div>
-          <div class="field">
-            <span class="label">CAC certificate <span class="opt">(optional)</span></span>
-            <label class="dropzone"><i data-lucide="upload" class="i i-lg" style="color:var(--green-700)"></i><b>Upload a photo or PDF</b><span class="muted small">Up to 5 MB</span><input type="file" class="sr-only"></label>
-          </div>
-
-          <div class="action-bar" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Check my answers <i data-lucide="arrow-right" class="i"></i></button>
-            <button class="btn btn-ghost btn-block mt-2" data-prev><i data-lucide="arrow-left" class="i"></i> Back</button>
-          </div>
-        </section>
-
-        <!-- e. Review -->
-        <section data-step hidden>
-          <p class="eyebrow">Check</p>
-          <h1 class="h1 mt-2">Check your answers</h1>
-          <p class="muted mt-2">Make sure everything is right before you send it.</p>
-
-          <div class="summary mt-6">
-            <div class="summary-sec">
-              <div class="row-between"><b>The group</b><a class="small bold" href="#" data-prev>Change</a></div>
-              <dl><dt>Name</dt><dd>Atiku Women Network</dd><dt>Type</dt><dd>Women</dd><dt>About</dt><dd style="font-weight:400">We bring women in markets, churches and mosques together to vote for Atiku.</dd></dl>
-            </div>
-            <div class="summary-sec">
-              <div class="row-between"><b>Where</b><a class="small bold" href="#" data-prev>Change</a></div>
-              <dl><dt>Reach</dt><dd>All over Nigeria</dd><dt>Head office</dt><dd>Ward 02 · Alausa, Ikeja, Lagos</dd></dl>
-            </div>
-            <div class="summary-sec">
-              <div class="row-between"><b>Leader</b><a class="small bold" href="#" data-prev>Change</a></div>
-              <dl><dt>Name</dt><dd>Amaka Okafor</dd><dt>Title</dt><dd>National Coordinator</dd><dt>Phone</dt><dd>0803 555 0142</dd><dt>CAC</dt><dd class="muted" style="font-weight:400">Not added</dd></dl>
-            </div>
-          </div>
-
-          <label class="check card mt-4"><input type="checkbox" checked><span><b>I confirm this group supports Atiku Abubakar</b><span class="muted small" style="display:block">and that the details above are true.</span></span></label>
-
-          <div class="action-bar" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Send for checking</button>
-            <button class="btn btn-ghost btn-block mt-2" data-prev><i data-lucide="arrow-left" class="i"></i> Back</button>
-          </div>
-        </section>
-
-        <!-- f. Pending -->
-        <section data-step hidden>
-          <span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting for review</span>
-          <h1 class="display mt-4" style="font-size:2.375rem">Sent! We're checking your group.</h1>
-          <p class="muted mt-2">We'll send you an SMS when the Directorate is done. This usually takes 1 to 3 days.</p>
-
-          <div class="card mt-6">
-            <div class="timeline">
-              <div class="tl-item done"><span class="tl-dot"><i data-lucide="check" class="i"></i></span><div><div class="tl-title">Sent</div><div class="muted small">Today, 10:24 am</div></div></div>
-              <div class="tl-item now"><span class="tl-dot"><i data-lucide="clock" class="i"></i></span><div><div class="tl-title">Directorate review</div><div class="muted small">1 to 3 days</div></div></div>
-              <div class="tl-item"><span class="tl-dot"><i data-lucide="badge-check" class="i"></i></span><div><div class="tl-title">Verified</div><div class="muted small">Your activities and payments start to count</div></div></div>
-            </div>
-          </div>
-
-          <div class="grid-2 mt-4" style="align-items:start">
-            <div class="card">
-              <b class="row" style="gap:8px;color:var(--green-700)"><i data-lucide="circle-check" class="i"></i>You can already</b>
-              <ul class="rules mt-2"><li style="color:var(--ink-2)">Add members with a link or Excel</li><li style="color:var(--ink-2)">Open chapters</li><li style="color:var(--ink-2)">Choose your executives</li></ul>
-            </div>
-            <div class="card">
-              <b class="row" style="gap:8px;color:var(--amber-700)"><i data-lucide="lock" class="i"></i>After verification</b>
-              <ul class="rules mt-2"><li style="color:var(--ink-2)">Activities count</li><li style="color:var(--ink-2)">Pay as a group</li><li style="color:var(--ink-2)">Show in reports</li></ul>
-            </div>
-          </div>
-
-          <a class="btn btn-primary btn-lg btn-block mt-6" href="add-members.html"><i data-lucide="user-plus" class="i"></i> Start adding members</a>
-          <a class="btn btn-ghost btn-block mt-2" href="home.html">Go to my home page</a>
-        </section>
-      </form>
+  <main class="auth-main">
+    <div class="row-between hide-desktop">
+      <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">ADC Support Groups</span></span>
+      <a class="small bold" href="index.html">Log in</a>
     </div>
-  </section>
+
+    <form class="auth-inner" data-wizard>
+      <div class="mt-6"><span class="step-count">Step 1 of 5</span><div class="stepper mt-2"><span></span><span></span><span></span><span></span><span></span></div></div>
+
+      <!-- 1. Account -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Your account</h1>
+        <div class="field mt-5"><label class="label" for="fn">Full name</label><input id="fn" class="input" autocomplete="name" value="Amaka Okafor"></div>
+        <div class="field"><label class="label" for="ph">Phone number</label><div class="input-group"><span class="prefix">+234</span><input id="ph" class="input" inputmode="tel" value="803 555 0142"></div></div>
+        <div class="field"><label class="label" for="cd">Code</label><div class="row"><input id="cd" class="input grow" inputmode="numeric" placeholder="6 digits"><button class="btn" type="button" data-toast="Code sent">Send</button></div></div>
+        <div class="field"><label class="label" for="pw">Password</label><input id="pw" class="input" type="password" autocomplete="new-password" placeholder="8+ characters"></div>
+        <div class="action-bar"><button class="btn btn-primary btn-lg btn-block" data-next>Next</button></div>
+        <p class="center small muted">Have an account? <a class="bold" href="index.html">Log in</a></p>
+      </section>
+
+      <!-- 2. Group -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Your group</h1>
+        <div class="field mt-5"><label class="label" for="gn">Group name</label><input id="gn" class="input" value="Atiku Women Network"></div>
+        <div class="field"><span class="label">Category</span>
+          <div class="choice-grid">
+            <label class="choice choice-tile"><input type="radio" name="c" checked><span class="tile-icon"><i data-lucide="heart-handshake" class="i"></i></span><span class="choice-title">Women</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="zap" class="i"></i></span><span class="choice-title">Youth</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="graduation-cap" class="i"></i></span><span class="choice-title">Students</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="bike" class="i"></i></span><span class="choice-title">Transport</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="store" class="i"></i></span><span class="choice-title">Traders</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="briefcase" class="i"></i></span><span class="choice-title">Professionals</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="landmark" class="i"></i></span><span class="choice-title">Faith</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="globe" class="i"></i></span><span class="choice-title">Diaspora</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="accessibility" class="i"></i></span><span class="choice-title">PWD</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="house" class="i"></i></span><span class="choice-title">Community</span></label>
+            <label class="choice choice-tile"><input type="radio" name="c"><span class="tile-icon"><i data-lucide="ellipsis" class="i"></i></span><span class="choice-title">Other</span></label>
+          </div>
+        </div>
+        <div class="field"><label class="label" for="ds">About <span class="opt">(optional)</span></label><textarea id="ds" class="textarea" style="min-height:88px"></textarea></div>
+        <div class="action-bar row"><button class="btn btn-lg btn-icon" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Next</button></div>
+      </section>
+
+      <!-- 3. Where -->
+      <section data-step class="mt-6" data-tab-scope>
+        <h1 class="h1">Where</h1>
+        <div class="segmented mt-5" data-pressed-group>
+          <button type="button" aria-pressed="true" data-show="ng">Nigeria</button>
+          <button type="button" aria-pressed="false" data-show="abroad">Abroad</button>
+        </div>
+        <div data-view="ng">
+          <div class="field mt-5"><span class="label">Level</span>
+            <div class="choices levels" style="display:grid">
+              <label class="choice"><input type="radio" name="lv" checked><span class="dot"></span><span class="choice-title">National</span></label>
+              <label class="choice"><input type="radio" name="lv"><span class="dot"></span><span class="choice-title">State</span></label>
+              <label class="choice"><input type="radio" name="lv"><span class="dot"></span><span class="choice-title">LGA</span></label>
+              <label class="choice"><input type="radio" name="lv"><span class="dot"></span><span class="choice-title">Ward</span></label>
+            </div>
+          </div>
+          <div class="field"><label class="label" for="hs">Base state</label><select id="hs" class="select"><option>Lagos</option></select></div>
+        </div>
+        <div data-view="abroad" hidden>
+          <div class="field mt-5"><label class="label" for="co">Country</label><select id="co" class="select"><option>United Kingdom</option></select></div>
+          <div class="field"><label class="label" for="ci">City</label><input id="ci" class="input" placeholder="London"></div>
+        </div>
+        <div class="action-bar row"><button class="btn btn-lg btn-icon" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Next</button></div>
+      </section>
+
+      <!-- 4. Leader -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Leader</h1>
+        <div class="photo-pick mt-5">
+          <span class="avatar"><i data-lucide="camera" class="i i-lg"></i></span>
+          <label class="btn btn-sm"><i data-lucide="upload" class="i i-sm"></i>Add photo<input type="file" accept="image/*" hidden></label>
+        </div>
+        <div class="field mt-5"><label class="label" for="rt">Your title</label><input id="rt" class="input" value="National Coordinator"></div>
+        <div class="field"><label class="label" for="cac">CAC number <span class="opt">(optional)</span></label><input id="cac" class="input" placeholder="RC / IT number"></div>
+        <div class="action-bar row"><button class="btn btn-lg btn-icon" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Next</button></div>
+      </section>
+
+      <!-- 5. Check -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Check</h1>
+        <div class="card mt-5">
+          <dl class="kv" style="margin:0">
+            <div><dt>Group</dt><dd>Atiku Women Network</dd></div>
+            <div><dt>Category</dt><dd>Women</dd></div>
+            <div><dt>Level</dt><dd>National · Lagos</dd></div>
+            <div><dt>Leader</dt><dd>Amaka Okafor</dd></div>
+            <div><dt>Phone</dt><dd>0803 555 0142</dd></div>
+            <div><dt>CAC</dt><dd class="faint">—</dd></div>
+          </dl>
+        </div>
+        <label class="check mt-5"><input type="checkbox" checked><span>This group supports Atiku Abubakar</span></label>
+        <div class="action-bar row"><button class="btn btn-lg btn-icon" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" type="button" data-open="sent">Submit</button></div>
+      </section>
+    </form>
+  </main>
+</div>
+
+<div class="dialog-backdrop" id="sent" role="dialog" aria-modal="true" aria-labelledby="sent-t">
+  <div class="dialog">
+    <div class="result"><span class="icon-tile"><i data-lucide="check" class="i"></i></span><h2 id="sent-t">Submitted</h2><p class="muted mt-1">Usually 1–3 days.</p></div>
+    <div class="timeline mt-6">
+      <div class="tl-item done"><span class="tl-dot"><i data-lucide="check" class="i"></i></span><div><div class="tl-title">Sent</div><div class="tl-meta">Today</div></div></div>
+      <div class="tl-item now"><span class="tl-dot"><i data-lucide="clock" class="i"></i></span><div><div class="tl-title">Checking</div><div class="tl-meta">Directorate</div></div></div>
+      <div class="tl-item"><span class="tl-dot"><i data-lucide="badge-check" class="i"></i></span><div><div class="tl-title">Verified</div></div></div>
+    </div>
+    <a class="btn btn-primary btn-block mt-6" href="home.html">Go to home</a>
+  </div>
 </div>
 </body>
 </html>

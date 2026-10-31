@@ -3,168 +3,104 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Join Atiku Women Network · ADC Support Groups</title>
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Join group · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-a.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
+  <style>
+    .opt-more summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text-2); min-height: 48px; }
+    .opt-more summary::-webkit-details-marker { display: none; }
+    .opt-more[open] summary .i { transform: rotate(180deg); }
+  </style>
 </head>
-<body>
-<div class="auth-wrap">
-
-  <aside class="auth-art">
-    <a class="brand" href="landing.html"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></a>
-    <div>
-      <h2>You've been invited to <em>stand up and be counted.</em></h2>
-      <p>Join your group in less than two minutes. All you need is your phone.</p>
-      <div class="art-stats"><div><b>3,482</b><span>members in this group</span></div><div><b>14</b><span>chapters</span></div></div>
-    </div>
-    <p class="tiny" style="color:#8FAE97">adcsupportgroups.ng</p>
-    <div class="weave"></div>
+<body class="no-nav">
+<div class="auth">
+  <aside class="auth-visual" aria-hidden="true">
+    <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">ADC Support Groups</span></span>
+    <h2>You're invited.<br><span>Join in a minute.</span></h2>
+    <span class="faint small">adcsupportgroups.ng</span>
   </aside>
 
-  <section class="auth-panel">
-    <div class="auth-inner">
-      <div class="auth-top">
-        <a class="brand" href="landing.html"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Atiku 2027</small></span></a>
-        <a class="btn btn-sm btn-ghost" href="login.html">Log in</a>
-      </div>
-
-      <form data-wizard class="mt-2" novalidate>
-        <div class="row-between mb-3"><span class="step-count">Step 1 of 5</span></div>
-        <div class="stepper mb-6" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-
-        <!-- 1. Group preview -->
-        <section data-step>
-          <h1 class="h1">Join this group</h1>
-          <p class="muted mt-2">Check that this is the group you were invited to.</p>
-
-          <div class="invite mt-6">
-            <div class="invite-band"></div>
-            <div class="invite-body">
-              <span class="group-mark">AW</span>
-              <div class="row-between mt-3 wrap" style="align-items:flex-start">
-                <div><h2 class="h2">Atiku Women Network</h2><p class="muted small">Women's group · Lagos chapter</p></div>
-                <span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified</span>
-              </div>
-              <div class="invite-facts">
-                <div><b>3,482</b><span>Members</span></div>
-                <div><b>14</b><span>Chapters</span></div>
-              </div>
-              <div class="row mt-4"><span class="avatar avatar-sm">AO</span><span class="small"><b>Amaka Okafor</b> invited you<br><span class="muted">Group leader</span></span></div>
-            </div>
-          </div>
-
-          <button class="btn btn-primary btn-lg btn-block mt-6" data-next>Join this group <i data-lucide="arrow-right" class="i"></i></button>
-          <div class="banner banner-info mt-4">
-            <i data-lucide="info" class="i"></i>
-            <div class="small"><span class="banner-title">Already have an account?</span> <a href="login.html">Log in</a> and we'll add this group to it. You don't need a second account.</div>
-          </div>
-        </section>
-
-        <!-- 2. Phone -->
-        <section data-step hidden>
-          <h1 class="h1">What's your phone number?</h1>
-          <p class="muted mt-2">We'll send you a 6-digit code by SMS to check it's you.</p>
-          <div class="field mt-6">
-            <label class="label" for="phone">Phone number</label>
-            <div class="input-group">
-              <span class="prefix">+234</span>
-              <input class="input" id="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="803 123 4567" value="803 412 7790">
-            </div>
-          </div>
-          <div class="action-bar no-nav" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Send me a code</button>
-            <button class="btn btn-ghost btn-block mt-2" data-prev><i data-lucide="arrow-left" class="i"></i> Back</button>
-          </div>
-        </section>
-
-        <!-- 3. OTP -->
-        <section data-step hidden>
-          <h1 class="h1">Enter the code</h1>
-          <p class="muted mt-2">We sent a 6-digit code to <b style="color:var(--ink)">0803 412 7790</b>.</p>
-          <div class="field mt-6">
-            <label class="label" id="otp-label">6-digit code</label>
-            <div class="otp" role="group" aria-labelledby="otp-label">
-              <input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 1" value="4">
-              <input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 2" value="8">
-              <input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 3" value="1">
-              <input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 4">
-              <input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 5">
-              <input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 6">
-            </div>
-          </div>
-          <p class="small muted mt-4">Didn't get it? <a href="#" data-toast="New code sent">Send again</a> in 0:42</p>
-          <div class="action-bar no-nav" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Confirm</button>
-            <button class="btn btn-ghost btn-block mt-2" data-prev><i data-lucide="arrow-left" class="i"></i> Change number</button>
-          </div>
-        </section>
-
-        <!-- 4. Details -->
-        <section data-step hidden>
-          <h1 class="h1">Tell us about you</h1>
-          <p class="muted mt-2">This helps your group know where its members are.</p>
-
-          <div class="mt-6">
-            <div class="field"><label class="label" for="name">Full name</label><input class="input" id="name" autocomplete="name" placeholder="As people know you" value="Ngozi Adeyemi"></div>
-            <div class="field"><label class="label" for="state">State</label>
-              <select class="select" id="state"><option>Lagos</option><option>Kano</option><option>Kaduna</option><option>Rivers</option></select></div>
-            <div class="field"><label class="label" for="lga">Local government (LGA)</label>
-              <select class="select" id="lga"><option>Surulere</option><option>Mushin</option><option>Oshodi-Isolo</option></select></div>
-            <div class="field"><label class="label" for="ward">Ward</label>
-              <select class="select" id="ward"><option>Ward 04 · Itire/Ikate</option><option>Ward 05 · Coker/Aguda</option></select></div>
-
-            <details class="card mt-6" style="padding:0">
-              <summary class="row-between" style="padding:16px;cursor:pointer;list-style:none">
-                <span><b>More about you</b> <span class="muted">(optional)</span></span><i data-lucide="chevron-down" class="i"></i>
-              </summary>
-              <div style="padding:0 16px 16px">
-                <div class="field"><label class="label" for="gender">Gender <span class="opt">(optional)</span></label>
-                  <select class="select" id="gender"><option value="">Choose</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select></div>
-                <div class="field"><label class="label" for="age">Age range <span class="opt">(optional)</span></label>
-                  <select class="select" id="age"><option value="">Choose</option><option>18–24</option><option>25–34</option><option>35–49</option><option>50–64</option><option>65 and above</option></select></div>
-                <div class="field"><label class="label" for="occ">Occupation <span class="opt">(optional)</span></label><input class="input" id="occ" placeholder="e.g. Trader, Teacher, Nurse"></div>
-                <div class="field"><label class="label" for="pu">Polling unit <span class="opt">(optional)</span></label>
-                  <span class="hint">The place you vote. It's on your voter card.</span>
-                  <select class="select" id="pu"><option value="">Choose</option><option>PU 001 · Itire Primary School</option><option>PU 002 · Ikate Town Hall</option></select></div>
-                <div class="field"><label class="label" for="email">Email <span class="opt">(optional)</span></label>
-                  <span class="hint">If you add it, we'll send updates by email instead of SMS.</span>
-                  <input class="input" id="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
-              </div>
-            </details>
-
-            <div class="field mt-6"><label class="label" for="pw">Create a password</label>
-              <span class="hint">At least 8 characters. You'll use it with your phone number to log in.</span>
-              <input class="input" id="pw" type="password" autocomplete="new-password"></div>
-          </div>
-
-          <div class="action-bar no-nav" style="padding-bottom:16px">
-            <button class="btn btn-primary btn-lg btn-block" data-next>Join Atiku Women Network</button>
-            <button class="btn btn-ghost btn-block mt-2" data-prev><i data-lucide="arrow-left" class="i"></i> Back</button>
-          </div>
-        </section>
-
-        <!-- 5. Success -->
-        <section data-step hidden class="center">
-          <span class="icon-tile" style="width:76px;height:76px;border-radius:24px;margin:8px auto 0;background:var(--green-600);color:#fff"><i data-lucide="check" class="i" style="width:40px;height:40px"></i></span>
-          <h1 class="display mt-6" style="font-size:2.5rem">You're in, Ngozi.</h1>
-          <p class="muted mt-2">You are now a member of <b style="color:var(--ink)">Atiku Women Network</b>, Lagos chapter.</p>
-
-          <div class="list mt-6" style="text-align:left">
-            <div class="list-item"><span class="icon-tile"><i data-lucide="megaphone" class="i"></i></span><span class="grow"><span class="title" style="display:block">Record what you do</span><span class="meta">Rallies, door-to-door, meetings. Add photos.</span></span></div>
-            <div class="list-item"><span class="icon-tile blue"><i data-lucide="share-2" class="i"></i></span><span class="grow"><span class="title" style="display:block">Bring someone along</span><span class="meta">Share the group link with friends and family.</span></span></div>
-            <div class="list-item"><span class="icon-tile amber"><i data-lucide="bell" class="i"></i></span><span class="grow"><span class="title" style="display:block">Watch for messages</span><span class="meta">Your leader will send updates by SMS.</span></span></div>
-          </div>
-
-          <a class="btn btn-primary btn-lg btn-block mt-6" href="member-home.html">Go to my home page</a>
-        </section>
-      </form>
+  <main class="auth-main">
+    <div class="row-between hide-desktop">
+      <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">ADC Support Groups</span></span>
+      <a class="small bold" href="index.html">Log in</a>
     </div>
-  </section>
+
+    <form class="auth-inner" data-wizard>
+      <div class="mt-6"><span class="step-count">Step 1 of 4</span><div class="stepper mt-2"><span></span><span></span><span></span><span></span></div></div>
+
+      <!-- 1. Invite -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Join group</h1>
+        <div class="card mt-5">
+          <div class="row">
+            <span class="group-mark">AW</span>
+            <span class="grow"><span class="h3" style="display:block">Atiku Women Network</span><span class="muted small">Lagos chapter</span></span>
+          </div>
+          <div class="row wrap mt-4" style="gap:8px">
+            <span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified</span>
+            <span class="tag"><i data-lucide="users" class="i i-sm"></i>3,482</span>
+            <span class="tag"><i data-lucide="user" class="i i-sm"></i>Amaka Okafor</span>
+          </div>
+        </div>
+        <div class="action-bar"><button class="btn btn-primary btn-lg btn-block" data-next>Join</button></div>
+        <p class="center small muted">Have an account? <a class="bold" href="index.html">Log in</a></p>
+      </section>
+
+      <!-- 2. Phone -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Your phone</h1>
+        <div class="field mt-5"><label class="label" for="ph">Phone number</label><div class="input-group"><span class="prefix">+234</span><input id="ph" class="input" inputmode="tel" autocomplete="tel" placeholder="803 123 4567"></div></div>
+        <div class="action-bar row"><button class="btn btn-lg btn-icon" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Send code</button></div>
+      </section>
+
+      <!-- 3. Code -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Enter code</h1>
+        <p class="muted mt-1">Sent to 0803 123 4567</p>
+        <div class="otp mt-5" role="group" aria-label="6-digit code">
+          <input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 1"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 2"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 3"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 4"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 5"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+        </div>
+        <button class="btn btn-ghost btn-sm mt-3" type="button" data-toast="Code sent again">Resend</button>
+        <div class="action-bar row"><button class="btn btn-lg btn-icon" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Verify</button></div>
+      </section>
+
+      <!-- 4. Details -->
+      <section data-step class="mt-6">
+        <h1 class="h1">Your details</h1>
+        <div class="field mt-5"><label class="label" for="nm">Full name</label><input id="nm" class="input" autocomplete="name"></div>
+        <div class="field"><label class="label" for="st">State</label><select id="st" class="select"><option>Lagos</option></select></div>
+        <div class="grid-2 mt-4" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+          <div class="field"><label class="label" for="lg">LGA</label><select id="lg" class="select"><option>Surulere</option></select></div>
+          <div class="field" style="margin-top:0"><label class="label" for="wd">Ward</label><select id="wd" class="select"><option>Ward 4</option></select></div>
+        </div>
+        <div class="field"><label class="label" for="pw">Password</label><input id="pw" class="input" type="password" autocomplete="new-password" placeholder="8+ characters"></div>
+        <details class="opt-more mt-4">
+          <summary><i data-lucide="chevron-down" class="i"></i>More <span class="faint">(optional)</span></summary>
+          <div class="field mt-2"><label class="label" for="em">Email</label><input id="em" class="input" type="email"></div>
+          <div class="grid-2 mt-4" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+            <div class="field"><label class="label" for="gd">Gender</label><select id="gd" class="select"><option>—</option><option>Female</option><option>Male</option></select></div>
+            <div class="field" style="margin-top:0"><label class="label" for="ag">Age</label><select id="ag" class="select"><option>—</option><option>18–24</option><option>25–34</option><option>35–49</option><option>50+</option></select></div>
+          </div>
+          <div class="field"><label class="label" for="oc">Occupation</label><input id="oc" class="input"></div>
+          <div class="field"><label class="label" for="pu">Polling unit</label><select id="pu" class="select"><option>—</option></select></div>
+        </details>
+        <div class="action-bar row"><button class="btn btn-lg btn-icon" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" type="button" data-open="done">Finish</button></div>
+      </section>
+    </form>
+  </main>
+</div>
+
+<div class="dialog-backdrop" id="done" role="dialog" aria-modal="true" aria-labelledby="done-t">
+  <div class="dialog">
+    <div class="result"><span class="icon-tile"><i data-lucide="check" class="i"></i></span><h2 id="done-t">You're in</h2><p class="muted mt-1">Atiku Women Network</p></div>
+    <a class="btn btn-primary btn-block mt-6" href="member-home.html">Go to home</a>
+  </div>
 </div>
 </body>
 </html>

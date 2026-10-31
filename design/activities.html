@@ -3,132 +3,145 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
   <title>Activities · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-b.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="leader" data-active="activities" data-title="Activities">
 <main id="page" data-tab-scope>
-
   <div class="page-head-row">
-    <div>
-      <h1 class="h1">Activities</h1>
-      <p class="muted mt-1">Everything your group does for Atiku.</p>
-    </div>
-    <div class="page-actions"><a class="btn btn-primary grow" href="log-activity.html"><i data-lucide="plus" class="i"></i>Record an activity</a></div>
+    <h1 class="h1">Activities</h1>
+    <a class="btn btn-primary" href="log-activity.html"><i data-lucide="plus" class="i"></i>Record activity</a>
   </div>
 
   <div class="tabs" data-tabs role="tablist">
-    <button class="tab" role="tab" data-tab="all" aria-selected="true">All</button>
-    <button class="tab" role="tab" data-tab="review" aria-selected="false">To review <span class="count">4</span></button>
-    <button class="tab" role="tab" data-tab="mine" aria-selected="false">Mine</button>
+    <button class="tab" data-tab="all" aria-selected="true" role="tab">All</button>
+    <button class="tab" data-tab="review" aria-selected="false" role="tab">To review <span class="count">4</span></button>
+    <button class="tab" data-tab="mine" aria-selected="false" role="tab">Mine</button>
   </div>
 
-  <!-- All -->
-  <section data-panel="all" class="mt-5">
-    <div class="pills mb-4" data-pressed-group role="group" aria-label="Filter by status">
-      <button class="pill" aria-pressed="true">Any status</button>
-      <button class="pill" aria-pressed="false">Approved</button>
-      <button class="pill" aria-pressed="false">Waiting</button>
-      <button class="pill" aria-pressed="false">Not approved</button>
-    </div>
-    <div class="grid-2" style="align-items:start">
-      <a class="feed-card" href="activity-detail.html" style="text-decoration:none;color:inherit">
+  <div data-panel="all" class="mt-5">
+    <div class="grid-2">
+      <a class="feed-card" href="activity-detail.html" style="color:inherit;display:block">
         <div class="media"><span class="ph ph-1 ph-crowd"></span><span class="ph ph-2"></span><span class="more ph ph-3"><span>+4</span></span></div>
         <div class="feed-body">
           <div class="row-between"><span class="tag"><i data-lucide="footprints" class="i i-sm"></i>Door-to-door</span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></div>
-          <h3 class="h3 mt-3">Door-to-door in Surulere, Ward 4</h3>
-          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Today</span><span><i data-lucide="map-pin" class="i"></i>Lagos chapter</span><span><i data-lucide="home" class="i"></i>82 homes</span></div>
+          <h3 class="h3 mt-3">Door-to-door, Surulere</h3>
+          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Today</span><span><i data-lucide="map-pin" class="i"></i>Lagos</span><span><i data-lucide="house" class="i"></i>82 homes</span></div>
         </div>
       </a>
-      <a class="feed-card" href="activity-detail.html" style="text-decoration:none;color:inherit">
-        <div class="media"><span class="ph ph-4 ph-crowd"></span><span class="ph ph-6"></span><span class="more ph ph-5"><span>+2</span></span></div>
+      <a class="feed-card" href="activity-detail.html" style="color:inherit;display:block">
+        <div class="media"><span class="ph ph-5 ph-crowd"></span><span class="ph ph-6"></span><span class="more ph ph-4"><span>+2</span></span></div>
         <div class="feed-body">
-          <div class="row-between"><span class="tag"><i data-lucide="mic" class="i i-sm"></i>Town hall</span><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Directorate checking</span></div>
-          <h3 class="h3 mt-3">Women's town hall, Jos North</h3>
-          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Sat 25 Oct</span><span><i data-lucide="map-pin" class="i"></i>Plateau chapter</span><span><i data-lucide="users" class="i"></i>410 people</span></div>
+          <div class="row-between"><span class="tag"><i data-lucide="mic" class="i i-sm"></i>Town hall</span><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting</span></div>
+          <h3 class="h3 mt-3">Town hall, Jos North</h3>
+          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Sat</span><span><i data-lucide="map-pin" class="i"></i>Plateau</span><span><i data-lucide="users" class="i"></i>410</span></div>
         </div>
       </a>
-      <a class="feed-card" href="activity-detail.html" style="text-decoration:none;color:inherit">
-        <div class="media"><span class="ph ph-2 ph-crowd"></span><span class="ph ph-1"></span><span class="ph ph-3"></span></div>
+      <a class="feed-card" href="activity-detail.html" style="color:inherit;display:block">
+        <div class="media"><span class="ph ph-4 ph-crowd"></span><span class="ph ph-1"></span><span class="ph ph-2"></span></div>
         <div class="feed-body">
-          <div class="row-between"><span class="tag"><i data-lucide="flag" class="i i-sm"></i>Rally</span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></div>
-          <h3 class="h3 mt-3">Road show from Gwale to Kofar Mata</h3>
-          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Fri 24 Oct</span><span><i data-lucide="map-pin" class="i"></i>Kano chapter</span><span><i data-lucide="users" class="i"></i>2,400 people</span></div>
+          <div class="row-between"><span class="tag"><i data-lucide="megaphone" class="i i-sm"></i>Rally</span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></div>
+          <h3 class="h3 mt-3">Rally, Ikeja</h3>
+          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>12 Nov</span><span><i data-lucide="map-pin" class="i"></i>Lagos</span><span><i data-lucide="users" class="i"></i>1,200</span></div>
         </div>
       </a>
-      <a class="feed-card" href="activity-detail.html" style="text-decoration:none;color:inherit">
-        <div class="media"><span class="ph ph-5"></span><span class="ph ph-6"></span><span class="ph ph-4"></span></div>
+      <a class="feed-card" href="activity-detail.html" style="color:inherit;display:block">
+        <div class="media"><span class="ph ph-3 ph-crowd"></span><span class="ph ph-5"></span><span class="ph ph-6"></span></div>
         <div class="feed-body">
-          <div class="row-between"><span class="tag"><i data-lucide="smartphone" class="i i-sm"></i>Social media</span><span class="chip chip-rejected"><i data-lucide="x" class="i"></i>Not approved</span></div>
-          <h3 class="h3 mt-3">TikTok campaign, week 2</h3>
-          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Wed 22 Oct</span><span><i data-lucide="map-pin" class="i"></i>FCT chapter</span></div>
-          <p class="small mt-2" style="color:var(--red-700)"><b>Reason:</b> Photos do not show the activity. Add screenshots of the posts.</p>
+          <div class="row-between"><span class="tag"><i data-lucide="smartphone" class="i i-sm"></i>Media</span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></div>
+          <h3 class="h3 mt-3">Radio jingle, Kano FM</h3>
+          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>10 Nov</span><span><i data-lucide="map-pin" class="i"></i>Kano</span><span><i data-lucide="radio" class="i"></i>2 weeks</span></div>
         </div>
       </a>
     </div>
-  </section>
+  </div>
 
-  <!-- To review -->
-  <section data-panel="review" class="mt-5" hidden>
-    <div class="banner banner-info"><i data-lucide="info" class="i"></i><div class="small"><b>How approval works.</b> You approve activities from your members and chapters. The Directorate then checks group activities and can change any decision.</div></div>
-
-    <div class="stack mt-4">
+  <div data-panel="review" class="mt-5" hidden>
+    <p class="small muted mb-4">From your members and chapters.</p>
+    <div class="grid-2" style="align-items:start">
       <article class="card">
-        <div class="row-between wrap"><span class="tag"><i data-lucide="mic" class="i i-sm"></i>Town hall</span><span class="muted small">Sent 2 hours ago</span></div>
-        <h3 class="h3 mt-3">Market women town hall, Oshodi</h3>
-        <div class="facts mt-2"><span><i data-lucide="user" class="i"></i>Bisi Adeyemi</span><span><i data-lucide="map-pin" class="i"></i>Lagos chapter</span><span><i data-lucide="users" class="i"></i>310 people</span><span><i data-lucide="calendar" class="i"></i>Sat 25 Oct</span></div>
-        <div class="thumbs mt-3"><span class="ph ph-1 ph-crowd"></span><span class="ph ph-2"></span><span class="ph ph-6"></span><span class="ph ph-3"></span></div>
-        <div class="row mt-4 wrap">
-          <button class="btn btn-primary grow" data-toast="Activity approved"><i data-lucide="check" class="i"></i>Approve</button>
-          <button class="btn btn-danger grow" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
-          <a class="btn btn-ghost" href="activity-detail.html">View all</a>
+        <div class="row-between"><span class="tag"><i data-lucide="mic" class="i i-sm"></i>Town hall</span><span class="small muted">Plateau chapter</span></div>
+        <h3 class="h3 mt-3">Town hall, Jos North</h3>
+        <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Sat</span><span><i data-lucide="users" class="i"></i>410</span></div>
+        <div class="row-between mt-4"><div class="thumbs"><span class="ph ph-5"></span><span class="ph ph-6"></span><span class="ph ph-4"></span></div><a class="small bold" href="activity-detail.html">+3 photos</a></div>
+        <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+          <button class="btn" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
+          <button class="btn btn-primary" data-toast="Approved"><i data-lucide="check" class="i"></i>Approve</button>
         </div>
       </article>
       <article class="card">
-        <div class="row-between wrap"><span class="tag"><i data-lucide="package" class="i i-sm"></i>Materials</span><span class="muted small">Sent yesterday</span></div>
-        <h3 class="h3 mt-3">500 caps and T-shirts shared, Nassarawa</h3>
-        <div class="facts mt-2"><span><i data-lucide="user" class="i"></i>Hadiza Musa</span><span><i data-lucide="map-pin" class="i"></i>Kano chapter</span><span><i data-lucide="package" class="i"></i>500 items</span></div>
-        <div class="thumbs mt-3"><span class="ph ph-4"></span><span class="ph ph-2 ph-crowd"></span></div>
-        <div class="row mt-4 wrap">
-          <button class="btn btn-primary grow" data-toast="Activity approved"><i data-lucide="check" class="i"></i>Approve</button>
-          <button class="btn btn-danger grow" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
-          <a class="btn btn-ghost" href="activity-detail.html">View all</a>
+        <div class="row-between"><span class="tag"><i data-lucide="footprints" class="i i-sm"></i>Door-to-door</span><span class="small muted">Kano chapter</span></div>
+        <h3 class="h3 mt-3">Door-to-door, Gwale</h3>
+        <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Fri</span><span><i data-lucide="house" class="i"></i>64 homes</span></div>
+        <div class="row-between mt-4"><div class="thumbs"><span class="ph ph-1"></span><span class="ph ph-3"></span></div><a class="small bold" href="activity-detail.html">+2 photos</a></div>
+        <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+          <button class="btn" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
+          <button class="btn btn-primary" data-toast="Approved"><i data-lucide="check" class="i"></i>Approve</button>
         </div>
       </article>
-      <p class="muted small center">2 more to review</p>
+      <article class="card">
+        <div class="row-between"><span class="tag"><i data-lucide="package" class="i i-sm"></i>Materials</span><span class="small muted">Lagos chapter</span></div>
+        <h3 class="h3 mt-3">Posters, Yaba</h3>
+        <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Thu</span><span><i data-lucide="package" class="i"></i>1,500</span></div>
+        <div class="row-between mt-4"><div class="thumbs"><span class="ph ph-2"></span><span class="ph ph-6"></span><span class="ph ph-1"></span></div><a class="small bold" href="activity-detail.html">+1 photos</a></div>
+        <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+          <button class="btn" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
+          <button class="btn btn-primary" data-toast="Approved"><i data-lucide="check" class="i"></i>Approve</button>
+        </div>
+      </article>
+      <article class="card">
+        <div class="row-between"><span class="tag"><i data-lucide="users" class="i i-sm"></i>Town hall</span><span class="small muted">FCT chapter</span></div>
+        <h3 class="h3 mt-3">Youth meeting, Wuse</h3>
+        <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Wed</span><span><i data-lucide="users" class="i"></i>85</span></div>
+        <div class="row-between mt-4"><div class="thumbs"><span class="ph ph-3"></span><span class="ph ph-4"></span></div><a class="small bold" href="activity-detail.html">+0 photos</a></div>
+        <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+          <button class="btn" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
+          <button class="btn btn-primary" data-toast="Approved"><i data-lucide="check" class="i"></i>Approve</button>
+        </div>
+      </article>
     </div>
-  </section>
+  </div>
 
-  <!-- Mine -->
-  <section data-panel="mine" class="mt-5" hidden>
-    <div class="list">
-      <a class="list-item" href="activity-detail.html"><span class="icon-tile"><i data-lucide="footprints" class="i"></i></span><span class="grow"><span class="title" style="display:block">Door-to-door in Surulere, Ward 4</span><span class="meta">Today · 82 homes</span></span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></a>
-      <a class="list-item" href="activity-detail.html"><span class="icon-tile"><i data-lucide="target" class="i"></i></span><span class="grow"><span class="title" style="display:block">Voter education, Yaba market</span><span class="meta">Mon 20 Oct · 150 people</span></span><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting</span></a>
+  <div data-panel="mine" class="mt-5" hidden>
+    <div class="grid-2">
+      <a class="feed-card" href="activity-detail.html" style="color:inherit;display:block">
+        <div class="media"><span class="ph ph-4 ph-crowd"></span><span class="ph ph-1"></span><span class="ph ph-2"></span></div>
+        <div class="feed-body">
+          <div class="row-between"><span class="tag"><i data-lucide="megaphone" class="i i-sm"></i>Rally</span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></div>
+          <h3 class="h3 mt-3">Rally, Ikeja</h3>
+          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>12 Nov</span><span><i data-lucide="map-pin" class="i"></i>Lagos</span><span><i data-lucide="users" class="i"></i>1,200</span></div>
+        </div>
+      </a>
+      <a class="feed-card" href="activity-detail.html" style="color:inherit;display:block">
+        <div class="media"><span class="ph ph-6 ph-crowd"></span><span class="ph ph-3"></span><span class="ph ph-5"></span></div>
+        <div class="feed-body">
+          <div class="row-between"><span class="tag"><i data-lucide="megaphone" class="i i-sm"></i>Rally</span><span class="chip chip-rejected"><i data-lucide="x" class="i"></i>Not approved</span></div>
+          <h3 class="h3 mt-3">Prayer rally, Jos North</h3>
+          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>8 Nov</span><span><i data-lucide="map-pin" class="i"></i>Plateau</span></div>
+        </div>
+      </a>
     </div>
-  </section>
-
+  </div>
 </main>
 
 <div class="dialog-backdrop" id="reject" role="dialog" aria-modal="true" aria-labelledby="rj-t">
   <div class="dialog">
-    <h2 id="rj-t">Why are you rejecting this?</h2>
-    <p class="muted mt-1">We'll tell Bisi so she can fix it and send again.</p>
-    <div class="choices mt-4">
-      <label class="choice"><input type="radio" name="why" checked><span class="dot"></span><span class="choice-title">Photos don't show the activity</span></label>
-      <label class="choice"><input type="radio" name="why"><span class="dot"></span><span class="choice-title">Number of people looks wrong</span></label>
-      <label class="choice"><input type="radio" name="why"><span class="dot"></span><span class="choice-title">This was already recorded</span></label>
-      <label class="choice"><input type="radio" name="why"><span class="dot"></span><span class="choice-title">Something else</span></label>
+    <h2 id="rj-t">Reject activity</h2>
+    <div class="choices mt-5">
+      <label class="choice"><input type="radio" name="r" checked><span class="dot"></span><span class="choice-title">Photos unclear</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Headcount missing</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Wrong place or date</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Not our group</span></label>
     </div>
-    <div class="field mt-4"><label class="label" for="rj-n">Note to Bisi <span class="opt">(optional)</span></label><textarea id="rj-n" class="textarea" placeholder="Tell her what to change"></textarea></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Activity rejected. Bisi has been told.">Reject activity</button></div>
+    <div class="field mt-4"><label class="label" for="rj-n">Note <span class="opt">(optional)</span></label><textarea id="rj-n" class="textarea" style="min-height:80px"></textarea></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Sent back">Reject</button></div>
   </div>
 </div>
-
 </body>
 </html>

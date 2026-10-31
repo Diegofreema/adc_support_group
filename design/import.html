@@ -3,130 +3,103 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
   <title>Upload members · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-b.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
-<body data-shell="leader" data-active="members" data-title="Upload members" data-back="members.html">
+<body data-shell="leader" data-active="members" data-title="Upload members" data-back="add-members.html">
 <main id="page" class="main-narrow">
 <form data-wizard>
+  <span class="step-count">Step 1 of 3</span>
+  <div class="stepper mt-2"><span></span><span></span><span></span></div>
 
-  <div class="row-between mb-3"><span class="step-count">Step 1 of 3</span></div>
-  <div class="stepper mb-6"><span></span><span></span><span></span></div>
+  <!-- 1. Upload -->
+  <section data-step class="mt-6">
+    <h1 class="h1">Upload file</h1>
+    <p class="muted mt-1">Excel or CSV.</p>
 
-  <!-- Step 1: upload -->
-  <section data-step>
-    <h1 class="h1">Upload your list</h1>
-    <p class="muted mt-2">Use an Excel (.xlsx) or CSV file. One person on each row.</p>
-
-    <div class="card mt-5">
-      <h2 class="h3">Your file needs these columns</h2>
-      <ul class="stack stack-sm mt-3" style="list-style:none">
-        <li class="row"><i data-lucide="circle-check" class="i" style="color:var(--green-600)"></i>Full name</li>
-        <li class="row"><i data-lucide="circle-check" class="i" style="color:var(--green-600)"></i>Phone number</li>
-        <li class="row"><i data-lucide="circle-check" class="i" style="color:var(--green-600)"></i>State</li>
-        <li class="row"><i data-lucide="circle-check" class="i" style="color:var(--green-600)"></i>LGA</li>
-        <li class="row"><i data-lucide="circle-check" class="i" style="color:var(--green-600)"></i>Ward</li>
-      </ul>
-      <p class="muted small mt-3">You can also add: email, gender, age range, occupation, polling unit.</p>
-      <a class="btn btn-block mt-4" href="#" data-toast="Template downloaded"><i data-lucide="download" class="i"></i>Download our template</a>
-    </div>
-
-    <div class="field mt-5"><label class="label" for="im-c">Add them to which chapter?</label><select id="im-c" class="select"><option>Main group (no chapter)</option><option selected>Lagos chapter</option><option>Kano chapter</option></select></div>
-
-    <label class="dropzone mt-5" for="im-f">
+    <label class="dropzone mt-5">
       <span class="icon-tile"><i data-lucide="upload" class="i"></i></span>
-      <span class="bold">Tap to choose your file</span>
-      <span class="muted small">or drag it here · up to 10,000 rows</span>
-      <input id="im-f" type="file" accept=".xlsx,.xls,.csv" class="sr-only">
+      <span class="bold" style="color:var(--text)">Choose file</span>
+      <span class="small">.xlsx or .csv</span>
+      <input type="file" accept=".xlsx,.csv" hidden>
     </label>
-    <div class="list mt-3"><div class="list-item"><span class="icon-tile"><i data-lucide="file-spreadsheet" class="i"></i></span><span class="grow"><span class="title" style="display:block">lagos-women-members.xlsx</span><span class="meta">1,280 rows · 214 KB</span></span><button class="row-menu" type="button" aria-label="Remove file"><i data-lucide="x" class="i"></i></button></div></div>
 
-    <div class="action-bar"><button class="btn btn-primary btn-block btn-lg" data-next>Check my file<i data-lucide="arrow-right" class="i"></i></button></div>
-  </section>
-
-  <!-- Step 2: check -->
-  <section data-step hidden>
-    <h1 class="h1">Check your file</h1>
-    <p class="muted mt-2">We matched your columns. Change any that are wrong.</p>
-
-    <div class="summary-3 mt-5">
-      <div style="background:var(--canvas)"><b>1,280</b><span>Rows found</span></div>
-      <div style="background:var(--green-50);color:var(--green-800)"><b>1,268</b><span>Ready</span></div>
-      <div style="background:var(--red-50);color:var(--red-700)"><b>12</b><span>Problems</span></div>
-    </div>
-
-    <div class="card mt-5">
-      <h2 class="h3">Match your columns</h2>
-      <div class="stack mt-3">
-        <div class="row-between"><span class="bold small">"Name"</span><select class="select" style="max-width:200px" aria-label="Name column"><option>Full name</option></select></div>
-        <div class="row-between"><span class="bold small">"Phone No"</span><select class="select" style="max-width:200px" aria-label="Phone column"><option>Phone number</option></select></div>
-        <div class="row-between"><span class="bold small">"State"</span><select class="select" style="max-width:200px" aria-label="State column"><option>State</option></select></div>
-        <div class="row-between"><span class="bold small">"L.G.A"</span><select class="select" style="max-width:200px" aria-label="LGA column"><option>LGA</option></select></div>
-        <div class="row-between"><span class="bold small">"Ward"</span><select class="select" style="max-width:200px" aria-label="Ward column"><option>Ward</option></select></div>
-        <div class="row-between"><span class="bold small">"Sex"</span><select class="select" style="max-width:200px" aria-label="Sex column"><option>Gender</option></select></div>
-        <div class="row-between"><span class="bold small">"Church"</span><select class="select" style="max-width:200px" aria-label="Church column"><option>Don't import</option></select></div>
+    <div class="card mt-4" style="padding:14px 16px">
+      <div class="row-between"><span class="bold small">Needed columns</span><a class="small bold" href="#" data-toast="Template downloaded"><i data-lucide="download" class="i i-sm" style="display:inline;vertical-align:-3px"></i> Template</a></div>
+      <div class="row wrap mt-3" style="gap:6px">
+        <span class="tag">Full name</span><span class="tag">Phone</span><span class="tag">State</span><span class="tag">LGA</span><span class="tag">Ward</span>
       </div>
     </div>
 
-    <div class="section-title"><h2>First rows</h2></div>
-    <div class="table-scroll">
+    <div class="field mt-5"><label class="label" for="ch">Add to</label><select id="ch" class="select"><option>Whole group</option><option>Lagos</option><option>Kano</option><option>Plateau</option></select></div>
+
+    <div class="action-bar"><button class="btn btn-primary btn-lg btn-block" data-next>Check file</button></div>
+  </section>
+
+  <!-- 2. Check -->
+  <section data-step class="mt-6">
+    <h1 class="h1">Check columns</h1>
+    <p class="muted mt-1">members_lagos.xlsx</p>
+
+    <div class="stats mt-5" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div class="stat"><div class="stat-label">Rows</div><div class="stat-value">1,280</div></div>
+      <div class="stat"><div class="stat-label">Ready</div><div class="stat-value green">1,268</div></div>
+      <div class="stat"><div class="stat-label">Errors</div><div class="stat-value red">12</div></div>
+    </div>
+
+    <div class="card card-flush mt-4">
+      <div class="setting"><span class="bold">Full name</span><select class="select" style="width:auto;min-height:44px" aria-label="Column for full name"><option>Name</option></select></div>
+      <div class="setting"><span class="bold">Phone</span><select class="select" style="width:auto;min-height:44px" aria-label="Column for phone"><option>Phone No</option></select></div>
+      <div class="setting"><span class="bold">State</span><select class="select" style="width:auto;min-height:44px" aria-label="Column for state"><option>State</option></select></div>
+      <div class="setting"><span class="bold">LGA</span><select class="select" style="width:auto;min-height:44px" aria-label="Column for LGA"><option>LGA</option></select></div>
+      <div class="setting"><span class="bold">Ward</span><select class="select" style="width:auto;min-height:44px" aria-label="Column for ward"><option>Ward</option></select></div>
+    </div>
+
+    <div class="section-title"><h2>Preview</h2></div>
+    <div class="card card-flush table-scroll">
       <table class="table">
-        <thead><tr><th>Full name</th><th>Phone</th><th>LGA</th><th>Ward</th><th></th></tr></thead>
+        <thead><tr><th>Name</th><th>Phone</th><th>Ward</th></tr></thead>
         <tbody>
-          <tr><td>Chioma Nwosu</td><td>08062214590</td><td>Surulere</td><td>Ward 4</td><td><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Ready</span></td></tr>
-          <tr><td>Bukola Ade</td><td>0803114</td><td>Surulere</td><td>Ward 2</td><td><span class="chip chip-rejected"><i data-lucide="circle-alert" class="i"></i>Phone too short</span></td></tr>
-          <tr><td>Ngozi Obi</td><td>08139008812</td><td>Ikeja</td><td>Alausa</td><td><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Ready</span></td></tr>
-          <tr><td>Kemi Lawal</td><td>07014452201</td><td>Mushin</td><td>Ward Z</td><td><span class="chip chip-rejected"><i data-lucide="circle-alert" class="i"></i>Ward not found</span></td></tr>
+          <tr><td>Chioma Nwosu</td><td class="num">08062214590</td><td>Surulere 4</td></tr>
+          <tr><td>Bisi Adeyemi</td><td class="num">08025519087</td><td>Ikeja</td></tr>
+          <tr><td>Kemi Ojo</td><td class="num red">0803 12</td><td>Yaba</td></tr>
         </tbody>
       </table>
     </div>
 
-    <div class="banner banner-info mt-5"><i data-lucide="info" class="i"></i><div class="small">Rows with problems will be skipped. You can fix them and upload again later.</div></div>
-
-    <div class="action-bar">
-      <button class="btn btn-primary btn-block btn-lg" data-next><i data-lucide="user-plus" class="i"></i>Add 1,268 members</button>
-      <button class="btn btn-ghost btn-block mt-2" data-prev>Go back</button>
-    </div>
+    <div class="action-bar row"><button class="btn btn-lg" data-prev aria-label="Back"><i data-lucide="arrow-left" class="i"></i></button><button class="btn btn-primary btn-lg grow" data-next>Add 1,268</button></div>
   </section>
 
-  <!-- Step 3: done -->
-  <section data-step hidden>
+  <!-- 3. Result -->
+  <section data-step class="mt-6">
     <div class="result">
-      <span class="icon-tile"><i data-lucide="circle-check" class="i"></i></span>
-      <h1 class="h1">1,268 members added</h1>
-      <p class="muted mt-2">They're now in the Lagos chapter. Each person gets a password by email, or by SMS if they have no email.</p>
+      <span class="icon-tile"><i data-lucide="check" class="i"></i></span>
+      <h1 class="h1">Done</h1>
+      <p class="muted mt-1">Passwords sent by email or SMS.</p>
     </div>
 
-    <div class="summary-3 mt-6">
-      <div style="background:var(--green-50);color:var(--green-800)"><b>1,227</b><span>New accounts</span></div>
-      <div style="background:var(--blue-50);color:var(--blue-700)"><b>41</b><span>Already had an account</span></div>
-      <div style="background:var(--red-50);color:var(--red-700)"><b>12</b><span>Not added</span></div>
+    <div class="stats mt-6" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+      <div class="stat"><div class="stat-label">New</div><div class="stat-value green">1,227</div></div>
+      <div class="stat"><div class="stat-label">Linked</div><div class="stat-value">41</div></div>
+      <div class="stat"><div class="stat-label">Not added</div><div class="stat-value red">12</div></div>
     </div>
-    <p class="muted small mt-3">People who already had an account were simply added to your group. They keep their password.</p>
 
-    <div class="section-title"><h2>12 rows not added</h2><a class="small bold" href="#" data-toast="Error list downloaded">Download list</a></div>
+    <div class="section-title"><h2>Not added</h2><button class="btn btn-ghost btn-sm" data-toast="Downloading"><i data-lucide="download" class="i i-sm"></i>Download</button></div>
     <div class="list">
-      <div class="list-item"><span class="tag">Row 14</span><span class="grow"><span class="title" style="display:block">Bukola Ade</span><span class="meta" style="color:var(--red-700)">Phone number too short</span></span></div>
-      <div class="list-item"><span class="tag">Row 87</span><span class="grow"><span class="title" style="display:block">Kemi Lawal</span><span class="meta" style="color:var(--red-700)">Ward not found in Mushin LGA</span></span></div>
-      <div class="list-item"><span class="tag">Row 203</span><span class="grow"><span class="title" style="display:block">(no name)</span><span class="meta" style="color:var(--red-700)">Full name is empty</span></span></div>
-      <div class="list-item"><span class="tag">Row 511</span><span class="grow"><span class="title" style="display:block">Ifeoma Okeke</span><span class="meta" style="color:var(--red-700)">Same phone as row 498</span></span></div>
+      <div class="list-item"><span class="icon-tile red"><i data-lucide="phone-off" class="i"></i></span><span class="grow"><span class="title" style="display:block">Kemi Ojo</span><span class="meta">Row 14 · Phone too short</span></span></div>
+      <div class="list-item"><span class="icon-tile red"><i data-lucide="map-pin-off" class="i"></i></span><span class="grow"><span class="title" style="display:block">Ade Lawal</span><span class="meta">Row 92 · Ward not in LGA</span></span></div>
+      <div class="list-item"><span class="icon-tile red"><i data-lucide="copy" class="i"></i></span><span class="grow"><span class="title" style="display:block">Grace Udo</span><span class="meta">Row 301 · Phone repeated</span></span></div>
     </div>
-    <p class="muted small mt-2">And 8 more in the downloaded list.</p>
 
-    <div class="action-bar">
-      <a class="btn btn-primary btn-block btn-lg" href="members.html">See members</a>
-      <a class="btn btn-ghost btn-block mt-2" href="import.html">Upload another file</a>
-    </div>
+    <a class="btn btn-primary btn-lg btn-block mt-6" href="members.html">Go to members</a>
   </section>
-
 </form>
 </main>
-
 </body>
 </html>

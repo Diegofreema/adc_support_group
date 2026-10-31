@@ -3,153 +3,104 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
   <title>My group · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-b.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="leader" data-active="group" data-title="My group">
 <main id="page">
 
-  <!-- Header -->
-  <div class="group-hero">
-    <span class="group-mark">AW</span>
+  <div class="row" style="gap:14px">
+    <span class="group-mark" style="width:60px;height:60px;font-size:1.25rem">AW</span>
     <div class="grow">
-      <h1 class="h1">Atiku Women Network</h1>
-      <div class="meta-line">
-        <span><i data-lucide="heart-handshake" class="i i-sm"></i>Women</span>
-        <span><i data-lucide="flag" class="i i-sm"></i>National group</span>
-        <span><i data-lucide="calendar" class="i i-sm"></i>Since Sept 2026</span>
-      </div>
-      <div class="row wrap mt-3" style="gap:8px">
-        <span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified by the Directorate</span>
-        <span class="tag">CAC registered</span>
+      <h1 class="h1" style="font-size:1.5rem">Atiku Women Network</h1>
+      <div class="row wrap mt-2" style="gap:8px">
+        <span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified</span>
+        <span class="tag">Women</span><span class="tag">National</span>
       </div>
     </div>
   </div>
 
-  <!-- Status banner examples -->
-  <div class="banner banner-success mt-5">
-    <i data-lucide="badge-check" class="i"></i>
-    <div><div class="banner-title">Your group is verified</div><div class="small">Your activities and payments count towards the campaign record.</div></div>
-  </div>
-  <details class="mt-2 small">
-    <summary class="muted bold" style="cursor:pointer;padding:6px 0">See how other statuses look</summary>
-    <div class="stack stack-sm mt-2">
-      <div class="banner banner-warn"><i data-lucide="hourglass" class="i"></i><div><div class="banner-title">Waiting for the Directorate to check your group</div><div class="small">This usually takes 1 to 3 days. You can add members now. Activities and payments will count once you are verified.</div></div></div>
-      <div class="banner banner-danger"><i data-lucide="circle-x" class="i"></i><div><div class="banner-title">Your group was not approved</div><div class="small">Reason: "Leader phone number could not be reached." Fix this and send again.</div><a class="btn btn-sm mt-3" href="#">Fix and send again</a></div></div>
-      <div class="banner" style="background:#ECEFED;border-color:var(--line);color:var(--ink-2)"><i data-lucide="pause-circle" class="i"></i><div><div class="banner-title">Your group is suspended</div><div class="small">Your past work is kept. You can't add activities, members or payments until the Directorate restores your group.</div></div></div>
-    </div>
-  </details>
-
-  <!-- Stats -->
-  <div class="stats mt-5">
-    <div class="stat"><div class="stat-label"><i data-lucide="users-round" class="i i-sm"></i>Members</div><div class="stat-value">3,482</div><div class="stat-sub"><span class="up">+124</span> this week</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="network" class="i i-sm"></i>Chapters</div><div class="stat-value">14</div><div class="stat-sub">In 11 states</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="megaphone" class="i i-sm"></i>Activities</div><div class="stat-value">96</div><div class="stat-sub">Approved</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="hand-coins" class="i i-sm"></i>Money given</div><div class="stat-value">₦4.2m</div><div class="stat-sub">To 6 causes</div></div>
+  <div class="stats mt-6">
+    <div class="stat"><div class="stat-label">Members</div><div class="stat-value">3,482</div></div>
+    <div class="stat"><div class="stat-label">Chapters</div><div class="stat-value">14</div></div>
+    <div class="stat"><div class="stat-label">Activities</div><div class="stat-value">96</div></div>
+    <div class="stat"><div class="stat-label">Given</div><div class="stat-value">₦4.2m</div></div>
   </div>
 
   <div class="grid-2 mt-6" style="align-items:start">
-    <!-- Join link -->
     <section class="card">
-      <div class="card-head"><h2>Join link</h2><span class="chip chip-verified"><i data-lucide="check" class="i"></i>Active</span></div>
-      <p class="muted small">Share this so people can join your group. They join straight away.</p>
-      <div class="row mt-4" style="align-items:flex-start;gap:16px">
-        <div class="qr" style="width:120px;height:120px;padding:8px"><svg viewBox="0 0 29 29" shape-rendering="crispEdges"><path fill="#10401E" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM22 0h7v7h-7zm1 1v5h5V1zm1 1h3v3h-3zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zM9 0h2v2H9zm3 1h2v3h-2zm4 0h3v2h-3zm-7 4h3v2H9zm5 1h3v3h-3zm4 2h2v2h-2zM8 9h3v2H8zm5 1h2v3h-2zm4 1h4v2h-4zm6 -2h2v3h-2zm3 2h2v2h-2zM0 9h2v3H0zm3 1h3v2H3zm-3 4h3v2H0zm5 0h4v2H5zm6 2h3v3h-3zm5-1h2v4h-2zm4 0h3v2h-3zm5 1h2v3h-2zM9 20h2v3H9zm4 3h3v2h-3zm5-2h3v2h-3zm4 3h2v3h-2zm3-1h3v2h-3zm-11 4h3v1h-3zm6 0h2v1h-2z"/></svg></div>
+      <div class="card-head"><h2>Join link</h2><button class="btn btn-ghost btn-sm" data-open="new-link"><i data-lucide="refresh-cw" class="i i-sm"></i>New link</button></div>
+      <div class="row" style="gap:16px;align-items:center">
+        <div class="qr" style="width:124px;height:124px;padding:10px;flex:none;border:1px solid var(--line-2)"><svg viewBox="0 0 29 29" shape-rendering="crispEdges" aria-label="QR code"><path fill="#161B21" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM22 0h7v7h-7zm1 1v5h5V1zm1 1h3v3h-3zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zM9 0h2v2H9zm3 1h2v3h-2zm4 0h3v2h-3zm-7 4h3v2H9zm5 1h3v3h-3zm4 2h2v2h-2zM8 9h3v2H8zm5 1h2v3h-2zm4 1h4v2h-4zm6 -2h2v3h-2zm3 2h2v2h-2zM0 9h2v3H0zm3 1h3v2H3zm-3 4h3v2H0zm5 0h4v2H5zm6 2h3v3h-3zm5-1h2v4h-2zm4 0h3v2h-3zm5 1h2v3h-2zM9 20h2v3H9zm4 3h3v2h-3zm5-2h3v2h-3zm4 3h2v3h-2zm3-1h3v2h-3zm-11 4h3v1h-3zm6 0h2v1h-2z"/></svg></div>
+
         <div class="grow">
-          <div class="bold" style="word-break:break-all">adcsupportgroups.ng/j/atiku-women</div>
-          <div class="muted small mt-1">1,906 people joined with this link</div>
+          <p class="small muted truncate">adcsupportgroups.ng/j/atiku-women</p>
+          <div class="grid mt-3">
+            <a class="btn btn-primary btn-block" href="#" data-toast="Opening WhatsApp"><i data-lucide="message-circle" class="i"></i>WhatsApp</a>
+            <button class="btn btn-block" data-toast="Copied"><i data-lucide="copy" class="i"></i>Copy</button>
+          </div>
         </div>
       </div>
-      <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr;gap:8px">
-        <button class="btn" data-toast="Link copied"><i data-lucide="copy" class="i"></i>Copy link</button>
-        <a class="btn" href="#" data-toast="Opening WhatsApp…"><i data-lucide="message-circle" class="i"></i>WhatsApp</a>
-        <button class="btn" data-toast="QR code saved to your phone"><i data-lucide="download" class="i"></i>Save QR</button>
-        <button class="btn btn-danger" data-open="new-link"><i data-lucide="refresh-cw" class="i"></i>New link</button>
-      </div>
     </section>
 
-    <!-- Executives -->
-    <section class="card card-flush">
-      <div class="card-head" style="padding:18px 18px 0"><h2>Executives</h2><button class="btn btn-sm btn-ghost" data-open="add-exec"><i data-lucide="user-plus" class="i i-sm"></i>Add executive</button></div>
-      <div class="list" style="border:0;border-radius:0">
-        <div class="list-item"><span class="avatar">AO</span><span class="grow"><span class="title" style="display:block">Amaka Okafor</span><span class="meta">Leader · 0803 412 7781</span></span><span class="tag">You</span></div>
-        <div class="list-item"><span class="avatar a3">FB</span><span class="grow"><span class="title" style="display:block">Fatima Bello</span><span class="meta">Secretary · Kano</span></span></div>
-        <div class="list-item"><span class="avatar a2">GE</span><span class="grow"><span class="title" style="display:block">Grace Eze</span><span class="meta">Treasurer · Can pay for the group</span></span></div>
-        <div class="list-item"><span class="avatar a4">ZA</span><span class="grow"><span class="title" style="display:block">Zainab Adamu</span><span class="meta">Public relations officer · FCT</span></span></div>
+    <section>
+      <div class="section-title mt-0"><h2>Executives</h2><button class="btn btn-ghost btn-sm" data-open="add-exec"><i data-lucide="plus" class="i i-sm"></i>Add</button></div>
+      <div class="list">
+        <div class="list-item"><span class="avatar">AO</span><span class="grow"><span class="title" style="display:block">Amaka Okafor</span><span class="meta">Leader</span></span></div>
+        <div class="list-item"><span class="avatar a3">HM</span><span class="grow"><span class="title" style="display:block">Hadiza Musa</span><span class="meta">Secretary</span></span></div>
+        <div class="list-item"><span class="avatar a2">NE</span><span class="grow"><span class="title" style="display:block">Ngozi Eze</span><span class="meta">Treasurer</span></span></div>
+        <div class="list-item"><span class="avatar a4">FB</span><span class="grow"><span class="title" style="display:block">Funke Bello</span><span class="meta">PRO</span></span></div>
       </div>
     </section>
   </div>
 
-  <!-- Chapters preview -->
-  <div class="section-title"><h2>Chapters</h2><a class="small bold" href="chapters.html">All 14 chapters</a></div>
+  <div class="section-title"><h2>Chapters</h2><a href="chapters.html">See all</a></div>
   <div class="list">
-    <a class="list-item" href="chapter.html"><span class="icon-tile"><i data-lucide="map-pin" class="i"></i></span><span class="grow"><span class="title" style="display:block">Lagos chapter</span><span class="meta">Coordinator: Bisi Adeyemi · 812 members</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="chapter.html"><span class="icon-tile"><i data-lucide="map-pin" class="i"></i></span><span class="grow"><span class="title" style="display:block">Kano chapter</span><span class="meta">Coordinator: Fatima Bello · 640 members</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="chapter.html"><span class="icon-tile"><i data-lucide="map-pin" class="i"></i></span><span class="grow"><span class="title" style="display:block">Plateau chapter</span><span class="meta">Coordinator: Ruth Dung · 377 members</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="chapter.html"><span class="icon-tile grey"><i data-lucide="map-pin" class="i"></i></span><span class="grow"><span class="title" style="display:block">Lagos</span><span class="meta">812 members</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="chapter.html"><span class="icon-tile grey"><i data-lucide="map-pin" class="i"></i></span><span class="grow"><span class="title" style="display:block">Kano</span><span class="meta">640 members</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="chapter.html"><span class="icon-tile grey"><i data-lucide="map-pin" class="i"></i></span><span class="grow"><span class="title" style="display:block">Plateau</span><span class="meta">406 members</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
   </div>
 
-  <!-- Group details -->
-  <div class="section-title"><h2>Group details</h2><a class="small bold" href="#" data-toast="Edit form opens here">Edit</a></div>
-  <div class="card">
-    <dl class="kv" style="margin:0">
-      <div><dt>Category</dt><dd>Women</dd></div>
-      <div><dt>Level</dt><dd>National</dd></div>
-      <div><dt>Head office</dt><dd>Wuse II, FCT</dd></div>
-      <div><dt>CAC number</dt><dd>IT 184 552</dd></div>
-      <div><dt>Verified on</dt><dd>21 Oct 2026</dd></div>
-    </dl>
-  </div>
-
-  <!-- Danger zone -->
-  <div class="section-title"><h2>Leadership</h2></div>
-  <div class="card danger-zone">
-    <div class="row" style="align-items:flex-start">
-      <span class="icon-tile red"><i data-lucide="repeat" class="i"></i></span>
-      <div class="grow">
-        <h3 class="h3">Hand over leadership</h3>
-        <p class="muted small mt-1">Make another member the leader of this group. The Directorate must approve it. You will become a normal member.</p>
-        <button class="btn btn-danger mt-4" data-open="handover">Hand over leadership</button>
-      </div>
+  <div class="danger-zone mt-8">
+    <div class="row-between wrap">
+      <div><h2 class="h3">Hand over</h2><p class="small muted mt-1">Needs Directorate approval.</p></div>
+      <button class="btn btn-danger" data-open="handover"><i data-lucide="user-round-cog" class="i"></i>Hand over</button>
     </div>
   </div>
 
 </main>
+<style>.grid-2 > * { min-width: 0; }</style>
 
 <div class="dialog-backdrop" id="new-link" role="dialog" aria-modal="true" aria-labelledby="nl-t">
   <div class="dialog">
-    <span class="icon-tile amber"><i data-lucide="triangle-alert" class="i"></i></span>
-    <h2 id="nl-t" class="mt-4">Make a new join link?</h2>
-    <p class="muted mt-2">Your old link and QR code will stop working. Anyone you sent it to will need the new one. People already in your group stay in.</p>
-    <div class="dialog-actions"><button class="btn" data-close>Keep old link</button><button class="btn btn-danger-solid" data-close data-toast="New link made">Make new link</button></div>
+    <h2 id="nl-t">Make a new link?</h2>
+    <p class="muted mt-1">The old link will stop working.</p>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="New link ready">Make new link</button></div>
   </div>
 </div>
 
 <div class="dialog-backdrop" id="add-exec" role="dialog" aria-modal="true" aria-labelledby="ae-t">
   <div class="dialog">
-    <h2 id="ae-t">Add an executive</h2>
-    <p class="muted mt-1">Executives can add members, approve activities and send messages.</p>
-    <div class="field mt-4"><label class="label" for="ae-m">Member</label><div class="search"><i data-lucide="search" class="i"></i><input id="ae-m" class="input" placeholder="Type a name or phone"></div></div>
-    <div class="field"><label class="label" for="ae-r">Role</label><select id="ae-r" class="select"><option>Secretary</option><option>Treasurer (can pay for the group)</option><option>Public relations officer</option><option>Women leader</option><option>Youth leader</option><option>Other</option></select></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Executive added">Add executive</button></div>
+    <h2 id="ae-t">Add executive</h2>
+    <div class="field mt-5"><label class="label" for="ae-m">Member</label><input id="ae-m" class="input" placeholder="Name or phone"></div>
+    <div class="field"><label class="label" for="ae-r">Role</label><select id="ae-r" class="select"><option>Secretary</option><option>Treasurer</option><option>PRO</option><option>Other</option></select></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Executive added">Add</button></div>
   </div>
 </div>
 
 <div class="dialog-backdrop" id="handover" role="dialog" aria-modal="true" aria-labelledby="ho-t">
   <div class="dialog">
     <h2 id="ho-t">Hand over leadership</h2>
-    <p class="muted mt-1">Choose who should lead Atiku Women Network.</p>
-    <div class="field mt-4"><label class="label" for="ho-m">New leader</label><div class="search"><i data-lucide="search" class="i"></i><input id="ho-m" class="input" placeholder="Type a name or phone"></div></div>
-    <div class="field"><label class="label" for="ho-r">Why? <span class="opt">(optional)</span></label><textarea id="ho-r" class="textarea" placeholder="For example: I am taking a party role"></textarea></div>
-    <div class="banner banner-info mt-4"><i data-lucide="info" class="i"></i><div class="small">Nothing changes until the Directorate approves. We'll tell you both by SMS.</div></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Request sent to the Directorate">Send request</button></div>
+    <div class="field mt-5"><label class="label" for="ho-m">New leader</label><input id="ho-m" class="input" placeholder="Name or phone"></div>
+    <div class="banner banner-warn mt-4"><i data-lucide="clock" class="i"></i><span>You stay leader until approved.</span></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Request sent">Send request</button></div>
   </div>
 </div>
-
 </body>
 </html>

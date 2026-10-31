@@ -3,55 +3,45 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Receipt FZ-2026-118204 · ADC Support Groups</title>
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Receipt · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-c.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="leader" data-active="payments" data-title="Receipt" data-back="payments.html">
 <main id="page" class="main-narrow">
-
-  <article class="receipt" aria-label="Payment receipt">
-    <header class="receipt-head">
-      <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Support Groups<small>Payment receipt</small></span></span>
-      <span class="tiny" style="color:#A9C9B1;text-align:right">No.<br><b style="color:#fff;font-size:.9375rem" class="num">FZ-2026-118204</b></span>
-    </header>
-    <div class="weave weave-thin"></div>
-
-    <div class="receipt-amount">
-      <p class="muted small bold">Amount paid</p>
-      <p class="big mt-2">₦250,000</p>
-      <p class="muted small mt-2">Two hundred and fifty thousand Naira</p>
+  <article class="card card-lg receipt">
+    <div class="row-between">
+      <span class="brand"><span class="brand-mark"><b>ADC</b></span><span class="brand-name">Receipt</span></span>
+      <span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span>
     </div>
-    <span class="receipt-stamp" aria-hidden="true">PAID</span>
-
-    <div class="receipt-body">
-      <dl class="kv" style="margin:0">
-        <div><dt>Group</dt><dd>Atiku Women Network</dd></div>
-        <div><dt>Paid by</dt><dd>The whole group</dd></div>
-        <div><dt>Paid by (person)</dt><dd>Amaka Okafor, Leader</dd></div>
-        <div><dt>For</dt><dd>Lagos mega rally: logistics</dd></div>
-        <div><dt>Activity</dt><dd>Rally, Ikeja · 12 Nov</dd></div>
-        <div><dt>Date and time</dt><dd>31 Oct 2026, 10:42 am</dd></div>
-        <div><dt>Paid with</dt><dd>Funz · Bank transfer</dd></div>
-        <div><dt>Funz reference</dt><dd class="num">FNZ-7Q2K-91XD-0042</dd></div>
-      </dl>
+    <div class="center mt-8">
+      <p class="eyebrow">Amount</p>
+      <p class="display mt-2" style="font-size:2.75rem">₦250,000</p>
+      <p class="faint small mt-1">31 Oct 2026, 10:42</p>
     </div>
-    <footer class="center tiny muted" style="padding:14px 22px 20px;border-top:1px solid var(--line-2)">
-      Received by the Campaign Directorate of Support Groups · adcsupportgroups.ng
-    </footer>
+    <hr class="divider mt-6">
+    <dl class="kv" style="margin:0">
+      <div><dt>Group</dt><dd>Atiku Women Network</dd></div>
+      <div><dt>Chapter</dt><dd>Lagos</dd></div>
+      <div><dt>Paid by</dt><dd>Amaka Okafor</dd></div>
+      <div><dt>For</dt><dd>Lagos rally logistics</dd></div>
+      <div><dt>Activity</dt><dd>Rally, Ikeja</dd></div>
+      <div><dt>Method</dt><dd>Funz · Transfer</dd></div>
+      <div><dt>Receipt no.</dt><dd class="num">FZ-2026-118204</dd></div>
+    </dl>
   </article>
-
-  <div class="grid mt-6 no-print" style="grid-template-columns:1fr 1fr">
-    <button class="btn btn-primary btn-lg" data-toast="Downloading PDF…"><i data-lucide="download" class="i"></i>Download PDF</button>
-    <button class="btn btn-lg" data-toast="Opening WhatsApp…"><i data-lucide="share-2" class="i"></i>Share</button>
+  <div class="row mt-5">
+    <button class="btn grow" data-toast="Shared"><i data-lucide="share-2" class="i"></i>Share</button>
+    <button class="btn btn-primary grow" data-toast="Downloading PDF"><i data-lucide="download" class="i"></i>Download</button>
   </div>
-  <p class="small muted center mt-4 no-print">A copy was sent to amaka.okafor@gmail.com</p>
-
 </main>
+<style>
+  @media print { .sidebar, .topbar, .bottomnav, .receipt ~ .row { display: none !important; } .main { padding: 0; } }
+</style>
 </body>
 </html>

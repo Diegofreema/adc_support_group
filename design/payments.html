@@ -3,109 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
   <title>Payments · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-c.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="leader" data-active="payments" data-title="Payments">
 <main id="page">
-
-  <div class="page-head row-between wrap" style="align-items:flex-end">
-    <div>
-      <h1 class="h1">Payments</h1>
-      <p>Everything Atiku Women Network has paid for the campaign.</p>
-    </div>
-    <div class="page-actions hide-mobile">
-      <a class="btn" href="report-offline.html"><i data-lucide="file-up" class="i"></i>Report an outside payment</a>
-      <a class="btn btn-primary" href="pay.html"><i data-lucide="hand-coins" class="i"></i>Pay as a group</a>
+  <div class="page-head-row">
+    <h1 class="h1">Payments</h1>
+    <div class="row">
+      <a class="btn" href="report-offline.html"><i data-lucide="landmark" class="i"></i>Paid offline?</a>
+      <a class="btn btn-primary" href="pay.html"><i data-lucide="hand-coins" class="i"></i>Pay</a>
     </div>
   </div>
 
-  <div class="stats" style="grid-template-columns:repeat(2,1fr)">
-    <div class="stat" style="grid-column:span 2;background:var(--green-900);border-color:var(--green-900);color:#fff">
-      <div class="stat-label" style="color:#A9C9B1"><i data-lucide="hand-coins" class="i i-sm"></i>Given all time</div>
-      <div class="stat-value" style="font-size:2.5rem">₦4,215,000</div>
-      <div class="stat-sub" style="color:#A9C9B1">Including ₦300,000 paid outside the website</div>
+  <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="stat"><div class="stat-label">All time</div><div class="stat-value">₦4.2m</div></div>
+    <div class="stat"><div class="stat-label">This month</div><div class="stat-value">₦1.05m</div></div>
+    <div class="stat"><div class="stat-label">Causes</div><div class="stat-value">6</div></div>
+  </div>
+
+  <div class="section-title"><h2>History</h2>
+    <select class="select" aria-label="Chapter" style="min-height:40px;width:auto;padding-top:6px;padding-bottom:6px;font-size:.875rem;border-radius:var(--r-sm)"><option>All chapters</option><option>Lagos</option><option>Kano</option><option>Plateau</option></select>
+  </div>
+
+  <div class="list">
+    <a class="list-item" href="receipt.html">
+      <span class="icon-tile"><i data-lucide="hand-coins" class="i"></i></span>
+      <span class="grow"><span class="title truncate" style="display:block">Lagos rally</span><span class="meta">31 Oct · Lagos chapter</span></span>
+      <span style="text-align:right"><span class="amount" style="display:block">₦250,000</span><span class="chip chip-paid mt-1"><i data-lucide="check" class="i"></i>Paid</span></span>
+    </a>
+    <a class="list-item" href="receipt.html">
+      <span class="icon-tile amber"><i data-lucide="landmark" class="i"></i></span>
+      <span class="grow"><span class="title truncate" style="display:block">North West posters</span><span class="meta">28 Oct · Offline · Kano</span></span>
+      <span style="text-align:right"><span class="amount" style="display:block">₦300,000</span><span class="chip chip-pending mt-1"><i data-lucide="clock" class="i"></i>Checking</span></span>
+    </a>
+    <a class="list-item" href="receipt.html">
+      <span class="icon-tile"><i data-lucide="hand-coins" class="i"></i></span>
+      <span class="grow"><span class="title truncate" style="display:block">Mobilisation</span><span class="meta">20 Oct · Whole group</span></span>
+      <span style="text-align:right"><span class="amount" style="display:block">₦500,000</span><span class="chip chip-paid mt-1"><i data-lucide="check" class="i"></i>Paid</span></span>
+    </a>
+    <div class="list-item">
+      <span class="icon-tile red"><i data-lucide="x" class="i"></i></span>
+      <span class="grow"><span class="title truncate" style="display:block">Radio jingles</span><span class="meta">14 Oct · Failed at Funz</span></span>
+      <span style="text-align:right"><span class="amount faint" style="display:block">₦100,000</span><span class="chip chip-failed mt-1"><i data-lucide="x" class="i"></i>Failed</span></span>
     </div>
-    <div class="stat"><div class="stat-label"><i data-lucide="calendar" class="i i-sm"></i>This month</div><div class="stat-value">₦1.05m</div><div class="stat-sub">4 payments</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="target" class="i i-sm"></i>Causes supported</div><div class="stat-value">6</div><div class="stat-sub">Plus general support</div></div>
+    <div class="list-item">
+      <span class="icon-tile red"><i data-lucide="landmark" class="i"></i></span>
+      <span class="grow"><span class="title truncate" style="display:block">Plateau town hall</span><span class="meta">9 Oct · Offline · Proof unclear</span></span>
+      <span style="text-align:right"><span class="amount faint" style="display:block">₦80,000</span><span class="chip chip-rejected mt-1"><i data-lucide="x" class="i"></i>Rejected</span></span>
+    </div>
   </div>
-
-  <div class="hide-desktop mt-4">
-    <a class="btn btn-primary btn-lg btn-block" href="pay.html"><i data-lucide="hand-coins" class="i"></i>Pay as a group</a>
-    <a class="btn btn-ghost btn-block mt-2" href="report-offline.html"><i data-lucide="file-up" class="i"></i>Report a payment made outside the website</a>
-  </div>
-
-  <div class="banner banner-warn mt-6">
-    <i data-lucide="clock" class="i"></i>
-    <div><span class="banner-title">1 payment is waiting for a staff check</span><br>₦300,000 bank transfer for Kano posters. It will count once the Directorate confirms it.</div>
-  </div>
-
-  <div class="section-title"><h2>History</h2><button class="btn btn-sm btn-ghost" data-toast="Downloading Excel file…"><i data-lucide="download" class="i i-sm"></i>Download</button></div>
-
-  <div class="pills mb-4" data-pressed-group role="group" aria-label="Filter by chapter">
-    <button class="pill" aria-pressed="true">All</button>
-    <button class="pill" aria-pressed="false">Whole group</button>
-    <button class="pill" aria-pressed="false">Lagos</button>
-    <button class="pill" aria-pressed="false">Plateau</button>
-    <button class="pill" aria-pressed="false">Kano</button>
-  </div>
-
-  <div class="card card-flush">
-    <table class="table table-cards">
-      <thead><tr><th>Payment</th><th>Paid by</th><th>Date</th><th class="t-right">Amount</th><th>Status</th><th><span class="sr-only">Open</span></th></tr></thead>
-      <tbody>
-        <tr>
-          <td class="t-main"><b>Lagos mega rally: logistics</b><div class="muted small">Cause · Funz FZ-2026-118204</div></td>
-          <td data-label="Paid by" class="nowrap">Whole group</td>
-          <td data-label="Date" class="nowrap">31 Oct</td>
-          <td data-label="Amount" class="t-right num bold">₦250,000</td>
-          <td data-label="Status"><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span></td>
-          <td data-label="" class="t-right"><a class="btn btn-sm" href="receipt.html">Receipt</a></td>
-        </tr>
-        <tr>
-          <td class="t-main"><b>Posters for the North West</b><div class="muted small">Outside payment · Bank transfer</div></td>
-          <td data-label="Paid by" class="nowrap">Kano chapter</td>
-          <td data-label="Date" class="nowrap">29 Oct</td>
-          <td data-label="Amount" class="t-right num bold">₦300,000</td>
-          <td data-label="Status"><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting for staff check</span></td>
-          <td data-label="" class="t-right"><a class="btn btn-sm" href="report-offline.html">View</a></td>
-        </tr>
-        <tr>
-          <td class="t-main"><b>General support: Mobilisation</b><div class="muted small">"Fuel for buses to the Ikeja rally"</div></td>
-          <td data-label="Paid by" class="nowrap">Lagos chapter</td>
-          <td data-label="Date" class="nowrap">27 Oct</td>
-          <td data-label="Amount" class="t-right num bold">₦500,000</td>
-          <td data-label="Status"><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span></td>
-          <td data-label="" class="t-right"><a class="btn btn-sm" href="receipt.html">Receipt</a></td>
-        </tr>
-        <tr>
-          <td class="t-main"><b>Radio jingles</b><div class="muted small">Cause · Card payment did not go through</div></td>
-          <td data-label="Paid by" class="nowrap">Whole group</td>
-          <td data-label="Date" class="nowrap">22 Oct</td>
-          <td data-label="Amount" class="t-right num bold">₦100,000</td>
-          <td data-label="Status"><span class="chip chip-failed"><i data-lucide="x" class="i"></i>Failed</span></td>
-          <td data-label="" class="t-right"><a class="btn btn-sm" href="pay.html">Try again</a></td>
-        </tr>
-        <tr>
-          <td class="t-main"><b>Town hall, Jos North</b><div class="muted small">Outside payment · Cash</div>
-            <p class="error-text" style="font-weight:500"><i data-lucide="circle-alert" class="i i-sm"></i><span><b>Not accepted:</b> receipt photo was not clear. Report it again.</span></p>
-          </td>
-          <td data-label="Paid by" class="nowrap">Plateau chapter</td>
-          <td data-label="Date" class="nowrap">18 Oct</td>
-          <td data-label="Amount" class="t-right num bold">₦80,000</td>
-          <td data-label="Status"><span class="chip chip-rejected"><i data-lucide="circle-x" class="i"></i>Not accepted</span></td>
-          <td data-label="" class="t-right"><a class="btn btn-sm" href="report-offline.html">Report again</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
 </main>
 </body>
 </html>

@@ -3,125 +3,111 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
   <title>Home · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
-<body data-shell="leader" data-active="home" data-title="Home">
+<body data-shell="leader" data-active="home" data-title="Hi, Amaka">
 <main id="page">
 
-  <!-- Greeting + group switcher -->
-  <div class="page-head">
-    <p class="muted bold" style="margin:0">Good morning,</p>
-    <h1 class="display" style="font-size:2.25rem;margin-top:2px">Amaka</h1>
-  </div>
-
-  <button class="switcher" data-open="switch-group" aria-label="Change group. Current group: Atiku Women Network">
-    <span class="group-mark">AW</span>
-    <span class="grow">
-      <span class="bold" style="display:block">Atiku Women Network</span>
-      <span class="muted small">You are the leader · 14 chapters</span>
-    </span>
-    <span class="chip chip-verified hide-mobile"><i data-lucide="badge-check" class="i"></i>Verified</span>
-    <i data-lucide="chevrons-up-down" class="i" style="color:var(--ink-3)"></i>
-  </button>
-
-  <!-- The one main job -->
-  <a class="btn btn-primary btn-lg btn-block mt-4" href="log-activity.html"><i data-lucide="plus" class="i"></i> Record an activity</a>
-
-  <!-- Quick actions -->
-  <div class="grid-4 mt-4" style="grid-template-columns:repeat(2,1fr)">
-    <a class="card row" href="add-members.html" style="text-decoration:none;color:inherit;padding:14px"><span class="icon-tile"><i data-lucide="user-plus" class="i"></i></span><span class="bold">Add members</span></a>
-    <a class="card row" href="#" data-open="share-link" style="text-decoration:none;color:inherit;padding:14px"><span class="icon-tile blue"><i data-lucide="share-2" class="i"></i></span><span class="bold">Share join link</span></a>
-    <a class="card row" href="pay.html" style="text-decoration:none;color:inherit;padding:14px"><span class="icon-tile red"><i data-lucide="hand-coins" class="i"></i></span><span class="bold">Pay as a group</span></a>
-    <a class="card row" href="messages.html" style="text-decoration:none;color:inherit;padding:14px"><span class="icon-tile amber"><i data-lucide="send" class="i"></i></span><span class="bold">Send a message</span></a>
-  </div>
-
-  <!-- Needs attention -->
-  <div class="section-title"><h2>Needs your attention</h2></div>
-  <div class="list">
-    <a class="list-item" href="activities.html?tab=review">
-      <span class="icon-tile amber"><i data-lucide="clipboard-check" class="i"></i></span>
-      <span class="grow"><span class="title" style="display:block">4 activities to approve</span><span class="meta">From Lagos, Plateau and Kano chapters</span></span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
-    <a class="list-item" href="import.html">
-      <span class="icon-tile red"><i data-lucide="file-warning" class="i"></i></span>
-      <span class="grow"><span class="title" style="display:block">12 rows in your Excel upload need fixing</span><span class="meta">1,268 of 1,280 members were added</span></span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
-  </div>
-
-  <!-- Numbers -->
-  <div class="section-title"><h2>Your group so far</h2><a class="small bold" href="group.html">See all</a></div>
-  <div class="stats">
-    <div class="stat"><div class="stat-label"><i data-lucide="users-round" class="i i-sm"></i>Members</div><div class="stat-value">3,482</div><div class="stat-sub"><span class="up">+124</span> this week</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="megaphone" class="i i-sm"></i>Activities</div><div class="stat-value">96</div><div class="stat-sub">Approved</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="network" class="i i-sm"></i>Chapters</div><div class="stat-value">14</div><div class="stat-sub">In 11 states</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="hand-coins" class="i i-sm"></i>Money given</div><div class="stat-value">₦4.2m</div><div class="stat-sub">To 6 causes</div></div>
-  </div>
-
-  <div class="grid-2 mt-6" style="align-items:start">
-    <!-- Recent activity -->
-    <section>
-      <div class="section-title mt-0"><h2>Latest from your group</h2><a class="small bold" href="activities.html">See all</a></div>
-      <article class="feed-card">
-        <div class="media">
-          <span class="ph ph-1 ph-crowd"></span><span class="ph ph-2"></span><span class="more ph ph-3"><span>+4</span></span>
+  <div class="home-grid">
+    <div>
+      <!-- Group hero -->
+      <section class="hero-card">
+        <button class="row" data-open="switch-group" style="background:none;border:0;padding:0;color:inherit;cursor:pointer;text-align:left">
+          <span class="grow"><span class="eyebrow">Your group</span><span class="h3" style="display:block;margin-top:2px">Atiku Women Network</span></span>
+          <i data-lucide="chevron-down" class="i hero-muted"></i>
+        </button>
+        <div class="row-between mt-6" style="align-items:flex-end">
+          <div><div class="hero-num">3,482</div><div class="small hero-muted">members <span class="green bold">+124</span></div></div>
+          <span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified</span>
         </div>
-        <div class="feed-body">
-          <div class="row-between"><span class="tag"><i data-lucide="footprints" class="i i-sm"></i>Door-to-door</span><span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span></div>
-          <h3 class="h3 mt-3">Door-to-door in Surulere, Ward 4</h3>
-          <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>Today</span><span><i data-lucide="map-pin" class="i"></i>Lagos chapter</span><span><i data-lucide="home" class="i"></i>82 homes</span></div>
-        </div>
-      </article>
-    </section>
+        <a class="btn btn-primary btn-block mt-6" href="log-activity.html"><i data-lucide="plus" class="i"></i>Record activity</a>
+      </section>
 
-    <!-- Open causes -->
-    <section>
-      <div class="section-title mt-0"><h2>Causes you can support</h2><a class="small bold" href="pay.html">See all</a></div>
-      <div class="card">
-        <span class="tag"><i data-lucide="target" class="i i-sm"></i>From the Directorate</span>
-        <h3 class="h3 mt-3">Lagos mega rally: logistics</h3>
-        <p class="muted small mt-1">Buses, sound and stage for the Tafawa Balewa Square rally on 14 December.</p>
-        <div class="progress mt-4"><span style="width:68%"></span></div>
-        <div class="row-between mt-2 small"><span><b>₦34m</b> of ₦50m</span><span class="muted">68% · 41 groups</span></div>
-        <a class="btn btn-block mt-4" href="pay.html"><i data-lucide="hand-coins" class="i"></i> Pay as a group</a>
+      <!-- Quick actions -->
+      <nav class="quick mt-6" aria-label="Quick actions">
+        <a href="add-members.html"><span class="q-icon"><i data-lucide="user-plus" class="i"></i></span>Add</a>
+        <button data-open="share-link"><span class="q-icon"><i data-lucide="share-2" class="i"></i></span>Invite</button>
+        <a href="pay.html"><span class="q-icon"><i data-lucide="hand-coins" class="i"></i></span>Pay</a>
+        <a href="messages.html"><span class="q-icon"><i data-lucide="send" class="i"></i></span>Message</a>
+      </nav>
+
+      <!-- To do -->
+      <div class="section-title"><h2>To do</h2></div>
+      <div class="list">
+        <a class="list-item" href="activities.html">
+          <span class="icon-tile amber"><i data-lucide="clipboard-check" class="i"></i></span>
+          <span class="grow title">Approve 4 activities</span>
+          <i data-lucide="chevron-right" class="i chev"></i>
+        </a>
+        <a class="list-item" href="import.html">
+          <span class="icon-tile red"><i data-lucide="file-warning" class="i"></i></span>
+          <span class="grow title">Fix 12 upload errors</span>
+          <i data-lucide="chevron-right" class="i chev"></i>
+        </a>
       </div>
-    </section>
+    </div>
+
+    <div>
+      <!-- Numbers -->
+      <div class="section-title home-first"><h2>This month</h2></div>
+      <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+        <div class="stat"><div class="stat-label">Activities</div><div class="stat-value">96</div></div>
+        <div class="stat"><div class="stat-label">Chapters</div><div class="stat-value">14</div></div>
+        <div class="stat"><div class="stat-label">Given</div><div class="stat-value">₦4.2m</div></div>
+      </div>
+
+      <!-- Recent -->
+      <div class="section-title"><h2>Recent</h2><a href="activities.html">See all</a></div>
+      <div class="list">
+        <a class="list-item" href="activity-detail.html">
+          <span class="icon-tile"><i data-lucide="footprints" class="i"></i></span>
+          <span class="grow"><span class="title truncate" style="display:block">Door-to-door, Surulere</span><span class="meta">Today · 82 homes</span></span>
+          <span class="chip chip-approved"><i data-lucide="check" class="i"></i>Approved</span>
+        </a>
+        <a class="list-item" href="receipt.html">
+          <span class="icon-tile red"><i data-lucide="hand-coins" class="i"></i></span>
+          <span class="grow"><span class="title truncate" style="display:block">Lagos rally</span><span class="meta">Mon · Payment</span></span>
+          <span class="amount">₦750k</span>
+        </a>
+        <a class="list-item" href="activity-detail.html">
+          <span class="icon-tile"><i data-lucide="megaphone" class="i"></i></span>
+          <span class="grow"><span class="title truncate" style="display:block">Town hall, Jos</span><span class="meta">Sat · 410 people</span></span>
+          <span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting</span>
+        </a>
+      </div>
+    </div>
   </div>
 
 </main>
 
-<!-- Dialog: switch group -->
-<div class="dialog-backdrop" id="switch-group" role="dialog" aria-modal="true" aria-labelledby="sg-title">
+<div class="dialog-backdrop" id="switch-group" role="dialog" aria-modal="true" aria-labelledby="sg-t">
   <div class="dialog">
-    <h2 id="sg-title">Your groups</h2>
-    <p class="muted mt-1">Pick the group you want to work with.</p>
+    <h2 id="sg-t">Switch group</h2>
     <div class="choices mt-4">
-      <label class="choice"><input type="radio" name="g" checked><span class="dot"></span><span class="grow"><span class="choice-title">Atiku Women Network</span><span class="choice-desc" style="display:block">Leader · Verified</span></span></label>
-      <label class="choice"><input type="radio" name="g"><span class="dot"></span><span class="grow"><span class="choice-title">Surulere Market Women</span><span class="choice-desc" style="display:block">Member · Verified</span></span></label>
+      <label class="choice"><input type="radio" name="g" checked><span class="dot"></span><span class="grow"><span class="choice-title">Atiku Women Network</span><span class="choice-desc" style="display:block">Leader</span></span></label>
+      <label class="choice"><input type="radio" name="g"><span class="dot"></span><span class="grow"><span class="choice-title">Surulere Market Women</span><span class="choice-desc" style="display:block">Member</span></span></label>
     </div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Switched group">Switch</button></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Switched">Switch</button></div>
   </div>
 </div>
 
-<!-- Dialog: share link -->
-<div class="dialog-backdrop" id="share-link" role="dialog" aria-modal="true" aria-labelledby="sl-title">
+<div class="dialog-backdrop" id="share-link" role="dialog" aria-modal="true" aria-labelledby="sl-t">
   <div class="dialog center">
-    <h2 id="sl-title">Invite people to your group</h2>
-    <p class="muted mt-1">Anyone with this link can join Atiku Women Network.</p>
-    <div class="qr mt-4" style="margin-inline:auto"><svg viewBox="0 0 29 29" shape-rendering="crispEdges"><path fill="#10401E" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM22 0h7v7h-7zm1 1v5h5V1zm1 1h3v3h-3zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zM9 0h2v2H9zm3 1h2v3h-2zm4 0h3v2h-3zm-7 4h3v2H9zm5 1h3v3h-3zm4 2h2v2h-2zM8 9h3v2H8zm5 1h2v3h-2zm4 1h4v2h-4zm6 -2h2v3h-2zm3 2h2v2h-2zM0 9h2v3H0zm3 1h3v2H3zm-3 4h3v2H0zm5 0h4v2H5zm6 2h3v3h-3zm5-1h2v4h-2zm4 0h3v2h-3zm5 1h2v3h-2zM9 20h2v3H9zm4 3h3v2h-3zm5-2h3v2h-3zm4 3h2v3h-2zm3-1h3v2h-3zm-11 4h3v1h-3zm6 0h2v1h-2z"/></svg></div>
-    <div class="input-group mt-4"><span class="prefix tiny">Link</span><input class="input" value="adcsupportgroups.ng/j/atiku-women" readonly aria-label="Join link"></div>
-    <div class="grid-2 mt-3" style="grid-template-columns:1fr 1fr">
-      <button class="btn" data-toast="Link copied"><i data-lucide="copy" class="i"></i>Copy</button>
-      <a class="btn btn-primary" href="#" data-toast="Opening WhatsApp…"><i data-lucide="message-circle" class="i"></i>WhatsApp</a>
+    <h2 id="sl-t">Invite people</h2>
+    <div class="qr mt-5" style="margin-inline:auto"><svg viewBox="0 0 29 29" shape-rendering="crispEdges"><path fill="#070B09" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM22 0h7v7h-7zm1 1v5h5V1zm1 1h3v3h-3zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zM9 0h2v2H9zm3 1h2v3h-2zm4 0h3v2h-3zm-7 4h3v2H9zm5 1h3v3h-3zm4 2h2v2h-2zM8 9h3v2H8zm5 1h2v3h-2zm4 1h4v2h-4zm6 -2h2v3h-2zm3 2h2v2h-2zM0 9h2v3H0zm3 1h3v2H3zm-3 4h3v2H0zm5 0h4v2H5zm6 2h3v3h-3zm5-1h2v4h-2zm4 0h3v2h-3zm5 1h2v3h-2zM9 20h2v3H9zm4 3h3v2h-3zm5-2h3v2h-3zm4 3h2v3h-2zm3-1h3v2h-3zm-11 4h3v1h-3zm6 0h2v1h-2z"/></svg></div>
+    <p class="muted small mt-4 truncate">adcsupportgroups.ng/j/atiku-women</p>
+    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+      <button class="btn" data-toast="Copied"><i data-lucide="copy" class="i"></i>Copy</button>
+      <a class="btn btn-primary" href="#" data-toast="Opening WhatsApp"><i data-lucide="message-circle" class="i"></i>WhatsApp</a>
     </div>
-    <button class="btn btn-ghost btn-block mt-2" data-close>Done</button>
+    <button class="btn btn-ghost btn-block mt-2" data-close>Close</button>
   </div>
 </div>
 </body>

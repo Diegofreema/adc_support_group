@@ -3,162 +3,126 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Review group · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#FFFFFF">
+  <title>Review group · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="directorate" data-active="groups" data-title="Review group" data-back="admin-groups.html">
 <main id="page">
+<div class="row mb-4" style="align-items:flex-start">
+  <span class="group-mark g4">AW</span>
+  <div class="grow">
+    <h1 class="h2">Atiku Women's Network Abuja</h1>
+    <div class="row wrap mt-2" style="gap:6px">
+      <span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting</span>
+      <span class="tag">Women</span><span class="tag">FCT</span>
+    </div>
+  </div>
+</div>
 
-  <div class="row" style="align-items:flex-start;gap:16px">
-    <span class="group-mark g4" style="width:64px;height:64px;font-size:1.375rem;border-radius:18px">AW</span>
-    <div class="grow">
-      <h1 class="h1">Atiku Women's Network Abuja</h1>
-      <div class="row wrap mt-2" style="gap:8px">
-        <span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting to verify</span>
-        <span class="tag">Women</span>
-        <span class="tag"><i data-lucide="map-pin" class="i i-sm"></i>FCT</span>
+<div class="split">
+  <div>
+    <div class="banner banner-warn">
+      <i data-lucide="copy" class="i"></i>
+      <div class="grow">
+        <div class="banner-title">Possible duplicate</div>
+        <div class="grid-2 mt-3">
+          <div class="card" style="padding:12px;color:var(--text)"><div class="eyebrow">This one</div><div class="bold mt-1">Atiku Women's Network Abuja</div><div class="small faint">FCT · 214 members</div></div>
+          <div class="card" style="padding:12px;color:var(--text)"><div class="eyebrow">Verified</div><div class="bold mt-1">Atiku Women Network</div><div class="small faint">National · 3,482 members</div></div>
+        </div>
       </div>
-      <p class="muted small mt-2">Sent in 3 days ago · 4 Nov 2026, 10:42 am</p>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-head"><h2>Details</h2></div>
+      <dl class="kv" style="margin:0">
+        <div><dt>Category</dt><dd>Women</dd></div>
+        <div><dt>Level</dt><dd>State</dd></div>
+        <div><dt>Location</dt><dd>FCT · AMAC</dd></div>
+        <div><dt>CAC</dt><dd><span class="chip chip-verified"><i data-lucide="file-check" class="i"></i>RC 1849302</span></dd></div>
+        <div><dt>Sent</dt><dd>4 Nov, 10:42</dd></div>
+      </dl>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-head"><h2>Leader</h2></div>
+      <div class="row">
+        <span class="avatar avatar-lg a4">FG</span>
+        <div class="grow">
+          <div class="bold">Fatima Garba</div>
+          <div class="small faint">0803 412 7781</div>
+          <span class="chip chip-verified mt-2"><i data-lucide="phone" class="i"></i>Phone checked</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-head"><h2>Members</h2><span class="bold num">214</span></div>
+      <div class="hbars">
+        <div><div class="hbar-top"><b>Join link</b><span class="faint num">168</span></div><div class="progress progress-sm"><span style="width:78%"></span></div></div>
+        <div><div class="hbar-top"><b>Excel upload</b><span class="faint num">46</span></div><div class="progress progress-sm"><span style="width:22%"></span></div></div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-head"><h2>History</h2></div>
+      <div class="timeline">
+        <div class="tl-item done"><span class="tl-dot"><i data-lucide="check" class="i"></i></span><div><div class="tl-title">Registered</div><div class="tl-meta">4 Nov · Fatima Garba</div></div></div>
+        <div class="tl-item done"><span class="tl-dot"><i data-lucide="check" class="i"></i></span><div><div class="tl-title">Phone checked</div><div class="tl-meta">4 Nov</div></div></div>
+        <div class="tl-item now"><span class="tl-dot"><i data-lucide="clock" class="i"></i></span><div><div class="tl-title">Waiting for review</div><div class="tl-meta">3 days</div></div></div>
+      </div>
+    </div>
+
+    <div class="danger-zone mt-4">
+      <div class="row-between wrap">
+        <div><div class="bold">Suspend</div><div class="small faint">For verified groups only</div></div>
+        <button class="btn btn-danger btn-sm" data-open="suspend"><i data-lucide="pause" class="i i-sm"></i>Suspend</button>
+      </div>
     </div>
   </div>
 
-  <div class="banner banner-warn mt-6" role="note">
-    <i data-lucide="copy" class="i"></i>
-    <div class="grow">
-      <div class="banner-title">This may be a duplicate</div>
-      <p class="mt-1">The name is very close to a group that is already verified. Check before you verify.</p>
-      <div class="grid-2 mt-3" style="gap:10px">
-        <div class="card" style="padding:14px;background:#fff"><div class="tiny bold muted">THIS APPLICATION</div><div class="bold mt-1">Atiku Women's Network Abuja</div><div class="small muted">Leader: Fatima Garba · FCT · 214 members</div></div>
-        <div class="card" style="padding:14px;background:#fff"><div class="tiny bold muted">ALREADY VERIFIED</div><div class="bold mt-1">Atiku Women's Network</div><div class="small muted">Leader: Rakiya Bello · Kaduna · 2,104 members</div><a class="small bold" href="#">Open that group</a></div>
-      </div>
-      <p class="small mt-3">If this is really a branch of the Kaduna group, ask them to join as a <b>chapter</b> instead.</p>
+  <aside class="split-side">
+    <div class="card">
+      <div class="card-head"><h2>Decision</h2></div>
+      <button class="btn btn-primary btn-block" data-toast="Group verified" href="admin-groups.html"><i data-lucide="badge-check" class="i"></i>Verify</button>
+      <button class="btn btn-block mt-2" data-open="ask"><i data-lucide="message-circle-question" class="i"></i>Ask for info</button>
+      <button class="btn btn-danger btn-block mt-2" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
     </div>
-  </div>
-
-  <div class="split mt-6">
-    <div class="stack" style="--stack:20px">
-
-      <section class="card">
-        <div class="card-head"><h2>About the group</h2></div>
-        <dl class="kv" style="margin:0">
-          <div><dt>Group name</dt><dd>Atiku Women's Network Abuja</dd></div>
-          <div><dt>Category</dt><dd>Women</dd></div>
-          <div><dt>Group works at</dt><dd>State level · FCT</dd></div>
-          <div><dt>Main office</dt><dd>Wuse Zone 4, Abuja Municipal, Ward: City Centre</dd></div>
-          <div><dt>What they do</dt><dd style="font-weight:400">We bring together market women, civil servants and church women in the FCT to campaign for Atiku through house visits and women's town halls.</dd></div>
-          <div><dt>CAC number</dt><dd>IT-1984302 <span class="chip chip-info"><i data-lucide="file-badge" class="i"></i>Registered</span></dd></div>
-          <div><dt>Started</dt><dd>March 2025</dd></div>
-        </dl>
-      </section>
-
-      <section class="card">
-        <div class="card-head"><h2>Leader</h2></div>
-        <div class="row" style="align-items:flex-start;gap:16px">
-          <span class="avatar avatar-lg a4">FG</span>
-          <dl class="kv grow" style="margin:0">
-            <div><dt>Full name</dt><dd>Fatima Garba</dd></div>
-            <div><dt>Phone</dt><dd>0803 412 7781 <span class="chip chip-verified"><i data-lucide="phone" class="i"></i>Phone checked</span></dd></div>
-            <div><dt>Email</dt><dd>fatima.garba@gmail.com</dd></div>
-            <div><dt>Lives in</dt><dd>Abuja Municipal, FCT</dd></div>
-            <div><dt>Other groups</dt><dd style="font-weight:400">Member of 1 group: Wuse Market Traders</dd></div>
-          </dl>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="card-head"><h2>Members so far</h2></div>
-        <div class="stats" style="grid-template-columns:repeat(3,1fr)">
-          <div><div class="stat-label">Total</div><div class="stat-value" style="font-size:1.5rem">214</div></div>
-          <div><div class="stat-label">Joined by link</div><div class="stat-value" style="font-size:1.5rem">63</div></div>
-          <div><div class="stat-label">From Excel</div><div class="stat-value" style="font-size:1.5rem">151</div></div>
-        </div>
-        <p class="muted small mt-3">Members are not counted in reports until the group is verified.</p>
-      </section>
-
-      <section class="card">
-        <div class="card-head"><h2>History</h2></div>
-        <div class="timeline">
-          <div class="tl-item"><b>Group registered</b><div class="muted small">Fatima Garba · 4 Nov, 10:42 am</div></div>
-          <div class="tl-item"><b>151 members added from Excel</b><div class="muted small">Fatima Garba · 4 Nov, 11:15 am</div></div>
-          <div class="tl-item muted-dot"><b>Flagged as possible duplicate</b><div class="muted small">System · 4 Nov, 10:42 am</div></div>
-        </div>
-      </section>
-
-      <!-- What suspend looks like on a verified group -->
-      <section class="card" style="border-style:dashed">
-        <div class="card-head"><h2>When a group is verified</h2><span class="chip chip-verified"><i data-lucide="badge-check" class="i"></i>Verified</span></div>
-        <p class="muted">On a verified group this area shows a <b>Suspend group</b> button. Suspending keeps all its past work in reports with a "Suspended" label, but stops new activities, payments and uploads until you bring it back.</p>
-        <button class="btn btn-danger mt-4" data-open="suspend"><i data-lucide="pause" class="i"></i>Suspend group</button>
-      </section>
-    </div>
-
-    <!-- Decision -->
-    <aside class="split-side">
-      <div class="card card-lg">
-        <h2 class="h3">Your decision</h2>
-        <p class="muted small mt-1">The leader gets an SMS and email with your answer.</p>
-        <button class="btn btn-primary btn-block mt-4" data-open="verify"><i data-lucide="badge-check" class="i"></i>Verify group</button>
-        <button class="btn btn-block mt-3" data-open="ask"><i data-lucide="message-circle-question" class="i"></i>Ask for more info</button>
-        <button class="btn btn-danger btn-block mt-3" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button>
-      </div>
-    </aside>
-  </div>
-
+  </aside>
+</div>
 </main>
-
-<!-- Verify -->
-<div class="dialog-backdrop" id="verify" role="dialog" aria-modal="true" aria-labelledby="v-t">
+<div class="dialog-backdrop" id="reject" role="dialog" aria-modal="true" aria-labelledby="rj-t">
   <div class="dialog">
-    <span class="icon-tile"><i data-lucide="badge-check" class="i"></i></span>
-    <h2 id="v-t" class="mt-3">Verify this group?</h2>
-    <p class="muted mt-2">Atiku Women's Network Abuja will get a verified badge. Its 214 members and future activities will start counting.</p>
-    <label class="check mt-4"><input type="checkbox"><span>I checked it is not a duplicate of "Atiku Women's Network"</span></label>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Group verified. Leader notified.">Yes, verify</button></div>
-  </div>
-</div>
-
-<!-- Reject -->
-<div class="dialog-backdrop" id="reject" role="dialog" aria-modal="true" aria-labelledby="r-t">
-  <div class="dialog">
-    <h2 id="r-t">Reject this group</h2>
-    <p class="muted mt-1">Pick a reason. The leader will see it.</p>
+    <h2 id="rj-t">Reject group</h2>
     <div class="choices mt-4">
-      <label class="choice"><input type="radio" name="rr" checked><span class="dot"></span><span class="choice-title">Same as a group already verified</span></label>
-      <label class="choice"><input type="radio" name="rr"><span class="dot"></span><span class="choice-title">Could not reach the leader</span></label>
-      <label class="choice"><input type="radio" name="rr"><span class="dot"></span><span class="choice-title">Details are wrong or missing</span></label>
-      <label class="choice"><input type="radio" name="rr"><span class="dot"></span><span class="choice-title">Not a real support group</span></label>
+      <label class="choice"><input type="radio" name="r" checked><span class="dot"></span><span class="choice-title">Duplicate group</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Details not correct</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Leader not reachable</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Other</span></label>
     </div>
-    <label class="field mt-4"><span class="label">Note to the leader <span class="opt">(optional)</span></span><textarea class="textarea" style="min-height:90px">Please ask Rakiya Bello to add you as the FCT chapter of Atiku Women's Network.</textarea></label>
-    <div class="banner banner-info mt-3"><i data-lucide="message-square" class="i"></i><p class="small">Leader will read: "Your group was not verified because it is the same as a group already verified. Please ask Rakiya Bello to add you as the FCT chapter..."</p></div>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Group rejected. Leader notified.">Reject group</button></div>
+    <div class="field mt-4"><label class="label" for="rj-n">Note to leader <span class="opt">(optional)</span></label><textarea id="rj-n" class="textarea" placeholder="e.g. Join Atiku Women Network as a chapter"></textarea></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Group rejected">Reject</button></div>
   </div>
 </div>
-
-<!-- Ask -->
-<div class="dialog-backdrop" id="ask" role="dialog" aria-modal="true" aria-labelledby="a-t">
+<div class="dialog-backdrop" id="ask" role="dialog" aria-modal="true" aria-labelledby="ak-t">
   <div class="dialog">
-    <h2 id="a-t">Ask for more info</h2>
-    <p class="muted mt-1">The group stays waiting until the leader answers.</p>
-    <label class="field mt-4"><span class="label">What do you need?</span><textarea class="textarea" placeholder="e.g. Send a photo of your last meeting"></textarea></label>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Question sent to Fatima">Send</button></div>
+    <h2 id="ak-t">Ask for info</h2>
+    <div class="field mt-4"><label class="label" for="ak-n">Question</label><textarea id="ak-n" class="textarea" placeholder="What do you need?"></textarea></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Sent to leader">Send</button></div>
   </div>
 </div>
-
-<!-- Suspend -->
-<div class="dialog-backdrop" id="suspend" role="dialog" aria-modal="true" aria-labelledby="s-t">
+<div class="dialog-backdrop" id="suspend" role="dialog" aria-modal="true" aria-labelledby="sp-t">
   <div class="dialog">
-    <h2 id="s-t">Suspend this group?</h2>
-    <p class="muted mt-1">Past work stays in reports with a "Suspended" label. New activities, payments and uploads stop.</p>
-    <label class="field mt-4"><span class="label">Reason</span><textarea class="textarea" placeholder="e.g. Fake photos in 3 activities"></textarea></label>
+    <h2 id="sp-t">Suspend group?</h2>
+    <p class="muted mt-1">History stays. New activity is blocked.</p>
+    <div class="field mt-4"><label class="label" for="sp-n">Reason</label><input id="sp-n" class="input" placeholder="Reason"></div>
     <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Group suspended">Suspend</button></div>
   </div>
 </div>
 </body>
-
 </html>

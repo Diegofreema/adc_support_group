@@ -3,77 +3,58 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
   <title>Add members · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-b.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="leader" data-active="members" data-title="Add members" data-back="members.html">
 <main id="page" class="main-narrow" data-tab-scope>
 
-  <div class="page-head">
-    <h1 class="h1">Add members</h1>
-    <p>Pick the easiest way for you. Everyone gets their own account.</p>
-  </div>
+  <h1 class="h1">Add members</h1>
 
-  <div class="choices" data-tabs role="radiogroup" aria-label="How do you want to add members?">
-    <label class="choice" data-tab="link"><input type="radio" name="way" checked><span class="icon-tile blue"><i data-lucide="link" class="i"></i></span><span class="grow"><span class="choice-title">Share your join link</span><span class="choice-desc" style="display:block">Best for WhatsApp groups. People sign up themselves.</span></span></label>
-    <label class="choice" data-tab="qr"><input type="radio" name="way"><span class="icon-tile"><i data-lucide="qr-code" class="i"></i></span><span class="grow"><span class="choice-title">Show your QR code</span><span class="choice-desc" style="display:block">Best for meetings. People scan with their phone camera.</span></span></label>
-    <label class="choice" data-tab="one"><input type="radio" name="way"><span class="icon-tile amber"><i data-lucide="user-plus" class="i"></i></span><span class="grow"><span class="choice-title">Add one person</span><span class="choice-desc" style="display:block">Type their details yourself.</span></span></label>
-    <a class="choice" href="import.html" style="text-decoration:none;color:inherit"><span class="icon-tile red"><i data-lucide="file-spreadsheet" class="i"></i></span><span class="grow"><span class="choice-title">Upload Excel or CSV</span><span class="choice-desc" style="display:block">Best for long lists. Add hundreds of people at once.</span></span><i data-lucide="chevron-right" class="i chev" style="color:var(--ink-4);align-self:center"></i></a>
+  <div class="choice-grid mt-5" data-tabs style="grid-template-columns:repeat(2,minmax(0,1fr))">
+    <label class="choice choice-tile" data-tab="link"><input type="radio" name="way" checked><span class="tile-icon"><i data-lucide="link" class="i"></i></span><span class="choice-title">Link</span></label>
+    <label class="choice choice-tile" data-tab="qr"><input type="radio" name="way"><span class="tile-icon"><i data-lucide="qr-code" class="i"></i></span><span class="choice-title">QR code</span></label>
+    <label class="choice choice-tile" data-tab="one"><input type="radio" name="way"><span class="tile-icon"><i data-lucide="user-plus" class="i"></i></span><span class="choice-title">One person</span></label>
+    <a class="choice choice-tile" href="import.html" style="color:inherit"><span class="tile-icon"><i data-lucide="file-spreadsheet" class="i"></i></span><span class="row-between w-full"><span class="choice-title">Excel / CSV</span><i data-lucide="arrow-right" class="i faint"></i></span></a>
   </div>
 
   <!-- Link -->
   <section class="card mt-5" data-panel="link">
-    <h2 class="h3">Your join link</h2>
-    <div class="input-group mt-3"><span class="prefix tiny">Link</span><input class="input" value="adcsupportgroups.ng/j/atiku-women" readonly aria-label="Join link"></div>
-    <div class="field mt-4"><label class="label" for="lk-c">Join into which chapter?</label><select id="lk-c" class="select"><option>Main group (no chapter)</option><option>Lagos chapter</option><option>Kano chapter</option><option>Plateau chapter</option></select><span class="hint mt-2">Each chapter has its own link.</span></div>
-    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr;gap:8px">
-      <button class="btn" data-toast="Link copied"><i data-lucide="copy" class="i"></i>Copy</button>
-      <a class="btn btn-primary" href="#" data-toast="Opening WhatsApp…"><i data-lucide="message-circle" class="i"></i>WhatsApp</a>
+    <div class="field"><label class="label" for="ch1">Chapter</label><select id="ch1" class="select"><option>Whole group</option><option>Lagos</option><option>Kano</option></select></div>
+    <div class="input-group mt-4"><span class="prefix tiny">Link</span><input class="input" value="adcsupportgroups.ng/j/atiku-women" readonly aria-label="Join link"></div>
+    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+      <button class="btn" data-toast="Copied"><i data-lucide="copy" class="i"></i>Copy</button>
+      <a class="btn btn-primary" href="#" data-toast="Opening WhatsApp"><i data-lucide="message-circle" class="i"></i>WhatsApp</a>
     </div>
-    <p class="muted small mt-4">Message we'll send with it: <i>"Join Atiku Women Network on ADC Support Groups and help us elect Atiku. Tap the link to sign up."</i></p>
   </section>
 
   <!-- QR -->
   <section class="card mt-5 center" data-panel="qr" hidden>
-    <h2 class="h3">Ask people to scan this</h2>
-    <p class="muted small mt-1">Open the camera on their phone and point it at the code.</p>
-    <div class="qr mt-4" style="margin-inline:auto;width:240px;height:240px"><svg viewBox="0 0 29 29" shape-rendering="crispEdges"><path fill="#10401E" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM22 0h7v7h-7zm1 1v5h5V1zm1 1h3v3h-3zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zM9 0h2v2H9zm3 1h2v3h-2zm4 0h3v2h-3zm-7 4h3v2H9zm5 1h3v3h-3zm4 2h2v2h-2zM8 9h3v2H8zm5 1h2v3h-2zm4 1h4v2h-4zm6 -2h2v3h-2zm3 2h2v2h-2zM0 9h2v3H0zm3 1h3v2H3zm-3 4h3v2H0zm5 0h4v2H5zm6 2h3v3h-3zm5-1h2v4h-2zm4 0h3v2h-3zm5 1h2v3h-2zM9 20h2v3H9zm4 3h3v2h-3zm5-2h3v2h-3zm4 3h2v3h-2zm3-1h3v2h-3zm-11 4h3v1h-3zm6 0h2v1h-2z"/></svg></div>
-    <p class="bold mt-3">Atiku Women Network</p>
-    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr;gap:8px">
-      <button class="btn" data-toast="QR code saved"><i data-lucide="download" class="i"></i>Save</button>
-      <button class="btn btn-primary" data-toast="Printing poster…"><i data-lucide="printer" class="i"></i>Print poster</button>
-    </div>
+    <div class="qr" style="width:200px;height:200px;padding:14px;margin:0 auto;flex:none;border:1px solid var(--line-2)"><svg viewBox="0 0 29 29" shape-rendering="crispEdges" aria-label="QR code"><path fill="#161B21" d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM22 0h7v7h-7zm1 1v5h5V1zm1 1h3v3h-3zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zM9 0h2v2H9zm3 1h2v3h-2zm4 0h3v2h-3zm-7 4h3v2H9zm5 1h3v3h-3zm4 2h2v2h-2zM8 9h3v2H8zm5 1h2v3h-2zm4 1h4v2h-4zm6 -2h2v3h-2zm3 2h2v2h-2zM0 9h2v3H0zm3 1h3v2H3zm-3 4h3v2H0zm5 0h4v2H5zm6 2h3v3h-3zm5-1h2v4h-2zm4 0h3v2h-3zm5 1h2v3h-2zM9 20h2v3H9zm4 3h3v2h-3zm5-2h3v2h-3zm4 3h2v3h-2zm3-1h3v2h-3zm-11 4h3v1h-3zm6 0h2v1h-2z"/></svg></div>
+
+    <p class="small muted mt-3">Scan to join</p>
+    <button class="btn btn-primary btn-block mt-4" data-toast="QR saved"><i data-lucide="download" class="i"></i>Download</button>
   </section>
 
   <!-- One person -->
-  <form class="card mt-5" data-panel="one" hidden onsubmit="return false">
-    <h2 class="h3">Add one person</h2>
-    <p class="muted small mt-1">We'll send them a password by email, or by SMS if they have no email.</p>
-    <div class="field mt-4"><label class="label" for="op-n">Full name</label><input id="op-n" class="input" autocomplete="name" placeholder="e.g. Chioma Nwosu"></div>
-    <div class="field"><label class="label" for="op-p">Phone number</label><div class="input-group"><span class="prefix">+234</span><input id="op-p" class="input" inputmode="tel" placeholder="803 000 0000"></div></div>
-    <div class="field"><label class="label" for="op-e">Email <span class="opt">(optional)</span></label><input id="op-e" class="input" type="email" inputmode="email"></div>
-    <div class="field"><label class="label" for="op-s">State</label><select id="op-s" class="select"><option>Lagos</option><option>Kano</option><option>FCT</option></select></div>
-    <div class="grid-2 mt-5" style="gap:20px">
-      <div class="field" style="margin:0"><label class="label" for="op-l">LGA</label><select id="op-l" class="select"><option>Surulere</option><option>Ikeja</option></select></div>
-      <div class="field" style="margin:0"><label class="label" for="op-w">Ward</label><select id="op-w" class="select"><option>Ward 4</option><option>Ward 5</option></select></div>
+  <section class="card mt-5" data-panel="one" hidden>
+    <div class="field"><label class="label" for="n">Full name</label><input id="n" class="input" placeholder="As people know them"></div>
+    <div class="field"><label class="label" for="p">Phone</label><div class="input-group"><span class="prefix">+234</span><input id="p" class="input" inputmode="tel" placeholder="803 123 4567"></div></div>
+    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+      <div class="field"><label class="label" for="s">State</label><select id="s" class="select"><option>Lagos</option></select></div>
+      <div class="field" style="margin-top:0"><label class="label" for="l">LGA</label><select id="l" class="select"><option>Surulere</option></select></div>
     </div>
-    <div class="field"><label class="label" for="op-c">Chapter</label><select id="op-c" class="select"><option>Lagos chapter</option><option>Main group</option></select></div>
-    <details class="mt-4"><summary class="bold" style="cursor:pointer;color:var(--green-700);min-height:44px;display:flex;align-items:center">More details (optional)</summary>
-      <div class="field mt-3"><label class="label" for="op-g">Gender</label><select id="op-g" class="select"><option>Choose</option><option>Female</option><option>Male</option></select></div>
-      <div class="field"><label class="label" for="op-a">Age range</label><select id="op-a" class="select"><option>Choose</option><option>18–24</option><option>25–34</option><option>35–49</option><option>50+</option></select></div>
-      <div class="field"><label class="label" for="op-o">Occupation</label><input id="op-o" class="input"></div>
-      <div class="field"><label class="label" for="op-pu">Polling unit</label><input id="op-pu" class="input" placeholder="Start typing the name or code"></div>
-    </details>
-    <button class="btn btn-primary btn-block mt-6" data-toast="Chioma added. Password sent by SMS."><i data-lucide="user-plus" class="i"></i>Add member</button>
-  </form>
+    <div class="field"><label class="label" for="w">Ward</label><select id="w" class="select"><option>Ward 4</option></select></div>
+    <div class="field"><label class="label" for="e">Email <span class="opt">(optional)</span></label><input id="e" class="input" type="email" placeholder="name@email.com"></div>
+    <button class="btn btn-primary btn-lg btn-block mt-6" data-toast="Added · password sent by SMS">Add member</button>
+  </section>
 
 </main>
-
 </body>
 </html>

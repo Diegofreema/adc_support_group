@@ -3,48 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFFFFF">
   <title>More · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-c.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="leader" data-active="more" data-title="More">
 <main id="page" class="main-narrow">
-
-  <a class="card row" href="profile.html" style="text-decoration:none;color:inherit">
-    <span class="avatar avatar-lg">AO</span>
-    <span class="grow"><b style="font-size:1.125rem;display:block">Amaka Okafor</b><span class="muted small">Leader · Atiku Women Network</span></span>
-    <i data-lucide="chevron-right" class="i" style="color:var(--ink-4)"></i>
+  <a class="list mt-0" href="profile.html" style="display:block;color:inherit">
+    <span class="list-item"><span class="avatar avatar-lg">AO</span><span class="grow"><span class="h3" style="display:block">Amaka Okafor</span><span class="meta">Leader · Atiku Women Network</span></span><i data-lucide="chevron-right" class="i chev"></i></span>
   </a>
 
-  <div class="section-title"><h2>My group</h2></div>
-  <nav class="list" aria-label="My group">
-    <a class="list-item" href="members.html"><span class="icon-tile"><i data-lucide="contact-round" class="i"></i></span><span class="grow"><span class="title" style="display:block">Members</span><span class="meta">3,482 people</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="chapters.html"><span class="icon-tile"><i data-lucide="network" class="i"></i></span><span class="grow"><span class="title" style="display:block">Chapters</span><span class="meta">14 chapters in 11 states</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="messages.html"><span class="icon-tile amber"><i data-lucide="send" class="i"></i></span><span class="grow"><span class="title" style="display:block">Messages</span><span class="meta">1,240 SMS points left</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
+  <div class="section-title"><h2>Group</h2></div>
+  <nav class="list">
+    <a class="list-item" href="members.html"><span class="icon-tile grey"><i data-lucide="contact-round" class="i"></i></span><span class="grow title">Members</span><span class="faint small num">3,482</span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="chapters.html"><span class="icon-tile grey"><i data-lucide="network" class="i"></i></span><span class="grow title">Chapters</span><span class="faint small num">14</span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="messages.html"><span class="icon-tile grey"><i data-lucide="send" class="i"></i></span><span class="grow title">Messages</span><i data-lucide="chevron-right" class="i chev"></i></a>
   </nav>
 
   <div class="section-title"><h2>Account</h2></div>
-  <nav class="list" aria-label="Account">
-    <a class="list-item" href="notifications.html"><span class="icon-tile blue"><i data-lucide="bell" class="i"></i></span><span class="grow title">Notifications</span><span class="chip chip-rejected" style="background:var(--red-600);color:#fff;border-color:var(--red-600)">3 new</span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="profile.html"><span class="icon-tile blue"><i data-lucide="circle-user-round" class="i"></i></span><span class="grow title">My profile</span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="#"><span class="icon-tile blue"><i data-lucide="life-buoy" class="i"></i></span><span class="grow"><span class="title" style="display:block">Help</span><span class="meta">Guides and how to contact the Directorate</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
+  <nav class="list">
+    <a class="list-item" href="notifications.html"><span class="icon-tile grey"><i data-lucide="bell" class="i"></i></span><span class="grow title">Notifications</span><span class="chip chip-rejected">3</span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="profile.html"><span class="icon-tile grey"><i data-lucide="circle-user-round" class="i"></i></span><span class="grow title">Profile</span><i data-lucide="chevron-right" class="i chev"></i></a>
+    <a class="list-item" href="#"><span class="icon-tile grey"><i data-lucide="life-buoy" class="i"></i></span><span class="grow title">Help</span><i data-lucide="chevron-right" class="i chev"></i></a>
   </nav>
 
-  <button class="btn btn-danger btn-block btn-lg mt-6" data-open="logout"><i data-lucide="log-out" class="i"></i>Log out</button>
-  <p class="tiny muted center mt-4">ADC Support Groups · adcsupportgroups.ng</p>
-
+  <button class="btn btn-danger btn-block mt-8" data-open="logout"><i data-lucide="log-out" class="i"></i>Log out</button>
 </main>
 
-<div class="dialog-backdrop" id="logout" role="dialog" aria-modal="true" aria-labelledby="lo-title">
+<div class="dialog-backdrop" id="logout" role="dialog" aria-modal="true" aria-labelledby="lo-t">
   <div class="dialog">
-    <h2 id="lo-title">Log out?</h2>
-    <p class="muted mt-2">You'll need your phone number and password to log in again.</p>
-    <div class="dialog-actions"><button class="btn" data-close>Stay logged in</button><a class="btn btn-danger-solid" href="login.html">Log out</a></div>
+    <h2 id="lo-t">Log out?</h2>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><a class="btn btn-danger-solid" href="index.html">Log out</a></div>
   </div>
 </div>
 </body>
