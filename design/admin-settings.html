@@ -3,135 +3,80 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Settings · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Settings · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="directorate" data-active="settings" data-title="Settings" data-back="admin-more.html">
-<main id="page" data-tab-scope>
+<main id="page">
+<div class="page-head-row"><h1 class="h1">Settings</h1></div>
 
-  <div class="page-head">
-    <h1 class="h1">Settings</h1>
-    <p>Lists groups choose from, Directorate staff, and handovers.</p>
-  </div>
-
+<div data-tab-scope>
   <div class="tabs" data-tabs role="tablist">
-    <button class="tab" role="tab" data-tab="cats" aria-selected="true">Group categories</button>
-    <button class="tab" role="tab" data-tab="types" aria-selected="false">Activity types</button>
-    <button class="tab" role="tab" data-tab="staff" aria-selected="false">Staff</button>
-    <button class="tab" role="tab" data-tab="handover" aria-selected="false">Handovers <span class="count">2</span></button>
+    <button class="tab" data-tab="cat" aria-selected="true">Categories</button>
+    <button class="tab" data-tab="types" aria-selected="false">Activity types</button>
+    <button class="tab" data-tab="staff" aria-selected="false">Staff</button>
+    <button class="tab" data-tab="hand" aria-selected="false">Handovers <span class="count">2</span></button>
   </div>
 
-  <!-- Categories -->
-  <section data-panel="cats" class="mt-4" style="max-width:720px">
-    <div class="row-between mb-3"><p class="muted small">Groups pick one of these when they register.</p><button class="btn btn-sm btn-primary" data-open="add-item"><i data-lucide="plus" class="i"></i>Add</button></div>
+  <section data-panel="cat" class="mt-4">
     <div class="card card-flush">
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Women</span><span class="muted small">1,104 groups</span><button class="icon-btn" aria-label="Edit Women"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Youth</span><span class="muted small">986 groups</span><button class="icon-btn" aria-label="Edit Youth"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Students</span><span class="muted small">412 groups</span><button class="icon-btn" aria-label="Edit Students"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Keke &amp; Okada</span><span class="muted small">377 groups</span><button class="icon-btn" aria-label="Edit Keke and Okada"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Market traders</span><span class="muted small">521 groups</span><button class="icon-btn" aria-label="Edit Market traders"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Professionals</span><span class="muted small">298 groups</span><button class="icon-btn" aria-label="Edit Professionals"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Faith communities</span><span class="muted small">264 groups</span><button class="icon-btn" aria-label="Edit Faith communities"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Diaspora</span><span class="muted small">143 groups</span><button class="icon-btn" aria-label="Edit Diaspora"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Persons with disability</span><span class="muted small">88 groups</span><button class="icon-btn" aria-label="Edit Persons with disability"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow bold">Community &amp; town unions</span><span class="muted small">614 groups</span><button class="icon-btn" aria-label="Edit Community and town unions"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row" style="background:var(--canvas)"><i data-lucide="grip-vertical" class="i drag"></i><span class="grow"><span class="bold muted">Artisans</span> <span class="chip chip-suspended" style="margin-left:6px"><i data-lucide="eye-off" class="i"></i>Hidden</span></span><button class="icon-btn" aria-label="Edit Artisans"><i data-lucide="pencil" class="i"></i></button></div>
+      <div class="setting"><span class="grow bold">Women</span><span class="small faint num">1,104</span><button class="icon-btn" aria-label="Edit Women"><i data-lucide="pencil" class="i i-sm"></i></button></div>
+      <div class="setting"><span class="grow bold">Youth</span><span class="small faint num">986</span><button class="icon-btn" aria-label="Edit Youth"><i data-lucide="pencil" class="i i-sm"></i></button></div>
+      <div class="setting"><span class="grow bold">Students</span><span class="small faint num">412</span><button class="icon-btn" aria-label="Edit Students"><i data-lucide="pencil" class="i i-sm"></i></button></div>
+      <div class="setting"><span class="grow bold">Transport</span><span class="small faint num">377</span><button class="icon-btn" aria-label="Edit Transport"><i data-lucide="pencil" class="i i-sm"></i></button></div>
+      <div class="setting"><span class="grow bold">Traders</span><span class="small faint num">521</span><button class="icon-btn" aria-label="Edit Traders"><i data-lucide="pencil" class="i i-sm"></i></button></div>
+      <div class="setting"><span class="grow bold">Diaspora</span><span class="small faint num">143</span><button class="icon-btn" aria-label="Edit Diaspora"><i data-lucide="pencil" class="i i-sm"></i></button></div>
     </div>
+    <div class="row mt-4"><input class="input grow" placeholder="New category" aria-label="New category"><button class="btn btn-primary" data-toast="Category added"><i data-lucide="plus" class="i"></i>Add</button></div>
   </section>
 
-  <!-- Activity types -->
-  <section data-panel="types" class="mt-4" style="max-width:720px" hidden>
-    <div class="row-between mb-3"><p class="muted small">What groups can record. Every type needs photos or a file.</p><button class="btn btn-sm btn-primary" data-open="add-item"><i data-lucide="plus" class="i"></i>Add</button></div>
+  <section data-panel="types" class="mt-4" hidden>
     <div class="card card-flush">
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="megaphone" class="i"></i></span><span class="grow bold">Rally / road show</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="mic" class="i"></i></span><span class="grow bold">Town hall</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="footprints" class="i"></i></span><span class="grow bold">Door-to-door</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="tv" class="i"></i></span><span class="grow bold">Media / social media</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="award" class="i"></i></span><span class="grow bold">Endorsement event</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="book-open" class="i"></i></span><span class="grow bold">Voter education / PVC drive</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="package" class="i"></i></span><span class="grow bold">Materials (posters, T-shirts)</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="hammer" class="i"></i></span><span class="grow bold">Community project</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="vote" class="i"></i></span><span class="grow bold">Election-day work</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
-      <div class="edit-row"><span class="icon-tile"><i data-lucide="ellipsis" class="i"></i></span><span class="grow bold">Other</span><button class="icon-btn" aria-label="Edit"><i data-lucide="pencil" class="i"></i></button></div>
+      <div class="setting"><span class="grow bold">Rally</span><label class="toggle"><input type="checkbox" checked aria-label="Rally on"><span></span></label></div>
+      <div class="setting"><span class="grow bold">Town hall</span><label class="toggle"><input type="checkbox" checked aria-label="Town hall on"><span></span></label></div>
+      <div class="setting"><span class="grow bold">Door-to-door</span><label class="toggle"><input type="checkbox" checked aria-label="Door-to-door on"><span></span></label></div>
+      <div class="setting"><span class="grow bold">Media</span><label class="toggle"><input type="checkbox" checked aria-label="Media on"><span></span></label></div>
+      <div class="setting"><span class="grow bold">Election day</span><label class="toggle"><input type="checkbox" checked aria-label="Election day on"><span></span></label></div>
+    </div>
+    <div class="row mt-4"><input class="input grow" placeholder="New activity type" aria-label="New activity type"><button class="btn btn-primary" data-toast="Type added"><i data-lucide="plus" class="i"></i>Add</button></div>
+  </section>
+
+  <section data-panel="staff" class="mt-4" hidden>
+    <div class="row-between mb-3"><span class="small faint">Super admin is the Rise Up super admin</span><button class="btn btn-primary btn-sm" data-open="add-staff"><i data-lucide="plus" class="i i-sm"></i>Add staff</button></div>
+    <div class="list">
+      <div class="list-item"><span class="avatar">HB</span><span class="grow"><span class="title" style="display:block">Hauwa Bello</span><span class="meta">0803 221 4410</span></span><span class="chip chip-verified">Super admin</span></div>
+      <div class="list-item"><span class="avatar a3">EO</span><span class="grow"><span class="title" style="display:block">Emeka Obi</span><span class="meta">0806 552 9001</span></span><span class="chip chip-neutral">Staff</span><button class="icon-btn" data-open="remove-staff" aria-label="Remove Emeka Obi"><i data-lucide="trash-2" class="i i-sm"></i></button></div>
+      <div class="list-item"><span class="avatar a2">SA</span><span class="grow"><span class="title" style="display:block">Sadiq Aliyu</span><span class="meta">0812 330 7712</span></span><span class="chip chip-neutral">Staff</span><button class="icon-btn" data-open="remove-staff" aria-label="Remove Sadiq Aliyu"><i data-lucide="trash-2" class="i i-sm"></i></button></div>
     </div>
   </section>
 
-  <!-- Staff -->
-  <section data-panel="staff" class="mt-4" style="max-width:820px" hidden>
-    <div class="banner banner-info mb-4"><i data-lucide="info" class="i"></i><p class="small">The Rise Up super admin is also the super admin here. Other Rise Up admins have no access unless you add them below.</p></div>
-    <div class="row-between mb-3"><h2 class="h3">Directorate staff</h2><button class="btn btn-sm btn-primary" data-open="add-staff"><i data-lucide="user-plus" class="i"></i>Add staff</button></div>
-    <div class="card card-flush">
-      <table class="table table-cards">
-        <thead><tr><th>Name</th><th>Role</th><th>Added</th><th></th></tr></thead>
-        <tbody>
-          <tr><td class="t-main"><div class="cell-main"><span class="avatar">HB</span><div><b>Hauwa Bello</b><div class="muted small">0806 220 1194</div></div></div></td><td data-label="Role"><span class="chip chip-info"><i data-lucide="crown" class="i"></i>Super admin</span></td><td data-label="Added">From Rise Up</td><td></td></tr>
-          <tr><td class="t-main"><div class="cell-main"><span class="avatar a3">IL</span><div><b>Ibrahim Lawal</b><div class="muted small">ibrahim.lawal@gmail.com</div></div></div></td><td data-label="Role"><span class="chip chip-neutral"><i data-lucide="shield" class="i"></i>Directorate staff</span></td><td data-label="Added">12 Oct</td><td class="t-right"><button class="btn btn-sm btn-danger" data-open="remove-staff">Remove</button></td></tr>
-          <tr><td class="t-main"><div class="cell-main"><span class="avatar a2">CO</span><div><b>Chinwe Obi</b><div class="muted small">0812 004 5521</div></div></div></td><td data-label="Role"><span class="chip chip-neutral"><i data-lucide="shield" class="i"></i>Directorate staff</span></td><td data-label="Added">20 Oct</td><td class="t-right"><button class="btn btn-sm btn-danger" data-open="remove-staff">Remove</button></td></tr>
-        </tbody>
-      </table>
+  <section data-panel="hand" class="mt-4" hidden>
+    <div class="list">
+      <div class="list-item"><span class="icon-tile grey"><i data-lucide="repeat" class="i"></i></span><span class="grow"><span class="title" style="display:block">Kano Keke Riders</span><span class="meta">Musa Ibrahim → Aminu Sani</span></span><button class="btn btn-sm" data-toast="Declined">Decline</button><button class="btn btn-primary btn-sm" data-toast="Approved">Approve</button></div>
+      <div class="list-item"><span class="icon-tile grey"><i data-lucide="repeat" class="i"></i></span><span class="grow"><span class="title" style="display:block">PH Students for Atiku</span><span class="meta">Tari Ebi → Ngozi Amadi</span></span><button class="btn btn-sm" data-toast="Declined">Decline</button><button class="btn btn-primary btn-sm" data-toast="Approved">Approve</button></div>
     </div>
   </section>
-
-  <!-- Handovers -->
-  <section data-panel="handover" class="mt-4" style="max-width:820px" hidden>
-    <p class="muted small mb-3">A leader wants to pass their group to someone else. Check both people before you approve.</p>
-    <div class="stack">
-      <article class="card">
-        <div class="row-between wrap"><b>Northern Youth Vanguard</b><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting</span></div>
-        <div class="row wrap mt-3" style="gap:12px">
-          <div class="row"><span class="avatar a3">AM</span><div><div class="bold">Aliyu Musa</div><div class="muted small">Leader now</div></div></div>
-          <i data-lucide="arrow-right" class="i" style="color:var(--ink-3)"></i>
-          <div class="row"><span class="avatar a5">ZU</span><div><div class="bold">Zainab Umar</div><div class="muted small">Secretary · member 8 months</div></div></div>
-        </div>
-        <p class="small mt-3"><span class="muted">Reason:</span> "I have been appointed to the state campaign council."</p>
-        <div class="row wrap mt-4" style="gap:8px"><button class="btn btn-primary" data-toast="Handover approved. Both notified.">Approve handover</button><button class="btn btn-danger" data-toast="Handover declined">Decline</button></div>
-      </article>
-      <article class="card">
-        <div class="row-between wrap"><b>Ilorin Market Women</b><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>Waiting</span></div>
-        <div class="row wrap mt-3" style="gap:12px">
-          <div class="row"><span class="avatar a2">BA</span><div><div class="bold">Bola Ajayi</div><div class="muted small">Leader now</div></div></div>
-          <i data-lucide="arrow-right" class="i" style="color:var(--ink-3)"></i>
-          <div class="row"><span class="avatar a4">KO</span><div><div class="bold">Kemi Olatunji</div><div class="muted small">Treasurer · member 1 year</div></div></div>
-        </div>
-        <div class="row wrap mt-4" style="gap:8px"><button class="btn btn-primary" data-toast="Handover approved. Both notified.">Approve handover</button><button class="btn btn-danger" data-toast="Handover declined">Decline</button></div>
-      </article>
-    </div>
-  </section>
-
-</main>
-
-<div class="dialog-backdrop" id="add-item" role="dialog" aria-modal="true" aria-labelledby="ai-t">
-  <div class="dialog">
-    <h2 id="ai-t">Add to list</h2>
-    <label class="field mt-4"><span class="label">Name</span><input class="input" placeholder="e.g. Artisans"></label>
-    <label class="check mt-4"><input type="checkbox" checked><span>Show it to groups now</span></label>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Added">Add</button></div>
-  </div>
 </div>
-
+</main>
 <div class="dialog-backdrop" id="add-staff" role="dialog" aria-modal="true" aria-labelledby="as-t">
   <div class="dialog">
-    <h2 id="as-t">Add Directorate staff</h2>
-    <p class="muted mt-1">They can verify groups, check activities and confirm payments. They can't add other staff.</p>
-    <label class="field mt-4"><span class="label">Phone number or email</span><input class="input" placeholder="0803 000 0000"></label>
-    <span class="hint mt-2">If they don't have an account yet, we'll send them one.</span>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Staff added and notified">Add staff</button></div>
+    <h2 id="as-t">Add staff</h2>
+    <div class="field mt-4"><label class="label" for="as-p">Phone or email</label><input id="as-p" class="input" placeholder="0803 123 4567"></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Staff added">Add</button></div>
   </div>
 </div>
-
 <div class="dialog-backdrop" id="remove-staff" role="dialog" aria-modal="true" aria-labelledby="rs-t">
   <div class="dialog">
-    <h2 id="rs-t">Remove this person?</h2>
-    <p class="muted mt-2">They will lose Directorate access straight away. Their past decisions stay in the history.</p>
+    <h2 id="rs-t">Remove staff?</h2>
+    <p class="muted mt-1">They lose Directorate access.</p>
     <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Staff removed">Remove</button></div>
   </div>
 </div>
 </body>
-
 </html>

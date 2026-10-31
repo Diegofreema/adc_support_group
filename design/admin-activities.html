@@ -3,131 +3,90 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Activities · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Activities · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="directorate" data-active="activities" data-title="Activities">
-<main id="page" data-tab-scope>
+<main id="page">
+<div class="page-head-row"><h1 class="h1">Activities</h1></div>
 
-  <div class="page-head">
-    <h1 class="h1">Activities</h1>
-    <p>Check what groups recorded. Only approved activities count.</p>
+<div data-tab-scope>
+  <div class="tabs" data-tabs role="tablist">
+    <button class="tab" data-tab="check" aria-selected="true">To check <span class="count">42</span></button>
+    <button class="tab" data-tab="leaders" aria-selected="false">Approved by leaders</button>
+    <button class="tab" data-tab="flag" aria-selected="false">Flagged <span class="count">3</span></button>
   </div>
 
-  <div class="pills" data-pressed-group role="group" aria-label="Show">
-    <button class="pill" aria-pressed="true" data-show="check">To check · 42</button>
-    <button class="pill" aria-pressed="false" data-show="leaders">Approved by leaders</button>
-    <button class="pill" aria-pressed="false" data-show="flagged"><i data-lucide="flag" class="i i-sm"></i>Flagged · 3</button>
+  <div class="filterbar mt-4">
+    <div class="search"><i data-lucide="search" class="i"></i><input class="input" placeholder="Search group or place" aria-label="Search"></div>
+    <select class="select" aria-label="Type"><option>All types</option><option>Rally</option><option>Town hall</option><option>Door-to-door</option></select>
+    <select class="select" aria-label="State"><option>All states</option><option>Kano</option><option>Lagos</option></select>
   </div>
 
-  <div class="filterbar mt-3">
-    <div class="search"><i data-lucide="search" class="i"></i><input class="input" type="search" placeholder="Search group or place" aria-label="Search activities"></div>
-    <select class="select" aria-label="Activity type"><option>All activity types</option><option>Rally / road show</option><option>Town hall</option><option>Door-to-door</option><option>Media campaign</option><option>Election-day work</option></select>
-  </div>
-
-  <!-- To check -->
-  <div data-view="check" class="grid-2 mt-4" style="align-items:start">
+  <div class="grid-2 mt-4" data-panel="check">
     <article class="feed-card">
-      <div class="media"><span class="ph ph-4 ph-crowd"></span><span class="ph ph-1"></span><span class="more ph ph-6"><span>+3</span></span></div>
+      <div class="media"><span class="ph ph-4 ph-crowd"></span><span class="ph ph-6"></span><span class="more ph ph-1"><span>+3</span></span></div>
       <div class="feed-body">
-        <div class="row-between"><span class="tag"><i data-lucide="megaphone" class="i i-sm"></i>Rally / road show</span><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>To check</span></div>
-        <h3 class="h3 mt-3">Road show through Sabon Gari to Kofar Mata</h3>
-        <p class="small mt-1"><b>Kano Keke Riders</b> <span class="muted">· whole group</span></p>
-        <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>2 Nov</span><span><i data-lucide="map-pin" class="i"></i>Kano Municipal</span><span><i data-lucide="users-round" class="i"></i>2,400 people</span></div>
-        <div class="row mt-4" style="gap:8px">
-          <button class="btn btn-primary grow" data-toast="Activity approved"><i data-lucide="check" class="i"></i>Approve</button>
-          <button class="btn btn-danger grow" data-open="reject-act"><i data-lucide="x" class="i"></i>Reject</button>
-        </div>
+        <div class="row-between"><span class="tag"><i data-lucide="megaphone" class="i i-sm"></i>Rally</span><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>To check</span></div>
+        <h3 class="h3 mt-3">Road show, Sabon Gari</h3>
+        <div class="facts mt-2"><span><i data-lucide="users-round" class="i"></i>Kano Keke Riders</span><span><i data-lucide="calendar" class="i"></i>2 Nov</span><span><i data-lucide="user" class="i"></i>2,400</span></div>
+        <div class="row mt-4"><button class="btn btn-primary grow" data-toast="Approved"><i data-lucide="check" class="i"></i>Approve</button><button class="btn btn-danger grow" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button></div>
       </div>
     </article>
-
     <article class="feed-card">
-      <div class="media"><span class="ph ph-5"></span><span class="ph ph-3"></span><span class="ph ph-2"></span></div>
+      <div class="media"><span class="ph ph-5 ph-crowd"></span><span class="ph ph-3"></span><span class="more ph ph-2"><span>+2</span></span></div>
       <div class="feed-body">
         <div class="row-between"><span class="tag"><i data-lucide="mic" class="i i-sm"></i>Town hall</span><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>To check</span></div>
-        <h3 class="h3 mt-3">Professionals' dinner and town hall</h3>
-        <p class="small mt-1"><b>Yola Professionals Network</b> <span class="muted">· whole group</span></p>
-        <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>1 Nov</span><span><i data-lucide="map-pin" class="i"></i>Yola North</span><span><i data-lucide="users-round" class="i"></i>180 people</span><span><i data-lucide="link" class="i"></i>Paid ₦1.2m</span></div>
-        <div class="row mt-4" style="gap:8px">
-          <button class="btn btn-primary grow" data-toast="Activity approved"><i data-lucide="check" class="i"></i>Approve</button>
-          <button class="btn btn-danger grow" data-open="reject-act"><i data-lucide="x" class="i"></i>Reject</button>
-        </div>
-      </div>
-    </article>
-
-    <article class="feed-card">
-      <div class="feed-body">
-        <div class="row-between"><span class="tag"><i data-lucide="tv" class="i i-sm"></i>Media campaign</span><span class="chip chip-pending"><i data-lucide="clock" class="i"></i>To check</span></div>
-        <h3 class="h3 mt-3">Radio jingle on Freedom FM, 2 weeks</h3>
-        <p class="small mt-1"><b>Northern Youth Vanguard</b> <span class="muted">· whole group</span></p>
-        <div class="facts mt-2"><span><i data-lucide="calendar" class="i"></i>20 Oct to 3 Nov</span><span><i data-lucide="map-pin" class="i"></i>Kaduna</span></div>
-        <div class="list mt-3"><a class="list-item" href="#" style="min-height:52px;padding:10px 14px"><i data-lucide="file-text" class="i" style="color:var(--red-700)"></i><span class="grow small bold">Freedom FM invoice.pdf</span><i data-lucide="external-link" class="i i-sm chev"></i></a></div>
-        <div class="row mt-4" style="gap:8px">
-          <button class="btn btn-primary grow" data-toast="Activity approved"><i data-lucide="check" class="i"></i>Approve</button>
-          <button class="btn btn-danger grow" data-open="reject-act"><i data-lucide="x" class="i"></i>Reject</button>
-        </div>
+        <h3 class="h3 mt-3">Professionals dinner, Yola</h3>
+        <div class="facts mt-2"><span><i data-lucide="users-round" class="i"></i>Yola Professionals</span><span><i data-lucide="calendar" class="i"></i>1 Nov</span><span><i data-lucide="user" class="i"></i>180</span></div>
+        <div class="row mt-4"><button class="btn btn-primary grow" data-toast="Approved"><i data-lucide="check" class="i"></i>Approve</button><button class="btn btn-danger grow" data-open="reject"><i data-lucide="x" class="i"></i>Reject</button></div>
       </div>
     </article>
   </div>
 
-  <!-- Approved by leaders -->
-  <div data-view="leaders" class="mt-4" hidden>
-    <div class="banner banner-info mb-4"><i data-lucide="info" class="i"></i><p class="small">Leaders approve activities from their own members and chapters. You can overturn any of them.</p></div>
-    <div class="card card-flush">
-      <table class="table table-cards">
-        <thead><tr><th>Activity</th><th>Group / chapter</th><th>Approved by</th><th class="t-right">People</th><th></th></tr></thead>
-        <tbody>
-          <tr><td class="t-main"><div class="cell-main"><div class="thumbs" style="width:52px;grid-template-columns:1fr"><span class="ph ph-1"></span></div><div><b>Door-to-door, Surulere Ward 4</b><div class="muted small">Today · 9 photos</div></div></div></td><td data-label="Group">Atiku Women Network · Lagos</td><td data-label="Approved by">Amaka Okafor</td><td data-label="People" class="t-right num">82 homes</td><td class="t-right"><button class="btn btn-sm btn-danger" data-open="overturn">Overturn</button></td></tr>
-          <tr><td class="t-main"><div class="cell-main"><div class="thumbs" style="width:52px;grid-template-columns:1fr"><span class="ph ph-2"></span></div><div><b>Women's prayer meeting</b><div class="muted small">Yesterday · 4 photos</div></div></div></td><td data-label="Group">Atiku Women Network · Plateau</td><td data-label="Approved by">Amaka Okafor</td><td data-label="People" class="t-right num">410</td><td class="t-right"><button class="btn btn-sm btn-danger" data-open="overturn">Overturn</button></td></tr>
-          <tr><td class="t-main"><div class="cell-main"><div class="thumbs" style="width:52px;grid-template-columns:1fr"><span class="ph ph-3"></span></div><div><b>Flyer sharing at Oshodi</b><div class="muted small">31 Oct · 6 photos</div></div></div></td><td data-label="Group">Oshodi Market Women</td><td data-label="Approved by">Bisi Adewale</td><td data-label="People" class="t-right num">3,000 flyers</td><td class="t-right"><button class="btn btn-sm btn-danger" data-open="overturn">Overturn</button></td></tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="card card-flush mt-4" data-panel="leaders" hidden>
+    <table class="table table-cards">
+      <thead><tr><th>Activity</th><th>Group</th><th>Approved by</th><th class="t-right">People</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="t-main"><div class="bold">Door-to-door, Surulere</div><div class="small faint">Today</div></td><td data-label="Group">Atiku Women Network</td><td data-label="Approved by">Lagos chapter</td><td data-label="People" class="t-right num">82</td><td class="t-right"><button class="btn btn-sm" data-open="overturn">Overturn</button></td></tr>
+        <tr><td class="t-main"><div class="bold">Town hall, Jos North</div><div class="small faint">Sat</div></td><td data-label="Group">Atiku Women Network</td><td data-label="Approved by">Plateau chapter</td><td data-label="People" class="t-right num">410</td><td class="t-right"><button class="btn btn-sm" data-open="overturn">Overturn</button></td></tr>
+        <tr><td class="t-main"><div class="bold">Flyers, Oshodi market</div><div class="small faint">Fri</div></td><td data-label="Group">Oshodi Market Women</td><td data-label="Approved by">Leader</td><td data-label="People" class="t-right num">3,000</td><td class="t-right"><button class="btn btn-sm" data-open="overturn">Overturn</button></td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <!-- Flagged -->
-  <div data-view="flagged" class="mt-4" hidden>
-    <article class="card">
-      <div class="row-between wrap"><span class="tag"><i data-lucide="megaphone" class="i i-sm"></i>Rally / road show</span><span class="chip chip-rejected"><i data-lucide="flag" class="i"></i>Flagged by 2 people</span></div>
-      <h3 class="h3 mt-3">Rally at Bauchi central market</h3>
-      <p class="small mt-1"><b>Bauchi Youth Mobilisers</b> · approved by leader</p>
-      <div class="thumbs mt-3" style="max-width:360px"><span class="ph ph-4"></span><span class="ph ph-1"></span><span class="ph ph-5"></span><span class="ph ph-2"><b>+2</b></span></div>
-      <div class="banner banner-danger mt-3"><i data-lucide="message-square-warning" class="i"></i><p class="small">"These photos are from a 2023 rally. I was there." · Member, Bauchi</p></div>
-      <div class="row wrap mt-4" style="gap:8px"><button class="btn btn-danger" data-open="overturn">Overturn approval</button><button class="btn" data-toast="Flag cleared">Keep it, clear flag</button></div>
-    </article>
-  </div>
-
-</main>
-
-<div class="dialog-backdrop" id="reject-act" role="dialog" aria-modal="true" aria-labelledby="ra-t">
-  <div class="dialog">
-    <h2 id="ra-t">Reject this activity</h2>
-    <p class="muted mt-1">The group will see your reason and can fix it and send again.</p>
-    <div class="choices mt-4">
-      <label class="choice"><input type="radio" name="rx" checked><span class="dot"></span><span class="choice-title">Photos don't show the activity</span></label>
-      <label class="choice"><input type="radio" name="rx"><span class="dot"></span><span class="choice-title">Numbers look wrong</span></label>
-      <label class="choice"><input type="radio" name="rx"><span class="dot"></span><span class="choice-title">Already recorded before</span></label>
-      <label class="choice"><input type="radio" name="rx"><span class="dot"></span><span class="choice-title">Something else</span></label>
-    </div>
-    <label class="field mt-4"><span class="label">Note <span class="opt">(optional)</span></span><textarea class="textarea" style="min-height:90px"></textarea></label>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Activity rejected">Reject</button></div>
+  <div class="list mt-4" data-panel="flag" hidden>
+    <div class="list-item"><span class="icon-tile red"><i data-lucide="flag" class="i"></i></span><span class="grow"><span class="title" style="display:block">Rally, Makurdi</span><span class="meta">Same photos used twice</span></span><button class="btn btn-sm" data-open="overturn">Review</button></div>
+    <div class="list-item"><span class="icon-tile red"><i data-lucide="flag" class="i"></i></span><span class="grow"><span class="title" style="display:block">Town hall, Gboko</span><span class="meta">Headcount looks too high</span></span><button class="btn btn-sm" data-open="overturn">Review</button></div>
   </div>
 </div>
-
+</main>
+<div class="dialog-backdrop" id="reject" role="dialog" aria-modal="true" aria-labelledby="rj-t">
+  <div class="dialog">
+    <h2 id="rj-t">Reject activity</h2>
+    <div class="choices mt-4">
+      <label class="choice"><input type="radio" name="r" checked><span class="dot"></span><span class="choice-title">Photos unclear</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Headcount too high</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Duplicate</span></label>
+      <label class="choice"><input type="radio" name="r"><span class="dot"></span><span class="choice-title">Other</span></label>
+    </div>
+    <div class="field mt-4"><label class="label" for="rj-n">Note <span class="opt">(optional)</span></label><input id="rj-n" class="input" placeholder="Note to group"></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Rejected">Reject</button></div>
+  </div>
+</div>
 <div class="dialog-backdrop" id="overturn" role="dialog" aria-modal="true" aria-labelledby="ov-t">
   <div class="dialog">
-    <h2 id="ov-t">Overturn the leader's approval?</h2>
-    <p class="muted mt-1">The activity will stop counting. The leader and the person who recorded it will be told why.</p>
-    <label class="field mt-4"><span class="label">Reason</span><textarea class="textarea" placeholder="e.g. Photos are from an old event"></textarea></label>
+    <h2 id="ov-t">Overturn approval?</h2>
+    <p class="muted mt-1">It will stop counting.</p>
+    <div class="field mt-4"><label class="label" for="ov-n">Reason</label><input id="ov-n" class="input" placeholder="Reason"></div>
     <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Approval overturned">Overturn</button></div>
   </div>
 </div>
 </body>
-
 </html>

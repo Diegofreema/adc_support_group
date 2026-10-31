@@ -3,94 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Funding causes · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Causes · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
-<body data-shell="directorate" data-active="causes" data-title="Funding causes" data-back="admin-more.html">
+<body data-shell="directorate" data-active="causes" data-title="Causes" data-back="admin-more.html">
 <main id="page">
+<div class="page-head-row">
+  <h1 class="h1">Causes</h1>
+  <button class="btn btn-primary" data-open="new-cause"><i data-lucide="plus" class="i"></i>New cause</button>
+</div>
 
-  <div class="page-head row-between wrap" style="align-items:flex-end">
-    <div>
-      <h1 class="h1">Funding causes</h1>
-      <p>Things the campaign needs money for. Groups pay towards them.</p>
-    </div>
-    <button class="btn btn-primary" data-open="new-cause"><i data-lucide="plus" class="i"></i>New cause</button>
+<div class="pills" data-pressed-group>
+  <button class="pill" aria-pressed="true">Open · 6</button>
+  <button class="pill" aria-pressed="false">Closed · 14</button>
+</div>
+
+<div class="grid-2 mt-4">
+  <div class="card">
+    <div class="row-between"><span class="chip chip-verified"><i data-lucide="circle-dot" class="i"></i>Open</span><span class="small faint">Ends 10 Dec</span></div>
+    <h3 class="h3 mt-3">Lagos mega rally</h3>
+    <div class="progress mt-4"><span style="width:68%"></span></div>
+    <div class="row-between mt-2 small"><span><b>₦34m</b> <span class="faint">of ₦50m</span></span><span class="faint">41 groups</span></div>
+    <div class="row mt-4"><a class="btn btn-sm grow" href="admin-payments.html">Payments</a><button class="btn btn-sm grow" data-open="new-cause">Edit</button></div>
   </div>
-
-  <div class="pills mb-4" data-pressed-group role="group" aria-label="Show">
-    <button class="pill" aria-pressed="true">Open · 6</button>
-    <button class="pill" aria-pressed="false">Closed · 14</button>
+  <div class="card">
+    <div class="row-between"><span class="chip chip-verified"><i data-lucide="circle-dot" class="i"></i>Open</span><span class="small faint">Ends 30 Nov</span></div>
+    <h3 class="h3 mt-3">North East radio</h3>
+    <div class="progress mt-4"><span style="width:92%"></span></div>
+    <div class="row-between mt-2 small"><span><b>₦18.4m</b> <span class="faint">of ₦20m</span></span><span class="faint">63 groups</span></div>
+    <div class="row mt-4"><a class="btn btn-sm grow" href="admin-payments.html">Payments</a><button class="btn btn-sm grow" data-open="new-cause">Edit</button></div>
   </div>
-
-  <div class="grid-2" style="align-items:start">
-    <article class="card">
-      <div class="row-between"><span class="chip chip-verified"><i data-lucide="circle-dot" class="i"></i>Open</span><span class="muted small">Ends 10 Dec</span></div>
-      <h2 class="h3 mt-3">Lagos mega rally: logistics</h2>
-      <p class="muted small mt-1">Buses, sound and stage for the Tafawa Balewa Square rally on 14 December.</p>
-      <div class="progress mt-4"><span style="width:68%"></span></div>
-      <div class="row-between mt-2 small"><span><b>₦34m</b> of ₦50m</span><span class="muted">68%</span></div>
-      <div class="row-between mt-3 small muted"><span><i data-lucide="users-round" class="i i-sm" style="display:inline;vertical-align:-3px"></i> 41 groups paid</span><span>Seen by: All groups</span></div>
-      <div class="row mt-4" style="gap:8px"><a class="btn btn-sm grow" href="admin-payments.html">See payments</a><button class="btn btn-sm grow" data-open="new-cause">Edit</button></div>
-    </article>
-
-    <article class="card">
-      <div class="row-between"><span class="chip chip-verified"><i data-lucide="circle-dot" class="i"></i>Open</span><span class="muted small">Ends 30 Nov</span></div>
-      <h2 class="h3 mt-3">North East radio campaign</h2>
-      <p class="muted small mt-1">Hausa and Fulfulde radio jingles across 6 states for 4 weeks.</p>
-      <div class="progress mt-4"><span style="width:92%"></span></div>
-      <div class="row-between mt-2 small"><span><b>₦18.4m</b> of ₦20m</span><span class="muted">92%</span></div>
-      <div class="row-between mt-3 small muted"><span>63 groups paid</span><span>Seen by: 6 states</span></div>
-      <div class="row mt-4" style="gap:8px"><a class="btn btn-sm grow" href="admin-payments.html">See payments</a><button class="btn btn-sm grow" data-open="new-cause">Edit</button></div>
-    </article>
-
-    <article class="card">
-      <div class="row-between"><span class="chip chip-verified"><i data-lucide="circle-dot" class="i"></i>Open</span><span class="muted small">Ends 20 Dec</span></div>
-      <h2 class="h3 mt-3">Anambra rally: canopies and chairs</h2>
-      <p class="muted small mt-1">Rentals for the Awka rally.</p>
-      <div class="progress mt-4"><span style="width:21%"></span></div>
-      <div class="row-between mt-2 small"><span><b>₦2.1m</b> of ₦10m</span><span class="muted">21%</span></div>
-      <div class="row-between mt-3 small muted"><span>9 groups paid</span><span>Seen by: South East</span></div>
-      <div class="row mt-4" style="gap:8px"><a class="btn btn-sm grow" href="admin-payments.html">See payments</a><button class="btn btn-sm grow" data-open="new-cause">Edit</button></div>
-    </article>
-
-    <article class="card" style="background:var(--canvas)">
-      <div class="row-between"><span class="chip chip-suspended"><i data-lucide="lock" class="i"></i>Closed</span><span class="muted small">Ended 25 Oct</span></div>
-      <h2 class="h3 mt-3">Kano road show: fuel</h2>
-      <div class="progress mt-4"><span style="width:100%"></span></div>
-      <div class="row-between mt-2 small"><span><b>₦6.3m</b> of ₦6m</span><span class="muted">105%</span></div>
-    </article>
+  <div class="card">
+    <div class="row-between"><span class="chip chip-verified"><i data-lucide="circle-dot" class="i"></i>Open</span><span class="small faint">Ends 20 Dec</span></div>
+    <h3 class="h3 mt-3">Anambra rally</h3>
+    <div class="progress mt-4"><span style="width:21%"></span></div>
+    <div class="row-between mt-2 small"><span><b>₦2.1m</b> <span class="faint">of ₦10m</span></span><span class="faint">9 groups</span></div>
+    <div class="row mt-4"><a class="btn btn-sm grow" href="admin-payments.html">Payments</a><button class="btn btn-sm grow" data-open="new-cause">Edit</button></div>
   </div>
-
+  <div class="card">
+    <div class="row-between"><span class="chip chip-verified"><i data-lucide="circle-dot" class="i"></i>Open</span><span class="small faint">Ends 15 Dec</span></div>
+    <h3 class="h3 mt-3">North West posters</h3>
+    <div class="progress mt-4"><span style="width:31%"></span></div>
+    <div class="row-between mt-2 small"><span><b>₦9.3m</b> <span class="faint">of ₦30m</span></span><span class="faint">22 groups</span></div>
+    <div class="row mt-4"><a class="btn btn-sm grow" href="admin-payments.html">Payments</a><button class="btn btn-sm grow" data-open="new-cause">Edit</button></div>
+  </div>
+</div>
 </main>
-
 <div class="dialog-backdrop" id="new-cause" role="dialog" aria-modal="true" aria-labelledby="nc-t">
-  <div class="dialog" style="max-width:540px">
-    <h2 id="nc-t">New funding cause</h2>
-    <p class="muted mt-1">Groups will see this when they pay.</p>
-    <form class="mt-4" onsubmit="return false">
-      <label class="field"><span class="label">Name</span><input class="input" placeholder="e.g. Lagos mega rally: logistics"></label>
-      <label class="field"><span class="label">What the money is for</span><textarea class="textarea" style="min-height:96px" placeholder="Explain in one or two sentences"></textarea></label>
-      <div class="grid-2" style="gap:16px;margin-top:20px">
-        <label class="field" style="margin:0"><span class="label">Target amount</span><span class="input-group"><span class="prefix">₦</span><input class="input" inputmode="numeric" placeholder="50,000,000"></span></label>
-        <label class="field" style="margin:0"><span class="label">Last day</span><input class="input" type="date"></label>
-      </div>
-      <fieldset class="field" style="border:0;padding:0;margin:20px 0 0">
-        <legend class="label">Who can see it</legend>
-        <div class="choices">
-          <label class="choice"><input type="radio" name="vis" checked><span class="dot"></span><span class="grow"><span class="choice-title">All groups</span></span></label>
-          <label class="choice"><input type="radio" name="vis"><span class="dot"></span><span class="grow"><span class="choice-title">Only groups in some states</span><span class="choice-desc" style="display:block">You pick the states next</span></span></label>
-        </div>
-      </fieldset>
-      <div class="dialog-actions"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn btn-primary" data-close data-toast="Cause published to groups">Publish cause</button></div>
-    </form>
+  <div class="dialog">
+    <h2 id="nc-t">New cause</h2>
+    <div class="field mt-4"><label class="label" for="nc-n">Name</label><input id="nc-n" class="input" placeholder="e.g. Kano rally"></div>
+    <div class="field"><label class="label" for="nc-d">Short note <span class="opt">(optional)</span></label><input id="nc-d" class="input" placeholder="What it pays for"></div>
+    <div class="grid-2 mt-4" style="grid-template-columns:1fr 1fr">
+      <div class="field"><label class="label" for="nc-a">Target (₦)</label><input id="nc-a" class="input" inputmode="numeric" placeholder="10,000,000"></div>
+      <div class="field" style="margin-top:0"><label class="label" for="nc-e">Ends</label><input id="nc-e" class="input" type="date"></div>
+    </div>
+    <div class="field"><label class="label" for="nc-v">Who can see it</label><select id="nc-v" class="select"><option>All groups</option><option>Some states</option></select></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-primary" data-close data-toast="Cause created">Create</button></div>
   </div>
 </div>
 </body>
-
 </html>

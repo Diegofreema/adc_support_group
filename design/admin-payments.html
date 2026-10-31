@@ -3,123 +3,88 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Payments · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Payments · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="directorate" data-active="payments" data-title="Payments">
-<main id="page" data-tab-scope>
-
-  <div class="page-head">
-    <h1 class="h1">Payments</h1>
-    <p>Money groups have given. Offline payments count after you confirm them.</p>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-label"><i data-lucide="hand-coins" class="i i-sm"></i>Total raised</div><div class="stat-value">₦412m</div><div class="stat-sub">From 2,118 groups</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="credit-card" class="i i-sm"></i>Paid with Funz</div><div class="stat-value">₦371m</div><div class="stat-sub">9,804 payments</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="landmark" class="i i-sm"></i>Offline, confirmed</div><div class="stat-value">₦41m</div><div class="stat-sub">312 payments</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="clock" class="i i-sm"></i>Waiting to confirm</div><div class="stat-value" style="color:var(--amber-700)">₦3.4m</div><div class="stat-sub">5 offline payments</div></div>
-  </div>
-
-  <div class="tabs mt-6" data-tabs role="tablist">
-    <button class="tab" role="tab" data-tab="all" aria-selected="false">All payments</button>
-    <button class="tab" role="tab" data-tab="offline" aria-selected="true">Offline to confirm <span class="count">5</span></button>
-    <button class="tab" role="tab" data-tab="cause" aria-selected="false">By cause</button>
-  </div>
-
-  <!-- Offline -->
-  <section data-panel="offline" class="mt-4">
-    <div class="card card-flush">
-      <table class="table table-cards">
-        <thead><tr><th>Group</th><th>For</th><th class="t-right">Amount</th><th>How</th><th>Reported</th><th></th></tr></thead>
-        <tbody>
-          <tr><td class="t-main"><b>Onitsha Traders Forum</b><div class="muted small">Main group</div></td><td data-label="For">Anambra rally: canopies</td><td data-label="Amount" class="t-right num bold">₦1,500,000</td><td data-label="How">Bank transfer</td><td data-label="Reported">Today</td><td class="t-right"><button class="btn btn-sm btn-primary" data-open="confirm">Check</button></td></tr>
-          <tr><td class="t-main"><b>Atiku Women Network</b><div class="muted small">Plateau chapter</div></td><td data-label="For">General support · Mobilisation</td><td data-label="Amount" class="t-right num bold">₦800,000</td><td data-label="How">Bank transfer</td><td data-label="Reported">Yesterday</td><td class="t-right"><button class="btn btn-sm" data-open="confirm">Check</button></td></tr>
-          <tr><td class="t-main"><b>Kano Keke Riders</b><div class="muted small">Main group</div></td><td data-label="For">Kano road show: fuel</td><td data-label="Amount" class="t-right num bold">₦600,000</td><td data-label="How">Cash to state office</td><td data-label="Reported">2 days ago</td><td class="t-right"><button class="btn btn-sm" data-open="confirm">Check</button></td></tr>
-          <tr><td class="t-main"><b>Atiku UK Network</b><div class="muted small">Main group</div></td><td data-label="For">Media campaign</td><td data-label="Amount" class="t-right num bold">₦350,000</td><td data-label="How">Bank transfer</td><td data-label="Reported">3 days ago</td><td class="t-right"><button class="btn btn-sm" data-open="confirm">Check</button></td></tr>
-          <tr><td class="t-main"><b>PH Students for Atiku</b><div class="muted small">Main group</div></td><td data-label="For">General support · Posters</td><td data-label="Amount" class="t-right num bold">₦150,000</td><td data-label="How">Bank transfer</td><td data-label="Reported">3 days ago</td><td class="t-right"><button class="btn btn-sm" data-open="confirm">Check</button></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- All -->
-  <section data-panel="all" class="mt-4" hidden>
-    <div class="filterbar mb-3">
-      <div class="search"><i data-lucide="search" class="i"></i><input class="input" type="search" placeholder="Search group or receipt number" aria-label="Search payments"></div>
-      <select class="select" aria-label="Cause"><option>All causes</option><option>Lagos mega rally: logistics</option><option>General support</option></select>
-    </div>
-    <div class="card card-flush">
-      <table class="table table-cards">
-        <thead><tr><th>Group</th><th>For</th><th class="t-right">Amount</th><th>How</th><th>Status</th><th>Date</th></tr></thead>
-        <tbody>
-          <tr><td class="t-main"><b>Yola Professionals Network</b><div class="muted small">Main group · FZ-21877</div></td><td data-label="For">Yola rally</td><td data-label="Amount" class="t-right num bold">₦1,200,000</td><td data-label="How">Funz</td><td data-label="Status"><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span></td><td data-label="Date">Today</td></tr>
-          <tr><td class="t-main"><b>Atiku Women Network</b><div class="muted small">Lagos chapter · FZ-20931</div></td><td data-label="For">Lagos mega rally: logistics</td><td data-label="Amount" class="t-right num bold">₦750,000</td><td data-label="How">Funz</td><td data-label="Status"><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span></td><td data-label="Date">Mon</td></tr>
-          <tr><td class="t-main"><b>Ibadan Youth Forum</b><div class="muted small">Main group · OF-0331</div></td><td data-label="For">General support · Posters</td><td data-label="Amount" class="t-right num bold">₦250,000</td><td data-label="How">Offline</td><td data-label="Status"><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Confirmed</span></td><td data-label="Date">Sun</td></tr>
-          <tr><td class="t-main"><b>Kano Keke Riders</b><div class="muted small">Main group</div></td><td data-label="For">Kano road show</td><td data-label="Amount" class="t-right num bold">₦400,000</td><td data-label="How">Funz</td><td data-label="Status"><span class="chip chip-failed"><i data-lucide="x" class="i"></i>Failed</span></td><td data-label="Date">Sat</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- By cause -->
-  <section data-panel="cause" class="mt-4" hidden>
-    <div class="list">
-      <a class="list-item" href="admin-causes.html"><span class="grow"><span class="title" style="display:block">Lagos mega rally: logistics</span><span class="progress progress-sm mt-2" style="display:block"><span style="width:68%"></span></span><span class="meta">₦34m of ₦50m · 41 groups</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-      <a class="list-item" href="admin-causes.html"><span class="grow"><span class="title" style="display:block">North East radio campaign</span><span class="progress progress-sm mt-2" style="display:block"><span style="width:92%"></span></span><span class="meta">₦18.4m of ₦20m · 63 groups</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-      <a class="list-item" href="admin-causes.html"><span class="grow"><span class="title" style="display:block">General support (no cause)</span><span class="meta">₦201m · 1,870 groups</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    </div>
-  </section>
-
-</main>
-
-<div class="dialog-backdrop" id="confirm" role="dialog" aria-modal="true" aria-labelledby="c-t">
-  <div class="dialog" style="max-width:560px">
-    <h2 id="c-t">Check offline payment</h2>
-    <p class="muted mt-1">Onitsha Traders Forum says they paid by bank transfer.</p>
-    <div class="grid-2 mt-4" style="align-items:start">
-      <div class="proof" aria-label="Proof of payment uploaded by the group">
-        <b style="color:var(--ink-2)">Transfer receipt</b>
-        <div class="bar" style="width:70%"></div><div class="bar" style="width:50%"></div>
-        <div style="margin-top:auto;font-size:1.125rem;font-weight:800;color:var(--ink-2)">₦1,500,000.00</div>
-        <div class="bar" style="width:80%"></div><div class="bar" style="width:40%"></div>
-        <a class="small bold" href="#" style="margin-top:6px">Open full image</a>
-      </div>
-      <dl class="kv" style="margin:0">
-        <div style="grid-template-columns:1fr"><dt>Amount</dt><dd>₦1,500,000</dd></div>
-        <div style="grid-template-columns:1fr"><dt>Paid into</dt><dd>Campaign account · Zenith ••4410</dd></div>
-        <div style="grid-template-columns:1fr"><dt>Date paid</dt><dd>5 Nov 2026</dd></div>
-        <div style="grid-template-columns:1fr"><dt>For</dt><dd>Anambra rally: canopies</dd></div>
-        <div style="grid-template-columns:1fr"><dt>Reported by</dt><dd>Obinna Nwosu · Treasurer</dd></div>
-      </dl>
-    </div>
-    <div class="banner banner-info mt-4"><i data-lucide="info" class="i"></i><p class="small">Check the bank statement before you confirm. Once confirmed it counts for the group.</p></div>
-    <div class="dialog-actions">
-      <button class="btn" data-close>Close</button>
-      <button class="btn btn-danger" data-close data-open="reject-pay">Reject</button>
-      <button class="btn btn-primary" data-close data-toast="Payment confirmed. Receipt sent."><i data-lucide="check" class="i"></i>Confirm payment</button>
-    </div>
-  </div>
+<main id="page">
+<div class="page-head-row">
+  <h1 class="h1">Payments</h1>
+  <a class="btn btn-sm" href="admin-reports.html"><i data-lucide="download" class="i i-sm"></i>Export</a>
 </div>
 
-<div class="dialog-backdrop" id="reject-pay" role="dialog" aria-modal="true" aria-labelledby="rp-t">
-  <div class="dialog">
-    <h2 id="rp-t">Reject this payment</h2>
-    <div class="choices mt-4">
-      <label class="choice"><input type="radio" name="rp" checked><span class="dot"></span><span class="choice-title">Money not in our account</span></label>
-      <label class="choice"><input type="radio" name="rp"><span class="dot"></span><span class="choice-title">Amount does not match</span></label>
-      <label class="choice"><input type="radio" name="rp"><span class="dot"></span><span class="choice-title">Proof can't be read</span></label>
+<div class="stats">
+  <div class="stat"><div class="stat-label">Total raised</div><div class="stat-value">₦412m</div><div class="stat-sub">2,118 groups</div></div>
+  <div class="stat"><div class="stat-label">Funz</div><div class="stat-value">₦371m</div><div class="stat-sub">9,804 payments</div></div>
+  <div class="stat"><div class="stat-label">Offline</div><div class="stat-value">₦41m</div><div class="stat-sub">312 confirmed</div></div>
+  <div class="stat"><div class="stat-label">To confirm</div><div class="stat-value amber">₦3.4m</div><div class="stat-sub">5 payments</div></div>
+</div>
+
+<div class="mt-6" data-tab-scope>
+  <div class="tabs" data-tabs role="tablist">
+    <button class="tab" data-tab="off" aria-selected="true">To confirm <span class="count">5</span></button>
+    <button class="tab" data-tab="all" aria-selected="false">All</button>
+    <button class="tab" data-tab="cause" aria-selected="false">By cause</button>
+  </div>
+
+  <div class="list mt-4" data-panel="off">
+    <div class="list-item">
+      <span class="icon-tile amber"><i data-lucide="landmark" class="i"></i></span>
+      <span class="grow"><span class="title" style="display:block">Onitsha Traders Forum</span><span class="meta">Anambra rally · Bank transfer · Today</span></span>
+      <span class="amount hide-mobile">₦1,500,000</span>
+      <button class="btn btn-primary btn-sm" data-open="confirm">Check</button>
     </div>
-    <label class="field mt-4"><span class="label">Note to the group <span class="opt">(optional)</span></span><textarea class="textarea" style="min-height:90px"></textarea></label>
-    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><button class="btn btn-danger-solid" data-close data-toast="Payment rejected">Reject payment</button></div>
+    <div class="list-item">
+      <span class="icon-tile amber"><i data-lucide="banknote" class="i"></i></span>
+      <span class="grow"><span class="title" style="display:block">Atiku Women Network</span><span class="meta">Kano posters · Cash · Mon</span></span>
+      <span class="amount hide-mobile">₦300,000</span>
+      <button class="btn btn-primary btn-sm" data-open="confirm">Check</button>
+    </div>
+    <div class="list-item">
+      <span class="icon-tile amber"><i data-lucide="landmark" class="i"></i></span>
+      <span class="grow"><span class="title" style="display:block">Yola Professionals</span><span class="meta">General support · Bank transfer · Sun</span></span>
+      <span class="amount hide-mobile">₦1,200,000</span>
+      <button class="btn btn-primary btn-sm" data-open="confirm">Check</button>
+    </div>
+  </div>
+
+  <div class="card card-flush mt-4" data-panel="all" hidden>
+    <table class="table table-cards">
+      <thead><tr><th>Group</th><th>For</th><th>Method</th><th class="t-right">Amount</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="t-main"><div class="bold">Atiku Women Network</div><div class="small faint">Lagos chapter · 27 Oct</div></td><td data-label="For">Lagos rally</td><td data-label="Method">Funz</td><td data-label="Amount" class="t-right num bold">₦750,000</td><td data-label="Status"><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span></td></tr>
+        <tr><td class="t-main"><div class="bold">Kano Keke Riders</div><div class="small faint">25 Oct</div></td><td data-label="For">Mobilisation</td><td data-label="Method">Funz</td><td data-label="Amount" class="t-right num bold">₦200,000</td><td data-label="Status"><span class="chip chip-paid"><i data-lucide="check" class="i"></i>Paid</span></td></tr>
+        <tr><td class="t-main"><div class="bold">Benue Market Movement</div><div class="small faint">20 Oct</div></td><td data-label="For">Media</td><td data-label="Method">Offline</td><td data-label="Amount" class="t-right num bold">₦400,000</td><td data-label="Status"><span class="chip chip-rejected"><i data-lucide="x" class="i"></i>Rejected</span></td></tr>
+        <tr><td class="t-main"><div class="bold">PH Students for Atiku</div><div class="small faint">19 Oct</div></td><td data-label="For">Rivers rally</td><td data-label="Method">Funz</td><td data-label="Amount" class="t-right num bold">₦50,000</td><td data-label="Status"><span class="chip chip-failed"><i data-lucide="x" class="i"></i>Failed</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="list mt-4" data-panel="cause" hidden>
+    <div class="list-item"><span class="grow"><span class="title" style="display:block">Lagos mega rally</span><div class="progress progress-sm mt-2"><span style="width:68%"></span></div></span><span class="amount">₦34m</span></div>
+    <div class="list-item"><span class="grow"><span class="title" style="display:block">North East radio</span><div class="progress progress-sm mt-2"><span style="width:92%"></span></div></span><span class="amount">₦18.4m</span></div>
+    <div class="list-item"><span class="grow"><span class="title" style="display:block">Anambra rally</span><div class="progress progress-sm mt-2"><span style="width:21%"></span></div></span><span class="amount">₦2.1m</span></div>
+  </div>
+</div>
+</main>
+<div class="dialog-backdrop" id="confirm" role="dialog" aria-modal="true" aria-labelledby="cf-t">
+  <div class="dialog">
+    <h2 id="cf-t">Offline payment</h2>
+    <div class="photo mt-4" style="aspect-ratio:4/3"><span class="ph ph-6"></span></div>
+    <dl class="kv mt-3" style="margin-bottom:0">
+      <div><dt>Group</dt><dd>Onitsha Traders Forum</dd></div>
+      <div><dt>Amount</dt><dd>₦1,500,000</dd></div>
+      <div><dt>For</dt><dd>Anambra rally</dd></div>
+      <div><dt>Ref</dt><dd>GTB-88213904</dd></div>
+    </dl>
+    <div class="dialog-actions"><button class="btn btn-danger" data-close data-toast="Payment rejected">Reject</button><button class="btn btn-primary" data-close data-toast="Payment confirmed">Confirm</button></div>
   </div>
 </div>
 </body>
-
 </html>

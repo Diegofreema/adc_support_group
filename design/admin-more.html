@@ -3,42 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>More · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>More · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="directorate" data-active="more" data-title="More">
-<main id="page" class="main-narrow">
+<main id="page">
+<div class="list">
+  <div class="list-item"><span class="avatar avatar-lg">HB</span><span class="grow"><span class="title" style="display:block">Hauwa Bello</span><span class="meta">Super admin</span></span></div>
+</div>
 
-  <div class="card row" style="gap:14px">
-    <span class="avatar avatar-lg">HB</span>
-    <div class="grow"><div class="bold" style="font-size:1.125rem">Hauwa Bello</div><div class="muted small">Super admin · Campaign Directorate</div></div>
-  </div>
+<div class="list mt-4">
+  <a class="list-item" href="admin-causes.html"><span class="icon-tile grey"><i data-lucide="target" class="i"></i></span><span class="grow title">Causes</span><i data-lucide="chevron-right" class="i chev"></i></a>
+  <a class="list-item" href="admin-messages.html"><span class="icon-tile grey"><i data-lucide="send" class="i"></i></span><span class="grow title">Messages</span><i data-lucide="chevron-right" class="i chev"></i></a>
+  <a class="list-item" href="admin-reports.html"><span class="icon-tile grey"><i data-lucide="file-spreadsheet" class="i"></i></span><span class="grow title">Reports</span><i data-lucide="chevron-right" class="i chev"></i></a>
+  <a class="list-item" href="admin-settings.html"><span class="icon-tile grey"><i data-lucide="settings" class="i"></i></span><span class="grow title">Settings</span><i data-lucide="chevron-right" class="i chev"></i></a>
+</div>
 
-  <div class="section-title"><h2>Directorate</h2></div>
-  <nav class="list" aria-label="More pages">
-    <a class="list-item" href="admin-causes.html"><span class="icon-tile red"><i data-lucide="target" class="i"></i></span><span class="grow"><span class="title" style="display:block">Funding causes</span><span class="meta">6 open</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="admin-messages.html"><span class="icon-tile amber"><i data-lucide="send" class="i"></i></span><span class="grow"><span class="title" style="display:block">Messages</span><span class="meta">48,200 SMS points left</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="admin-reports.html"><span class="icon-tile"><i data-lucide="file-spreadsheet" class="i"></i></span><span class="grow"><span class="title" style="display:block">Reports &amp; export</span><span class="meta">Download Excel or CSV</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-    <a class="list-item" href="admin-settings.html"><span class="icon-tile blue"><i data-lucide="settings" class="i"></i></span><span class="grow"><span class="title" style="display:block">Settings</span><span class="meta">Categories, activity types, staff, handovers</span></span><i data-lucide="chevron-right" class="i chev"></i></a>
-  </nav>
-
-  <button class="btn btn-danger btn-block mt-6" data-open="logout"><i data-lucide="log-out" class="i"></i>Log out</button>
-
+<button class="btn btn-danger btn-block mt-6" data-open="logout"><i data-lucide="log-out" class="i"></i>Log out</button>
 </main>
-
 <div class="dialog-backdrop" id="logout" role="dialog" aria-modal="true" aria-labelledby="lo-t">
   <div class="dialog">
     <h2 id="lo-t">Log out?</h2>
-    <p class="muted mt-2">You'll need your phone or email and password to come back.</p>
-    <div class="dialog-actions"><button class="btn" data-close>Stay</button><a class="btn btn-danger-solid" href="index.html">Log out</a></div>
+    <div class="dialog-actions"><button class="btn" data-close>Cancel</button><a class="btn btn-danger-solid" href="index.html">Log out</a></div>
   </div>
 </div>
 </body>
-
 </html>

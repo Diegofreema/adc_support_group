@@ -3,148 +3,104 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Overview · ADC Support Groups Directorate</title>
+  <meta name="theme-color" content="#F5F6F8">
+  <title>Overview · ADC Support Groups</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
-  <link rel="stylesheet" href="assets/extra-d.css">
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
   <script src="assets/app.js" defer></script>
 </head>
 <body data-shell="directorate" data-active="dashboard" data-title="Overview">
 <main id="page">
+<div class="page-head-row">
+  <h1 class="h1">Overview</h1>
+  <div class="row">
+    <select class="select" aria-label="Period" style="min-height:44px;width:auto"><option>All time</option><option>This month</option><option>This week</option></select>
+    <a class="btn btn-primary btn-sm" href="admin-reports.html"><i data-lucide="download" class="i i-sm"></i>Export</a>
+  </div>
+</div>
 
-  <div class="page-head row-between wrap" style="align-items:flex-end">
-    <div>
-      <p class="muted bold" style="margin:0">Campaign Directorate of Support Groups</p>
-      <h1 class="h1 mt-1">Overview</h1>
+<div class="stats">
+  <div class="stat"><div class="stat-label"><i data-lucide="shield-check" class="i i-sm"></i>Verified groups</div><div class="stat-value">4,812</div><div class="stat-sub">18 waiting</div></div>
+  <div class="stat"><div class="stat-label"><i data-lucide="users-round" class="i i-sm"></i>Supporters</div><div class="stat-value">1.18m</div><div class="stat-sub">Counted once</div></div>
+  <div class="stat"><div class="stat-label"><i data-lucide="megaphone" class="i i-sm"></i>Activities</div><div class="stat-value">38,950</div><div class="stat-sub"><span class="up">+1,204</span> this week</div></div>
+  <div class="stat"><div class="stat-label"><i data-lucide="banknote" class="i i-sm"></i>Raised</div><div class="stat-value">₦412m</div><div class="stat-sub">₦41m offline</div></div>
+</div>
+
+<div class="split mt-6">
+  <div>
+    <div class="section-title mt-0"><h2>To do</h2></div>
+    <div class="list">
+      <a class="list-item" href="admin-groups.html"><span class="icon-tile amber"><i data-lucide="shield-question" class="i"></i></span><span class="grow title">Verify groups</span><span class="chip chip-pending">18</span><i data-lucide="chevron-right" class="i chev"></i></a>
+      <a class="list-item" href="admin-activities.html"><span class="icon-tile blue"><i data-lucide="clipboard-check" class="i"></i></span><span class="grow title">Check activities</span><span class="chip chip-info">42</span><i data-lucide="chevron-right" class="i chev"></i></a>
+      <a class="list-item" href="admin-payments.html"><span class="icon-tile red"><i data-lucide="landmark" class="i"></i></span><span class="grow title">Confirm offline payments</span><span class="chip chip-rejected">5</span><i data-lucide="chevron-right" class="i chev"></i></a>
+      <a class="list-item" href="admin-settings.html"><span class="icon-tile grey"><i data-lucide="repeat" class="i"></i></span><span class="grow title">Leader handovers</span><span class="chip chip-neutral">2</span><i data-lucide="chevron-right" class="i chev"></i></a>
     </div>
-    <div class="page-actions">
-      <select class="select" style="min-height:44px;width:auto" aria-label="Time period"><option>All time</option><option>This week</option><option>This month</option></select>
-      <a class="btn btn-sm hide-mobile" href="admin-reports.html" style="min-height:44px"><i data-lucide="download" class="i"></i>Export</a>
+
+    <div class="section-title"><h2>By state</h2><a href="admin-reports.html">Export</a></div>
+    <div class="pills mb-3" data-pressed-group>
+      <button class="pill" aria-pressed="true">All</button>
+      <button class="pill" aria-pressed="false">North West</button>
+      <button class="pill" aria-pressed="false">North East</button>
+      <button class="pill" aria-pressed="false">North Central</button>
+      <button class="pill" aria-pressed="false">South West</button>
+      <button class="pill" aria-pressed="false">South East</button>
+      <button class="pill" aria-pressed="false">South South</button>
+    </div>
+    <div class="card card-flush">
+      <table class="table table-cards">
+        <thead><tr><th>State</th><th class="t-right">Groups</th><th class="t-right">Members</th><th class="t-right">Activities</th><th class="t-right">Raised</th></tr></thead>
+        <tbody>
+          <tr><td class="t-main bold">Lagos</td><td data-label="Groups" class="t-right num">341</td><td data-label="Members" class="t-right num">96,410</td><td data-label="Activities" class="t-right num">3,212</td><td data-label="Raised" class="t-right num">₦48.2m</td></tr>
+          <tr><td class="t-main bold">Kano</td><td data-label="Groups" class="t-right num">312</td><td data-label="Members" class="t-right num">118,903</td><td data-label="Activities" class="t-right num">3,604</td><td data-label="Raised" class="t-right num">₦39.5m</td></tr>
+          <tr><td class="t-main bold">Adamawa</td><td data-label="Groups" class="t-right num">288</td><td data-label="Members" class="t-right num">84,117</td><td data-label="Activities" class="t-right num">2,980</td><td data-label="Raised" class="t-right num">₦35.1m</td></tr>
+          <tr><td class="t-main bold">Kaduna</td><td data-label="Groups" class="t-right num">241</td><td data-label="Members" class="t-right num">71,526</td><td data-label="Activities" class="t-right num">2,415</td><td data-label="Raised" class="t-right num">₦22.8m</td></tr>
+          <tr><td class="t-main bold">FCT</td><td data-label="Groups" class="t-right num">166</td><td data-label="Members" class="t-right num">40,288</td><td data-label="Activities" class="t-right num">1,702</td><td data-label="Raised" class="t-right num">₦30.4m</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- KPIs -->
-  <div class="stats">
-    <div class="stat"><div class="stat-label"><i data-lucide="shield-check" class="i i-sm"></i>Verified groups</div><div class="stat-value">4,812</div><div class="stat-sub"><b style="color:var(--amber-700)">18</b> waiting to verify</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="users-round" class="i i-sm"></i>Unique supporters</div><div class="stat-value">1.18m</div><div class="stat-sub">1.24m memberships · 62k in 2+ groups</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="megaphone" class="i i-sm"></i>Approved activities</div><div class="stat-value">38,950</div><div class="stat-sub"><span class="up">+1,204</span> this week</div></div>
-    <div class="stat"><div class="stat-label"><i data-lucide="hand-coins" class="i i-sm"></i>Money raised</div><div class="stat-value">₦412m</div><div class="stat-sub">₦371m Funz · ₦41m offline</div></div>
-  </div>
-
-  <!-- Needs action -->
-  <div class="section-title"><h2>Needs action</h2></div>
-  <div class="list">
-    <a class="list-item" href="admin-groups.html">
-      <span class="icon-tile amber"><i data-lucide="shield-question" class="i"></i></span>
-      <span class="grow"><span class="title" style="display:block">18 groups to verify</span><span class="meta">Oldest waiting 3 days · 4 possible duplicates</span></span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
-    <a class="list-item" href="admin-activities.html">
-      <span class="icon-tile"><i data-lucide="clipboard-check" class="i"></i></span>
-      <span class="grow"><span class="title" style="display:block">42 activities to check</span><span class="meta">Group-level activities and 3 flagged by members</span></span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
-    <a class="list-item" href="admin-payments.html">
-      <span class="icon-tile red"><i data-lucide="receipt" class="i"></i></span>
-      <span class="grow"><span class="title" style="display:block">5 offline payments to confirm</span><span class="meta">₦3.4m in bank transfers and cash</span></span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
-    <a class="list-item" href="admin-settings.html">
-      <span class="icon-tile blue"><i data-lucide="repeat-2" class="i"></i></span>
-      <span class="grow"><span class="title" style="display:block">2 leadership handovers</span><span class="meta">Leaders asking to pass their group to someone else</span></span>
-      <i data-lucide="chevron-right" class="i chev"></i>
-    </a>
-  </div>
-
-  <!-- By state -->
-  <div class="section-title"><h2>By state</h2><a class="small bold" href="admin-reports.html">Export</a></div>
-  <div class="pills mb-3" data-pressed-group role="group" aria-label="Filter by zone">
-    <button class="pill" aria-pressed="true">All zones</button>
-    <button class="pill" aria-pressed="false">North West</button>
-    <button class="pill" aria-pressed="false">North East</button>
-    <button class="pill" aria-pressed="false">North Central</button>
-    <button class="pill" aria-pressed="false">South West</button>
-    <button class="pill" aria-pressed="false">South East</button>
-    <button class="pill" aria-pressed="false">South South</button>
-  </div>
-  <div class="card card-flush">
-    <table class="table table-cards">
-      <thead><tr><th>State</th><th class="t-right">Groups</th><th class="t-right">Members</th><th class="t-right">Activities</th><th class="t-right">Money</th></tr></thead>
-      <tbody>
-        <tr><td class="t-main"><b>Lagos</b> <span class="muted small">· South West</span></td><td data-label="Groups" class="t-right num">341</td><td data-label="Members" class="t-right num">118,420</td><td data-label="Activities" class="t-right num">3,906</td><td data-label="Money" class="t-right num">₦61.2m</td></tr>
-        <tr><td class="t-main"><b>Kano</b> <span class="muted small">· North West</span></td><td data-label="Groups" class="t-right num">312</td><td data-label="Members" class="t-right num">131,075</td><td data-label="Activities" class="t-right num">3,488</td><td data-label="Money" class="t-right num">₦38.9m</td></tr>
-        <tr><td class="t-main"><b>Adamawa</b> <span class="muted small">· North East</span></td><td data-label="Groups" class="t-right num">288</td><td data-label="Members" class="t-right num">96,310</td><td data-label="Activities" class="t-right num">3,102</td><td data-label="Money" class="t-right num">₦44.0m</td></tr>
-        <tr><td class="t-main"><b>Kaduna</b> <span class="muted small">· North West</span></td><td data-label="Groups" class="t-right num">241</td><td data-label="Members" class="t-right num">80,644</td><td data-label="Activities" class="t-right num">2,371</td><td data-label="Money" class="t-right num">₦22.7m</td></tr>
-        <tr><td class="t-main"><b>FCT</b> <span class="muted small">· North Central</span></td><td data-label="Groups" class="t-right num">166</td><td data-label="Members" class="t-right num">41,208</td><td data-label="Activities" class="t-right num">1,640</td><td data-label="Money" class="t-right num">₦30.1m</td></tr>
-        <tr><td class="t-main"><b>Anambra</b> <span class="muted small">· South East</span></td><td data-label="Groups" class="t-right num">158</td><td data-label="Members" class="t-right num">37,902</td><td data-label="Activities" class="t-right num">1,288</td><td data-label="Money" class="t-right num">₦19.4m</td></tr>
-      </tbody>
-    </table>
-    <div style="padding:12px 16px;border-top:1px solid var(--line-2)"><a class="small bold" href="admin-reports.html">See all 37 states</a></div>
-  </div>
-
-  <div class="grid-2 mt-6" style="align-items:start">
-    <!-- Leaderboard -->
-    <section data-tab-scope>
-      <div class="section-title mt-0"><h2>Top groups</h2></div>
-      <div class="card card-flush">
-        <div class="tabs" data-tabs role="tablist" style="margin:0;padding:0 8px">
-          <button class="tab" role="tab" data-tab="lb-act" aria-selected="true">Activities</button>
-          <button class="tab" role="tab" data-tab="lb-mem" aria-selected="false">Members</button>
-          <button class="tab" role="tab" data-tab="lb-money" aria-selected="false">Money</button>
-        </div>
-        <div data-panel="lb-act">
-          <div class="list-item"><span class="rank r1">1</span><span class="group-mark" style="width:40px;height:40px;font-size:.875rem">AW</span><span class="grow"><span class="title" style="display:block">Atiku Women Network</span><span class="meta">Women · National</span></span><b class="num">412</b></div>
-          <div class="list-item"><span class="rank r2">2</span><span class="group-mark g2" style="width:40px;height:40px;font-size:.875rem">KK</span><span class="grow"><span class="title" style="display:block">Kano Keke Riders</span><span class="meta">Transport · Kano</span></span><b class="num">367</b></div>
-          <div class="list-item"><span class="rank r3">3</span><span class="group-mark g3" style="width:40px;height:40px;font-size:.875rem">NY</span><span class="grow"><span class="title" style="display:block">Northern Youth Vanguard</span><span class="meta">Youth · Kaduna</span></span><b class="num">301</b></div>
-          <div class="list-item"><span class="rank">4</span><span class="group-mark g4" style="width:40px;height:40px;font-size:.875rem">OT</span><span class="grow"><span class="title" style="display:block">Onitsha Traders Forum</span><span class="meta">Traders · Anambra</span></span><b class="num">274</b></div>
-          <div class="list-item"><span class="rank">5</span><span class="group-mark g5" style="width:40px;height:40px;font-size:.875rem">YP</span><span class="grow"><span class="title" style="display:block">Yola Professionals Network</span><span class="meta">Professionals · Adamawa</span></span><b class="num">259</b></div>
-        </div>
-        <div data-panel="lb-mem" hidden>
-          <div class="list-item"><span class="rank r1">1</span><span class="group-mark g2" style="width:40px;height:40px;font-size:.875rem">KK</span><span class="grow"><span class="title" style="display:block">Kano Keke Riders</span><span class="meta">Transport · Kano</span></span><b class="num">21,480</b></div>
-          <div class="list-item"><span class="rank r2">2</span><span class="group-mark" style="width:40px;height:40px;font-size:.875rem">AW</span><span class="grow"><span class="title" style="display:block">Atiku Women Network</span><span class="meta">Women · National</span></span><b class="num">18,902</b></div>
-          <div class="list-item"><span class="rank r3">3</span><span class="group-mark g3" style="width:40px;height:40px;font-size:.875rem">NY</span><span class="grow"><span class="title" style="display:block">Northern Youth Vanguard</span><span class="meta">Youth · Kaduna</span></span><b class="num">14,377</b></div>
-        </div>
-        <div data-panel="lb-money" hidden>
-          <div class="list-item"><span class="rank r1">1</span><span class="group-mark g5" style="width:40px;height:40px;font-size:.875rem">YP</span><span class="grow"><span class="title" style="display:block">Yola Professionals Network</span><span class="meta">Professionals · Adamawa</span></span><b class="num">₦18.5m</b></div>
-          <div class="list-item"><span class="rank r2">2</span><span class="group-mark" style="width:40px;height:40px;font-size:.875rem">AW</span><span class="grow"><span class="title" style="display:block">Atiku Women Network</span><span class="meta">Women · National</span></span><b class="num">₦4.2m</b></div>
-          <div class="list-item"><span class="rank r3">3</span><span class="group-mark g4" style="width:40px;height:40px;font-size:.875rem">OT</span><span class="grow"><span class="title" style="display:block">Onitsha Traders Forum</span><span class="meta">Traders · Anambra</span></span><b class="num">₦3.9m</b></div>
-        </div>
+  <div class="split-side">
+    <div class="card" data-tab-scope>
+      <div class="card-head"><h2>Top groups</h2></div>
+      <div class="tabs" data-tabs role="tablist">
+        <button class="tab" data-tab="ta" aria-selected="true">Activities</button>
+        <button class="tab" data-tab="tm" aria-selected="false">Members</button>
+        <button class="tab" data-tab="tr" aria-selected="false">Money</button>
       </div>
-    </section>
-
-    <!-- Categories -->
-    <section>
-      <div class="section-title mt-0"><h2>Groups by category</h2></div>
-      <div class="card">
-        <div class="hbars">
-          <div><div class="hbar-top"><b>Women</b><span class="muted num">1,104</span></div><div class="hbar"><span style="width:100%"></span></div></div>
-          <div><div class="hbar-top"><b>Youth</b><span class="muted num">986</span></div><div class="hbar"><span style="width:89%"></span></div></div>
-          <div><div class="hbar-top"><b>Community &amp; town unions</b><span class="muted num">614</span></div><div class="hbar"><span style="width:56%"></span></div></div>
-          <div><div class="hbar-top"><b>Market traders</b><span class="muted num">521</span></div><div class="hbar"><span style="width:47%"></span></div></div>
-          <div><div class="hbar-top"><b>Students</b><span class="muted num">412</span></div><div class="hbar"><span style="width:37%"></span></div></div>
-          <div><div class="hbar-top"><b>Keke &amp; Okada</b><span class="muted num">377</span></div><div class="hbar"><span style="width:34%"></span></div></div>
-          <div><div class="hbar-top"><b>Professionals</b><span class="muted num">298</span></div><div class="hbar"><span style="width:27%"></span></div></div>
-          <div><div class="hbar-top"><b>Faith communities</b><span class="muted num">264</span></div><div class="hbar"><span style="width:24%"></span></div></div>
-          <div><div class="hbar-top"><b>Diaspora</b><span class="muted num">143</span></div><div class="hbar"><span style="width:13%"></span></div></div>
-          <div><div class="hbar-top"><b>Persons with disability</b><span class="muted num">88</span></div><div class="hbar"><span style="width:8%"></span></div></div>
-        </div>
+      <div class="mt-3" data-panel="ta">
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">1</span><span class="grow truncate bold">Atiku Women Network</span></span><span class="num">412</span></div>
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">2</span><span class="grow truncate bold">Kano Keke Riders</span></span><span class="num">288</span></div>
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">3</span><span class="grow truncate bold">Northern Youth Vanguard</span></span><span class="num">251</span></div>
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">4</span><span class="grow truncate bold">Onitsha Traders Forum</span></span><span class="num">197</span></div>
       </div>
-    </section>
-  </div>
+      <div class="mt-3" data-panel="tm" hidden>
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">1</span><span class="grow truncate bold">Northern Youth Vanguard</span></span><span class="num">22,140</span></div>
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">2</span><span class="grow truncate bold">Atiku Women Network</span></span><span class="num">3,482</span></div>
+      </div>
+      <div class="mt-3" data-panel="tr" hidden>
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">1</span><span class="grow truncate bold">Yola Professionals</span></span><span class="num">₦18.6m</span></div>
+        <div class="setting" style="padding:12px 0"><span class="row grow"><span class="faint bold num" style="width:18px">2</span><span class="grow truncate bold">Atiku Women Network</span></span><span class="num">₦4.2m</span></div>
+      </div>
+    </div>
 
-  <!-- Recent -->
-  <div class="section-title"><h2>Just recorded</h2><a class="small bold" href="admin-activities.html">See all</a></div>
-  <div class="list">
-    <div class="list-item"><span class="icon-tile"><i data-lucide="footprints" class="i"></i></span><span class="grow"><span class="title" style="display:block">Door-to-door, Surulere Ward 4</span><span class="meta">Atiku Women Network · Lagos chapter · 82 homes</span></span><span class="muted small hide-mobile">12 min ago</span></div>
-    <div class="list-item"><span class="icon-tile red"><i data-lucide="hand-coins" class="i"></i></span><span class="grow"><span class="title" style="display:block">₦1,200,000 paid for Yola rally</span><span class="meta">Yola Professionals Network · Funz</span></span><span class="muted small hide-mobile">40 min ago</span></div>
-    <div class="list-item"><span class="icon-tile blue"><i data-lucide="mic" class="i"></i></span><span class="grow"><span class="title" style="display:block">Town hall, Zaria</span><span class="meta">Northern Youth Vanguard · 640 people</span></span><span class="muted small hide-mobile">1 hr ago</span></div>
-    <div class="list-item"><span class="icon-tile amber"><i data-lucide="flag" class="i"></i></span><span class="grow"><span class="title" style="display:block">New group: Ilorin Okada Union</span><span class="meta">Transport · Kwara · waiting to verify</span></span><span class="muted small hide-mobile">2 hr ago</span></div>
+    <div class="card mt-4">
+      <div class="card-head"><h2>Categories</h2></div>
+      <div class="hbars">
+        <div><div class="hbar-top"><b>Women</b><span class="faint num">1,104</span></div><div class="progress progress-sm"><span style="width:100%"></span></div></div>
+        <div><div class="hbar-top"><b>Youth</b><span class="faint num">986</span></div><div class="progress progress-sm"><span style="width:89%"></span></div></div>
+        <div><div class="hbar-top"><b>Community</b><span class="faint num">614</span></div><div class="progress progress-sm"><span style="width:56%"></span></div></div>
+        <div><div class="hbar-top"><b>Traders</b><span class="faint num">521</span></div><div class="progress progress-sm"><span style="width:47%"></span></div></div>
+        <div><div class="hbar-top"><b>Students</b><span class="faint num">412</span></div><div class="progress progress-sm"><span style="width:37%"></span></div></div>
+        <div><div class="hbar-top"><b>Transport</b><span class="faint num">377</span></div><div class="progress progress-sm"><span style="width:34%"></span></div></div>
+      </div>
+    </div>
   </div>
-
+</div>
 </main>
-</body>
 
+</body>
 </html>
