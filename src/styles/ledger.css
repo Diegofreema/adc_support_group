@@ -595,3 +595,10 @@ a.list-item:hover .chev { transform: translateX(3px); color: var(--text); }
 .auth-visual .pulse { color: var(--text); }
 
 }
+
+@layer components {
+  /* Public pages: every step heading gets the green rule; action bar sits on white, no tab bar below. */
+  .auth-inner h1.h1 { position: relative; padding-top: 14px; }
+  .auth-inner h1.h1::before { content: ""; position: absolute; top: 0; left: 0; width: 28px; height: 3px; background: var(--green); }
+  .auth-main .action-bar { background: linear-gradient(to top, var(--surface) 75%, rgba(255, 255, 255, 0)); padding-bottom: 16px; }
+}

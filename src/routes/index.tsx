@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-// Placeholder: replaced by the module page.
+import { redirectIfLoggedIn } from '@/lib/route-guards'
+import { LoginPage } from '@/modules/auth/pages/LoginPage'
+
 export const Route = createFileRoute('/')({
-  component: () => <p className="muted">Coming soon</p>,
+  beforeLoad: redirectIfLoggedIn,
+  component: LoginPage,
 })

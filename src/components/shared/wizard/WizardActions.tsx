@@ -11,15 +11,17 @@ interface WizardActionsProps {
   /** Submit the surrounding form instead of calling onNext. */
   submit?: boolean
   loading?: boolean
+  /** Block moving on until the step is complete. */
+  disabled?: boolean
 }
 
 /** Sticky footer: back arrow + the one primary action. */
-export function WizardActions({ onBack, onNext, nextLabel = 'Next', nextIcon, submit, loading }: WizardActionsProps) {
+export function WizardActions({ onBack, onNext, nextLabel = 'Next', nextIcon, submit, loading, disabled }: WizardActionsProps) {
   return (
     <ActionBar>
       <div className="row">
         {onBack && <Button size="lg" icon={ArrowLeft} aria-label="Back" onClick={onBack} />}
-        <Button variant="primary" size="lg" block className="grow" icon={nextIcon} type={submit ? 'submit' : 'button'} onClick={submit ? undefined : onNext} disabled={loading}>
+        <Button variant="primary" size="lg" block className="grow" icon={nextIcon} type={submit ? 'submit' : 'button'} onClick={submit ? undefined : onNext} disabled={loading || disabled}>
           {loading ? 'Please wait…' : nextLabel}
         </Button>
       </div>

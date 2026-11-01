@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-// Placeholder: replaced by the module page.
+import { ImportMembersPage } from '@/modules/members/pages/ImportMembersPage'
+
 export const Route = createFileRoute('/_app/members/import')({
   staticData: { title: 'Upload members', backTo: '/members' },
-  component: () => <p className="muted">Coming soon</p>,
+  component: ImportMembersPage,
 })
