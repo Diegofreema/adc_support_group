@@ -56,7 +56,7 @@ function SidebarSection({ section, pathname, badges }: SidebarSectionProps) {
 
 function SidebarLink({ item, active, count }: { item: NavItem; active: boolean; count?: number }) {
   return (
-    <Link to={item.to} className="side-link" aria-current={active ? 'page' : undefined}>
+    <Link to={item.to} activeOptions={{ exact: true }} className="side-link" aria-current={active ? 'page' : undefined}>
       <item.icon className="i" aria-hidden />
       <span>{item.label}</span>
       {count ? <span className="count">{count}</span> : null}

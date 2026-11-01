@@ -8,7 +8,7 @@ export function BottomNav({ items }: { items: NavItem[] }) {
   return (
     <nav className="bottomnav" aria-label="Main menu">
       {items.map((item) => (
-        <Link key={item.to} to={item.to} aria-current={isNavItemActive(item, pathname) ? 'page' : undefined}>
+        <Link key={item.to} to={item.to} activeOptions={{ exact: true }} aria-current={isNavItemActive(item, pathname) ? 'page' : undefined}>
           <span className="nav-ico"><item.icon className="i" aria-hidden /></span>
           <span>{item.label}</span>
         </Link>
