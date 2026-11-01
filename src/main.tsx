@@ -3,7 +3,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import { Toaster } from '@/components/ui/sonner'
+import { AppToaster } from '@/components/layout/AppToaster'
 import { queryClient } from '@/lib/query-client'
 import { routeTree } from './routeTree.gen'
 import './index.css'
@@ -27,7 +27,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Toaster richColors position="top-right" />
+      <AppToaster />
     </QueryClientProvider>
   </StrictMode>,
 )
