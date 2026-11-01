@@ -1,7 +1,5 @@
-import { Copy, MessageCircle } from 'lucide-react'
-
-import { Button, buttonClassName, Modal, QrCode } from '@/components/shared'
-import { useInviteLink } from '../hooks/use-invite-link'
+import { Button, Modal, QrCode, ShareLinkButtons } from '@/components/shared'
+import { useJoinLink } from '@/hooks/use-join-link'
 
 interface InviteDialogProps {
   open: boolean
@@ -12,17 +10,12 @@ interface InviteDialogProps {
 
 /** QR + link to share the group's join page. */
 export function InviteDialog({ open, onOpenChange, code, groupName }: InviteDialogProps) {
-  const invite = useInviteLink(code, groupName)
+  const invite = useJoinLink(code, groupName)
   return (
     <Modal open={open} onOpenChange={onOpenChange} title="Invite people" centered>
       <div className="flex justify-center"><QrCode value={invite.link} /></div>
       <p className="muted small mt-4 truncate">{invite.link}</p>
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
-        <Button icon={Copy} onClick={invite.copyLink}>Copy</Button>
-        <a className={buttonClassName('primary')} href={invite.whatsappUrl} target="_blank" rel="noreferrer">
-          <MessageCircle className="i" aria-hidden />WhatsApp
-        </a>
-      </div>
+      <ShareLinkButtons whatsappUrl={invite.whatsappUrl} onCopy={invite.copy} className="mt-4 grid grid-cols-2 gap-2.5" />
       <Button variant="ghost" block className="mt-2" onClick={() => onOpenChange(false)}>Close</Button>
     </Modal>
   )

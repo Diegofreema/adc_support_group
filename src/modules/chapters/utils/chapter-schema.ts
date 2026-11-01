@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const PHONE = /^(\+?234|0)?[789][01]\d{8}$/
+import { isValidPhone } from '@/lib/phone'
 
 export const newChapterSchema = z
   .object({
@@ -9,7 +9,7 @@ export const newChapterSchema = z
     lga: z.string(),
     ward: z.string(),
     name: z.string().trim().min(3, 'Enter a name'),
-    coordinatorPhone: z.string().refine((value) => PHONE.test(value.replace(/\s/g, '')), 'Enter a valid phone number'),
+    coordinatorPhone: z.string().refine(isValidPhone, 'Enter a valid phone number'),
   })
   .refine((value) => value.level === 'state' || value.lga, { path: ['lga'], message: 'Choose an LGA' })
   .refine((value) => value.level !== 'ward' || value.ward, { path: ['ward'], message: 'Choose a ward' })

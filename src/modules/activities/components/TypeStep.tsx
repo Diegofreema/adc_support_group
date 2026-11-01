@@ -1,5 +1,5 @@
 import { ChoiceTiles } from '@/components/shared'
-import { ACTIVITY_TYPES } from '../utils/activity-types'
+import { ACTIVITY_TYPES } from '@/config/activity-types'
 import type { ActivityTypeId } from '../types'
 
 interface TypeStepProps {

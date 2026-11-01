@@ -1,4 +1,5 @@
 import type { ActivityStatus, Chapter } from '@/types/domain'
+import type { ActivityTypeId } from '@/config/activity-types'
 
 export interface ChapterRecord extends Chapter {
   lgaCount: number
@@ -10,7 +11,7 @@ export type ChapterLevel = 'state' | 'lga' | 'ward'
 export interface ChapterActivity {
   id: string
   chapterId: string
-  type: 'rally' | 'door' | 'townhall' | 'media'
+  type: ActivityTypeId
   title: string
   date: string
   reach: string

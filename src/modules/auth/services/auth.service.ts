@@ -1,5 +1,5 @@
 import { DEMO_USERS } from './auth.mock'
-import { normalisePhone } from '../utils/phone'
+import { normalisePhone } from '@/lib/phone'
 import { delay } from '@/lib/mock-api'
 import { sessionStore } from '@/stores/session-store'
 import type { User } from '@/types/domain'

@@ -2,7 +2,7 @@ import { Avatar, KeyValueList } from '@/components/shared'
 import { formatDay } from '@/lib/format'
 import type { MemberRecord } from '../types'
 import { joinedViaLabel } from '../utils/export-members'
-import { formatPhone } from '../utils/phone'
+import { formatPhone } from '@/lib/phone'
 
 /** Who this member is: avatar, phone and key facts. */
 export function MemberDetails({ member }: { member: MemberRecord }) {

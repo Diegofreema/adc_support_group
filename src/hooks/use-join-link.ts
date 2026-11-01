@@ -7,13 +7,13 @@ export interface JoinLinkActions {
   whatsappUrl: string
 }
 
-/** Link text, copy action and WhatsApp share URL for a join code. */
-export function useJoinLinkActions(joinCode: string, inviteName: string): JoinLinkActions {
+/** Link text, copy action and WhatsApp share URL for a group or chapter join code. */
+export function useJoinLink(joinCode: string, inviteName: string): JoinLinkActions {
   const copyText = useCopy()
   const link = joinLink(joinCode)
   return {
     link,
-    copy: () => void copyText(`https://${link}`),
+    copy: () => void copyText(`https://${link}`, 'Link copied'),
     whatsappUrl: whatsappShareUrl(`Join ${inviteName}: https://${link}`),
   }
 }

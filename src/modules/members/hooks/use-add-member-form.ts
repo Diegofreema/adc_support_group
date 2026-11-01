@@ -3,7 +3,7 @@ import { useForm, useWatch } from 'react-hook-form'
 
 import { useAddMember } from './use-member-mutations'
 import { EMPTY_MEMBER, newMemberSchema, type NewMemberForm } from '../utils/member-schema'
-import type { PlaceValue } from '@/modules/groups'
+import type { PlaceValue } from '@/lib/geo/places'
 
 /** Form state + submit for adding one person. */
 export function useAddMemberForm(groupId: string) {

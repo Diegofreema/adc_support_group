@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { Button, ChoiceList, Modal, type ChoiceOption } from '@/components/shared'
 import { formatNaira, formatNumber } from '@/lib/format'
 import { useBuyPoints, usePointPacks } from '../hooks/use-broadcast-data'
-import { smsForPoints } from '../utils/sms-cost'
+import { smsForPoints } from '@/lib/sms'
 import type { PointPack } from '../types'
 
 function packOption(pack: PointPack): ChoiceOption<string> {

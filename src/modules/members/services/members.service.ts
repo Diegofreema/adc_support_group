@@ -1,6 +1,6 @@
 import { memberChapters, membersDb } from './members.mock'
 import type { ChapterOption, MemberRecord, NewMemberInput } from '../types'
-import { normalisePhone } from '../utils/phone'
+import { normalisePhone } from '@/lib/phone'
 import { newId, notFound, respond } from '@/lib/mock-api'
 
 function findMember(memberId: string): MemberRecord {

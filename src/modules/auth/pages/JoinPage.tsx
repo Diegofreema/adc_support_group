@@ -8,7 +8,6 @@ import { JoinDetailsStep } from '../components/join/JoinDetailsStep'
 import { JoinDoneDialog } from '../components/join/JoinDoneDialog'
 import { JoinInviteStep } from '../components/join/JoinInviteStep'
 import { JoinPhoneStep } from '../components/join/JoinPhoneStep'
-import { AuthFormFrame } from '../components/shared/AuthFormFrame'
 import { LoginLink } from '../components/shared/LoginLink'
 import { useInvite } from '../hooks/use-invite'
 import { useJoinFlow } from '../hooks/use-join-flow'
@@ -20,7 +19,7 @@ export function JoinPage() {
   return (
     <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={<LoginLink />}>
       {isError && <EmptyState icon={Link2Off} title="Link not found" />}
-      <AuthFormFrame>{invite && <JoinWizard invite={invite} />}</AuthFormFrame>
+      {invite && <JoinWizard invite={invite} />}
     </AuthLayout>
   )
 }

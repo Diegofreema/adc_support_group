@@ -2,7 +2,7 @@ import { membersDb } from './members.mock'
 import type { ColumnMapping, ImportResult, MemberRecord, ParsedSheet } from '../types'
 import { parseCsv } from '../utils/csv'
 import { splitRows } from '../utils/import-validation'
-import { normalisePhone } from '../utils/phone'
+import { normalisePhone } from '@/lib/phone'
 import { delay, newId, respond } from '@/lib/mock-api'
 
 /** Stand-in rows for .xlsx files until an Excel parser is added. */

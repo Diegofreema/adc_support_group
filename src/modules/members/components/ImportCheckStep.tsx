@@ -1,10 +1,9 @@
-import { SectionTitle } from '@/components/shared'
+import { SectionTitle, WizardActions } from '@/components/shared'
 import { formatNumber } from '@/lib/format'
 import type { ColumnMapping, ImportCheck, ImportField, ParsedSheet } from '../types'
 import { ColumnMappingCard } from './ColumnMappingCard'
 import { ImportCounts } from './ImportCounts'
 import { ImportPreviewTable } from './ImportPreviewTable'
-import { StepFooter } from './StepFooter'
 
 interface ImportCheckStepProps {
   sheet: ParsedSheet
@@ -28,7 +27,7 @@ export function ImportCheckStep({ sheet, mapping, check, canImport, isImporting,
       <div className="mt-4"><ColumnMappingCard headers={sheet.headers} mapping={mapping} onChange={onMap} /></div>
       <SectionTitle title="Preview" />
       <ImportPreviewTable sheet={sheet} mapping={mapping} />
-      <StepFooter onBack={onBack} onNext={onImport} label={isImporting ? 'Adding…' : `Add ${formatNumber(check.ready)}`} disabled={isImporting || !canImport} />
+      <WizardActions onBack={onBack} onNext={onImport} nextLabel={isImporting ? 'Adding…' : `Add ${formatNumber(check.ready)}`} disabled={isImporting || !canImport} />
     </section>
   )
 }

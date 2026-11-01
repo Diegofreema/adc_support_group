@@ -2,7 +2,7 @@ import { EllipsisVertical } from 'lucide-react'
 
 import { Avatar, IconButton } from '@/components/shared'
 import type { MemberRecord } from '../types'
-import { formatPhone } from '../utils/phone'
+import { formatPhone } from '@/lib/phone'
 
 /** Avatar, name, phone and an "open" button. */
 export function MemberNameCell({ member, onOpen }: { member: MemberRecord; onOpen: () => void }) {

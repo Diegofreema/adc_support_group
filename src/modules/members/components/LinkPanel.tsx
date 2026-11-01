@@ -1,5 +1,5 @@
-import { Card } from '@/components/shared'
-import { ShareLinkButtons, useJoinLinkActions } from '@/modules/groups'
+import { Card, ShareLinkButtons } from '@/components/shared'
+import { useJoinLink } from '@/hooks/use-join-link'
 import type { ChapterOption } from '../types'
 import { ChapterSelect } from './ChapterSelect'
 
@@ -13,7 +13,7 @@ interface LinkPanelProps {
 
 /** Pick group or chapter, then copy or WhatsApp the link. */
 export function LinkPanel({ joinCode, inviteName, chapters, chapterId, onChapterChange }: LinkPanelProps) {
-  const { link, copy, whatsappUrl } = useJoinLinkActions(joinCode, inviteName)
+  const { link, copy, whatsappUrl } = useJoinLink(joinCode, inviteName)
   return (
     <Card>
       <ChapterSelect id="link-chapter" chapters={chapters} value={chapterId} onChange={onChapterChange} />

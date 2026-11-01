@@ -1,9 +1,9 @@
 import { ALL, STATE_OPTIONS } from '../../shared/constants/options'
 import { FilterBar } from '../../shared/components/FilterBar'
-import { ACTIVITY_TYPES } from '../services/activities.mock'
+import { NAMED_ACTIVITY_TYPE_LABELS } from '@/config/activity-types'
 import type { ActivityFilterValues } from '../types'
 
-const TYPE_OPTIONS = [{ value: ALL, label: 'All types' }, ...ACTIVITY_TYPES.map((type) => ({ value: type, label: type }))]
+const TYPE_OPTIONS = [{ value: ALL, label: 'All types' }, ...NAMED_ACTIVITY_TYPE_LABELS.map((type) => ({ value: type, label: type }))]
 
 interface ActivityFiltersProps {
   filters: ActivityFilterValues

@@ -1,5 +1,5 @@
 import { Field, TextArea } from '@/components/shared'
-import { SMS_PAGE_CHARS } from '../utils/sms-cost'
+import { SMS_PAGE_CHARS } from '@/lib/sms'
 
 interface MessageFieldProps {
   value: string

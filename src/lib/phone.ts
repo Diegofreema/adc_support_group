@@ -1,3 +1,5 @@
+/** Nigerian phone number helpers shared by every form and import. */
+
 /** "0803 555 0142" / "+234 803…" / "803…" → "08035550142" */
 export function normalisePhone(input: string): string {
   const digits = input.replace(/\D/g, '')

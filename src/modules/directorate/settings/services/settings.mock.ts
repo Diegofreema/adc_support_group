@@ -1,15 +1,15 @@
+import { NAMED_ACTIVITY_TYPE_LABELS } from '@/config/activity-types'
+import { NAMED_GROUP_CATEGORIES } from '@/config/group-categories'
 import type { ActivityType, Category, Handover, StaffMember } from '../types'
 
-export const CATEGORIES: Category[] = [
-  { id: 'cat_women', name: 'Women', groupCount: 1104 },
-  { id: 'cat_youth', name: 'Youth', groupCount: 986 },
-  { id: 'cat_students', name: 'Students', groupCount: 412 },
-  { id: 'cat_transport', name: 'Transport', groupCount: 377 },
-  { id: 'cat_traders', name: 'Traders', groupCount: 521 },
-  { id: 'cat_diaspora', name: 'Diaspora', groupCount: 143 },
-]
+const GROUP_COUNTS: Record<string, number> = {
+  Women: 1104, Youth: 986, Students: 412, Transport: 377, Traders: 521, Professionals: 298, Faith: 264, Diaspora: 143, PWD: 88, Community: 614,
+}
 
-export const ACTIVITY_TYPES: ActivityType[] = ['Rally', 'Town hall', 'Door-to-door', 'Media', 'Endorsement', 'Voter education', 'Materials', 'Community project', 'Election day']
+/** Seeded from the shared category list; the Directorate edits it from here. */
+export const CATEGORIES: Category[] = NAMED_GROUP_CATEGORIES.map((name) => ({ id: `cat_${name.toLowerCase()}`, name, groupCount: GROUP_COUNTS[name] ?? 0 }))
+
+export const ACTIVITY_TYPES: ActivityType[] = NAMED_ACTIVITY_TYPE_LABELS
   .map((name, index) => ({ id: `typ_${index}`, name, enabled: true }))
 
 export const STAFF: StaffMember[] = [

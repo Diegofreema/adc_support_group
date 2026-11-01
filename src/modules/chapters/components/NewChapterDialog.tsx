@@ -1,5 +1,4 @@
-import { Button, Field, Modal, PhoneInput, Segmented, TextInput } from '@/components/shared'
-import { PlaceSelects } from '@/modules/groups'
+import { Button, Field, Modal, PhoneInput, PlaceSelects, Segmented, TextInput } from '@/components/shared'
 import { useNewChapterForm } from '../hooks/use-new-chapter-form'
 import { LEVEL_OPTIONS } from '../utils/level-options'
 

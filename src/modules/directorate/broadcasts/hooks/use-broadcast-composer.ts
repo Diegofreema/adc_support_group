@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { usePoints, useSendBroadcast } from './use-broadcast-data'
 import { ALL } from '../../shared/constants/options'
 import { placeLabel, recipientCount } from '../utils/audience'
-import { pointsNeeded, smsPages } from '../utils/sms-cost'
+import { smsPages, smsPoints } from '@/lib/sms'
 import type { BroadcastDraft } from '../types'
 
 const EMPTY: BroadcastDraft = { audience: 'leaders', state: ALL, category: ALL, group: '', channels: { app: true, sms: false }, text: '' }
@@ -16,7 +16,7 @@ export function useBroadcastComposer() {
   const update = <K extends keyof BroadcastDraft>(key: K) => (value: BroadcastDraft[K]) => setDraft((current) => ({ ...current, [key]: value }))
   const recipients = recipientCount(draft)
   const pages = smsPages(draft.text)
-  const cost = draft.channels.sms ? pointsNeeded(recipients, pages) : 0
+  const cost = draft.channels.sms ? smsPoints(recipients, pages) : 0
   const hasChannel = draft.channels.app || draft.channels.sms
   const submit = () => send.mutate(
     { message: { text: draft.text, audience: draft.audience, place: placeLabel(draft), recipients, channels: draft.channels }, cost },

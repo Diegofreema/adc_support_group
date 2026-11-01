@@ -1,7 +1,7 @@
 import { Controller, type UseFormReturn } from 'react-hook-form'
 
 import { ChoiceTiles, Field, TextArea, TextInput, WizardActions } from '@/components/shared'
-import { GROUP_CATEGORIES } from '../../utils/categories'
+import { GROUP_CATEGORIES } from '@/config/group-categories'
 import type { RegisterGroupValues } from '../../utils/schemas'
 import { StepHeading } from '../shared/StepHeading'
 

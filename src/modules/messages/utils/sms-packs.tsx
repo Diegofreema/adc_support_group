@@ -1,7 +1,7 @@
 import type { ChoiceOption } from '@/components/shared'
 import { formatNaira, formatNumber } from '@/lib/format'
 import type { SmsPack } from '../types'
-import { smsForPoints } from './sms-cost'
+import { smsForPoints } from '@/lib/sms'
 
 export const SMS_PACKS: SmsPack[] = [
   { id: 'pack_5k', points: 5_000, price: 5_000 },

@@ -1,7 +1,7 @@
+import { JoinLinkCard } from '@/components/shared'
 import { useDisclosure } from '@/hooks/use-disclosure'
 import type { Group } from '@/types/domain'
 import { useRegenerateJoinCode } from '../hooks/use-group-mutations'
-import { JoinLinkCard } from './JoinLinkCard'
 import { NewLinkDialog } from './NewLinkDialog'
 
 /** Group join link; leaders can replace it after confirming. */

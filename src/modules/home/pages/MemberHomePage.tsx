@@ -1,6 +1,6 @@
+import { PageLoader } from '@/components/shared'
 import { TwoColumn } from '@/components/layout/TwoColumn'
 import { useRequiredUser } from '@/stores/session-store'
-import { HomeLoading } from '../components/HomeLoading'
 import { InviteFriendCard } from '../components/InviteFriendCard'
 import { LeaderNotes } from '../components/LeaderNotes'
 import { MemberActivityCard } from '../components/MemberActivityCard'
@@ -11,7 +11,7 @@ import { useMemberDashboard } from '../hooks/use-member-dashboard'
 export function MemberHomePage() {
   const user = useRequiredUser()
   const { data } = useMemberDashboard()
-  if (!data) return <HomeLoading />
+  if (!data) return <PageLoader />
   return (
     <TwoColumn
       left={(

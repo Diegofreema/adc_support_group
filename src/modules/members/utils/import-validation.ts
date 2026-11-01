@@ -1,5 +1,5 @@
 import type { ColumnMapping, ImportCheck, ImportRowIssue } from '../types'
-import { isValidPhone, normalisePhone } from './phone'
+import { isValidPhone, normalisePhone } from '@/lib/phone'
 
 type Row = Record<string, string>
 

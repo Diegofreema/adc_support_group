@@ -10,4 +10,3 @@ export const ACTIVITIES: ReviewActivity[] = [
   { id: 'act_301', stage: 'flagged', groupId: 'grp_bmm', groupName: 'Benue Market Movement', type: 'Rally', title: 'Rally, Makurdi', date: '2026-10-28T10:00:00Z', state: 'Benue', peopleReached: 15000, photoTones: [2, 4], status: 'approved', approvedBy: 'Leader', loggedBy: 'Terver Iorliam', flagReason: 'Same photos as another rally' },
 ]
 
-export const ACTIVITY_TYPES = ['Rally', 'Town hall', 'Door-to-door', 'Media', 'Materials', 'Endorsement', 'Voter education', 'Community project', 'Election day'] as const

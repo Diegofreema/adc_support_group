@@ -1,4 +1,4 @@
-import type { PlaceValue } from '@/modules/groups'
+import type { PlaceValue } from '@/lib/geo/places'
 import type { ChapterLevel } from '../types'
 
 /** The place a chapter is named after, at its level. */

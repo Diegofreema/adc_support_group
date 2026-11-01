@@ -1,5 +1,4 @@
-import { Button, Card, Field, PhoneInput, TextInput } from '@/components/shared'
-import { PlaceSelects } from '@/modules/groups'
+import { Button, Card, Field, PhoneInput, PlaceSelects, TextInput } from '@/components/shared'
 import { useAddMemberForm } from '../hooks/use-add-member-form'
 import type { ChapterOption } from '../types'
 import { ChapterSelect } from './ChapterSelect'

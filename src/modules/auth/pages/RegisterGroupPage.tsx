@@ -6,14 +6,13 @@ import { RegisterDoneDialog } from '../components/register/RegisterDoneDialog'
 import { RegisterGroupStep } from '../components/register/RegisterGroupStep'
 import { RegisterLeaderStep } from '../components/register/RegisterLeaderStep'
 import { RegisterWhereStep } from '../components/register/RegisterWhereStep'
-import { AuthFormFrame } from '../components/shared/AuthFormFrame'
 import { LoginLink } from '../components/shared/LoginLink'
 import { useRegisterFlow } from '../hooks/use-register-flow'
 
 export function RegisterGroupPage() {
   return (
     <AuthLayout headline={<>Start a group.<br /><span>Grow it here.</span></>} topAction={<LoginLink />}>
-      <AuthFormFrame><RegisterWizard /></AuthFormFrame>
+      <RegisterWizard />
     </AuthLayout>
   )
 }

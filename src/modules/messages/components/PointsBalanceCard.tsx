@@ -2,7 +2,7 @@ import { Coins } from 'lucide-react'
 
 import { Button, Card } from '@/components/shared'
 import { formatNumber } from '@/lib/format'
-import { POINTS_PER_SMS_PAGE } from '../utils/sms-cost'
+import { POINTS_PER_SMS_PAGE } from '@/lib/sms'
 
 export function PointsBalanceCard({ balance, onBuy }: { balance: number; onBuy: () => void }) {
   return (

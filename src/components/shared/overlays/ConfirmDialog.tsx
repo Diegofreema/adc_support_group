@@ -1,7 +1,7 @@
 import { AlertDialog } from 'radix-ui'
 import type { ReactNode } from 'react'
 
-import { buttonClassName } from '../actions/Button'
+import { buttonClassName } from '../actions/button-class'
 
 interface ConfirmDialogProps {
   open: boolean

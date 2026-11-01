@@ -24,9 +24,9 @@ export const chaptersDb: ChapterRecord[] = [
 ]
 
 export const chapterActivitiesDb: ChapterActivity[] = [
-  { id: 'act_101', chapterId: 'chp_lagos', type: 'door', title: 'Door-to-door, Surulere', date: '2026-10-31T09:00:00Z', reach: '82 homes', status: 'approved' },
+  { id: 'act_101', chapterId: 'chp_lagos', type: 'door-to-door', title: 'Door-to-door, Surulere', date: '2026-10-31T09:00:00Z', reach: '82 homes', status: 'approved' },
   { id: 'act_102', chapterId: 'chp_lagos', type: 'rally', title: 'Rally, Ikeja', date: '2026-10-12T15:00:00Z', reach: '1,200 people', status: 'approved' },
-  { id: 'act_103', chapterId: 'chp_lagos', type: 'townhall', title: 'Town hall, Yaba', date: '2026-10-25T10:00:00Z', reach: '260 people', status: 'pending' },
+  { id: 'act_103', chapterId: 'chp_lagos', type: 'town-hall', title: 'Town hall, Yaba', date: '2026-10-25T10:00:00Z', reach: '260 people', status: 'pending' },
   { id: 'act_104', chapterId: 'chp_kano', type: 'rally', title: 'Road show, Kofar Mata', date: '2026-10-28T10:00:00Z', reach: '2,400 people', status: 'approved' },
-  { id: 'act_105', chapterId: 'chp_plateau', type: 'townhall', title: 'Town hall, Jos North', date: '2026-10-25T10:00:00Z', reach: '410 people', status: 'pending' },
+  { id: 'act_105', chapterId: 'chp_plateau', type: 'town-hall', title: 'Town hall, Jos North', date: '2026-10-25T10:00:00Z', reach: '410 people', status: 'pending' },
 ]

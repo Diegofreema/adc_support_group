@@ -1,7 +1,6 @@
 import type { UseFormReturn } from 'react-hook-form'
 
-import { ActionBar } from '@/components/layout/ActionBar'
-import { Button, Field, PhoneInput, TextInput } from '@/components/shared'
+import { Button, Field, PhoneInput, TextInput, WizardActions } from '@/components/shared'
 import type { RegisterGroupValues } from '../../utils/schemas'
 import { HaveAccount } from '../shared/HaveAccount'
 import { StepHeading } from '../shared/StepHeading'
@@ -32,7 +31,7 @@ export function RegisterAccountStep({ form, onSendCode, onNext }: RegisterAccoun
       <Field label="Password" htmlFor="reg-password" error={errors.password?.message}>
         <TextInput id="reg-password" type="password" autoComplete="new-password" placeholder="8+ characters" {...form.register('password')} />
       </Field>
-      <ActionBar><Button variant="primary" size="lg" block onClick={onNext}>Next</Button></ActionBar>
+      <WizardActions onNext={onNext} />
       <HaveAccount />
     </>
   )

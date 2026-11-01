@@ -12,4 +12,3 @@ export type Zone = keyof typeof ZONES
 
 export const ZONE_NAMES = Object.keys(ZONES) as Zone[]
 
-export const FILTER_STATES = ['Kano', 'Lagos', 'FCT', 'Kaduna', 'Adamawa', 'Anambra', 'Rivers', 'Kwara', 'Plateau'] as const

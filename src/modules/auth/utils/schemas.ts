@@ -1,11 +1,11 @@
 import { z } from 'zod'
 
 import { MIN_PASSWORD_LENGTH } from './password-rules'
-import { isValidNigerianPhone } from './phone'
+import { isValidPhone } from '@/lib/phone'
 
 /** Validation rules for auth forms. Components never validate by hand. */
 
-const phone = z.string().trim().refine(isValidNigerianPhone, 'Enter a valid phone number')
+const phone = z.string().trim().refine(isValidPhone, 'Enter a valid phone number')
 const newPassword = z.string().min(MIN_PASSWORD_LENGTH, `${MIN_PASSWORD_LENGTH}+ characters`).regex(/\d/, 'Add a number')
 const required = (message: string) => z.string().trim().min(1, message)
 
@@ -16,7 +16,7 @@ export const loginSchema = z
     password: z.string().min(4, 'Enter your password'),
   })
   .superRefine((values, ctx) => {
-    const valid = values.method === 'phone' ? isValidNigerianPhone(values.identifier) : z.email().safeParse(values.identifier).success
+    const valid = values.method === 'phone' ? isValidPhone(values.identifier) : z.email().safeParse(values.identifier).success
     if (!valid) ctx.addIssue({ code: 'custom', path: ['identifier'], message: values.method === 'phone' ? 'Enter a valid phone number' : 'Enter a valid email' })
   })
 export type LoginValues = z.infer<typeof loginSchema>

@@ -1,5 +1,5 @@
-import { canManageGroup, JoinLinkCard, PageLoading } from '@/modules/groups'
-import { EmptyState } from '@/components/shared'
+import { canManageGroup } from '@/modules/groups'
+import { EmptyState, JoinLinkCard, PageLoader } from '@/components/shared'
 import { MapPinOff } from 'lucide-react'
 import { useRequiredUser } from '@/stores/session-store'
 import { ChapterActivities } from '../components/ChapterActivities'
@@ -13,7 +13,7 @@ export function ChapterPage() {
   const chapterId = useChapterIdParam()
   const user = useRequiredUser()
   const { data: chapter, isLoading } = useChapter(chapterId)
-  if (isLoading) return <PageLoading />
+  if (isLoading) return <PageLoader />
   if (!chapter) return <EmptyState icon={MapPinOff} title="Chapter not found" />
   const groupName = user.activeGroupName ?? ''
   return (

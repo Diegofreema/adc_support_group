@@ -6,7 +6,7 @@ import { useCreateChapter } from './use-chapter-mutations'
 import type { ChapterLevel } from '../types'
 import { suggestChapterName } from '../utils/chapter-name'
 import { EMPTY_CHAPTER, newChapterSchema, type NewChapterForm } from '../utils/chapter-schema'
-import type { PlaceValue } from '@/modules/groups'
+import type { PlaceValue } from '@/lib/geo/places'
 
 /** Keeps the name filled in from the place until the user types their own. */
 function useSuggestedName(form: ReturnType<typeof useForm<NewChapterForm>>, groupName: string) {

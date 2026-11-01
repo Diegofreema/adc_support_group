@@ -1,7 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router'
-import { Loader } from 'lucide-react'
 
-import { EmptyState } from '@/components/shared'
+import { PageLoader } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
 import { ActivityGallery } from '../components/ActivityGallery'
 import { ActivityHeader } from '../components/ActivityHeader'
@@ -17,7 +16,7 @@ const routeApi = getRouteApi('/_app/activities/$activityId')
 export function ActivityDetailPage() {
   const { activityId } = routeApi.useParams()
   const { data: activity } = useActivity(activityId)
-  if (!activity) return <EmptyState icon={Loader} title="Loading" />
+  if (!activity) return <PageLoader />
   return (
     <>
       <ActivityHeader activity={activity} />

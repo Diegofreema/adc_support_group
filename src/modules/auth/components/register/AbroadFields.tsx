@@ -1,7 +1,7 @@
 import type { UseFormReturn } from 'react-hook-form'
 
 import { Field, SelectInput, TextInput } from '@/components/shared'
-import { COUNTRIES } from '../../utils/places'
+import { COUNTRIES } from '@/lib/geo/places'
 import type { RegisterGroupValues } from '../../utils/schemas'
 
 export function AbroadFields({ form }: { form: UseFormReturn<RegisterGroupValues> }) {

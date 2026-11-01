@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { isValidPhone } from './phone'
+import { isValidPhone } from '@/lib/phone'
 
 export const newMemberSchema = z.object({
   fullName: z.string().trim().min(3, 'Enter their full name'),

@@ -1,6 +1,6 @@
 import { SearchX } from 'lucide-react'
 
-import { EmptyState } from '@/components/shared'
+import { EmptyState, PageLoader } from '@/components/shared'
 import { ChaptersPreview } from '@/modules/chapters'
 import { ExecutivesSection } from '@/modules/members'
 import { useRequiredUser } from '@/stores/session-store'
@@ -8,7 +8,6 @@ import { GroupHeader } from '../components/GroupHeader'
 import { GroupJoinLink } from '../components/GroupJoinLink'
 import { GroupStats } from '../components/GroupStats'
 import { HandoverSection } from '../components/HandoverSection'
-import { PageLoading } from '../components/PageLoading'
 import { useActiveGroupId } from '../hooks/use-active-group'
 import { useGroup } from '../hooks/use-group'
 import { useRequestHandover } from '../hooks/use-group-mutations'
@@ -19,7 +18,7 @@ export function GroupPage() {
   const canManage = canManageGroup(useRequiredUser())
   const { data: group, isLoading } = useGroup(groupId)
   const handover = useRequestHandover(groupId)
-  if (isLoading) return <PageLoading />
+  if (isLoading) return <PageLoader />
   if (!group) return <EmptyState icon={SearchX} title="Group not found" />
   return (
     <>

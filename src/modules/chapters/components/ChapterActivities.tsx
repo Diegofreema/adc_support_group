@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router'
 import { IconTile, List, ListItem, SectionTitle, StatusChip } from '@/components/shared'
 import { formatDay } from '@/lib/format'
 import { useChapterActivities } from '../hooks/use-chapters'
-import { activityIcon } from '../utils/activity-icons'
+import { activityTypeIcon } from '@/config/activity-types'
 
 /** Latest activities from this chapter. */
 export function ChapterActivities({ chapterId }: { chapterId: string }) {
@@ -17,7 +17,7 @@ export function ChapterActivities({ chapterId }: { chapterId: string }) {
             <ListItem
               key={activity.id}
               to="/activities"
-              leading={<IconTile icon={activityIcon(activity.type)} />}
+              leading={<IconTile icon={activityTypeIcon(activity.type)} />}
               title={activity.title}
               meta={`${formatDay(activity.date)} · ${activity.reach}`}
               trailing={<StatusChip status={activity.status} />}

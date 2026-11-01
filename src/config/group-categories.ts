@@ -2,7 +2,7 @@ import {
   Accessibility, Bike, Briefcase, Ellipsis, Globe, GraduationCap, HeartHandshake, House, Landmark, Store, Zap,
 } from 'lucide-react'
 
-import type { TileOption } from '@/components/shared'
+import type { TileOption } from '@/components/shared/forms/ChoiceTiles'
 
 /** Group categories (the Directorate can edit this list later). */
 export const GROUP_CATEGORIES: TileOption<string>[] = [
@@ -18,3 +18,6 @@ export const GROUP_CATEGORIES: TileOption<string>[] = [
   { value: 'Community', label: 'Community', icon: House },
   { value: 'Other', label: 'Other', icon: Ellipsis },
 ]
+
+/** Category names without "Other", for admin lists and filters. */
+export const NAMED_GROUP_CATEGORIES: string[] = GROUP_CATEGORIES.filter((category) => category.value !== 'Other').map((category) => category.value)

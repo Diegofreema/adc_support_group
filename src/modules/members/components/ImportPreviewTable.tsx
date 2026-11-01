@@ -1,6 +1,6 @@
 import { Card } from '@/components/shared'
 import type { ColumnMapping, ParsedSheet } from '../types'
-import { isValidPhone } from '../utils/phone'
+import { isValidPhone } from '@/lib/phone'
 
 const PREVIEW_ROWS = 3
 

@@ -1,8 +1,7 @@
+import type { ActivityTypeId } from '@/config/activity-types'
 import type { Activity, PhotoTone } from '@/types/domain'
 
-export type ActivityTypeId =
-  | 'rally' | 'town-hall' | 'door-to-door' | 'media' | 'endorsement'
-  | 'voter-education' | 'materials' | 'community' | 'election-day' | 'other'
+export type { ActivityTypeId }
 
 export type ActivityTab = 'all' | 'review' | 'mine'
 

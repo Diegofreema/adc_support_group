@@ -2,7 +2,7 @@ import { MessageSquare, Plus } from 'lucide-react'
 
 import { Button, Card, Stat } from '@/components/shared'
 import { formatNumber } from '@/lib/format'
-import { POINTS_PER_SMS_PAGE } from '../utils/sms-cost'
+import { POINTS_PER_SMS_PAGE } from '@/lib/sms'
 
 export function PointsCard({ balance, onBuy }: { balance: number; onBuy: () => void }) {
   return (

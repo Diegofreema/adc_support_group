@@ -1,8 +1,7 @@
-import { Dropzone } from '@/components/shared'
+import { Dropzone, WizardActions } from '@/components/shared'
 import type { ChapterOption } from '../types'
 import { ChapterSelect } from './ChapterSelect'
 import { NeededColumns } from './NeededColumns'
-import { StepFooter } from './StepFooter'
 
 interface ImportUploadStepProps {
   fileName?: string
@@ -23,7 +22,7 @@ export function ImportUploadStep({ fileName, isReading, chapters, chapterId, onC
       <div className="mt-5"><Dropzone label="Choose file" hint=".xlsx or .csv" accept=".xlsx,.xls,.csv" fileName={fileName} onFile={onFile} /></div>
       <div className="mt-4"><NeededColumns onTemplate={onTemplate} /></div>
       <ChapterSelect id="import-chapter" label="Add to" chapters={chapters} value={chapterId} onChange={onChapterChange} />
-      <StepFooter label={isReading ? 'Reading…' : 'Check file'} onNext={onNext} disabled={isReading || !fileName} />
+      <WizardActions nextLabel={isReading ? 'Reading…' : 'Check file'} onNext={onNext} disabled={isReading || !fileName} />
     </section>
   )
 }

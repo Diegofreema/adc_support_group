@@ -11,6 +11,8 @@ export interface Column<Row> {
   numeric?: boolean
   /** The main cell; shown as the card title on phones. */
   main?: boolean
+  /** Extra classes on the header and cells, e.g. 'hide-mobile' for desktop-only columns. */
+  className?: string
 }
 
 interface DataTableProps<Row> {
@@ -26,7 +28,7 @@ export function DataTable<Row>({ rows, columns, rowKey, onRowClick }: DataTableP
     <Card flush>
       <table className="table table-cards">
         <thead>
-          <tr>{columns.map((column) => <th key={column.key} className={cn(column.numeric && 't-right')}>{column.header}</th>)}</tr>
+          <tr>{columns.map((column) => <th key={column.key} className={cn(column.numeric && 't-right', column.className)}>{column.header}</th>)}</tr>
         </thead>
         <tbody>
           {rows.map((row) => (
@@ -48,7 +50,7 @@ function DataRow<Row>({ row, columns, onClick }: DataRowProps<Row>) {
   return (
     <tr onClick={onClick && (() => onClick(row))} className={cn(onClick && 'cursor-pointer')}>
       {columns.map((column) => (
-        <td key={column.key} data-label={column.header} className={cn(column.numeric && 't-right', column.main && 't-main')}>
+        <td key={column.key} data-label={column.header} className={cn(column.numeric && 't-right', column.main && 't-main', column.className)}>
           {column.cell(row)}
         </td>
       ))}

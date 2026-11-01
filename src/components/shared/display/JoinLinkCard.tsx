@@ -1,8 +1,10 @@
 import { RefreshCw } from 'lucide-react'
 
-import { Button, Card, CardHead, QrCode } from '@/components/shared'
-import { useJoinLinkActions } from '../hooks/use-join-link-actions'
-import { ShareLinkButtons } from './ShareLinkButtons'
+import { Button } from '../actions/Button'
+import { ShareLinkButtons } from '../actions/ShareLinkButtons'
+import { Card, CardHead } from './Card'
+import { QrCode } from './QrCode'
+import { useJoinLink } from '@/hooks/use-join-link'
 
 interface JoinLinkCardProps {
   joinCode: string
@@ -15,7 +17,7 @@ interface JoinLinkCardProps {
 
 /** QR + link + WhatsApp/Copy. Used for groups and chapters. */
 export function JoinLinkCard({ joinCode, inviteName, title = 'Join link', onNewLink }: JoinLinkCardProps) {
-  const { link, copy, whatsappUrl } = useJoinLinkActions(joinCode, inviteName)
+  const { link, copy, whatsappUrl } = useJoinLink(joinCode, inviteName)
   const newLinkButton = onNewLink && <Button variant="ghost" size="sm" icon={RefreshCw} onClick={onNewLink}>New link</Button>
   return (
     <Card>

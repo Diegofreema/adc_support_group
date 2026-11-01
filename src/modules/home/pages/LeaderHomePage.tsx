@@ -1,6 +1,6 @@
+import { PageLoader } from '@/components/shared'
 import { TwoColumn } from '@/components/layout/TwoColumn'
 import { useDisclosure } from '@/hooks/use-disclosure'
-import { HomeLoading } from '../components/HomeLoading'
 import { InviteDialog } from '../components/InviteDialog'
 import { LeaderGroupCard } from '../components/LeaderGroupCard'
 import { LeaderQuickActions } from '../components/LeaderQuickActions'
@@ -13,7 +13,7 @@ import type { LeaderDashboard } from '../types/home.types'
 
 export function LeaderHomePage() {
   const { data } = useLeaderDashboard()
-  if (!data) return <HomeLoading />
+  if (!data) return <PageLoader />
   return <LeaderHome dashboard={data} />
 }
 

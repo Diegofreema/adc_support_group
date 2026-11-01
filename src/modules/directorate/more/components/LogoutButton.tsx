@@ -1,16 +1,15 @@
 import { LogOut } from 'lucide-react'
 
-import { Button, ConfirmDialog } from '@/components/shared'
+import { Button } from '@/components/shared'
 import { useDisclosure } from '@/hooks/use-disclosure'
-import { useLogout } from '../hooks/use-logout'
+import { LogoutConfirm } from '@/modules/auth'
 
 export function LogoutButton() {
   const confirm = useDisclosure()
-  const logout = useLogout()
   return (
     <>
       <Button variant="danger" block icon={LogOut} className="mt-6" onClick={confirm.open}>Log out</Button>
-      <ConfirmDialog open={confirm.isOpen} onOpenChange={confirm.setOpen} title="Log out?" confirmLabel="Log out" destructive onConfirm={logout} />
+      <LogoutConfirm open={confirm.isOpen} onOpenChange={confirm.setOpen} />
     </>
   )
 }

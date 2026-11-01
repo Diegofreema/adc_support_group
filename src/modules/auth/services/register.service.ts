@@ -1,6 +1,6 @@
 import type { RegistrationReceipt } from '../types/auth.types'
 import type { RegisterGroupValues } from '../utils/schemas'
-import { normalisePhone } from '../utils/phone'
+import { normalisePhone } from '@/lib/phone'
 import { newId, respond } from '@/lib/mock-api'
 import { sessionStore } from '@/stores/session-store'
 import type { User } from '@/types/domain'

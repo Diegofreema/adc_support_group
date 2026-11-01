@@ -1,11 +1,11 @@
-import { Button, Card, Field, SectionTitle, TextInput } from '@/components/shared'
-import { PlaceSelects, usePlaceBinding } from '@/modules/auth'
+import { Button, Card, Field, PlaceSelects, SectionTitle, TextInput } from '@/components/shared'
+import { usePlaceFieldBinding } from '@/hooks/use-place-field-binding'
 import { useProfileForm } from '../hooks/use-profile-form'
 import type { Profile } from '../types/profile.types'
 
 export function ProfileDetailsForm({ profile }: { profile: Profile }) {
   const { form, onSubmit, isPending } = useProfileForm(profile)
-  const place = usePlaceBinding(form)
+  const place = usePlaceFieldBinding(form)
   const errors = form.formState.errors
   return (
     <>
@@ -18,7 +18,7 @@ export function ProfileDetailsForm({ profile }: { profile: Profile }) {
           <Field label="Email" htmlFor="profile-email" optional error={errors.email?.message}>
             <TextInput id="profile-email" type="email" autoComplete="email" {...form.register('email')} />
           </Field>
-          <PlaceSelects idPrefix="profile" value={place.value} onChange={place.onChange} errors={place.errors} />
+          <PlaceSelects compact idPrefix="profile" value={place.value} onChange={place.onChange} errors={place.errors} />
           <Button type="submit" variant="primary" block className="mt-6" disabled={isPending}>Save</Button>
         </form>
       </Card>

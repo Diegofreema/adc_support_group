@@ -1,23 +1,14 @@
 import { Outlet } from '@tanstack/react-router'
 
-import { navigationFor } from '@/config/navigation'
-import { useRequiredUser } from '@/stores/session-store'
 import { BottomNav } from './BottomNav'
 import { Sidebar } from './Sidebar'
 import { Topbar } from './Topbar'
-import { useNavBadges } from './use-nav-badges'
-import { usePageMeta } from './use-page-meta'
+import { useShell } from './use-shell'
 import { userCaption } from './user-caption'
 
 /** Authenticated frame: sidebar (desktop), top bar, page, bottom tabs (phone). */
 export function AppShell() {
-  const user = useRequiredUser()
-  const navigation = navigationFor(user.role)
-  const badges = useNavBadges()
-  const meta = usePageMeta()
-  const isDirectorate = user.role === 'directorate'
-  const profilePath = isDirectorate ? '/admin/more' : '/profile'
-
+  const { user, navigation, badges, meta, isDirectorate, profilePath, alertsPath } = useShell()
   return (
     <div className={isDirectorate ? 'app directorate' : 'app'}>
       <Sidebar
@@ -32,13 +23,11 @@ export function AppShell() {
           title={meta.title ?? ''}
           backTo={meta.backTo}
           homePath={navigation.home}
-          alertsPath={isDirectorate ? '/admin' : '/notifications'}
+          alertsPath={alertsPath}
           hasAlerts={Boolean(badges.notifications)}
           user={{ name: user.fullName, profilePath }}
         />
-        <main className="main">
-          <Outlet />
-        </main>
+        <main className="main"><Outlet /></main>
       </div>
       <BottomNav items={navigation.bottom} />
     </div>

@@ -1,7 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router'
-import { Loader } from 'lucide-react'
 
-import { EmptyState } from '@/components/shared'
+import { PageLoader } from '@/components/shared'
 import { ReceiptActions } from '../components/ReceiptActions'
 import { ReceiptCard } from '../components/ReceiptCard'
 import { usePayment } from '../hooks/use-payments'
@@ -13,7 +12,7 @@ export function ReceiptPage() {
   const { paymentId } = routeApi.useParams()
   const { data: payment } = usePayment(paymentId)
   const actions = useReceiptActions(payment)
-  if (!payment) return <EmptyState icon={Loader} title="Loading" />
+  if (!payment) return <PageLoader />
   return (
     <div className="main-narrow mx-auto">
       <ReceiptCard payment={payment} />

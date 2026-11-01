@@ -1,6 +1,7 @@
 import { Copy, MessageCircle } from 'lucide-react'
 
-import { Button, buttonClassName } from '@/components/shared'
+import { Button } from './Button'
+import { buttonClassName } from './button-class'
 
 interface ShareLinkButtonsProps {
   whatsappUrl: string

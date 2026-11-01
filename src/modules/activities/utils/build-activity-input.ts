@@ -1,7 +1,7 @@
 import type { KeyValue } from '@/components/shared'
 import { formatDay, formatNumber } from '@/lib/format'
 import type { PhotoTone } from '@/types/domain'
-import { activityTypeLabel } from './activity-types'
+import { activityTypeLabel } from '@/config/activity-types'
 import type { ActivityDetailsForm } from './activity-schema'
 import type { ActivityTypeId, NewActivityInput } from '../types'
 
