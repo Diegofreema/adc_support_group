@@ -10,53 +10,431 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as JoinRouteImport } from './routes/join'
-import { Route as SupportersRouteImport } from './routes/supporters'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as SetPasswordRouteImport } from './routes/set-password'
+import { Route as AppGroupRouteImport } from './routes/_app/group'
+import { Route as AppHomeRouteImport } from './routes/_app/home'
+import { Route as AppMessagesRouteImport } from './routes/_app/messages'
+import { Route as AppMoreRouteImport } from './routes/_app/more'
+import { Route as AppNotificationsRouteImport } from './routes/_app/notifications'
+import { Route as AppProfileRouteImport } from './routes/_app/profile'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminActivitiesRouteImport } from './routes/admin/activities'
+import { Route as AdminCausesRouteImport } from './routes/admin/causes'
+import { Route as AdminMessagesRouteImport } from './routes/admin/messages'
+import { Route as AdminMoreRouteImport } from './routes/admin/more'
+import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
+import { Route as AdminReportsRouteImport } from './routes/admin/reports'
+import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as JoinCodeRouteImport } from './routes/join.$code'
+import { Route as AppActivitiesIndexRouteImport } from './routes/_app/activities/index'
+import { Route as AppActivitiesActivityIdRouteImport } from './routes/_app/activities/$activityId'
+import { Route as AppActivitiesNewRouteImport } from './routes/_app/activities/new'
+import { Route as AppChaptersIndexRouteImport } from './routes/_app/chapters/index'
+import { Route as AppChaptersChapterIdRouteImport } from './routes/_app/chapters/$chapterId'
+import { Route as AppMembersIndexRouteImport } from './routes/_app/members/index'
+import { Route as AppMembersAddRouteImport } from './routes/_app/members/add'
+import { Route as AppMembersImportRouteImport } from './routes/_app/members/import'
+import { Route as AppPaymentsIndexRouteImport } from './routes/_app/payments/index'
+import { Route as AppPaymentsPaymentIdRouteImport } from './routes/_app/payments/$paymentId'
+import { Route as AppPaymentsNewRouteImport } from './routes/_app/payments/new'
+import { Route as AppPaymentsOfflineRouteImport } from './routes/_app/payments/offline'
+import { Route as AdminGroupsIndexRouteImport } from './routes/admin/groups/index'
+import { Route as AdminGroupsGroupIdRouteImport } from './routes/admin/groups/$groupId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JoinRoute = JoinRouteImport.update({
-  id: '/join',
-  path: '/join',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SupportersRoute = SupportersRouteImport.update({
-  id: '/supporters',
-  path: '/supporters',
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SetPasswordRoute = SetPasswordRouteImport.update({
+  id: '/set-password',
+  path: '/set-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppGroupRoute = AppGroupRouteImport.update({
+  id: '/group',
+  path: '/group',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppHomeRoute = AppHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMessagesRoute = AppMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoreRoute = AppMoreRouteImport.update({
+  id: '/more',
+  path: '/more',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminActivitiesRoute = AdminActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCausesRoute = AdminCausesRouteImport.update({
+  id: '/causes',
+  path: '/causes',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMoreRoute = AdminMoreRouteImport.update({
+  id: '/more',
+  path: '/more',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const JoinCodeRoute = JoinCodeRouteImport.update({
+  id: '/join/$code',
+  path: '/join/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppActivitiesIndexRoute = AppActivitiesIndexRouteImport.update({
+  id: '/activities/',
+  path: '/activities/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppActivitiesActivityIdRoute = AppActivitiesActivityIdRouteImport.update({
+  id: '/activities/$activityId',
+  path: '/activities/$activityId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppActivitiesNewRoute = AppActivitiesNewRouteImport.update({
+  id: '/activities/new',
+  path: '/activities/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChaptersIndexRoute = AppChaptersIndexRouteImport.update({
+  id: '/chapters/',
+  path: '/chapters/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChaptersChapterIdRoute = AppChaptersChapterIdRouteImport.update({
+  id: '/chapters/$chapterId',
+  path: '/chapters/$chapterId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMembersIndexRoute = AppMembersIndexRouteImport.update({
+  id: '/members/',
+  path: '/members/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMembersAddRoute = AppMembersAddRouteImport.update({
+  id: '/members/add',
+  path: '/members/add',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMembersImportRoute = AppMembersImportRouteImport.update({
+  id: '/members/import',
+  path: '/members/import',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaymentsIndexRoute = AppPaymentsIndexRouteImport.update({
+  id: '/payments/',
+  path: '/payments/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaymentsPaymentIdRoute = AppPaymentsPaymentIdRouteImport.update({
+  id: '/payments/$paymentId',
+  path: '/payments/$paymentId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaymentsNewRoute = AppPaymentsNewRouteImport.update({
+  id: '/payments/new',
+  path: '/payments/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPaymentsOfflineRoute = AppPaymentsOfflineRouteImport.update({
+  id: '/payments/offline',
+  path: '/payments/offline',
+  getParentRoute: () => AppRoute,
+} as any)
+const AdminGroupsIndexRoute = AdminGroupsIndexRouteImport.update({
+  id: '/groups/',
+  path: '/groups/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGroupsGroupIdRoute = AdminGroupsGroupIdRouteImport.update({
+  id: '/groups/$groupId',
+  path: '/groups/$groupId',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/join': typeof JoinRoute
-  '/supporters': typeof SupportersRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/register': typeof RegisterRoute
+  '/set-password': typeof SetPasswordRoute
+  '/group': typeof AppGroupRoute
+  '/home': typeof AppHomeRoute
+  '/messages': typeof AppMessagesRoute
+  '/more': typeof AppMoreRoute
+  '/notifications': typeof AppNotificationsRoute
+  '/profile': typeof AppProfileRoute
+  '/admin/activities': typeof AdminActivitiesRoute
+  '/admin/causes': typeof AdminCausesRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/more': typeof AdminMoreRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/join/$code': typeof JoinCodeRoute
+  '/admin/': typeof AdminIndexRoute
+  '/activities/$activityId': typeof AppActivitiesActivityIdRoute
+  '/activities/new': typeof AppActivitiesNewRoute
+  '/chapters/$chapterId': typeof AppChaptersChapterIdRoute
+  '/members/add': typeof AppMembersAddRoute
+  '/members/import': typeof AppMembersImportRoute
+  '/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
+  '/payments/new': typeof AppPaymentsNewRoute
+  '/payments/offline': typeof AppPaymentsOfflineRoute
+  '/admin/groups/$groupId': typeof AdminGroupsGroupIdRoute
+  '/activities/': typeof AppActivitiesIndexRoute
+  '/chapters/': typeof AppChaptersIndexRoute
+  '/members/': typeof AppMembersIndexRoute
+  '/payments/': typeof AppPaymentsIndexRoute
+  '/admin/groups/': typeof AdminGroupsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/join': typeof JoinRoute
-  '/supporters': typeof SupportersRoute
+  '/register': typeof RegisterRoute
+  '/set-password': typeof SetPasswordRoute
+  '/group': typeof AppGroupRoute
+  '/home': typeof AppHomeRoute
+  '/messages': typeof AppMessagesRoute
+  '/more': typeof AppMoreRoute
+  '/notifications': typeof AppNotificationsRoute
+  '/profile': typeof AppProfileRoute
+  '/admin/activities': typeof AdminActivitiesRoute
+  '/admin/causes': typeof AdminCausesRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/more': typeof AdminMoreRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/join/$code': typeof JoinCodeRoute
+  '/admin': typeof AdminIndexRoute
+  '/activities/$activityId': typeof AppActivitiesActivityIdRoute
+  '/activities/new': typeof AppActivitiesNewRoute
+  '/chapters/$chapterId': typeof AppChaptersChapterIdRoute
+  '/members/add': typeof AppMembersAddRoute
+  '/members/import': typeof AppMembersImportRoute
+  '/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
+  '/payments/new': typeof AppPaymentsNewRoute
+  '/payments/offline': typeof AppPaymentsOfflineRoute
+  '/admin/groups/$groupId': typeof AdminGroupsGroupIdRoute
+  '/activities': typeof AppActivitiesIndexRoute
+  '/chapters': typeof AppChaptersIndexRoute
+  '/members': typeof AppMembersIndexRoute
+  '/payments': typeof AppPaymentsIndexRoute
+  '/admin/groups': typeof AdminGroupsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/join': typeof JoinRoute
-  '/supporters': typeof SupportersRoute
+  '/_app': typeof AppRouteWithChildren
+  '/admin': typeof AdminRouteWithChildren
+  '/register': typeof RegisterRoute
+  '/set-password': typeof SetPasswordRoute
+  '/_app/group': typeof AppGroupRoute
+  '/_app/home': typeof AppHomeRoute
+  '/_app/messages': typeof AppMessagesRoute
+  '/_app/more': typeof AppMoreRoute
+  '/_app/notifications': typeof AppNotificationsRoute
+  '/_app/profile': typeof AppProfileRoute
+  '/admin/activities': typeof AdminActivitiesRoute
+  '/admin/causes': typeof AdminCausesRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/more': typeof AdminMoreRoute
+  '/admin/payments': typeof AdminPaymentsRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/settings': typeof AdminSettingsRoute
+  '/join/$code': typeof JoinCodeRoute
+  '/admin/': typeof AdminIndexRoute
+  '/_app/activities/$activityId': typeof AppActivitiesActivityIdRoute
+  '/_app/activities/new': typeof AppActivitiesNewRoute
+  '/_app/chapters/$chapterId': typeof AppChaptersChapterIdRoute
+  '/_app/members/add': typeof AppMembersAddRoute
+  '/_app/members/import': typeof AppMembersImportRoute
+  '/_app/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
+  '/_app/payments/new': typeof AppPaymentsNewRoute
+  '/_app/payments/offline': typeof AppPaymentsOfflineRoute
+  '/admin/groups/$groupId': typeof AdminGroupsGroupIdRoute
+  '/_app/activities/': typeof AppActivitiesIndexRoute
+  '/_app/chapters/': typeof AppChaptersIndexRoute
+  '/_app/members/': typeof AppMembersIndexRoute
+  '/_app/payments/': typeof AppPaymentsIndexRoute
+  '/admin/groups/': typeof AdminGroupsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/join' | '/supporters'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/register'
+    | '/set-password'
+    | '/group'
+    | '/home'
+    | '/messages'
+    | '/more'
+    | '/notifications'
+    | '/profile'
+    | '/admin/activities'
+    | '/admin/causes'
+    | '/admin/messages'
+    | '/admin/more'
+    | '/admin/payments'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/join/$code'
+    | '/admin/'
+    | '/activities/$activityId'
+    | '/activities/new'
+    | '/chapters/$chapterId'
+    | '/members/add'
+    | '/members/import'
+    | '/payments/$paymentId'
+    | '/payments/new'
+    | '/payments/offline'
+    | '/admin/groups/$groupId'
+    | '/activities/'
+    | '/chapters/'
+    | '/members/'
+    | '/payments/'
+    | '/admin/groups/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/join' | '/supporters'
-  id: '__root__' | '/' | '/join' | '/supporters'
+  to:
+    | '/'
+    | '/register'
+    | '/set-password'
+    | '/group'
+    | '/home'
+    | '/messages'
+    | '/more'
+    | '/notifications'
+    | '/profile'
+    | '/admin/activities'
+    | '/admin/causes'
+    | '/admin/messages'
+    | '/admin/more'
+    | '/admin/payments'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/join/$code'
+    | '/admin'
+    | '/activities/$activityId'
+    | '/activities/new'
+    | '/chapters/$chapterId'
+    | '/members/add'
+    | '/members/import'
+    | '/payments/$paymentId'
+    | '/payments/new'
+    | '/payments/offline'
+    | '/admin/groups/$groupId'
+    | '/activities'
+    | '/chapters'
+    | '/members'
+    | '/payments'
+    | '/admin/groups'
+  id:
+    | '__root__'
+    | '/'
+    | '/_app'
+    | '/admin'
+    | '/register'
+    | '/set-password'
+    | '/_app/group'
+    | '/_app/home'
+    | '/_app/messages'
+    | '/_app/more'
+    | '/_app/notifications'
+    | '/_app/profile'
+    | '/admin/activities'
+    | '/admin/causes'
+    | '/admin/messages'
+    | '/admin/more'
+    | '/admin/payments'
+    | '/admin/reports'
+    | '/admin/settings'
+    | '/join/$code'
+    | '/admin/'
+    | '/_app/activities/$activityId'
+    | '/_app/activities/new'
+    | '/_app/chapters/$chapterId'
+    | '/_app/members/add'
+    | '/_app/members/import'
+    | '/_app/payments/$paymentId'
+    | '/_app/payments/new'
+    | '/_app/payments/offline'
+    | '/admin/groups/$groupId'
+    | '/_app/activities/'
+    | '/_app/chapters/'
+    | '/_app/members/'
+    | '/_app/payments/'
+    | '/admin/groups/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  JoinRoute: typeof JoinRoute
-  SupportersRoute: typeof SupportersRoute
+  AppRoute: typeof AppRouteWithChildren
+  AdminRoute: typeof AdminRouteWithChildren
+  RegisterRoute: typeof RegisterRoute
+  SetPasswordRoute: typeof SetPasswordRoute
+  JoinCodeRoute: typeof JoinCodeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,27 +446,319 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/join': {
-      id: '/join'
-      path: '/join'
-      fullPath: '/join'
-      preLoaderRoute: typeof JoinRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/supporters': {
-      id: '/supporters'
-      path: '/supporters'
-      fullPath: '/supporters'
-      preLoaderRoute: typeof SupportersRouteImport
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/set-password': {
+      id: '/set-password'
+      path: '/set-password'
+      fullPath: '/set-password'
+      preLoaderRoute: typeof SetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/group': {
+      id: '/_app/group'
+      path: '/group'
+      fullPath: '/group'
+      preLoaderRoute: typeof AppGroupRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/home': {
+      id: '/_app/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/messages': {
+      id: '/_app/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AppMessagesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/more': {
+      id: '/_app/more'
+      path: '/more'
+      fullPath: '/more'
+      preLoaderRoute: typeof AppMoreRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/notifications': {
+      id: '/_app/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/activities': {
+      id: '/admin/activities'
+      path: '/activities'
+      fullPath: '/admin/activities'
+      preLoaderRoute: typeof AdminActivitiesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/causes': {
+      id: '/admin/causes'
+      path: '/causes'
+      fullPath: '/admin/causes'
+      preLoaderRoute: typeof AdminCausesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/more': {
+      id: '/admin/more'
+      path: '/more'
+      fullPath: '/admin/more'
+      preLoaderRoute: typeof AdminMoreRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/join/$code': {
+      id: '/join/$code'
+      path: '/join/$code'
+      fullPath: '/join/$code'
+      preLoaderRoute: typeof JoinCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/activities/': {
+      id: '/_app/activities/'
+      path: '/activities'
+      fullPath: '/activities/'
+      preLoaderRoute: typeof AppActivitiesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/activities/$activityId': {
+      id: '/_app/activities/$activityId'
+      path: '/activities/$activityId'
+      fullPath: '/activities/$activityId'
+      preLoaderRoute: typeof AppActivitiesActivityIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/activities/new': {
+      id: '/_app/activities/new'
+      path: '/activities/new'
+      fullPath: '/activities/new'
+      preLoaderRoute: typeof AppActivitiesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/chapters/': {
+      id: '/_app/chapters/'
+      path: '/chapters'
+      fullPath: '/chapters/'
+      preLoaderRoute: typeof AppChaptersIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/chapters/$chapterId': {
+      id: '/_app/chapters/$chapterId'
+      path: '/chapters/$chapterId'
+      fullPath: '/chapters/$chapterId'
+      preLoaderRoute: typeof AppChaptersChapterIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/members/': {
+      id: '/_app/members/'
+      path: '/members'
+      fullPath: '/members/'
+      preLoaderRoute: typeof AppMembersIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/members/add': {
+      id: '/_app/members/add'
+      path: '/members/add'
+      fullPath: '/members/add'
+      preLoaderRoute: typeof AppMembersAddRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/members/import': {
+      id: '/_app/members/import'
+      path: '/members/import'
+      fullPath: '/members/import'
+      preLoaderRoute: typeof AppMembersImportRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/payments/': {
+      id: '/_app/payments/'
+      path: '/payments'
+      fullPath: '/payments/'
+      preLoaderRoute: typeof AppPaymentsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/payments/$paymentId': {
+      id: '/_app/payments/$paymentId'
+      path: '/payments/$paymentId'
+      fullPath: '/payments/$paymentId'
+      preLoaderRoute: typeof AppPaymentsPaymentIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/payments/new': {
+      id: '/_app/payments/new'
+      path: '/payments/new'
+      fullPath: '/payments/new'
+      preLoaderRoute: typeof AppPaymentsNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/payments/offline': {
+      id: '/_app/payments/offline'
+      path: '/payments/offline'
+      fullPath: '/payments/offline'
+      preLoaderRoute: typeof AppPaymentsOfflineRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/admin/groups/': {
+      id: '/admin/groups/'
+      path: '/groups'
+      fullPath: '/admin/groups/'
+      preLoaderRoute: typeof AdminGroupsIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/groups/$groupId': {
+      id: '/admin/groups/$groupId'
+      path: '/groups/$groupId'
+      fullPath: '/admin/groups/$groupId'
+      preLoaderRoute: typeof AdminGroupsGroupIdRouteImport
+      parentRoute: typeof AdminRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppGroupRoute: typeof AppGroupRoute
+  AppHomeRoute: typeof AppHomeRoute
+  AppMessagesRoute: typeof AppMessagesRoute
+  AppMoreRoute: typeof AppMoreRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppActivitiesActivityIdRoute: typeof AppActivitiesActivityIdRoute
+  AppActivitiesNewRoute: typeof AppActivitiesNewRoute
+  AppChaptersChapterIdRoute: typeof AppChaptersChapterIdRoute
+  AppMembersAddRoute: typeof AppMembersAddRoute
+  AppMembersImportRoute: typeof AppMembersImportRoute
+  AppPaymentsPaymentIdRoute: typeof AppPaymentsPaymentIdRoute
+  AppPaymentsNewRoute: typeof AppPaymentsNewRoute
+  AppPaymentsOfflineRoute: typeof AppPaymentsOfflineRoute
+  AppActivitiesIndexRoute: typeof AppActivitiesIndexRoute
+  AppChaptersIndexRoute: typeof AppChaptersIndexRoute
+  AppMembersIndexRoute: typeof AppMembersIndexRoute
+  AppPaymentsIndexRoute: typeof AppPaymentsIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppGroupRoute: AppGroupRoute,
+  AppHomeRoute: AppHomeRoute,
+  AppMessagesRoute: AppMessagesRoute,
+  AppMoreRoute: AppMoreRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppActivitiesActivityIdRoute: AppActivitiesActivityIdRoute,
+  AppActivitiesNewRoute: AppActivitiesNewRoute,
+  AppChaptersChapterIdRoute: AppChaptersChapterIdRoute,
+  AppMembersAddRoute: AppMembersAddRoute,
+  AppMembersImportRoute: AppMembersImportRoute,
+  AppPaymentsPaymentIdRoute: AppPaymentsPaymentIdRoute,
+  AppPaymentsNewRoute: AppPaymentsNewRoute,
+  AppPaymentsOfflineRoute: AppPaymentsOfflineRoute,
+  AppActivitiesIndexRoute: AppActivitiesIndexRoute,
+  AppChaptersIndexRoute: AppChaptersIndexRoute,
+  AppMembersIndexRoute: AppMembersIndexRoute,
+  AppPaymentsIndexRoute: AppPaymentsIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
+interface AdminRouteChildren {
+  AdminActivitiesRoute: typeof AdminActivitiesRoute
+  AdminCausesRoute: typeof AdminCausesRoute
+  AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminMoreRoute: typeof AdminMoreRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminGroupsGroupIdRoute: typeof AdminGroupsGroupIdRoute
+  AdminGroupsIndexRoute: typeof AdminGroupsIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminActivitiesRoute: AdminActivitiesRoute,
+  AdminCausesRoute: AdminCausesRoute,
+  AdminMessagesRoute: AdminMessagesRoute,
+  AdminMoreRoute: AdminMoreRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminGroupsGroupIdRoute: AdminGroupsGroupIdRoute,
+  AdminGroupsIndexRoute: AdminGroupsIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  JoinRoute: JoinRoute,
-  SupportersRoute: SupportersRoute,
+  AppRoute: AppRouteWithChildren,
+  AdminRoute: AdminRouteWithChildren,
+  RegisterRoute: RegisterRoute,
+  SetPasswordRoute: SetPasswordRoute,
+  JoinCodeRoute: JoinCodeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
