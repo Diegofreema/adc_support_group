@@ -11,6 +11,7 @@ export function useCreateChapter(groupId: string) {
     mutationFn: (input: NewChapterInput) => createChapter(groupId, input),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: chapterKeys.all })
+      void queryClient.invalidateQueries({ queryKey: ['members'] })
       notify('Chapter created')
     },
   })
@@ -22,6 +23,9 @@ export function useChangeCoordinator(chapterId: string) {
     mutationFn: (coordinator: string) => changeCoordinator(chapterId, coordinator),
     onSuccess: (chapter) => {
       queryClient.setQueryData(chapterKeys.detail(chapterId), chapter)
+      // The coordinator's role changed: chapter lists and the member list too.
+      void queryClient.invalidateQueries({ queryKey: chapterKeys.all })
+      void queryClient.invalidateQueries({ queryKey: ['members'] })
       notify('Coordinator changed')
     },
   })
