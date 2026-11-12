@@ -210,3 +210,13 @@ Agreed 2026-11-12: reminders 6pm Lagos the day before (email, or SMS within the 
 - **Reminders:** cron `adc-event-reminders` every 15 min → `private.send_support_group_event_reminders(p_now)`; the day-before one carries `kind: event_reminder` (important), the 2h one `event-soon` (in-app).
 - **App:** `src/modules/events` (list, form, detail, attendance, venue QR, check-in link `/events/checkin/$code`, "Make it an activity"); Home shows "Coming up"; activity photo uploads share `src/lib/activity-media.ts`.
 - **Tests:** 34, pass on live (rolled back).
+
+## Phase 4: money (live, migration `20261112100000`)
+
+Agreed 2026-11-12: the group purse = dues + other income − expenses; campaign giving (`support_group_payments`) shows apart as "Given to the campaign". The giving limit counts a person's paid campaign giving (causes and purposes) in the calendar year; dues never count. Dues are monthly, quarterly or yearly.
+
+- **Dues:** `support_groups.dues_enabled/_amount/_period/_start_on` (off by default; set by the money power, not coordinators). `record_support_group_dues` writes one `support_group_money_entries` row (proof required) and one `support_group_dues_periods` row per period (a period is paid once; voiding frees it). Members see their own status; `get_support_group_dues_status` (money power) lists who hasn't paid. No penalties.
+- **Purse:** `record_support_group_income` (proof optional), `record_support_group_expense` (receipt required), `void_support_group_money_entry` (nothing deleted). `get_support_group_money_summary` for everyone; `get_support_group_money_entries` for anyone with a power. Proofs live in the private bucket at `{groupId}/money/…`; executives and coordinators can read them.
+- **Giving limit:** `support_group_settings.giving_limit_yearly` (super admin, `set_support_group_giving_limit`). Trigger `trg_sg_payments_giving_limit` sets `over_giving_limit` + `giving_year_before` on every new payment (online too). `get_support_group_giving(amount, payer?)` warns before paying; `get_admin_sg_over_limit_payments` for staff. Never blocks.
+- **App:** `src/modules/money` (`/money` and the record, settings and dues-status screens); the pay screens show the limit warning; Directorate Settings has "Giving limit", Payments has "Over the limit". Shared: `src/lib/proof-upload.ts`, `src/hooks/use-debounced-value.ts`, `<LoadMoreButton>`.
+- **Tests:** 37, pass on the scratch DB; on live every test has passed (one run had network timeouts, re-run green).

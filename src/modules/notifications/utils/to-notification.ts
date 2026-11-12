@@ -39,6 +39,7 @@ const LEGACY_KINDS: Record<string, NotificationKind> = {
   added_to_group: 'group-update',
   // Event notices: new, changed, the day-before reminder, starting soon.
   'event-new': 'event', 'event-changed': 'event', event_reminder: 'event', 'event-soon': 'event',
+  'dues-recorded': 'payment-received',
 }
 
 /** The backend's `metadata.kind`, when it is one this app knows. */

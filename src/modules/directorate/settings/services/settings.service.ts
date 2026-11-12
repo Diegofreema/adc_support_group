@@ -86,3 +86,17 @@ export async function setActivityTypeEnabled({ type, enabled }: { type: Activity
 export async function decideHandover({ id, approve }: { id: string; approve: boolean }): Promise<void> {
   await rpc('review_support_group_handover', { p_handover_id: id, p_approve: approve, p_note: null })
 }
+
+/** The yearly campaign giving limit per person; null = no limit. Any staff can read it. */
+export const givingLimitQuery = queryOptions({
+  queryKey: directorateKeys.settings('giving-limit'),
+  queryFn: async (): Promise<number | null> => {
+    const { limit } = await rpc<{ limit: number | string | null }>('get_admin_sg_giving_limit')
+    return limit === null ? null : Number(limit)
+  },
+})
+
+/** Super admin only (the RPC refuses everyone else). null removes the limit. */
+export async function setGivingLimit(limit: number | null): Promise<void> {
+  await rpc('set_support_group_giving_limit', { p_limit: limit })
+}

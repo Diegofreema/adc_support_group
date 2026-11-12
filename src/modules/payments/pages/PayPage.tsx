@@ -3,6 +3,7 @@ import { CreditCard } from 'lucide-react'
 import { PendingGroupNote, WizardActions, WizardProgress } from '@/components/shared'
 import { useGroupLocked } from '@/hooks/use-group-verified'
 import { AmountStep } from '../components/AmountStep'
+import { GivingLimitNote } from '../components/GivingLimitNote'
 import { PayCheckStep } from '../components/PayCheckStep'
 import { PayForStep } from '../components/PayForStep'
 import { usePayWizard } from '../hooks/use-pay-wizard'
@@ -28,6 +29,7 @@ function PayWizard() {
     <div className="main-narrow mx-auto">
       <WizardProgress step={flow.wizard.step} total={flow.wizard.total} />
       <section className="mt-6"><CurrentStep flow={flow} /></section>
+      {flow.wizard.step > 0 && <GivingLimitNote check={flow.giving} className="mt-4" />}
       <StepActions flow={flow} />
     </div>
   )

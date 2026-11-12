@@ -71,3 +71,12 @@ export interface PaymentTotals {
   thisMonth: number
   causes: number
 }
+
+/** get_support_group_giving: the payer's campaign giving this calendar year against the Directorate's limit. */
+export interface GivingCheck {
+  /** null = no limit set. */
+  limit: number | null
+  givenThisYear: number
+  remaining: number | null
+  wouldExceed: boolean
+}

@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 
 import { offlinePaymentSchema, type OfflinePaymentForm } from '../utils/offline-schema'
 import { parseAmount } from '../utils/amount'
+import { useGivingCheck } from './use-giving-check'
 import { usePayLookups } from './use-pay-lookups'
 import { useReportOfflinePayment } from './use-pay-mutation'
 import { usePayerOptions } from './use-payments'
@@ -29,10 +30,14 @@ export function useOfflinePayment() {
     defaultValues: { forId: '', chapterId: '', payerId: '', amount: '', date: today(), method: 'transfer', reference: '' },
   })
 
+  const [payerField, amountField] = useWatch({ control: form.control, name: ['payerId', 'amount'] })
+  const payerId = payerField || undefined
+  const giving = useGivingCheck(parseAmount(amountField), payerId)
+
   const onValid = (values: OfflinePaymentForm) =>
     report.mutate({ ...values, amount: parseAmount(values.amount) }, {
       onSuccess: () => { notify('Sent for check'); void navigate({ to: '/payments' }) },
     })
 
-  return { form, lookups, payers, leaderName: user.fullName, submit: form.handleSubmit(onValid), isSending: report.isPending }
+  return { form, lookups, payers, leaderName: user.fullName, giving, givingForSomeoneElse: Boolean(payerId), submit: form.handleSubmit(onValid), isSending: report.isPending }
 }

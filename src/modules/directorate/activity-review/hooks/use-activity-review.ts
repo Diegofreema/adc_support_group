@@ -2,7 +2,7 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tansta
 import { useState } from 'react'
 
 import { approveActivity, rejectActivity, reviewActivitiesQuery, stageCountsQuery } from '../services/activities.service'
-import { useDebouncedValue } from '../../shared/hooks/use-debounced-value'
+import { useDebouncedValue } from '@/hooks/use-debounced-value'
 import { useFilters } from '../../shared/hooks/use-filters'
 import { useKeepPageInRange, usePaging } from '../../shared/hooks/use-paging'
 import { useActivityTypeOptions } from '../../shared/hooks/use-lookups'

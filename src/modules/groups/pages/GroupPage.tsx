@@ -7,6 +7,7 @@ import { ExecutivesSection } from '@/modules/members'
 import { useRequiredUser } from '@/stores/session-store'
 import { GroupHeader } from '../components/GroupHeader'
 import { GroupJoinLink } from '../components/GroupJoinLink'
+import { GroupMoneyLink } from '../components/GroupMoneyLink'
 import { GroupStats } from '../components/GroupStats'
 import { HandoverSection } from '../components/HandoverSection'
 import { useActiveGroupId } from '../hooks/use-active-group'
@@ -40,6 +41,7 @@ export function GroupPage() {
             <GroupJoinLink group={group} canManage={canManage} />
             <ExecutivesSection groupId={group.id} canManage={canManage} />
           </div>
+          <GroupMoneyLink />
           <ChaptersPreview groupId={group.id} />
           {canManage && <HandoverSection onRequest={(newLeader) => handover.mutate(newLeader)} pending={handover.isPending} />}
         </>

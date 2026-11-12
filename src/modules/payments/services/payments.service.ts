@@ -1,10 +1,10 @@
 import { invokeFunction } from '@/lib/edge-functions'
-import { shrinkForUpload } from '@/lib/image'
-import { rpc, supabase } from '@/lib/supabase'
+import { uploadProof } from '@/lib/proof-upload'
+import { rpc } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { Cause, CauseStatus, Payment, PaymentMethod, PaymentPurpose, PaymentStatus } from '@/types/domain'
 import type {
-  ActivityOption, ChapterOption, FunzCheckout, OfflinePaymentInput, PayDraft, PayerOption, PaymentCheck,
+  ActivityOption, ChapterOption, FunzCheckout, GivingCheck, OfflinePaymentInput, PayDraft, PayerOption, PaymentCheck,
 } from '../types'
 
 /** private.support_group_payment_json */
@@ -145,22 +145,6 @@ export function verifyFunzPayment(reference: string): Promise<PaymentCheck> {
   return invokeFunction<PaymentCheck>('verify-group-payment', { reference })
 }
 
-const PROOF_TYPES: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'application/pdf': 'pdf' }
-const MAX_PROOF_BYTES = 10 * 1024 * 1024
-
-/** Upload the receipt to the private proofs bucket; returns its storage path. */
-async function uploadProof(groupId: string, original: File): Promise<string> {
-  // Shrink first: a camera photo of a receipt is several MB; PDFs pass through.
-  const file = await shrinkForUpload(original)
-  const ext = PROOF_TYPES[file.type]
-  if (!ext) throw new Error('Proof must be a photo (JPG, PNG, WebP) or a PDF')
-  if (file.size > MAX_PROOF_BYTES) throw new Error('Proof must be under 10 MB')
-  const path = `${groupId}/${crypto.randomUUID()}.${ext}`
-  const { error } = await supabase.storage.from('support-group-payment-proofs').upload(path, file, { contentType: file.type, upsert: false })
-  if (error) throw new Error(`Could not upload the proof: ${error.message}`)
-  return path
-}
-
 function offlineTarget(forId: string): { p_cause_id: string | null; p_purpose: string | null } {
   return forId.startsWith('purpose:')
     ? { p_cause_id: null, p_purpose: forId.slice('purpose:'.length) }
@@ -182,4 +166,22 @@ export async function reportOfflinePayment(input: OfflinePaymentInput): Promise<
     p_reference: input.reference?.trim() || null,
     p_chapter_id: input.chapterId || null,
   }))
+}
+
+interface GivingJson {
+  limit: number | string | null
+  given_this_year: number | string
+  remaining: number | string | null
+  would_exceed: boolean
+}
+
+/** Would `amount` take the payer past the yearly giving limit? payerId: a member a treasurer records for. */
+export async function checkGiving(amount: number, payerId?: string): Promise<GivingCheck> {
+  const json = await rpc<GivingJson>('get_support_group_giving', { p_amount: amount, p_profile_id: payerId ?? null })
+  return {
+    limit: json.limit === null ? null : Number(json.limit),
+    givenThisYear: Number(json.given_this_year),
+    remaining: json.remaining === null ? null : Number(json.remaining),
+    wouldExceed: json.would_exceed,
+  }
 }

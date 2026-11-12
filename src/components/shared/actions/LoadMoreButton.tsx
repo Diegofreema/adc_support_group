@@ -1,4 +1,4 @@
-import { Button } from '@/components/shared'
+import { Button } from './Button'
 
 /** Fetches the next page; hidden once everything is loaded. */
 export function LoadMoreButton({ hasMore, loading, onClick }: { hasMore: boolean; loading: boolean; onClick: () => void }) {

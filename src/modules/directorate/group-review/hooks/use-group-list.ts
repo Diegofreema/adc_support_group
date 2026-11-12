@@ -2,7 +2,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { groupCountsQuery, groupsQuery } from '../services/groups.service'
-import { useDebouncedValue } from '../../shared/hooks/use-debounced-value'
+import { useDebouncedValue } from '@/hooks/use-debounced-value'
 import { useFilters } from '../../shared/hooks/use-filters'
 import { useKeepPageInRange, usePaging } from '../../shared/hooks/use-paging'
 import { useCategoryOptions } from '../../shared/hooks/use-lookups'

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 
-import { useDebouncedValue } from './use-debounced-value'
+import { useDebouncedValue } from '@/hooks/use-debounced-value'
 import { useChapterOptions, useMemberPage } from './use-members'
 import type { MemberFilter, MemberPage } from '../types'
 import { buildFilterOptions, showsLeader } from '../utils/filters'

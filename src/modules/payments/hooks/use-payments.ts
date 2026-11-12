@@ -12,6 +12,7 @@ export const paymentKeys = {
   chapters: () => [...paymentKeys.all, 'chapters'] as const,
   activities: () => [...paymentKeys.all, 'activity-options'] as const,
   payers: () => [...paymentKeys.all, 'payer-options'] as const,
+  giving: (amount: number, payerId?: string) => [...paymentKeys.all, 'giving', amount, payerId ?? 'me'] as const,
 }
 
 export function usePayments(groupId: string) {

@@ -40,6 +40,9 @@ import { Route as AppEventsNewRouteImport } from './routes/_app/events/new'
 import { Route as AppMembersIndexRouteImport } from './routes/_app/members/index'
 import { Route as AppMembersAddRouteImport } from './routes/_app/members/add'
 import { Route as AppMembersImportRouteImport } from './routes/_app/members/import'
+import { Route as AppMoneyIndexRouteImport } from './routes/_app/money/index'
+import { Route as AppMoneyDuesSettingsRouteImport } from './routes/_app/money/dues-settings'
+import { Route as AppMoneyDuesStatusRouteImport } from './routes/_app/money/dues-status'
 import { Route as AppPaymentsIndexRouteImport } from './routes/_app/payments/index'
 import { Route as AppPaymentsPaymentIdRouteImport } from './routes/_app/payments/$paymentId'
 import { Route as AppPaymentsNewRouteImport } from './routes/_app/payments/new'
@@ -51,6 +54,9 @@ import { Route as AppEventsEventIdAttendanceRouteImport } from './routes/_app/ev
 import { Route as AppEventsEventIdEditRouteImport } from './routes/_app/events/$eventId_.edit'
 import { Route as AppEventsEventIdRecordRouteImport } from './routes/_app/events/$eventId_.record'
 import { Route as AppEventsCheckinCodeRouteImport } from './routes/_app/events/checkin/$code'
+import { Route as AppMoneyDuesNewRouteImport } from './routes/_app/money/dues/new'
+import { Route as AppMoneyExpenseNewRouteImport } from './routes/_app/money/expense/new'
+import { Route as AppMoneyIncomeNewRouteImport } from './routes/_app/money/income/new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -206,6 +212,21 @@ const AppMembersImportRoute = AppMembersImportRouteImport.update({
   path: '/members/import',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMoneyIndexRoute = AppMoneyIndexRouteImport.update({
+  id: '/money/',
+  path: '/money/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoneyDuesSettingsRoute = AppMoneyDuesSettingsRouteImport.update({
+  id: '/money/dues-settings',
+  path: '/money/dues-settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoneyDuesStatusRoute = AppMoneyDuesStatusRouteImport.update({
+  id: '/money/dues-status',
+  path: '/money/dues-status',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppPaymentsIndexRoute = AppPaymentsIndexRouteImport.update({
   id: '/payments/',
   path: '/payments/',
@@ -263,6 +284,21 @@ const AppEventsCheckinCodeRoute = AppEventsCheckinCodeRouteImport.update({
   path: '/events/checkin/$code',
   getParentRoute: () => AppRoute,
 } as any)
+const AppMoneyDuesNewRoute = AppMoneyDuesNewRouteImport.update({
+  id: '/money/dues/new',
+  path: '/money/dues/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoneyExpenseNewRoute = AppMoneyExpenseNewRouteImport.update({
+  id: '/money/expense/new',
+  path: '/money/expense/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMoneyIncomeNewRoute = AppMoneyIncomeNewRouteImport.update({
+  id: '/money/income/new',
+  path: '/money/income/new',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -291,6 +327,8 @@ export interface FileRoutesByFullPath {
   '/events/new': typeof AppEventsNewRoute
   '/members/add': typeof AppMembersAddRoute
   '/members/import': typeof AppMembersImportRoute
+  '/money/dues-settings': typeof AppMoneyDuesSettingsRoute
+  '/money/dues-status': typeof AppMoneyDuesStatusRoute
   '/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
   '/payments/new': typeof AppPaymentsNewRoute
   '/payments/offline': typeof AppPaymentsOfflineRoute
@@ -299,6 +337,7 @@ export interface FileRoutesByFullPath {
   '/chapters/': typeof AppChaptersIndexRoute
   '/events/': typeof AppEventsIndexRoute
   '/members/': typeof AppMembersIndexRoute
+  '/money/': typeof AppMoneyIndexRoute
   '/payments/': typeof AppPaymentsIndexRoute
   '/admin/groups/': typeof AdminGroupsIndexRoute
   '/activities/$activityId/edit': typeof AppActivitiesActivityIdEditRoute
@@ -306,6 +345,9 @@ export interface FileRoutesByFullPath {
   '/events/$eventId/edit': typeof AppEventsEventIdEditRoute
   '/events/$eventId/record': typeof AppEventsEventIdRecordRoute
   '/events/checkin/$code': typeof AppEventsCheckinCodeRoute
+  '/money/dues/new': typeof AppMoneyDuesNewRoute
+  '/money/expense/new': typeof AppMoneyExpenseNewRoute
+  '/money/income/new': typeof AppMoneyIncomeNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -333,6 +375,8 @@ export interface FileRoutesByTo {
   '/events/new': typeof AppEventsNewRoute
   '/members/add': typeof AppMembersAddRoute
   '/members/import': typeof AppMembersImportRoute
+  '/money/dues-settings': typeof AppMoneyDuesSettingsRoute
+  '/money/dues-status': typeof AppMoneyDuesStatusRoute
   '/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
   '/payments/new': typeof AppPaymentsNewRoute
   '/payments/offline': typeof AppPaymentsOfflineRoute
@@ -341,6 +385,7 @@ export interface FileRoutesByTo {
   '/chapters': typeof AppChaptersIndexRoute
   '/events': typeof AppEventsIndexRoute
   '/members': typeof AppMembersIndexRoute
+  '/money': typeof AppMoneyIndexRoute
   '/payments': typeof AppPaymentsIndexRoute
   '/admin/groups': typeof AdminGroupsIndexRoute
   '/activities/$activityId/edit': typeof AppActivitiesActivityIdEditRoute
@@ -348,6 +393,9 @@ export interface FileRoutesByTo {
   '/events/$eventId/edit': typeof AppEventsEventIdEditRoute
   '/events/$eventId/record': typeof AppEventsEventIdRecordRoute
   '/events/checkin/$code': typeof AppEventsCheckinCodeRoute
+  '/money/dues/new': typeof AppMoneyDuesNewRoute
+  '/money/expense/new': typeof AppMoneyExpenseNewRoute
+  '/money/income/new': typeof AppMoneyIncomeNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -378,6 +426,8 @@ export interface FileRoutesById {
   '/_app/events/new': typeof AppEventsNewRoute
   '/_app/members/add': typeof AppMembersAddRoute
   '/_app/members/import': typeof AppMembersImportRoute
+  '/_app/money/dues-settings': typeof AppMoneyDuesSettingsRoute
+  '/_app/money/dues-status': typeof AppMoneyDuesStatusRoute
   '/_app/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
   '/_app/payments/new': typeof AppPaymentsNewRoute
   '/_app/payments/offline': typeof AppPaymentsOfflineRoute
@@ -386,6 +436,7 @@ export interface FileRoutesById {
   '/_app/chapters/': typeof AppChaptersIndexRoute
   '/_app/events/': typeof AppEventsIndexRoute
   '/_app/members/': typeof AppMembersIndexRoute
+  '/_app/money/': typeof AppMoneyIndexRoute
   '/_app/payments/': typeof AppPaymentsIndexRoute
   '/admin/groups/': typeof AdminGroupsIndexRoute
   '/_app/activities/$activityId_/edit': typeof AppActivitiesActivityIdEditRoute
@@ -393,6 +444,9 @@ export interface FileRoutesById {
   '/_app/events/$eventId_/edit': typeof AppEventsEventIdEditRoute
   '/_app/events/$eventId_/record': typeof AppEventsEventIdRecordRoute
   '/_app/events/checkin/$code': typeof AppEventsCheckinCodeRoute
+  '/_app/money/dues/new': typeof AppMoneyDuesNewRoute
+  '/_app/money/expense/new': typeof AppMoneyExpenseNewRoute
+  '/_app/money/income/new': typeof AppMoneyIncomeNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -423,6 +477,8 @@ export interface FileRouteTypes {
     | '/events/new'
     | '/members/add'
     | '/members/import'
+    | '/money/dues-settings'
+    | '/money/dues-status'
     | '/payments/$paymentId'
     | '/payments/new'
     | '/payments/offline'
@@ -431,6 +487,7 @@ export interface FileRouteTypes {
     | '/chapters/'
     | '/events/'
     | '/members/'
+    | '/money/'
     | '/payments/'
     | '/admin/groups/'
     | '/activities/$activityId/edit'
@@ -438,6 +495,9 @@ export interface FileRouteTypes {
     | '/events/$eventId/edit'
     | '/events/$eventId/record'
     | '/events/checkin/$code'
+    | '/money/dues/new'
+    | '/money/expense/new'
+    | '/money/income/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -465,6 +525,8 @@ export interface FileRouteTypes {
     | '/events/new'
     | '/members/add'
     | '/members/import'
+    | '/money/dues-settings'
+    | '/money/dues-status'
     | '/payments/$paymentId'
     | '/payments/new'
     | '/payments/offline'
@@ -473,6 +535,7 @@ export interface FileRouteTypes {
     | '/chapters'
     | '/events'
     | '/members'
+    | '/money'
     | '/payments'
     | '/admin/groups'
     | '/activities/$activityId/edit'
@@ -480,6 +543,9 @@ export interface FileRouteTypes {
     | '/events/$eventId/edit'
     | '/events/$eventId/record'
     | '/events/checkin/$code'
+    | '/money/dues/new'
+    | '/money/expense/new'
+    | '/money/income/new'
   id:
     | '__root__'
     | '/'
@@ -509,6 +575,8 @@ export interface FileRouteTypes {
     | '/_app/events/new'
     | '/_app/members/add'
     | '/_app/members/import'
+    | '/_app/money/dues-settings'
+    | '/_app/money/dues-status'
     | '/_app/payments/$paymentId'
     | '/_app/payments/new'
     | '/_app/payments/offline'
@@ -517,6 +585,7 @@ export interface FileRouteTypes {
     | '/_app/chapters/'
     | '/_app/events/'
     | '/_app/members/'
+    | '/_app/money/'
     | '/_app/payments/'
     | '/admin/groups/'
     | '/_app/activities/$activityId_/edit'
@@ -524,6 +593,9 @@ export interface FileRouteTypes {
     | '/_app/events/$eventId_/edit'
     | '/_app/events/$eventId_/record'
     | '/_app/events/checkin/$code'
+    | '/_app/money/dues/new'
+    | '/_app/money/expense/new'
+    | '/_app/money/income/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -754,6 +826,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppMembersImportRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/money/': {
+      id: '/_app/money/'
+      path: '/money'
+      fullPath: '/money/'
+      preLoaderRoute: typeof AppMoneyIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/money/dues-settings': {
+      id: '/_app/money/dues-settings'
+      path: '/money/dues-settings'
+      fullPath: '/money/dues-settings'
+      preLoaderRoute: typeof AppMoneyDuesSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/money/dues-status': {
+      id: '/_app/money/dues-status'
+      path: '/money/dues-status'
+      fullPath: '/money/dues-status'
+      preLoaderRoute: typeof AppMoneyDuesStatusRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/payments/': {
       id: '/_app/payments/'
       path: '/payments'
@@ -831,6 +924,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppEventsCheckinCodeRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/money/dues/new': {
+      id: '/_app/money/dues/new'
+      path: '/money/dues/new'
+      fullPath: '/money/dues/new'
+      preLoaderRoute: typeof AppMoneyDuesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/money/expense/new': {
+      id: '/_app/money/expense/new'
+      path: '/money/expense/new'
+      fullPath: '/money/expense/new'
+      preLoaderRoute: typeof AppMoneyExpenseNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/money/income/new': {
+      id: '/_app/money/income/new'
+      path: '/money/income/new'
+      fullPath: '/money/income/new'
+      preLoaderRoute: typeof AppMoneyIncomeNewRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -848,6 +962,8 @@ interface AppRouteChildren {
   AppEventsNewRoute: typeof AppEventsNewRoute
   AppMembersAddRoute: typeof AppMembersAddRoute
   AppMembersImportRoute: typeof AppMembersImportRoute
+  AppMoneyDuesSettingsRoute: typeof AppMoneyDuesSettingsRoute
+  AppMoneyDuesStatusRoute: typeof AppMoneyDuesStatusRoute
   AppPaymentsPaymentIdRoute: typeof AppPaymentsPaymentIdRoute
   AppPaymentsNewRoute: typeof AppPaymentsNewRoute
   AppPaymentsOfflineRoute: typeof AppPaymentsOfflineRoute
@@ -855,12 +971,16 @@ interface AppRouteChildren {
   AppChaptersIndexRoute: typeof AppChaptersIndexRoute
   AppEventsIndexRoute: typeof AppEventsIndexRoute
   AppMembersIndexRoute: typeof AppMembersIndexRoute
+  AppMoneyIndexRoute: typeof AppMoneyIndexRoute
   AppPaymentsIndexRoute: typeof AppPaymentsIndexRoute
   AppActivitiesActivityIdEditRoute: typeof AppActivitiesActivityIdEditRoute
   AppEventsEventIdAttendanceRoute: typeof AppEventsEventIdAttendanceRoute
   AppEventsEventIdEditRoute: typeof AppEventsEventIdEditRoute
   AppEventsEventIdRecordRoute: typeof AppEventsEventIdRecordRoute
   AppEventsCheckinCodeRoute: typeof AppEventsCheckinCodeRoute
+  AppMoneyDuesNewRoute: typeof AppMoneyDuesNewRoute
+  AppMoneyExpenseNewRoute: typeof AppMoneyExpenseNewRoute
+  AppMoneyIncomeNewRoute: typeof AppMoneyIncomeNewRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -877,6 +997,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppEventsNewRoute: AppEventsNewRoute,
   AppMembersAddRoute: AppMembersAddRoute,
   AppMembersImportRoute: AppMembersImportRoute,
+  AppMoneyDuesSettingsRoute: AppMoneyDuesSettingsRoute,
+  AppMoneyDuesStatusRoute: AppMoneyDuesStatusRoute,
   AppPaymentsPaymentIdRoute: AppPaymentsPaymentIdRoute,
   AppPaymentsNewRoute: AppPaymentsNewRoute,
   AppPaymentsOfflineRoute: AppPaymentsOfflineRoute,
@@ -884,12 +1006,16 @@ const AppRouteChildren: AppRouteChildren = {
   AppChaptersIndexRoute: AppChaptersIndexRoute,
   AppEventsIndexRoute: AppEventsIndexRoute,
   AppMembersIndexRoute: AppMembersIndexRoute,
+  AppMoneyIndexRoute: AppMoneyIndexRoute,
   AppPaymentsIndexRoute: AppPaymentsIndexRoute,
   AppActivitiesActivityIdEditRoute: AppActivitiesActivityIdEditRoute,
   AppEventsEventIdAttendanceRoute: AppEventsEventIdAttendanceRoute,
   AppEventsEventIdEditRoute: AppEventsEventIdEditRoute,
   AppEventsEventIdRecordRoute: AppEventsEventIdRecordRoute,
   AppEventsCheckinCodeRoute: AppEventsCheckinCodeRoute,
+  AppMoneyDuesNewRoute: AppMoneyDuesNewRoute,
+  AppMoneyExpenseNewRoute: AppMoneyExpenseNewRoute,
+  AppMoneyIncomeNewRoute: AppMoneyIncomeNewRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

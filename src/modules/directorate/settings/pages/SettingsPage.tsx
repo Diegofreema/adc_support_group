@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { PageHeader, Tabs } from '@/components/shared'
 import { ActivityTypesSection } from '../components/ActivityTypesSection'
 import { CategoriesSection } from '../components/CategoriesSection'
+import { GivingLimitSection } from '../components/GivingLimitSection'
 import { HandoversSection } from '../components/HandoversSection'
 import { SmsBudgetSection } from '../components/SmsBudgetSection'
 import { StaffSection } from '../components/StaffSection'
@@ -14,6 +15,7 @@ const SECTIONS: Record<SettingsTab, () => React.JSX.Element | null> = {
   categories: CategoriesSection,
   types: ActivityTypesSection,
   sms: SmsBudgetSection,
+  giving: GivingLimitSection,
   staff: StaffSection,
   handovers: HandoversSection,
 }
@@ -26,6 +28,7 @@ export function SettingsPage() {
     { value: 'categories' as const, label: 'Categories' },
     { value: 'types' as const, label: 'Activity types' },
     { value: 'sms' as const, label: 'SMS budget' },
+    { value: 'giving' as const, label: 'Giving limit' },
     { value: 'staff' as const, label: 'Staff' },
     { value: 'handovers' as const, label: 'Handovers', count: handoverCount },
   ]

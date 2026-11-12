@@ -2,8 +2,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useSettingsMutation } from './use-settings-mutation'
 import {
-  activityTypesQuery, addActivityType, addCategory, categoriesQuery, decideHandover, handoversQuery,
-  removeCategory, renameCategory, setActivityTypeEnabled, staffQuery,
+  activityTypesQuery, addActivityType, addCategory, categoriesQuery, decideHandover, givingLimitQuery, handoversQuery,
+  removeCategory, renameCategory, setActivityTypeEnabled, setGivingLimit, staffQuery,
 } from '../services/settings.service'
 import { directorateKeys } from '../../shared/query-keys'
 import { setSmsBudget, smsBudgetQuery } from '../../shared/services/admin-settings'
@@ -57,5 +57,17 @@ export function useSmsBudget() {
     budget: useQuery(smsBudgetQuery).data ?? null,
     canEdit: user.title === 'Super admin',
     save: useSettingsMutation(['lists'], (value: number) => setSmsBudget(value), 'SMS budget saved'),
+  }
+}
+
+/** Staff read the yearly giving limit; only a super admin can change it. */
+export function useGivingLimit() {
+  const user = useRequiredUser()
+  const query = useQuery(givingLimitQuery)
+  return {
+    limit: query.data ?? null,
+    isLoading: query.isPending,
+    canEdit: user.title === 'Super admin',
+    save: useSettingsMutation(['giving-limit'], setGivingLimit, (limit) => (limit === null ? 'Giving limit removed' : 'Giving limit saved')),
   }
 }

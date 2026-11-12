@@ -2,7 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { directorateKeys } from '../../shared/query-keys'
 import type { Page } from '../../shared/services/paging'
-import type { CauseTotal, ReviewPayment } from '../types'
+import type { CauseTotal, OverLimitPage, ReviewPayment } from '../types'
 import { rpc, supabase } from '@/lib/supabase'
 import type { PaymentMethod, PaymentStatus } from '@/types/domain'
 
@@ -148,3 +148,41 @@ export async function confirmOfflinePayment(id: string): Promise<void> {
 export async function rejectOfflinePayment(id: string, reason: string): Promise<void> {
   await rpc('review_support_group_payment', { p_payment_id: id, p_approve: false, p_reason: reason })
 }
+
+interface OverLimitJson {
+  total: number | string
+  limit: number | string | null
+  rows: {
+    id: string
+    group_id: string
+    group_name: string
+    payer_name: string | null
+    amount: number | string
+    given_before: number | string | null
+    status: PaymentStatus
+    paid_on: string | null
+    created_at: string
+  }[]
+}
+
+async function fetchOverLimit(limit: number, offset: number): Promise<OverLimitPage> {
+  const page = await rpc<OverLimitJson>('get_admin_sg_over_limit_payments', { p_limit: limit, p_offset: offset })
+  return {
+    total: Number(page.total),
+    limit: page.limit === null ? null : Number(page.limit),
+    rows: page.rows.map((row) => ({
+      id: row.id,
+      groupId: row.group_id,
+      groupName: row.group_name,
+      payerName: row.payer_name ?? '—',
+      amount: Number(row.amount),
+      givenBefore: Number(row.given_before ?? 0),
+      status: row.status,
+      date: row.paid_on ? `${row.paid_on}T12:00:00` : row.created_at,
+    })),
+  }
+}
+
+/** Payments flagged by the giving-limit trigger, newest first, in the caller's scope. */
+export const overLimitQuery = (limit: number, offset: number) =>
+  queryOptions({ queryKey: [...directorateKeys.payments(), 'over-limit', limit, offset], queryFn: () => fetchOverLimit(limit, offset) })

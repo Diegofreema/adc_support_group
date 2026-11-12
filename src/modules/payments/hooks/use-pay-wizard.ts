@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { EMPTY_DRAFT, isStepComplete, payDraftSummary } from '../utils/pay-draft'
+import { useGivingCheck } from './use-giving-check'
 import { usePayLookups } from './use-pay-lookups'
 import { usePayWithFunz } from './use-pay-mutation'
 import { useWizard } from '@/hooks/use-wizard'
@@ -15,6 +16,7 @@ export function usePayWizard() {
   const lookups = usePayLookups()
   const pay = usePayWithFunz()
   const [draft, setDraft] = useState<PayDraft>(EMPTY_DRAFT)
+  const giving = useGivingCheck(draft.amount)
 
   const update = (changes: Partial<PayDraft>) => setDraft((current) => ({ ...current, ...changes }))
   const next = () => (isStepComplete(draft, wizard.step) ? wizard.next() : notify(stepHint(wizard.step), 'error'))
@@ -25,6 +27,7 @@ export function usePayWizard() {
     draft,
     update,
     next,
+    giving,
     summary: () => payDraftSummary(draft, lookups),
     submit: () => pay.mutate(draft),
     // Stays busy while the browser leaves for Funz.

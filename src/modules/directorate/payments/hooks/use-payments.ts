@@ -1,6 +1,6 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { causeTotalsQuery, confirmOfflinePayment, paidTotalsQuery, paymentsQuery, proofUrlQuery, rejectOfflinePayment, waitingOfflineQuery } from '../services/payments.service'
+import { causeTotalsQuery, confirmOfflinePayment, overLimitQuery, paidTotalsQuery, paymentsQuery, proofUrlQuery, rejectOfflinePayment, waitingOfflineQuery } from '../services/payments.service'
 import { useKeepPageInRange, usePaging } from '../../shared/hooks/use-paging'
 import { directorateKeys } from '../../shared/query-keys'
 import { paymentTotals } from '../utils/totals'
@@ -15,6 +15,14 @@ export function usePaymentsOverview() {
   const paid = useQuery(paidTotalsQuery).data
   const causes = useQuery(causeTotalsQuery).data ?? []
   return { payments: list?.rows ?? [], paymentCount: list?.total ?? 0, paging, waiting, causes, totals: paid && paymentTotals(paid, waiting) }
+}
+
+/** Payments that went past the payer's yearly giving limit, paged. */
+export function useOverLimitPayments() {
+  const paging = usePaging('over-limit')
+  const page = useQuery({ ...overLimitQuery(paging.pageSize, paging.offset), placeholderData: keepPreviousData }).data
+  useKeepPageInRange(paging, page?.total)
+  return { rows: page?.rows ?? [], total: page?.total ?? 0, limit: page?.limit ?? null, paging }
 }
 
 /** Signed link to a payment's proof image (private bucket). */

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { listAttendancePage } from '../services/attendance.service'
 import { eventKeys } from '../utils/event-keys'
 import type { AttendanceFilter, AttendancePage } from '../types'
-import { useDebouncedValue } from './use-debounced-value'
+import { useDebouncedValue } from '@/hooks/use-debounced-value'
 
 function nextOffset(last: AttendancePage, pages: AttendancePage[]): number | undefined {
   const loaded = pages.reduce((sum, page) => sum + page.rows.length, 0)

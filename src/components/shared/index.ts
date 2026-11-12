@@ -2,6 +2,7 @@
 export * from './actions/Button'
 export * from './actions/button-class'
 export * from './actions/IconButton'
+export * from './actions/LoadMoreButton'
 export * from './actions/QuickActions'
 export * from './actions/ShareLinkButtons'
 export * from './display/Avatar'

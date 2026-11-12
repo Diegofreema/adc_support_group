@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react'
 
 import { buttonClassName, ErrorState, PageHeader, PageLoader, Tabs } from '@/components/shared'
 import { EventList } from '../components/EventList'
-import { LoadMoreButton } from '../components/LoadMoreButton'
+import { LoadMoreButton } from '@/components/shared'
 import { useEventRsvp } from '../hooks/use-event-rsvp'
 import { useEventTabs } from '../hooks/use-event-tabs'
 
