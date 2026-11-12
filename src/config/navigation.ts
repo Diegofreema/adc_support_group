@@ -1,6 +1,6 @@
 import {
   BarChart3, Banknote, Bell, CalendarDays, CircleUserRound, ContactRound, FileSpreadsheet, House, LayoutGrid,
-  Megaphone, Network, Send, Settings, ShieldCheck, Target, UsersRound, Wallet, type LucideIcon,
+  Megaphone, Network, Send, Settings, ShieldCheck, Target, Trophy, UsersRound, Wallet, type LucideIcon,
 } from 'lucide-react'
 
 import type { GroupStatus, Power, Role } from '@/types/domain'
@@ -32,13 +32,14 @@ const home: NavItem = { to: '/home', label: 'Home', icon: House }
 const activities: NavItem = { to: '/activities', label: 'Activities', icon: Megaphone, badgeKey: 'toReview' }
 const events: NavItem = { to: '/events', label: 'Events', icon: CalendarDays }
 const money: NavItem = { to: '/money', label: 'Group money', icon: Banknote }
+const leaderboard: NavItem = { to: '/leaderboard', label: 'Leaderboard', icon: Trophy }
 const notifications: NavItem = { to: '/notifications', label: 'Alerts', icon: Bell, badgeKey: 'notifications' }
 const profile: NavItem = { to: '/profile', label: 'Me', icon: CircleUserRound }
 
 const leaderNav: RoleNavigation = {
   home: '/home',
   sidebar: [
-    { title: 'Menu', items: [home, activities, events] },
+    { title: 'Menu', items: [home, activities, events, leaderboard] },
     {
       title: 'My group',
       items: [
@@ -57,18 +58,18 @@ const leaderNav: RoleNavigation = {
     activities,
     { to: '/group', label: 'Group', icon: UsersRound, matches: ['/members', '/chapters'] },
     { to: '/payments', label: 'Payments', icon: Wallet },
-    { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/events', '/money', '/messages', '/notifications', '/profile'] },
+    { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/events', '/money', '/leaderboard', '/messages', '/notifications', '/profile'] },
   ],
 }
 
 const memberNav: RoleNavigation = {
   home: '/home',
   sidebar: [
-    { title: 'Menu', items: [home, { ...activities, badgeKey: undefined }, events, { to: '/group', label: 'My group', icon: UsersRound }, money] },
+    { title: 'Menu', items: [home, { ...activities, badgeKey: undefined }, events, leaderboard, { to: '/group', label: 'My group', icon: UsersRound }, money] },
     { title: 'Account', items: [{ ...notifications, label: 'Notifications' }, { ...profile, label: 'My profile' }] },
   ],
   // Alerts stay one tap away in the top bar.
-  bottom: [home, { ...activities, badgeKey: undefined }, events, { to: '/group', label: 'My group', icon: UsersRound, matches: ['/money'] }, { ...profile, matches: ['/notifications'] }],
+  bottom: [home, { ...activities, badgeKey: undefined }, events, { to: '/group', label: 'My group', icon: UsersRound, matches: ['/money', '/leaderboard'] }, { ...profile, matches: ['/notifications'] }],
 }
 
 const directorateNav: RoleNavigation = {
@@ -144,7 +145,7 @@ function executiveNav(powers: Power[]): RoleNavigation {
   return {
     home: '/home',
     sidebar: [
-      { title: 'Menu', items: [home, acts, events] },
+      { title: 'Menu', items: [home, acts, events, leaderboard] },
       { title: 'My group', items: [group, ...members, { to: '/chapters', label: 'Chapters', icon: Network }, ...payments, money, ...messages] },
       { title: 'Account', items: [{ ...notifications, label: 'Notifications' }, { ...profile, label: 'My profile' }] },
     ],
@@ -153,7 +154,7 @@ function executiveNav(powers: Power[]): RoleNavigation {
       acts,
       { to: '/group', label: 'Group', icon: UsersRound, matches: ['/members', '/chapters'] },
       ...payments,
-      { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/events', '/money', '/messages', '/notifications', '/profile'] },
+      { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/events', '/money', '/leaderboard', '/messages', '/notifications', '/profile'] },
     ],
   }
 }

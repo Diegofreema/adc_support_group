@@ -47,3 +47,24 @@ export interface Departure {
   /** When a pending deletion runs. */
   dueAt?: string
 }
+
+/** What the leaderboard ranks by. Money is never a measure. */
+export type BoardMeasure = 'activities' | 'people'
+
+export interface LeaderboardFilters extends Record<string, string> {
+  /** A state, "Abroad", "National", or "" for nationwide. */
+  state: string
+  /** Category id, or "" for all. */
+  category: string
+}
+
+/** One verified group on the staff leaderboard; tied groups share a place. */
+export interface BoardGroup {
+  groupId: string
+  name: string
+  state: string
+  category?: string
+  activities: number
+  people: number
+  place: number
+}

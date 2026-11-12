@@ -58,7 +58,16 @@ export interface LeaderNote {
   pinned: boolean
 }
 
+/** The "Active member" badge: earned, or how close (never "not active"). */
+export interface ActiveBadge {
+  earned: boolean
+  activitiesToGo: number
+  eventsToGo: number
+}
+
 export interface MemberDashboard {
+  /** Members only; null for a leader or someone with no group. */
+  badge: ActiveBadge | null
   approvedCount: number
   approvedGrowth: number
   groups: MyGroup[]

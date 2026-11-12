@@ -1,6 +1,7 @@
 import { PageLoader } from '@/components/shared'
 import { TwoColumn } from '@/components/layout/TwoColumn'
 import { useDisclosure } from '@/hooks/use-disclosure'
+import { LeaderboardSnippet } from '@/modules/leaderboard'
 import { InviteDialog } from '../components/InviteDialog'
 import { LeaderGroupCard } from '../components/LeaderGroupCard'
 import { LeaderQuickActions } from '../components/LeaderQuickActions'
@@ -37,6 +38,7 @@ function LeaderHome({ dashboard }: { dashboard: LeaderDashboard }) {
         right={(
           <>
             <NextEvents events={next.events} onAnswer={next.answer} pendingId={next.pendingId} />
+            <LeaderboardSnippet />
             <MonthStats month={dashboard.month} />
             {dashboard.recent.length > 0 && <RecentList items={dashboard.recent} />}
           </>

@@ -26,6 +26,7 @@ interface RosterRow {
   activity_count: number
   powers: Power[] | null
   title_powers: Power[] | null
+  active_member: boolean | null
 }
 
 interface LeaderJson {
@@ -67,6 +68,7 @@ function toMember(groupId: string, row: RosterRow): MemberRecord {
     activityCount: Number(row.activity_count),
     powers: row.powers ?? [],
     titlePowers: row.title_powers ?? [],
+    activeMember: row.active_member ?? false,
   }
 }
 
@@ -76,7 +78,7 @@ function toLeader(groupId: string, leader: LeaderJson): MemberRecord {
     id: leader.profile_id, groupId, fullName: leader.full_name,
     phone: leader.phone ? normalisePhone(leader.phone) : '', email: cleanEmail(leader.email),
     role: 'leader', title: leader.title ?? 'Leader', joinedVia: 'manual', joinedAt: '', activityCount: 0,
-    powers: [...ALL_POWERS], titlePowers: [...ALL_POWERS],
+    powers: [...ALL_POWERS], titlePowers: [...ALL_POWERS], activeMember: false,
   }
 }
 

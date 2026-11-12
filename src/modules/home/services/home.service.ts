@@ -1,6 +1,6 @@
 import type { GroupNotice, GroupReview, LeaderDashboard, MemberDashboard } from '../types/home.types'
 import {
-  leaderTodos, myGroups, recentItems, toGroupReview, toGroupSummary, toLeaderNote, toMyActivity,
+  leaderTodos, myGroups, recentItems, toBadge, toGroupReview, toGroupSummary, toLeaderNote, toMyActivity,
   type ActivityRow, type GroupRow, type MyActivityStats, type MySupportGroup, type NoteRow, type PaymentRow,
   type PeriodStats, type ReviewRow,
 } from '../utils/to-dashboard'
@@ -90,6 +90,7 @@ export async function fetchMemberDashboard(_userId: string): Promise<MemberDashb
     verified && group ? leaderNotes(group) : Promise.resolve([]),
   ])
   return {
+    badge: toBadge(mine.active_member),
     approvedCount: Number(counts.approved),
     approvedGrowth: Number(counts.approved_last_30_days),
     groups: myGroups(mine),

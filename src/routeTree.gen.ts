@@ -16,6 +16,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SetPasswordRouteImport } from './routes/set-password'
 import { Route as AppGroupRouteImport } from './routes/_app/group'
 import { Route as AppHomeRouteImport } from './routes/_app/home'
+import { Route as AppLeaderboardRouteImport } from './routes/_app/leaderboard'
 import { Route as AppMessagesRouteImport } from './routes/_app/messages'
 import { Route as AppMoreRouteImport } from './routes/_app/more'
 import { Route as AppNotificationsRouteImport } from './routes/_app/notifications'
@@ -90,6 +91,11 @@ const AppGroupRoute = AppGroupRouteImport.update({
 const AppHomeRoute = AppHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLeaderboardRoute = AppLeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
   getParentRoute: () => AppRoute,
 } as any)
 const AppMessagesRoute = AppMessagesRouteImport.update({
@@ -307,6 +313,7 @@ export interface FileRoutesByFullPath {
   '/set-password': typeof SetPasswordRoute
   '/group': typeof AppGroupRoute
   '/home': typeof AppHomeRoute
+  '/leaderboard': typeof AppLeaderboardRoute
   '/messages': typeof AppMessagesRoute
   '/more': typeof AppMoreRoute
   '/notifications': typeof AppNotificationsRoute
@@ -355,6 +362,7 @@ export interface FileRoutesByTo {
   '/set-password': typeof SetPasswordRoute
   '/group': typeof AppGroupRoute
   '/home': typeof AppHomeRoute
+  '/leaderboard': typeof AppLeaderboardRoute
   '/messages': typeof AppMessagesRoute
   '/more': typeof AppMoreRoute
   '/notifications': typeof AppNotificationsRoute
@@ -406,6 +414,7 @@ export interface FileRoutesById {
   '/set-password': typeof SetPasswordRoute
   '/_app/group': typeof AppGroupRoute
   '/_app/home': typeof AppHomeRoute
+  '/_app/leaderboard': typeof AppLeaderboardRoute
   '/_app/messages': typeof AppMessagesRoute
   '/_app/more': typeof AppMoreRoute
   '/_app/notifications': typeof AppNotificationsRoute
@@ -457,6 +466,7 @@ export interface FileRouteTypes {
     | '/set-password'
     | '/group'
     | '/home'
+    | '/leaderboard'
     | '/messages'
     | '/more'
     | '/notifications'
@@ -505,6 +515,7 @@ export interface FileRouteTypes {
     | '/set-password'
     | '/group'
     | '/home'
+    | '/leaderboard'
     | '/messages'
     | '/more'
     | '/notifications'
@@ -555,6 +566,7 @@ export interface FileRouteTypes {
     | '/set-password'
     | '/_app/group'
     | '/_app/home'
+    | '/_app/leaderboard'
     | '/_app/messages'
     | '/_app/more'
     | '/_app/notifications'
@@ -656,6 +668,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/leaderboard': {
+      id: '/_app/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof AppLeaderboardRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/messages': {
@@ -951,6 +970,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppGroupRoute: typeof AppGroupRoute
   AppHomeRoute: typeof AppHomeRoute
+  AppLeaderboardRoute: typeof AppLeaderboardRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppMoreRoute: typeof AppMoreRoute
   AppNotificationsRoute: typeof AppNotificationsRoute
@@ -986,6 +1006,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppGroupRoute: AppGroupRoute,
   AppHomeRoute: AppHomeRoute,
+  AppLeaderboardRoute: AppLeaderboardRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppMoreRoute: AppMoreRoute,
   AppNotificationsRoute: AppNotificationsRoute,

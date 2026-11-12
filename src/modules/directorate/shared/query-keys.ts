@@ -10,6 +10,7 @@ export const directorateKeys = {
   causes: () => [...directorateKeys.all, 'causes'] as const,
   broadcasts: () => [...directorateKeys.all, 'broadcasts'] as const,
   reports: (period: string) => [...directorateKeys.all, 'reports', period] as const,
+  leaderboard: () => [...directorateKeys.all, 'leaderboard'] as const,
   departures: () => [...directorateKeys.all, 'departures'] as const,
   exports: () => [...directorateKeys.all, 'exports'] as const,
   settings: (section: string) => [...directorateKeys.all, 'settings', section] as const,

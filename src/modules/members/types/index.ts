@@ -7,6 +7,8 @@ export interface MemberRecord extends Member {
   powers: Power[]
   /** The defaults that come with their title or chapter; can't be removed. */
   titlePowers: Power[]
+  /** Earned the "Active member" badge (last 60 days). Never shown as a negative. */
+  activeMember: boolean
 }
 
 /** Filter pill value: a fixed filter or "chapter:<id>". */

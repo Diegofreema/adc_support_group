@@ -220,3 +220,13 @@ Agreed 2026-11-12: the group purse = dues + other income − expenses; campaign 
 - **Giving limit:** `support_group_settings.giving_limit_yearly` (super admin, `set_support_group_giving_limit`). Trigger `trg_sg_payments_giving_limit` sets `over_giving_limit` + `giving_year_before` on every new payment (online too). `get_support_group_giving(amount, payer?)` warns before paying; `get_admin_sg_over_limit_payments` for staff. Never blocks.
 - **App:** `src/modules/money` (`/money` and the record, settings and dues-status screens); the pay screens show the limit warning; Directorate Settings has "Giving limit", Payments has "Over the limit". Shared: `src/lib/proof-upload.ts`, `src/hooks/use-debounced-value.ts`, `<LoadMoreButton>`.
 - **Tests:** 37, pass on the scratch DB; on live every test has passed (one run had network timeouts, re-run green).
+
+## Phase 5: motivation (live, migration `20261112110000`)
+
+Agreed 2026-11-12: two boards, tap to switch ("Most activities", "Most people reached"); everyone in a verified group sees them; the Directorate sees every board.
+
+- **Rankings:** `support_group_rankings`, one row per verified group per day: approved activities and people reached over the last 30 days (by activity date), and the group's place on its state board (state, "Abroad" or "National") and category board for each measure; ties share a place; money never counts. Cron `adc-refresh-rankings` at 01:30 Lagos → `private.refresh_support_group_rankings()`.
+- **Reads:** `get_support_group_leaderboard(p_scope, p_measure, p_limit)` (top N + the caller's own place); `get_admin_sg_leaderboard(p_state, p_category_id, p_measure, …)`, state-scoped.
+- **"Active member" badge:** 2 approved activities or 3 events attended (not un-ticked, not cancelled) in the last 60 days, worked out on read (`private.sg_is_active_member`), so it drops off quietly. `get_my_support_group.active_member` (earned + progress) and `active_member` on roster rows. Nothing ever says "not active".
+- **App:** `src/modules/leaderboard` (`/leaderboard`, `LeaderboardSnippet` on Home); Active member card on the member's Home and a tag on the members list; staff board on Reports.
+- **Tests:** 40.

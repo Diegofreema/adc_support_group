@@ -1,6 +1,6 @@
 import { formatNumber } from '@/lib/format'
 import type { ActivityStatus, GroupStatus, MemberRole } from '@/types/domain'
-import type { GroupReview, GroupSummary, LeaderNote, MyActivity, MyGroup, RecentItem, TodoItem } from '../types/home.types'
+import type { ActiveBadge, GroupReview, GroupSummary, LeaderNote, MyActivity, MyGroup, RecentItem, TodoItem } from '../types/home.types'
 import { dayLabel, shortAgo } from './day-label'
 
 /** get_my_support_group (only the fields home reads). */
@@ -21,6 +21,13 @@ export interface MySupportGroup {
     review_note: string | null
   } | null
   membership: { member_role: Exclude<MemberRole, 'leader'>; chapter_name: string | null } | null
+  active_member?: {
+    earned: boolean
+    activities: number
+    events: number
+    activities_needed: number
+    events_needed: number
+  } | null
 }
 
 export type GroupRow = NonNullable<MySupportGroup['group']>
@@ -162,5 +169,15 @@ export function toGroupReview(row: ReviewRow): GroupReview {
       body: message.body,
       at: message.created_at,
     })),
+  }
+}
+
+/** The Active member badge for Home: earned, or what's still to go. */
+export function toBadge(row: MySupportGroup['active_member']): ActiveBadge | null {
+  if (!row) return null
+  return {
+    earned: row.earned,
+    activitiesToGo: Math.max(Number(row.activities_needed) - Number(row.activities), 0),
+    eventsToGo: Math.max(Number(row.events_needed) - Number(row.events), 0),
   }
 }

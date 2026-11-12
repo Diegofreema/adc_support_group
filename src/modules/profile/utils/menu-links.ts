@@ -1,4 +1,4 @@
-import { Banknote, Bell, CalendarDays, CircleUserRound, ContactRound, Network, Send } from 'lucide-react'
+import { Banknote, Bell, CalendarDays, CircleUserRound, ContactRound, Network, Send, Trophy } from 'lucide-react'
 
 import type { Power } from '@/types/domain'
 import type { MenuLink } from '../components/MenuSection'
@@ -14,6 +14,7 @@ export function groupLinks(counts: Counts, powers: Power[]): MenuLink[] {
   return [
     { label: 'Events', icon: CalendarDays, to: '/events' },
     { label: 'Group money', icon: Banknote, to: '/money' },
+    { label: 'Leaderboard', icon: Trophy, to: '/leaderboard' },
     ...(powers.includes('members') ? [{ label: 'Members', icon: ContactRound, to: '/members', count: counts.members }] : []),
     { label: 'Chapters', icon: Network, to: '/chapters', count: counts.chapters },
     ...(powers.includes('messages') ? [{ label: 'Messages', icon: Send, to: '/messages' }] : []),
