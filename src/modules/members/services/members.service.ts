@@ -1,61 +1,163 @@
-import { memberChapters, membersDb } from './members.mock'
 import type { ChapterOption, MemberRecord, NewMemberInput } from '../types'
+import { invokeFunction } from '@/lib/edge-functions'
 import { normalisePhone } from '@/lib/phone'
-import { newId, notFound, respond } from '@/lib/mock-api'
+import { rpc } from '@/lib/supabase'
+import { sessionStore } from '@/stores/session-store'
+import type { JoinedVia, MemberRole } from '@/types/domain'
 
-function findMember(memberId: string): MemberRecord {
-  return membersDb.find((member) => member.id === memberId) ?? notFound('Member', memberId)
+/** One row of get_support_group_roster (the leader's only path to member details). */
+interface RosterRow {
+  profile_id: string
+  full_name: string
+  phone: string | null
+  email: string | null
+  state: string | null
+  lga: string | null
+  ward: string | null
+  member_role: Exclude<MemberRole, 'leader'>
+  title: string | null
+  chapter_id: string | null
+  chapter_name: string | null
+  joined_via: JoinedVia | 'request'
+  joined_at: string
+  activity_count: number
 }
 
-function chapterName(groupId: string, chapterId?: string): string | undefined {
-  return memberChapters[groupId]?.find((chapter) => chapter.id === chapterId)?.name
+const PAGE = 500
+
+function toMember(groupId: string, row: RosterRow): MemberRecord {
+  return {
+    id: row.profile_id,
+    groupId,
+    fullName: row.full_name,
+    phone: row.phone ? normalisePhone(row.phone) : '',
+    email: row.email && !row.email.endsWith('.local') ? row.email : undefined,
+    state: row.state ?? undefined,
+    lga: row.lga ?? undefined,
+    ward: row.ward ?? undefined,
+    role: row.member_role,
+    title: row.title ?? undefined,
+    chapterId: row.chapter_id ?? undefined,
+    chapterName: row.chapter_name ?? undefined,
+    // Rise Up's old "request" joins read as link joins here.
+    joinedVia: row.joined_via === 'request' ? 'link' : row.joined_via,
+    joinedAt: row.joined_at,
+    activityCount: Number(row.activity_count),
+  }
 }
 
+/** The leader isn't in the roster (they have no membership row); show them first. */
+function leaderRow(groupId: string): MemberRecord[] {
+  const user = sessionStore.getUser()
+  if (!user || user.role !== 'leader' || user.activeGroupId !== groupId) return []
+  return [{
+    id: user.id, groupId, fullName: user.fullName, phone: user.phone, email: user.email,
+    role: 'leader', title: user.title ?? 'Leader', joinedVia: 'manual', joinedAt: '', activityCount: 0,
+  }]
+}
+
+/** Every member of the leader's group (paged in from the roster RPC). */
 export async function fetchMembers(groupId: string): Promise<MemberRecord[]> {
-  return respond(membersDb.filter((member) => member.groupId === groupId))
+  const members: MemberRecord[] = []
+  for (let offset = 0; ; offset += PAGE) {
+    const page = await rpc<{ total: number; rows: RosterRow[] }>('get_support_group_roster', { p_limit: PAGE, p_offset: offset })
+    members.push(...page.rows.map((row) => toMember(groupId, row)))
+    if (members.length >= page.total || page.rows.length === 0) break
+  }
+  return [...leaderRow(groupId), ...members]
 }
 
-export async function fetchChapterOptions(groupId: string): Promise<ChapterOption[]> {
-  return respond(memberChapters[groupId] ?? [])
+interface ChapterRow {
+  id: string
+  name: string
+  join_code: string
 }
 
-/** Find a member of this group by name or phone (for "add executive", etc.). */
-export function matchMember(groupId: string, query: string): MemberRecord | undefined {
-  const needle = query.trim().toLowerCase()
-  const phone = normalisePhone(query)
-  return membersDb.find((member) => member.groupId === groupId && (member.fullName.toLowerCase() === needle || member.phone === phone))
+/** A group still waiting for the Directorate has no chapters yet. */
+export async function fetchChapterOptions(_groupId: string): Promise<ChapterOption[]> {
+  const chapters = await rpc<ChapterRow[]>('get_support_group_chapters').catch((error: Error) => {
+    if (/not been verified/.test(error.message)) return []
+    throw error
+  })
+  return chapters.map((chapter) => ({ id: chapter.id, name: chapter.name, joinCode: chapter.join_code }))
+}
+
+export interface AddMembersRow {
+  fullName: string
+  phone: string
+  email?: string
+  state?: string
+  lga?: string
+  ward?: string
+  chapterId?: string
+}
+
+export interface AddMembersResult {
+  added: number
+  results: { row: number; phone: string | null; result: string; error?: string; created: boolean }[]
+}
+
+/** Find or create each person's account and add them (support-group-add-members). */
+export function addMembers(rows: AddMembersRow[], joinedVia: 'excel' | 'manual'): Promise<AddMembersResult> {
+  return invokeFunction<AddMembersResult>('support-group-add-members', { rows, joinedVia })
+}
+
+const REFUSALS: Record<string, string> = {
+  already_member: 'Already in your group',
+  other_group: 'Already in another group',
+  leader: 'Leads a group',
+  blocked: 'Was removed and blocked',
+  duplicate_row: 'Same phone twice',
+}
+
+export function refusalReason(result: string, error?: string): string {
+  return error ?? REFUSALS[result] ?? 'Could not add'
 }
 
 export async function addMember(groupId: string, input: NewMemberInput): Promise<MemberRecord> {
-  const member: MemberRecord = {
-    ...input, id: newId('mem'), groupId, phone: normalisePhone(input.phone), role: 'member', joinedVia: 'manual',
-    chapterName: chapterName(groupId, input.chapterId), activityCount: 0, joinedAt: new Date().toISOString(),
-  }
-  membersDb.unshift(member)
-  return respond(member)
+  const { results } = await addMembers([{ ...input, phone: normalisePhone(input.phone) }], 'manual')
+  const outcome = results[0]
+  if (!outcome || outcome.result !== 'added') throw new Error(refusalReason(outcome?.result ?? '', outcome?.error))
+  const members = await fetchMembers(groupId)
+  const added = members.find((member) => member.phone === normalisePhone(input.phone))
+  if (!added) throw new Error('Added, but could not load them yet')
+  return added
 }
 
-export async function makeExecutive(memberId: string, title = 'Executive'): Promise<MemberRecord> {
-  const member = findMember(memberId)
-  Object.assign(member, { role: 'executive', title })
-  return respond(member)
+/** Role, title and chapter are set together; this keeps the ones not changing. */
+async function setRole(member: MemberRecord, changes: { role?: 'member' | 'executive'; title?: string; chapterId?: string | null }): Promise<void> {
+  const role = changes.role ?? (member.role === 'executive' ? 'executive' : 'member')
+  await rpc('set_support_group_member_role', {
+    p_profile_id: member.id,
+    p_role: role,
+    p_title: role === 'executive' ? (changes.title ?? member.title ?? 'Executive') : null,
+    p_chapter_id: changes.chapterId === undefined ? member.chapterId ?? null : changes.chapterId,
+  })
 }
 
-export async function addExecutiveByQuery(groupId: string, query: string, title: string): Promise<MemberRecord> {
-  const member = matchMember(groupId, query)
+export async function makeExecutive(member: MemberRecord, title = 'Executive'): Promise<void> {
+  await setRole(member, { role: 'executive', title })
+}
+
+/** Find a member of this group by name or phone (for "add executive", etc.). */
+export function matchMember(members: MemberRecord[], query: string): MemberRecord | undefined {
+  const needle = query.trim().toLowerCase()
+  const phone = normalisePhone(query)
+  return members.find((member) => member.role !== 'leader' && (member.fullName.toLowerCase() === needle || member.phone === phone))
+}
+
+export async function addExecutiveByQuery(groupId: string, query: string, title: string): Promise<void> {
+  const member = matchMember(await fetchMembers(groupId), query)
   if (!member) throw new Error('No member with that name or phone')
-  return makeExecutive(member.id, title)
+  await makeExecutive(member, title)
 }
 
-export async function moveMember(memberId: string, chapterId: string): Promise<MemberRecord> {
-  const member = findMember(memberId)
-  Object.assign(member, { chapterId, chapterName: chapterName(member.groupId, chapterId) })
-  return respond(member)
+export async function moveMember(member: MemberRecord, chapterId: string): Promise<void> {
+  if (member.role === 'coordinator') throw new Error('Change a coordinator from their chapter page')
+  await setRole(member, { chapterId: chapterId || null })
 }
 
 export async function removeMember(memberId: string): Promise<{ removed: string }> {
-  const index = membersDb.findIndex((member) => member.id === memberId)
-  if (index < 0) notFound('Member', memberId)
-  membersDb.splice(index, 1)
-  return respond({ removed: memberId })
+  await rpc('remove_support_group_member', { p_profile_id: memberId, p_block: false })
+  return { removed: memberId }
 }

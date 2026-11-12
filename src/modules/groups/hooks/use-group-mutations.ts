@@ -19,6 +19,5 @@ export function useRequestHandover(groupId: string) {
   return useMutation({
     mutationFn: (newLeader: string) => requestHandover(groupId, newLeader),
     onSuccess: () => notify('Request sent'),
-    onError: (error) => notify(error.message, 'error'),
   })
 }

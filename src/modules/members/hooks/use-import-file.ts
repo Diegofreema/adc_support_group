@@ -5,7 +5,6 @@ import { readSheet } from '../services/import.service'
 import type { ColumnMapping, ImportField, ParsedSheet } from '../types'
 import { autoMatchColumns } from '../utils/import-columns'
 import { checkRows, isMappingComplete } from '../utils/import-validation'
-import { notify } from '@/lib/toast'
 
 /** Reads the uploaded sheet and tracks which column feeds which field. */
 export function useImportFile() {
@@ -18,7 +17,6 @@ export function useImportFile() {
       setSheet(parsed)
       setMapping(autoMatchColumns(parsed.headers))
     },
-    onError: (error) => notify(error.message, 'error'),
   })
 
   const check = useMemo(() => (sheet && mapping ? checkRows(sheet.rows, mapping) : null), [sheet, mapping])

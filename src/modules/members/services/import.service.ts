@@ -1,24 +1,29 @@
-import { membersDb } from './members.mock'
-import type { ColumnMapping, ImportResult, MemberRecord, ParsedSheet } from '../types'
+import { addMembers, refusalReason, type AddMembersRow } from './members.service'
+import type { ColumnMapping, ImportResult, ImportRowIssue, ParsedSheet } from '../types'
 import { parseCsv } from '../utils/csv'
 import { splitRows } from '../utils/import-validation'
 import { normalisePhone } from '@/lib/phone'
-import { delay, newId, respond } from '@/lib/mock-api'
 
-/** Stand-in rows for .xlsx files until an Excel parser is added. */
-const DEMO_SHEET_ROWS: Record<string, string>[] = [
-  { Name: 'Chioma Nwosu', 'Phone No': '08062214590', State: 'Lagos', LGA: 'Surulere', Ward: 'Surulere 4' },
-  { Name: 'Bisi Adeyemi', 'Phone No': '08025519087', State: 'Lagos', LGA: 'Ikeja', Ward: 'Ikeja' },
-  { Name: 'Kemi Ojo', 'Phone No': '0803 12', State: 'Lagos', LGA: 'Yaba', Ward: 'Yaba' },
-  { Name: 'Ade Lawal', 'Phone No': '08077665544', State: 'Lagos', LGA: 'Surulere', Ward: '' },
-  { Name: 'Yemi Bakare', 'Phone No': '08121234567', State: 'Lagos', LGA: 'Ikeja', Ward: 'Alausa' },
-  { Name: 'Grace Udo', 'Phone No': '08121234567', State: 'FCT', LGA: 'Bwari', Ward: 'Bwari' },
-]
+/** The edge function takes at most 200 people per call. */
+const BATCH = 200
 
+function cellText(value: unknown): string {
+  if (value === null || value === undefined) return ''
+  if (value instanceof Date) return value.toISOString().slice(0, 10)
+  return String(value).trim()
+}
+
+/** First sheet; first row is the headings. Loaded only when someone imports. */
 async function readExcel(file: File): Promise<ParsedSheet> {
-  // TODO: parse .xlsx with `xlsx`/`exceljs` (as Rise Up does). Demo rows for now.
-  await delay(400)
-  return { fileName: file.name, headers: Object.keys(DEMO_SHEET_ROWS[0]!), rows: DEMO_SHEET_ROWS }
+  const { readSheet: readXlsxSheet } = await import('read-excel-file/browser')
+  const data = await readXlsxSheet(file)
+  const [headingRow, ...body] = data
+  const headers = (headingRow ?? []).map(cellText).filter(Boolean)
+  if (!headers.length || !body.length) throw new Error('The file is empty')
+  const rows = body
+    .map((cells) => Object.fromEntries(headers.map((header, index) => [header, cellText(cells[index])])))
+    .filter((row) => Object.values(row).some(Boolean))
+  return { fileName: file.name, headers, rows }
 }
 
 async function readCsv(file: File): Promise<ParsedSheet> {
@@ -31,23 +36,51 @@ export async function readSheet(file: File): Promise<ParsedSheet> {
   return file.name.toLowerCase().endsWith('.csv') ? readCsv(file) : readExcel(file)
 }
 
-function toMember(row: Record<string, string>, mapping: ColumnMapping, groupId: string, chapter?: { id: string; name: string }): MemberRecord {
+function toRow(row: Record<string, string>, mapping: ColumnMapping, chapterId?: string): AddMembersRow {
   return {
-    id: newId('mem'), groupId, fullName: row[mapping.fullName]!.trim(), phone: normalisePhone(row[mapping.phone]!),
-    state: row[mapping.state], lga: row[mapping.lga], ward: row[mapping.ward], chapterId: chapter?.id, chapterName: chapter?.name,
-    role: 'member', joinedVia: 'excel', activityCount: 0, joinedAt: new Date().toISOString(),
+    fullName: row[mapping.fullName]!.trim(),
+    phone: normalisePhone(row[mapping.phone]!),
+    state: row[mapping.state],
+    lga: row[mapping.lga],
+    ward: row[mapping.ward],
+    chapterId,
   }
 }
 
-function hasAccount(phone: string): boolean {
-  return membersDb.some((member) => member.phone === normalisePhone(phone))
-}
-
-/** Add every valid row; existing phone numbers are linked instead of duplicated. */
-export async function importMembers(groupId: string, sheet: ParsedSheet, mapping: ColumnMapping, chapter?: { id: string; name: string }): Promise<ImportResult> {
+/**
+ * Add every valid row. People who already have an account are linked
+ * (`linked`), everyone else gets a new account (`added`); refusals from the
+ * server join the rows that failed the local checks.
+ */
+export async function importMembers(
+  _groupId: string,
+  sheet: ParsedSheet,
+  mapping: ColumnMapping,
+  chapter?: { id: string; name: string },
+): Promise<ImportResult> {
   const { ready, issues } = splitRows(sheet.rows, mapping)
-  const linked = ready.filter((row) => hasAccount(row[mapping.phone]!))
-  const fresh = ready.filter((row) => !hasAccount(row[mapping.phone]!)).map((row) => toMember(row, mapping, groupId, chapter))
-  membersDb.unshift(...fresh)
-  return respond({ added: fresh.length, linked: linked.length, notAdded: issues }, 700)
+  const notAdded: ImportRowIssue[] = [...issues]
+  let added = 0
+  let linked = 0
+
+  for (let start = 0; start < ready.length; start += BATCH) {
+    const batch = ready.slice(start, start + BATCH)
+    const { results } = await addMembers(batch.map((row) => toRow(row, mapping, chapter?.id)), 'excel')
+    results.forEach((outcome, index) => {
+      const row = batch[index]!
+      if (outcome.result === 'added') {
+        if (outcome.created) added += 1
+        else linked += 1
+        return
+      }
+      notAdded.push({
+        row: sheet.rows.indexOf(row) + 2,
+        name: row[mapping.fullName]?.trim() || 'No name',
+        reason: refusalReason(outcome.result, outcome.error),
+      })
+    })
+  }
+
+  notAdded.sort((a, b) => a.row - b.row)
+  return { added, linked, notAdded }
 }

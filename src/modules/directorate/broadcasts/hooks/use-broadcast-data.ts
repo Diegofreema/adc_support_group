@@ -20,7 +20,6 @@ export function useSendBroadcast() {
   return useMutation({
     mutationFn: ({ message, cost }: { message: Omit<SentBroadcast, 'id' | 'sentAt'>; cost: number }) => sendBroadcast(message, cost),
     onSuccess: (record) => { invalidate(); notify(`Sent to ${formatNumber(record.recipients)}`) },
-    onError: (error) => notify(error.message, 'error'),
   })
 }
 

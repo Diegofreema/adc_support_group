@@ -13,7 +13,6 @@ export function useCreateChapter(groupId: string) {
       void queryClient.invalidateQueries({ queryKey: chapterKeys.all })
       notify('Chapter created')
     },
-    onError: (error) => notify(error.message, 'error'),
   })
 }
 
@@ -25,6 +24,5 @@ export function useChangeCoordinator(chapterId: string) {
       queryClient.setQueryData(chapterKeys.detail(chapterId), chapter)
       notify('Coordinator changed')
     },
-    onError: (error) => notify(error.message, 'error'),
   })
 }

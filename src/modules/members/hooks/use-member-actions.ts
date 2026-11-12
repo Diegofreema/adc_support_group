@@ -28,8 +28,8 @@ export function useMemberActions() {
     open: show('details'),
     askMove: show('move'),
     askRemove: show('remove'),
-    makeExecutive: (target: MemberRecord) => runAndClose(() => makeExecutive.mutate(target.id)),
-    moveTo: (chapterId: string) => member && runAndClose(() => move.mutate({ memberId: member.id, chapterId })),
+    makeExecutive: (target: MemberRecord) => runAndClose(() => makeExecutive.mutate(target)),
+    moveTo: (chapterId: string) => member && runAndClose(() => move.mutate({ member, chapterId })),
     confirmRemove: () => member && runAndClose(() => remove.mutate(member.id)),
   }
 }

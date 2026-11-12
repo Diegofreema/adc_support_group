@@ -2,10 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { memberKeys } from './query-keys'
 import { addExecutiveByQuery, addMember, makeExecutive, moveMember, removeMember } from '../services/members.service'
-import type { NewMemberInput } from '../types'
+import type { MemberRecord, NewMemberInput } from '../types'
 import { notify } from '@/lib/toast'
 
-/** Shared mutation wiring: refresh the member list, toast on success or error. */
+/** Shared mutation wiring: refresh the member list and toast on success (errors toast globally). */
 function useMemberMutation<Input, Output>(mutationFn: (input: Input) => Promise<Output>, successMessage: string) {
   const queryClient = useQueryClient()
   return useMutation({
@@ -14,16 +14,15 @@ function useMemberMutation<Input, Output>(mutationFn: (input: Input) => Promise<
       void queryClient.invalidateQueries({ queryKey: memberKeys.all })
       notify(successMessage)
     },
-    onError: (error) => notify(error.message, 'error'),
   })
 }
 
 export function useAddMember(groupId: string) {
-  return useMemberMutation((input: NewMemberInput) => addMember(groupId, input), 'Added · password sent')
+  return useMemberMutation((input: NewMemberInput) => addMember(groupId, input), 'Added · they sign in with “Forgot password”')
 }
 
 export function useMakeExecutive() {
-  return useMemberMutation((memberId: string) => makeExecutive(memberId), 'Now an executive')
+  return useMemberMutation((member: MemberRecord) => makeExecutive(member), 'Now an executive')
 }
 
 export function useAddExecutive(groupId: string) {
@@ -31,7 +30,7 @@ export function useAddExecutive(groupId: string) {
 }
 
 export function useMoveMember() {
-  return useMemberMutation(({ memberId, chapterId }: { memberId: string; chapterId: string }) => moveMember(memberId, chapterId), 'Moved')
+  return useMemberMutation(({ member, chapterId }: { member: MemberRecord; chapterId: string }) => moveMember(member, chapterId), 'Moved')
 }
 
 export function useRemoveMember() {
