@@ -62,6 +62,9 @@ export interface Group extends Place {
   cacNumber?: string
   /** The group photo the leader uploaded when registering. */
   photoUrl?: string
+  about?: string
+  /** A new name the leader asked for, waiting for the Directorate. */
+  pendingName?: string
   joinCode: string
   submittedAt: string
   possibleDuplicateOf?: string

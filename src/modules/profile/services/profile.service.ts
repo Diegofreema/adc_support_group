@@ -1,6 +1,6 @@
 import type { MenuCounts, PendingDeletion, Profile } from '../types/profile.types'
 import type { ProfileValues } from '../utils/schemas'
-import { refreshSessionUser } from '@/modules/auth'
+import { login, refreshSessionUser } from '@/modules/auth'
 import type { MyGroup } from '@/modules/home'
 import { invokeFunction } from '@/lib/edge-functions'
 import { formatPhone } from '@/lib/phone'
@@ -53,12 +53,20 @@ async function readProfileRow(userId: string): Promise<ProfileRow> {
   return data
 }
 
+/** The sign-in email on the account (the phone alias for phone accounts). */
+async function signInEmail(): Promise<string> {
+  const { data } = await supabase.auth.getSession()
+  return (data.session?.user.email ?? '').toLowerCase()
+}
+
 export async function fetchProfile(userId: string): Promise<Profile> {
-  const [row, mine] = await Promise.all([readProfileRow(userId), rpc<MySupportGroup>('get_my_support_group')])
+  const [row, mine, authEmail] = await Promise.all([readProfileRow(userId), rpc<MySupportGroup>('get_my_support_group'), signInEmail()])
+  const email = realEmail(row.email)
   return {
     fullName: row.full_name ?? '',
     phone: row.phone ? formatPhone(row.phone) : '',
-    email: realEmail(row.email),
+    email,
+    emailConfirmed: !!email && email.toLowerCase() === authEmail,
     state: row.state ?? '',
     lga: row.lga ?? '',
     ward: row.ward ?? '',
@@ -68,13 +76,9 @@ export async function fetchProfile(userId: string): Promise<Profile> {
   }
 }
 
-/**
- * Only the self-editable columns. An empty email leaves the stored one alone
- * (phone accounts keep their sign-in alias there).
- */
+/** Only the self-editable columns. Email changes go through a code (see startEmailCheck). */
 export async function updateProfile(userId: string, values: ProfileValues): Promise<Profile> {
   const changes: Record<string, string> = { full_name: values.fullName.trim(), state: values.state, lga: values.lga, ward: values.ward }
-  if (values.email) changes.email = values.email.trim()
   const { error } = await supabase.from('profiles').update(changes).eq('id', userId)
   if (error) throw new Error(error.message)
   await refreshSessionUser()
@@ -133,11 +137,36 @@ export async function startPasswordChange(channel?: CodeChannel, choice?: Channe
 }
 
 /** Step 2: the code plus the new password. */
-export async function completePasswordChange(challengeId: string, otp: string, password: string): Promise<void> {
+/**
+ * Set the new password. The server signs the account out everywhere when the
+ * password changes, this session included, so sign straight back in with it.
+ */
+export async function completePasswordChange(challengeId: string, otp: string, password: string, identifier: string): Promise<void> {
   await invokeFunction('auth-phone-change-password-complete', { challengeId, otp, password })
+  await login({ identifier, password })
 }
 
 export async function fetchMenuCounts(): Promise<MenuCounts> {
   const mine = await rpc<MySupportGroup>('get_my_support_group')
   return { members: Number(mine.group?.member_count ?? 0), chapters: Number(mine.group?.chapter_count ?? 0) }
 }
+
+export interface EmailCheck {
+  challengeId: string
+  sentTo: string
+}
+
+/** Email a 6-digit code to the address. Nothing is saved until the code checks out. */
+export async function startEmailCheck(email: string): Promise<EmailCheck> {
+  const result = await invokeFunction<{ challenge_id: string; sent_to: string }>('auth-email-verify-initiate', { email: email.trim() })
+  return { challengeId: result.challenge_id, sentTo: result.sent_to }
+}
+
+/** Check the code: the email goes on the profile and becomes a sign-in email. */
+export async function finishEmailCheck(challengeId: string, code: string): Promise<void> {
+  await invokeFunction('auth-email-verify-complete', { challengeId, otp: code })
+  // The session still carries the old sign-in email until it is refreshed.
+  await supabase.auth.refreshSession()
+  await refreshSessionUser()
+}
+

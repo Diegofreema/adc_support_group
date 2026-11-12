@@ -33,7 +33,7 @@ export function GroupPage() {
   if (!group) return <EmptyState icon={SearchX} title="Group not found" />
   return (
     <>
-      <GroupHeader group={group} />
+      <GroupHeader group={group} canEdit={canManage} />
       <div className="mt-6"><GroupStats group={group} /></div>
       {group.status === 'verified' ? (
         <>

@@ -38,7 +38,7 @@ function SendStep({ password, onCancel }: { password: ChangePassword; onCancel: 
             />
           </Field>
         )
-        : <p className="muted">We will send a code to your email, or to your phone if you have no email.</p>}
+        : <p className="muted">We'll send you a code to confirm it's you.</p>}
       {password.error && <Banner tone="danger" className="mt-4">{password.error}</Banner>}
       <div className="dialog-actions">
         <Button onClick={onCancel}>Cancel</Button>

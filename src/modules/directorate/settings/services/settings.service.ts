@@ -2,7 +2,7 @@ import { queryOptions } from '@tanstack/react-query'
 
 import { directorateKeys } from '../../shared/query-keys'
 import { adminSettingsQuery, fetchAdminSettings, type AdminSettingsJson } from '../../shared/services/admin-settings'
-import type { ActivityType, Category, Handover, StaffMember, StaffRole } from '../types'
+import type { ActivityType, Category, Handover, NameChange, StaffMember, StaffRole } from '../types'
 import { rpc } from '@/lib/supabase'
 
 type SettingsJson = AdminSettingsJson
@@ -100,3 +100,33 @@ export const givingLimitQuery = queryOptions({
 export async function setGivingLimit(limit: number | null): Promise<void> {
   await rpc('set_support_group_giving_limit', { p_limit: limit })
 }
+
+interface NameChangeJson {
+  group_id: string
+  name: string
+  pending_name: string
+  requested_at: string
+  state: string | null
+  leader_name: string | null
+  same_name_groups: number
+}
+
+/** Verified groups whose leader asked for a new name (in the staff member's scope). */
+export const nameChangesQuery = queryOptions({
+  queryKey: directorateKeys.settings('names'),
+  queryFn: async (): Promise<NameChange[]> => (await rpc<NameChangeJson[]>('get_admin_sg_name_changes')).map((row) => ({
+    groupId: row.group_id,
+    name: row.name,
+    pendingName: row.pending_name,
+    requestedAt: row.requested_at,
+    state: row.state ?? undefined,
+    leaderName: row.leader_name ?? 'The leader',
+    sameNameGroups: Number(row.same_name_groups),
+  })),
+})
+
+/** Approve renames the group; decline keeps the old name. The leader is told either way. */
+export async function decideNameChange({ groupId, approve }: { groupId: string; approve: boolean }): Promise<void> {
+  await rpc('review_support_group_rename', { p_group_id: groupId, p_approve: approve, p_note: null })
+}
+

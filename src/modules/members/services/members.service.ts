@@ -237,8 +237,8 @@ export async function moveMember(member: MemberRecord, chapterId: string): Promi
   await setRole(member, { chapterId: chapterId || null })
 }
 
-export async function removeMember(memberId: string): Promise<{ removed: string }> {
-  await rpc('remove_support_group_member', { p_profile_id: memberId, p_block: false })
+export async function removeMember(memberId: string, block = false): Promise<{ removed: string }> {
+  await rpc('remove_support_group_member', { p_profile_id: memberId, p_block: block })
   return { removed: memberId }
 }
 

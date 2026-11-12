@@ -35,7 +35,7 @@ export function useMoveMember() {
 }
 
 export function useRemoveMember() {
-  return useMemberMutation((memberId: string) => removeMember(memberId), 'Removed')
+  return useMemberMutation(({ memberId, block }: { memberId: string; block: boolean }) => removeMember(memberId, block), 'Removed')
 }
 
 export function useSetMemberPowers() {

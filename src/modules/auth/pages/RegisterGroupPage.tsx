@@ -46,7 +46,7 @@ function RegisterWizard({ draft }: { draft?: RegistrationDraft }) {
         {wizard.step === 0 && <RegisterAccountStep form={form} onSendCode={flow.sendCode} sendingCode={flow.isSendingCode} onNext={flow.submitAccount} />}
         {wizard.step === 1 && <RegisterGroupStep form={form} onBack={flow.back} onNext={flow.submitGroup} />}
         {wizard.step === 2 && <RegisterWhereStep form={form} onBack={flow.back} onNext={flow.submitWhere} />}
-        {wizard.step === 3 && <RegisterLeaderStep form={form} onBack={flow.back} onNext={flow.submitLeader} onPickPhoto={flow.pickPhoto} existingPhotoUrl={flow.existingPhotoUrl} />}
+        {wizard.step === 3 && <RegisterLeaderStep form={form} onBack={flow.back} onNext={flow.submitLeader} onPickPhoto={flow.pickPhoto} photo={flow.photo} existingPhotoUrl={flow.existingPhotoUrl} />}
         {wizard.step === 4 && <RegisterCheckStep form={form} onBack={flow.back} onSubmit={flow.finish} loading={flow.isPending} submitLabel={submitLabel} />}
       </section>
       <RegisterDoneDialog open={flow.done.isOpen} mode={flow.isResubmit ? 'resubmitted' : flow.isEditing ? 'saved' : 'submitted'} />

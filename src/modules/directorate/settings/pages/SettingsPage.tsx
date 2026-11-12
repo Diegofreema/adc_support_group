@@ -1,14 +1,15 @@
-import { useState } from 'react'
+import { getRouteApi } from '@tanstack/react-router'
 
 import { PageHeader, Tabs } from '@/components/shared'
 import { ActivityTypesSection } from '../components/ActivityTypesSection'
 import { CategoriesSection } from '../components/CategoriesSection'
 import { GivingLimitSection } from '../components/GivingLimitSection'
 import { HandoversSection } from '../components/HandoversSection'
+import { NameChangesSection } from '../components/NameChangesSection'
 import { SmsBudgetSection } from '../components/SmsBudgetSection'
 import { StaffSection } from '../components/StaffSection'
 import { SmsBudgetWarning } from '../../shared/components/SmsBudgetWarning'
-import { useHandovers } from '../hooks/use-settings'
+import { useHandovers, useNameChanges } from '../hooks/use-settings'
 import { useRequiredUser } from '@/stores/session-store'
 import type { SettingsTab } from '../types'
 
@@ -19,7 +20,10 @@ const SECTIONS: Record<SettingsTab, () => React.JSX.Element | null> = {
   giving: GivingLimitSection,
   staff: StaffSection,
   handovers: HandoversSection,
+  names: NameChangesSection,
 }
+
+const routeApi = getRouteApi('/admin/settings')
 
 /** National settings: admins and super admins only (the server refuses state admins). */
 const NATIONAL_TABS: { value: SettingsTab; label: string }[] = [
@@ -32,12 +36,19 @@ const NATIONAL_TABS: { value: SettingsTab; label: string }[] = [
 
 export function SettingsPage() {
   const stateAdmin = useRequiredUser().stateAdmin === true
-  const [tab, setTab] = useState<SettingsTab>(stateAdmin ? 'handovers' : 'categories')
+  const search = routeApi.useSearch()
+  const navigate = routeApi.useNavigate()
+  const national = new Set(NATIONAL_TABS.map((item) => item.value))
+  const requested = search.tab && !(stateAdmin && national.has(search.tab)) ? search.tab : undefined
+  const tab: SettingsTab = requested ?? (stateAdmin ? 'handovers' : 'categories')
+  const setTab = (next: SettingsTab) => void navigate({ search: { tab: next }, replace: true })
   const handoverCount = useHandovers().count
+  const nameChangeCount = useNameChanges().count
   const Section = SECTIONS[tab]
   const tabs = [
     ...(stateAdmin ? [] : NATIONAL_TABS),
     { value: 'handovers' as const, label: 'Handovers', count: handoverCount },
+    { value: 'names' as const, label: 'Name changes', count: nameChangeCount },
   ]
   return (
     <>

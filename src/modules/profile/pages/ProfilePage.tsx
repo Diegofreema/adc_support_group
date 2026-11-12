@@ -7,6 +7,7 @@ import { ChangePasswordDialog } from '../components/ChangePasswordDialog'
 import { DeleteDetailsConfirm } from '../components/DeleteDetailsConfirm'
 import { DeletionPendingCard } from '../components/DeletionPendingCard'
 import { DeliveryNote } from '../components/DeliveryNote'
+import { EmailSection } from '../components/EmailSection'
 import { LeaveGroupConfirm } from '../components/LeaveGroupConfirm'
 import { ProfileDetailsForm } from '../components/ProfileDetailsForm'
 import { ProfileHeader } from '../components/ProfileHeader'
@@ -28,6 +29,7 @@ export function ProfilePage() {
       <ProfileHeader name={profile.fullName} phone={profile.phone} />
       {profile.pendingDeletion && <DeletionPendingCard pending={profile.pendingDeletion} onCancel={deletion.cancel} isPending={deletion.isPending} />}
       <ProfileDetailsForm profile={profile} />
+      <EmailSection profile={profile} />
       <MyGroupsList groups={profile.groups} />
       <DeliveryNote profile={profile} />
       <SecurityList onChangePassword={password.open} onLogout={logout.open} />

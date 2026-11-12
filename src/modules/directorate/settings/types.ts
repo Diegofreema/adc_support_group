@@ -30,4 +30,15 @@ export interface Handover {
   requestedAt: string
 }
 
-export type SettingsTab = 'categories' | 'types' | 'sms' | 'giving' | 'staff' | 'handovers'
+export interface NameChange {
+  groupId: string
+  name: string
+  pendingName: string
+  requestedAt: string
+  state?: string
+  leaderName: string
+  /** Other groups already called the new name. */
+  sameNameGroups: number
+}
+
+export type SettingsTab = 'categories' | 'types' | 'sms' | 'giving' | 'staff' | 'handovers' | 'names'

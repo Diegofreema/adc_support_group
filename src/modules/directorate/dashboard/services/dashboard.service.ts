@@ -18,7 +18,7 @@ interface OverviewJson {
     raised: Num
     raised_offline: Num
   }
-  todo: { groups_to_verify: Num; activities_to_check: Num; offline_to_confirm: Num; handovers: Num }
+  todo: { groups_to_verify: Num; activities_to_check: Num; offline_to_confirm: Num; handovers: Num; name_changes?: Num }
   states: { state: string; groups: Num; members: Num; activities: Num; raised: Num }[]
   top_groups: { id: string; name: string; activities: Num; members: Num; money: Num }[]
   categories: { label: string; value: Num }[]
@@ -44,6 +44,7 @@ function toDashboard(json: OverviewJson): Dashboard {
       activitiesToCheck: Number(todo.activities_to_check),
       offlineToConfirm: Number(todo.offline_to_confirm),
       handovers: Number(todo.handovers),
+      nameChanges: Number(todo.name_changes ?? 0),
     },
     states: json.states.map((row) => ({
       state: row.state, groups: Number(row.groups), members: Number(row.members), activities: Number(row.activities), raised: Number(row.raised),

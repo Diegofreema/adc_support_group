@@ -9,9 +9,11 @@ import {
 } from '../services/profile.service'
 import { changePasswordSchema, type ChangePasswordValues } from '../utils/schemas'
 import { notify } from '@/lib/toast'
+import { useRequiredUser } from '@/stores/session-store'
 
 /** Send a code (asking email or SMS when the account has both), then the code + new password. */
 export function useChangePassword(onDone: () => void) {
+  const user = useRequiredUser()
   const [challenge, setChallenge] = useState<PasswordChallenge | null>(null)
   const [channels, setChannels] = useState<ChannelChoice | null>(null)
   const [channel, setChannel] = useState<CodeChannel>('email')
@@ -26,7 +28,7 @@ export function useChangePassword(onDone: () => void) {
     meta: { inlineError: true },
   })
   const save = useMutation({
-    mutationFn: (values: ChangePasswordValues) => completePasswordChange(challenge!.challengeId, values.code, values.next),
+    mutationFn: (values: ChangePasswordValues) => completePasswordChange(challenge!.challengeId, values.code, values.next, user.phone || user.email || ''),
     onSuccess: () => {
       notify('Password changed')
       reset()

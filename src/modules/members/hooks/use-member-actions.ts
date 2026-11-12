@@ -33,7 +33,7 @@ export function useMemberActions() {
     askPowers: show('powers'),
     makeExecutive: (target: MemberRecord) => runAndClose(() => makeExecutive.mutate(target)),
     moveTo: (chapterId: string) => member && runAndClose(() => move.mutate({ member, chapterId })),
-    confirmRemove: () => member && runAndClose(() => remove.mutate(member.id)),
+    confirmRemove: (block: boolean) => member && runAndClose(() => remove.mutate({ memberId: member.id, block })),
     savePowers: (powers: Power[]) => member && runAndClose(() => setPowers.mutate({ memberId: member.id, powers })),
   }
 }

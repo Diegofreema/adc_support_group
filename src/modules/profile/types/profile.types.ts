@@ -4,6 +4,8 @@ export interface Profile {
   fullName: string
   phone: string
   email: string
+  /** The email was confirmed with a code, so it also signs them in. */
+  emailConfirmed: boolean
   state: string
   lga: string
   ward: string

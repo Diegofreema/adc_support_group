@@ -1,3 +1,4 @@
+import { uploadGroupPhoto } from '@/lib/group-photo'
 import { rpc } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { Group, GroupLevel, GroupStatus } from '@/types/domain'
@@ -17,6 +18,8 @@ export interface GroupJson {
   city: string | null
   cac_number: string | null
   photo_url?: string | null
+  pending_name?: string | null
+  about?: string | null
   leader_profile_id: string
   leader_name: string | null
   leader_phone?: string | null
@@ -54,6 +57,8 @@ export function toGroup(json: GroupJson): Group {
     leaderPhone: json.leader_phone ?? (viewer?.id === json.leader_profile_id ? viewer.phone : ''),
     cacNumber: json.cac_number ?? undefined,
     photoUrl: json.photo_url ?? undefined,
+    pendingName: json.pending_name ?? undefined,
+    about: json.about ?? undefined,
     joinCode: json.join_code,
     submittedAt: json.submitted_at ?? json.created_at,
     possibleDuplicateOf: json.possible_duplicate_of?.name,
@@ -94,3 +99,29 @@ export async function requestHandover(_groupId: string, newLeader: string): Prom
   await rpc('request_support_group_handover', { p_to_profile_id: target.profile_id })
   return { requested: true }
 }
+
+export interface GroupEdits {
+  name: string
+  about: string
+  photo: File | null
+}
+
+/**
+ * Leader edits to a verified group. Description and photo change at once; a
+ * new name waits for the Directorate (request_support_group_rename).
+ */
+export async function saveGroupEdits(group: Group, edits: GroupEdits): Promise<{ renameRequested: boolean }> {
+  const about = edits.about.trim()
+  if (about && about !== (group.about ?? '')) await rpc('update_support_group_details', { p_about: about })
+  if (edits.photo) await uploadGroupPhoto(group.id, edits.photo)
+  const name = edits.name.trim().replace(/\s+/g, ' ')
+  const renameRequested = name !== group.name && name !== group.pendingName
+  if (renameRequested) await rpc('request_support_group_rename', { p_name: name })
+  return { renameRequested }
+}
+
+/** Withdraw a name change that hasn't been reviewed yet. */
+export async function cancelRename(): Promise<void> {
+  await rpc('cancel_support_group_rename')
+}
+

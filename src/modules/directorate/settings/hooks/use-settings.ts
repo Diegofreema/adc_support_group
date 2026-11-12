@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useSettingsMutation } from './use-settings-mutation'
 import {
-  activityTypesQuery, addActivityType, addCategory, categoriesQuery, decideHandover, givingLimitQuery, handoversQuery,
+  activityTypesQuery, addActivityType, addCategory, categoriesQuery, decideHandover, decideNameChange, givingLimitQuery, handoversQuery, nameChangesQuery,
   removeCategory, renameCategory, setActivityTypeEnabled, setGivingLimit, staffQuery,
 } from '../services/settings.service'
 import { directorateKeys } from '../../shared/query-keys'
@@ -53,6 +53,16 @@ export function useHandovers() {
     await queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
   }, ({ approve }) => (approve ? 'Handover approved' : 'Handover declined'))
   const query = useQuery(handoversQuery)
+  return { items: query.data ?? [], count: query.data?.length, isLoading: query.isLoading, decide }
+}
+
+export function useNameChanges() {
+  const queryClient = useQueryClient()
+  const decide = useSettingsMutation(['names'], async (args: { groupId: string; approve: boolean }) => {
+    await decideNameChange(args)
+    await queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
+  }, ({ approve }) => (approve ? 'New name approved' : 'Name change declined'))
+  const query = useQuery(nameChangesQuery)
   return { items: query.data ?? [], count: query.data?.length, isLoading: query.isLoading, decide }
 }
 

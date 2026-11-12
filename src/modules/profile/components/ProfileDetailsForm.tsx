@@ -15,9 +15,6 @@ export function ProfileDetailsForm({ profile }: { profile: Profile }) {
           <Field label="Full name" htmlFor="profile-name" error={errors.fullName?.message}>
             <TextInput id="profile-name" autoComplete="name" {...form.register('fullName')} />
           </Field>
-          <Field label="Email" htmlFor="profile-email" optional error={errors.email?.message} hint={profile.phone ? 'For updates only. You still log in with your phone number.' : undefined}>
-            <TextInput id="profile-email" type="email" autoComplete="email" {...form.register('email')} />
-          </Field>
           <PlaceSelects compact idPrefix="profile" value={place.value} onChange={place.onChange} errors={place.errors} />
           <Button type="submit" variant="primary" block className="mt-6" disabled={isPending}>Save</Button>
         </form>

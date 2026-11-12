@@ -36,12 +36,23 @@ export async function listDuesStatusPage(period: string | undefined, filter: Due
 
 const MEMBER_MATCHES = 8
 
-/** Find a member by name or phone (for "who paid"). */
+interface RosterPerson { profile_id: string; full_name: string | null; phone: string | null }
+
+/** The roster lists the leader apart from the members; they pay dues too. */
+function leaderMatches(leader: RosterPerson | null, search: string): boolean {
+  if (!leader) return false
+  const needle = search.trim().toLowerCase()
+  const digits = needle.replace(/\D/g, '')
+  return (leader.full_name ?? '').toLowerCase().includes(needle) || (digits.length >= 4 && (leader.phone ?? '').includes(digits))
+}
+
+/** Find a member, or the leader, by name or phone (for "who paid"). */
 export async function searchMembers(search: string): Promise<MemberOption[]> {
-  const { rows } = await rpc<{ rows: { profile_id: string; full_name: string | null; phone: string | null }[] }>('get_support_group_roster', {
+  const { rows, leader } = await rpc<{ rows: RosterPerson[]; leader: RosterPerson | null }>('get_support_group_roster', {
     p_search: search.trim() || null,
     p_limit: MEMBER_MATCHES,
     p_offset: 0,
   })
-  return rows.map((row) => ({ id: row.profile_id, name: row.full_name ?? 'Member', phone: row.phone ?? undefined }))
+  const people = leaderMatches(leader, search) ? [leader!, ...rows] : rows
+  return people.map((row) => ({ id: row.profile_id, name: row.full_name ?? 'Member', phone: row.phone ?? undefined }))
 }

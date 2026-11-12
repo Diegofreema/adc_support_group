@@ -17,6 +17,8 @@ export interface GroupJson {
   city: string | null
   cac_number: string | null
   photo_url?: string | null
+  pending_name?: string | null
+  about?: string | null
   leader_profile_id: string
   leader_name: string | null
   leader_phone?: string | null
@@ -57,6 +59,8 @@ export function toGroup(json: GroupJson): Group {
     leaderPhone: json.leader_phone ?? '',
     cacNumber: json.cac_number ?? undefined,
     photoUrl: json.photo_url ?? undefined,
+    pendingName: json.pending_name ?? undefined,
+    about: json.about ?? undefined,
     joinCode: json.join_code,
     submittedAt: json.submitted_at ?? json.created_at,
     possibleDuplicateOf: json.possible_duplicate_of?.name,

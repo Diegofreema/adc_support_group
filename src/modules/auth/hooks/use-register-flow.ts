@@ -93,6 +93,7 @@ export function useRegisterFlow(draft?: RegistrationDraft) {
     isEditing: Boolean(draft),
     isResubmit: draft?.status === 'rejected',
     existingPhotoUrl: draft?.photoUrl,
+    photo,
     isPending: submit.isPending,
     isSendingCode: send.isPending,
     sendCode,

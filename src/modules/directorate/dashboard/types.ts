@@ -13,6 +13,7 @@ export interface DashboardTodo {
   activitiesToCheck: number
   offlineToConfirm: number
   handovers: number
+  nameChanges: number
 }
 
 export interface StateRow {
