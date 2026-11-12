@@ -3,9 +3,10 @@ import { invokeFunction } from '@/lib/edge-functions'
 import { normalisePhone } from '@/lib/phone'
 import { rpc } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
-import type { JoinedVia, MemberRole } from '@/types/domain'
+import type { JoinedVia, MemberRole, Power } from '@/types/domain'
+import { ALL_POWERS } from '../utils/powers'
 
-/** One row of get_support_group_roster (the leader's only path to member details). */
+/** One row of get_support_group_roster (scoped by the backend to what the viewer may see). */
 interface RosterRow {
   profile_id: string
   full_name: string
@@ -21,6 +22,8 @@ interface RosterRow {
   joined_via: JoinedVia | 'request'
   joined_at: string
   activity_count: number
+  powers: Power[] | null
+  title_powers: Power[] | null
 }
 
 const PAGE = 500
@@ -43,6 +46,8 @@ function toMember(groupId: string, row: RosterRow): MemberRecord {
     joinedVia: row.joined_via === 'request' ? 'link' : row.joined_via,
     joinedAt: row.joined_at,
     activityCount: Number(row.activity_count),
+    powers: row.powers ?? [],
+    titlePowers: row.title_powers ?? [],
   }
 }
 
@@ -53,10 +58,11 @@ function leaderRow(groupId: string): MemberRecord[] {
   return [{
     id: user.id, groupId, fullName: user.fullName, phone: user.phone, email: user.email,
     role: 'leader', title: user.title ?? 'Leader', joinedVia: 'manual', joinedAt: '', activityCount: 0,
+    powers: [...ALL_POWERS], titlePowers: [...ALL_POWERS],
   }]
 }
 
-/** Every member of the leader's group (paged in from the roster RPC). */
+/** Every member of the group the viewer may see (paged in from the roster RPC). */
 export async function fetchMembers(groupId: string): Promise<MemberRecord[]> {
   const members: MemberRecord[] = []
   for (let offset = 0; ; offset += PAGE) {
@@ -187,4 +193,9 @@ export async function moveMember(member: MemberRecord, chapterId: string): Promi
 export async function removeMember(memberId: string): Promise<{ removed: string }> {
   await rpc('remove_support_group_member', { p_profile_id: memberId, p_block: false })
   return { removed: memberId }
+}
+
+/** Leader only: the extra powers ticked for an executive or coordinator (title defaults are kept). */
+export async function setMemberPowers(memberId: string, extraPowers: Power[]): Promise<void> {
+  await rpc('set_support_group_member_powers', { p_profile_id: memberId, p_powers: extraPowers })
 }

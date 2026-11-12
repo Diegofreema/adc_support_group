@@ -3,6 +3,7 @@ import { formatDay } from '@/lib/format'
 import type { MemberRecord } from '../types'
 import { joinedViaLabel } from '../utils/export-members'
 import { formatPhone } from '@/lib/phone'
+import { PowerTags } from './PowerTags'
 
 /** Who this member is: avatar, phone and key facts. */
 export function MemberDetails({ member }: { member: MemberRecord }) {
@@ -13,6 +14,7 @@ export function MemberDetails({ member }: { member: MemberRecord }) {
         <div>
           <p className="h3">{member.fullName}</p>
           <p className="muted small">{formatPhone(member.phone)}</p>
+          <PowerTags member={member} />
         </div>
       </div>
       <div className="mt-4">

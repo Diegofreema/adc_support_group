@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
 
 import { Field, SelectInput, TextArea, TextInput } from '@/components/shared'
@@ -10,13 +11,16 @@ interface DetailsStepProps {
   chapters: ChapterOption[]
   /** Label for "no chapter picked" (the backend files it under the recorder's own chapter). */
   defaultChapterLabel: string
+  /** Extra fields under the heading (e.g. "Who did this?"). */
+  children?: ReactNode
 }
 
-export function DetailsStep({ form, chapters, defaultChapterLabel }: DetailsStepProps) {
+export function DetailsStep({ form, chapters, defaultChapterLabel, children }: DetailsStepProps) {
   const { register, formState: { errors } } = form
   return (
     <>
       <h1 className="h1">Details</h1>
+      {children}
       <Field label="Title" htmlFor="act-title" error={errors.title?.message} className="mt-5">
         <TextInput id="act-title" placeholder="e.g. Rally at Kofar Mata" {...register('title')} />
       </Field>

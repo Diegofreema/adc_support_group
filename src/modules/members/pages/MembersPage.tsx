@@ -5,6 +5,7 @@ import { Button, buttonClassName, ErrorState, FilterPills, PageHeader, PageLoade
 import { useGroupLocked } from '@/hooks/use-group-verified'
 import { useActiveGroupId } from '@/modules/groups'
 import { formatNumber } from '@/lib/format'
+import { useRequiredUser } from '@/stores/session-store'
 import { useExportMembers } from '../hooks/use-export-members'
 import { useMemberActions } from '../hooks/use-member-actions'
 import { useMemberList } from '../hooks/use-member-list'
@@ -20,6 +21,7 @@ export function MembersPage() {
   const chapters = useChapterOptions(groupId)
   const exportMembers = useExportMembers()
   const locked = useGroupLocked()
+  const viewer = useRequiredUser()
 
   const headerActions = (
     <>
@@ -35,7 +37,7 @@ export function MembersPage() {
       <div className="mt-3"><FilterPills options={list.filterOptions} value={list.filter} onChange={list.setFilter} label="Filter members" /></div>
       <div className="mt-4"><MembersBody list={list} onOpen={actions.open} /></div>
       <Pagination page={list.pageData} onPage={list.setPage} />
-      <MemberDialogs actions={actions} chapters={chapters.data ?? []} />
+      <MemberDialogs actions={actions} chapters={chapters.data ?? []} viewer={viewer} />
     </>
   )
 }

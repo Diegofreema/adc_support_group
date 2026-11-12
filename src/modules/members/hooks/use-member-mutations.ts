@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { memberKeys } from './query-keys'
-import { addExecutiveByQuery, addMember, makeExecutive, moveMember, removeMember } from '../services/members.service'
+import { addExecutiveByQuery, addMember, makeExecutive, moveMember, removeMember, setMemberPowers } from '../services/members.service'
 import type { MemberRecord, NewMemberInput } from '../types'
 import { notify } from '@/lib/toast'
+import type { Power } from '@/types/domain'
 
 /** Shared mutation wiring: refresh the member list and toast on success (errors toast globally). */
 function useMemberMutation<Input, Output>(mutationFn: (input: Input) => Promise<Output>, successMessage: string) {
@@ -35,4 +36,8 @@ export function useMoveMember() {
 
 export function useRemoveMember() {
   return useMemberMutation((memberId: string) => removeMember(memberId), 'Removed')
+}
+
+export function useSetMemberPowers() {
+  return useMemberMutation(({ memberId, powers }: { memberId: string; powers: Power[] }) => setMemberPowers(memberId, powers), 'Powers saved')
 }

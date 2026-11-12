@@ -4,13 +4,15 @@ import type { PickedPhoto } from '../types'
 
 const MAX_PHOTOS = 6
 
-/** Picked photo files with local previews (revoked when removed or on leave). */
-export function usePhotoList() {
-  const [items, setItems] = useState<PickedPhoto[]>([])
+const revoke = (photo: PickedPhoto) => { if (photo.file) URL.revokeObjectURL(photo.preview) }
+
+/** Photos in the wizard: already-uploaded URLs plus picked files with local previews (revoked when removed or on leave). */
+export function usePhotoList(initialUrls: string[] = []) {
+  const [items, setItems] = useState<PickedPhoto[]>(() => initialUrls.map((url) => ({ preview: url })))
   const latest = useRef(items)
 
   useEffect(() => { latest.current = items })
-  useEffect(() => () => latest.current.forEach((photo) => URL.revokeObjectURL(photo.preview)), [])
+  useEffect(() => () => latest.current.forEach(revoke), [])
 
   const add = (files: File[]) => {
     const room = Math.max(MAX_PHOTOS - items.length, 0)
@@ -20,7 +22,7 @@ export function usePhotoList() {
 
   const remove = (index: number) => {
     const gone = items[index]
-    if (gone) URL.revokeObjectURL(gone.preview)
+    if (gone) revoke(gone)
     setItems(items.filter((_, position) => position !== index))
   }
 

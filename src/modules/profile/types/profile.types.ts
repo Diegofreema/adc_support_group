@@ -8,6 +8,14 @@ export interface Profile {
   lga: string
   ward: string
   groups: MyGroup[]
+  isLeader: boolean
+  /** Set while a "delete my details" request waits its 7 days. */
+  pendingDeletion: PendingDeletion | null
+}
+
+export interface PendingDeletion {
+  requestedAt: string
+  dueAt: string
 }
 
 /** Numbers shown in the "More" menu. */

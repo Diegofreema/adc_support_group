@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { requireVerifiedGroup } from '@/lib/route-guards'
+import { requirePower } from '@/lib/route-guards'
 import { MembersPage } from '@/modules/members/pages/MembersPage'
 
 export const Route = createFileRoute('/_app/members/')({
-  beforeLoad: requireVerifiedGroup,
+  beforeLoad: requirePower('members'),
   staticData: { title: 'Members' },
   component: MembersPage,
 })

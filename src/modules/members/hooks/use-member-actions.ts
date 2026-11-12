@@ -1,9 +1,10 @@
 import { useState } from 'react'
 
-import { useMakeExecutive, useMoveMember, useRemoveMember } from './use-member-mutations'
+import { useMakeExecutive, useMoveMember, useRemoveMember, useSetMemberPowers } from './use-member-mutations'
 import type { MemberRecord } from '../types'
+import type { Power } from '@/types/domain'
 
-type ActiveDialog = 'details' | 'move' | 'remove'
+type ActiveDialog = 'details' | 'move' | 'remove' | 'powers'
 
 /** Which member is open, which dialog is showing, and what each button does. */
 export function useMemberActions() {
@@ -12,6 +13,7 @@ export function useMemberActions() {
   const makeExecutive = useMakeExecutive()
   const move = useMoveMember()
   const remove = useRemoveMember()
+  const setPowers = useSetMemberPowers()
 
   const show = (next: ActiveDialog) => (target: MemberRecord) => {
     setMember(target)
@@ -28,9 +30,11 @@ export function useMemberActions() {
     open: show('details'),
     askMove: show('move'),
     askRemove: show('remove'),
+    askPowers: show('powers'),
     makeExecutive: (target: MemberRecord) => runAndClose(() => makeExecutive.mutate(target)),
     moveTo: (chapterId: string) => member && runAndClose(() => move.mutate({ member, chapterId })),
     confirmRemove: () => member && runAndClose(() => remove.mutate(member.id)),
+    savePowers: (powers: Power[]) => member && runAndClose(() => setPowers.mutate({ memberId: member.id, powers })),
   }
 }
 

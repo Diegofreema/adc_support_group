@@ -19,3 +19,9 @@ export function mediaTones<T>(tones: T[], count: number): T[] {
   if (tones.length === 0) return []
   return Array.from({ length: count }, (_, index) => tones[index % tones.length]!)
 }
+
+/** "Recorded by Musa Bello (Secretary)", only when someone else recorded it. */
+export function recordedByText(activity: { recordedByName?: string; recordedByTitle?: string }): string | undefined {
+  if (!activity.recordedByName) return undefined
+  return activity.recordedByTitle ? `Recorded by ${activity.recordedByName} (${activity.recordedByTitle})` : `Recorded by ${activity.recordedByName}`
+}

@@ -178,3 +178,16 @@ Then in this repo, swap each module's `*.service.ts` from mocks to RPCs, one mod
   - `ADC_SITE_URL`: the ADC app's public URL, used for payment returns and email links.
   - `ADC_RESEND_FROM_EMAIL` (optional): an ADC sender on a domain verified in Resend. Until it's set, ADC emails come from Rise Up's sender, with ADC wording in the body.
   - `ALLOWED_ORIGINS`: if this is set, the ADC origin must be added to it.
+
+## Phase 2a: trust (live, migrations `20261112070000`–`070100`)
+
+Decisions with the product owner, 2026-11-12: delete-my-details closes the whole shared account; coordinators default to members + approvals + events; the outgoing leader stays a member; phase 2 ships as 2a (trust) then 2b (low data).
+
+- **Powers.** `support_group_memberships.powers text[]` holds the leader's extra ticks. `private.sg_actor(profile)` resolves group, chapter scope (coordinators), leader flag and effective powers (title defaults from `private.sg_title_powers` + ticks; a leader has all five: members, approvals, money, messages, events). Manage RPCs call `private.require_sg_power(...)`; group details, chapters, handover, roles and powers stay leader-only. `get_my_support_group` returns `powers` and `power_chapter_id`. New `set_support_group_member_powers(p_profile_id, p_powers)`. A role change or leaving clears the ticks (trigger). Executive SMS (messages, welcomes) is charged to the leader's points; edge functions read `leader_id` / `service_support_group_actor`.
+- **Acting for a member.** `support_group_activities.recorded_by`; `record_support_group_activity(..., p_for_profile_id, p_lat, p_lng, p_accuracy_m)`. Activity JSON adds `recorded_by_name/_title`, `lat/lng`, `version`; the single read adds `can_edit`, `can_review`.
+- **Edits.** `edit_support_group_activity` (pending/rejected only) snapshots the replaced row into `support_group_activity_versions`; `get_support_group_activity_versions`. Approved = locked; only the Directorate rejects it after that (`check_support_group_activity`, reason required).
+- **Proof.** At least one photo (record and edit); location stored when given, as a pair.
+- **History.** Group-side actions write `admin_audit_logs` with `metadata.group_id` via `private.sg_audit`; `get_admin_sg_group_history(p_group_id, …)`.
+- **Nothing deleted.** Chapters archive (`archived_at`; join codes stop working, members move out of the chapter). Handover marks the new leader's membership `promoted`. Activities' `logged_by` is `ON DELETE RESTRICT`.
+- **Leaving.** `leave_support_group` sets `left` and notifies the leader. `request_my_account_deletion` / `cancel_my_account_deletion` (7 days; leaders refused); daily cron `adc-run-account-deletions` → `private.anonymise_profile` (profile → "Former member", auth login banned, identities and sessions removed). `get_admin_sg_departures(p_kind, …)` is the Directorate log.
+- **Tests:** `tests/db/adc-support-groups.test.ts`, 26 tests, pass on live (rolled back).

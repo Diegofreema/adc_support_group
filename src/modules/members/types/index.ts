@@ -1,8 +1,12 @@
-import type { Member } from '@/types/domain'
+import type { Member, Power } from '@/types/domain'
 
 export interface MemberRecord extends Member {
   groupId: string
   activityCount: number
+  /** Everything they may do (title defaults plus the leader's ticks). */
+  powers: Power[]
+  /** The defaults that come with their title or chapter; can't be removed. */
+  titlePowers: Power[]
 }
 
 /** Filter pill value: a fixed filter or "chapter:<id>". */

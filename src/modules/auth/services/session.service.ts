@@ -3,7 +3,7 @@ import type { Session } from '@supabase/supabase-js'
 import { normalisePhone } from '@/lib/phone'
 import { rpc, supabase } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
-import type { GroupStatus, Role, User } from '@/types/domain'
+import type { GroupStatus, Power, Role, User } from '@/types/domain'
 
 /**
  * Turns the Supabase session into the app's User: who they are (profiles),
@@ -24,6 +24,8 @@ interface MySupportGroup {
   is_leader: boolean
   group: { id: string; name: string; status: GroupStatus; leader_title: string | null } | null
   membership: { member_role: string; title: string | null } | null
+  powers: Power[]
+  power_chapter_id: string | null
 }
 
 const STAFF_TITLES: Record<string, string> = {
@@ -59,6 +61,8 @@ export function toUser(profile: ProfileRow, mine: MySupportGroup | null): User {
     activeGroupId: mine?.group?.id,
     activeGroupName: mine?.group?.name,
     activeGroupStatus: mine?.group?.status,
+    powers: mine?.powers ?? [],
+    powerChapterId: mine?.power_chapter_id ?? undefined,
   }
 }
 

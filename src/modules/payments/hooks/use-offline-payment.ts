@@ -8,6 +8,7 @@ import { usePayLookups } from './use-pay-lookups'
 import { useReportOfflinePayment } from './use-pay-mutation'
 import { usePayerOptions } from './use-payments'
 import { notify } from '@/lib/toast'
+import { hasPower } from '@/lib/permissions'
 import { useRequiredUser } from '@/stores/session-store'
 
 /** Local calendar day. */
@@ -16,12 +17,12 @@ const today = () => {
   return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10)
 }
 
-/** "Paid offline" form (leader only): validation, lookups and submit. */
+/** "Paid offline" form (money power): validation, lookups and submit. */
 export function useOfflinePayment() {
   const navigate = useNavigate()
   const user = useRequiredUser()
   const lookups = usePayLookups()
-  const payers = usePayerOptions(user.role === 'leader').data ?? []
+  const payers = usePayerOptions(hasPower(user, 'money')).data ?? []
   const report = useReportOfflinePayment()
   const form = useForm<OfflinePaymentForm>({
     resolver: zodResolver(offlinePaymentSchema),

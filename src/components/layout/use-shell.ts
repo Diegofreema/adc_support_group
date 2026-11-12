@@ -20,7 +20,7 @@ export function useShell(): ShellState {
   const isDirectorate = user.role === 'directorate'
   return {
     user,
-    navigation: navigationFor(user.role, user.activeGroupStatus),
+    navigation: navigationFor(user.role, user.activeGroupStatus, user.powers),
     badges: useNavBadges(),
     meta: usePageMeta(),
     isDirectorate,

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 
-import { activitiesForTab, pendingActivities, tabsForRole } from '../utils/activity-filters'
+import { activitiesForTab, pendingActivities, tabsFor } from '../utils/activity-filters'
 import { useActivities } from './use-activities'
 import type { TabItem } from '@/components/shared'
+import { hasPower } from '@/lib/permissions'
 import { useRequiredUser } from '@/stores/session-store'
 import type { ActivityTab } from '../types'
 
@@ -16,7 +17,7 @@ export function useActivityTabs() {
   const activities = query.data ?? []
   const reviewCount = pendingActivities(activities).length
 
-  const tabs: TabItem<ActivityTab>[] = tabsForRole(user.role).map((value) => ({
+  const tabs: TabItem<ActivityTab>[] = tabsFor(hasPower(user, 'approvals')).map((value) => ({
     value,
     label: TAB_LABELS[value],
     count: value === 'review' ? reviewCount : undefined,

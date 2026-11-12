@@ -3,6 +3,8 @@
 export type Role = 'member' | 'leader' | 'directorate'
 export type MemberRole = 'leader' | 'executive' | 'coordinator' | 'member'
 export type JoinedVia = 'link' | 'excel' | 'manual'
+/** What someone may do in their group: title defaults plus the leader's ticks. A leader holds all five. */
+export type Power = 'members' | 'approvals' | 'money' | 'messages' | 'events'
 
 export type GroupStatus = 'pending' | 'verified' | 'rejected' | 'suspended'
 export type GroupLevel = 'national' | 'state' | 'lga' | 'ward' | 'abroad'
@@ -34,6 +36,10 @@ export interface User {
   /** Status of that group; only a verified group can invite, pay, message or record. */
   activeGroupStatus?: GroupStatus
   title?: string
+  /** Powers in the active group (empty for plain members and the Directorate). */
+  powers: Power[]
+  /** Coordinators: the one chapter their powers cover. */
+  powerChapterId?: string
 }
 
 export interface Group extends Place {

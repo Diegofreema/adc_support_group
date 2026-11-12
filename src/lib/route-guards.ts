@@ -1,7 +1,8 @@
 import { redirect } from '@tanstack/react-router'
 
 import { sessionStore } from '@/stores/session-store'
-import type { Role, User } from '@/types/domain'
+import { hasPower } from './permissions'
+import type { Power, Role, User } from '@/types/domain'
 
 function homeFor(user: User): string {
   return user.role === 'directorate' ? '/admin' : '/home'
@@ -36,6 +37,18 @@ export function requireGroup() {
 export function requireVerifiedGroup() {
   const user = sessionStore.getUser()
   if (user && user.activeGroupStatus !== 'verified') throw redirect({ to: '/home' })
+}
+
+/**
+ * beforeLoad guard: a verified group and this power (Members, Money, Messages
+ * screens). Without it → /home. The backend refuses anyway; this avoids a dead page.
+ */
+export function requirePower(power: Power) {
+  return () => {
+    requireVerifiedGroup()
+    const user = sessionStore.getUser()
+    if (user && !hasPower(user, power)) throw redirect({ to: '/home' })
+  }
 }
 
 /** Only internal paths ("/join/abc"), never "//evil.com" or "https://…". */

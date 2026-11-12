@@ -43,6 +43,7 @@ import { Route as AppPaymentsNewRouteImport } from './routes/_app/payments/new'
 import { Route as AppPaymentsOfflineRouteImport } from './routes/_app/payments/offline'
 import { Route as AdminGroupsIndexRouteImport } from './routes/admin/groups/index'
 import { Route as AdminGroupsGroupIdRouteImport } from './routes/admin/groups/$groupId'
+import { Route as AppActivitiesActivityIdEditRouteImport } from './routes/_app/activities/$activityId_.edit'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -213,6 +214,12 @@ const AdminGroupsGroupIdRoute = AdminGroupsGroupIdRouteImport.update({
   path: '/groups/$groupId',
   getParentRoute: () => AdminRoute,
 } as any)
+const AppActivitiesActivityIdEditRoute =
+  AppActivitiesActivityIdEditRouteImport.update({
+    id: '/activities/$activityId_/edit',
+    path: '/activities/$activityId/edit',
+    getParentRoute: () => AppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -248,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/members/': typeof AppMembersIndexRoute
   '/payments/': typeof AppPaymentsIndexRoute
   '/admin/groups/': typeof AdminGroupsIndexRoute
+  '/activities/$activityId/edit': typeof AppActivitiesActivityIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -282,6 +290,7 @@ export interface FileRoutesByTo {
   '/members': typeof AppMembersIndexRoute
   '/payments': typeof AppPaymentsIndexRoute
   '/admin/groups': typeof AdminGroupsIndexRoute
+  '/activities/$activityId/edit': typeof AppActivitiesActivityIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -319,6 +328,7 @@ export interface FileRoutesById {
   '/_app/members/': typeof AppMembersIndexRoute
   '/_app/payments/': typeof AppPaymentsIndexRoute
   '/admin/groups/': typeof AdminGroupsIndexRoute
+  '/_app/activities/$activityId_/edit': typeof AppActivitiesActivityIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -356,6 +366,7 @@ export interface FileRouteTypes {
     | '/members/'
     | '/payments/'
     | '/admin/groups/'
+    | '/activities/$activityId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -390,6 +401,7 @@ export interface FileRouteTypes {
     | '/members'
     | '/payments'
     | '/admin/groups'
+    | '/activities/$activityId/edit'
   id:
     | '__root__'
     | '/'
@@ -426,6 +438,7 @@ export interface FileRouteTypes {
     | '/_app/members/'
     | '/_app/payments/'
     | '/admin/groups/'
+    | '/_app/activities/$activityId_/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -677,6 +690,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGroupsGroupIdRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_app/activities/$activityId_/edit': {
+      id: '/_app/activities/$activityId_/edit'
+      path: '/activities/$activityId/edit'
+      fullPath: '/activities/$activityId/edit'
+      preLoaderRoute: typeof AppActivitiesActivityIdEditRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -699,6 +719,7 @@ interface AppRouteChildren {
   AppChaptersIndexRoute: typeof AppChaptersIndexRoute
   AppMembersIndexRoute: typeof AppMembersIndexRoute
   AppPaymentsIndexRoute: typeof AppPaymentsIndexRoute
+  AppActivitiesActivityIdEditRoute: typeof AppActivitiesActivityIdEditRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -720,6 +741,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppChaptersIndexRoute: AppChaptersIndexRoute,
   AppMembersIndexRoute: AppMembersIndexRoute,
   AppPaymentsIndexRoute: AppPaymentsIndexRoute,
+  AppActivitiesActivityIdEditRoute: AppActivitiesActivityIdEditRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

@@ -1,5 +1,6 @@
 import { PageHeader } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
+import { DeparturesCard } from '../components/DeparturesCard'
 import { ExportBuilderCard } from '../components/ExportBuilderCard'
 import { RecentExports } from '../components/RecentExports'
 import { ReportTotals } from '../components/ReportTotals'
@@ -13,6 +14,7 @@ export function ReportsPage() {
       <PageHeader title="Reports" />
       {totals && <ReportTotals totals={totals} />}
       <SplitLayout main={<ExportBuilderCard builder={builder} />} side={<RecentExports />} />
+      <DeparturesCard />
     </>
   )
 }

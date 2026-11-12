@@ -20,7 +20,7 @@ export function MorePage() {
   return (
     <div className="main-narrow mx-auto">
       <MoreProfileCard user={user} />
-      {!locked && <MenuSection title="Group" links={groupLinks(counts)} />}
+      {!locked && <MenuSection title="Group" links={groupLinks(counts, user.powers)} />}
       <MenuSection title="Account" links={accountLinks(counts)} />
       <Button variant="danger" block icon={LogOut} className="mt-8" onClick={logout.open}>Log out</Button>
       <LogoutConfirm open={logout.isOpen} onOpenChange={logout.setOpen} />

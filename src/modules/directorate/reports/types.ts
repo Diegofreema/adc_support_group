@@ -28,3 +28,22 @@ export interface ReportTotals {
   peopleReached: number
   amountPaid: number
 }
+
+export type DepartureKind = 'left' | 'deletion'
+export type DepartureFilter = 'all' | DepartureKind
+/** 'left' | 'details_deleted' for leavers; 'pending' | 'cancelled' | 'done' for deletion requests. */
+export type DepartureStatus = 'left' | 'details_deleted' | 'pending' | 'cancelled' | 'done'
+
+/** Someone who left a group or asked for their account to be deleted. */
+export interface Departure {
+  key: string
+  kind: DepartureKind
+  name: string
+  groupId?: string
+  groupName?: string
+  state?: string
+  status: DepartureStatus
+  at: string
+  /** When a pending deletion runs. */
+  dueAt?: string
+}

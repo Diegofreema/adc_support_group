@@ -1,11 +1,12 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
 
-import { getActivity, listActivities, listActivityTypes, listChapterOptions } from '../services/activities.service'
+import { getActivity, listActivities, listActivityTypes, listActivityVersions, listChapterOptions } from '../services/activities.service'
 
 export const activityKeys = {
   all: ['activities'] as const,
   list: (groupId: string) => [...activityKeys.all, 'list', groupId] as const,
   detail: (id: string) => [...activityKeys.all, 'detail', id] as const,
+  versions: (id: string) => [...activityKeys.all, 'versions', id] as const,
   types: () => [...activityKeys.all, 'types'] as const,
   chapters: () => [...activityKeys.all, 'chapters'] as const,
 }
@@ -31,4 +32,9 @@ export function useActivityTypes() {
 /** Chapters the wizard can file an activity under (none for an unverified group). */
 export function useActivityChapters() {
   return useQuery(queryOptions({ queryKey: activityKeys.chapters(), queryFn: listChapterOptions, staleTime: 5 * 60_000 }))
+}
+
+/** Earlier versions; only fetched once the activity has been edited. */
+export function useActivityVersions(id: string, edited: boolean) {
+  return useQuery(queryOptions({ queryKey: activityKeys.versions(id), queryFn: () => listActivityVersions(id), enabled: edited }))
 }

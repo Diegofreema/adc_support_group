@@ -1,5 +1,6 @@
 import { Bell, CircleUserRound, ContactRound, Network, Send } from 'lucide-react'
 
+import type { Power } from '@/types/domain'
 import type { MenuLink } from '../components/MenuSection'
 
 interface Counts {
@@ -8,11 +9,12 @@ interface Counts {
   notifications?: number
 }
 
-export function groupLinks(counts: Counts): MenuLink[] {
+/** Group screens, limited to what the user's powers open. */
+export function groupLinks(counts: Counts, powers: Power[]): MenuLink[] {
   return [
-    { label: 'Members', icon: ContactRound, to: '/members', count: counts.members },
+    ...(powers.includes('members') ? [{ label: 'Members', icon: ContactRound, to: '/members', count: counts.members }] : []),
     { label: 'Chapters', icon: Network, to: '/chapters', count: counts.chapters },
-    { label: 'Messages', icon: Send, to: '/messages' },
+    ...(powers.includes('messages') ? [{ label: 'Messages', icon: Send, to: '/messages' }] : []),
   ]
 }
 

@@ -3,6 +3,7 @@ import { queryOptions } from '@tanstack/react-query'
 import { rpc, supabase } from '@/lib/supabase'
 import type { BadgeKey } from '@/config/navigation'
 import { sessionStore } from '@/stores/session-store'
+import { hasPower } from '@/lib/permissions'
 import type { User } from '@/types/domain'
 
 export type NavBadges = Partial<Record<BadgeKey, number>>
@@ -22,7 +23,7 @@ async function unreadNotifications(userId: string): Promise<number> {
   return count ?? 0
 }
 
-/** Activities waiting for the leader. An unverified group has none (the RPC refuses). */
+/** Activities waiting for an approver (scoped to a coordinator's chapter by the backend). An unverified group has none (the RPC refuses). */
 async function pendingActivities(): Promise<number> {
   const page = await rpc<{ total: number }>('get_support_group_activities', { p_status: 'pending', p_limit: 1 }).catch(() => ({ total: 0 }))
   return Number(page.total)
@@ -44,8 +45,8 @@ async function directorateBadges(): Promise<NavBadges> {
 }
 
 async function roleBadges(user: User): Promise<NavBadges> {
-  if (user.role === 'leader') return { toReview: await pendingActivities() }
   if (user.role === 'directorate') return directorateBadges()
+  if (hasPower(user, 'approvals')) return { toReview: await pendingActivities() }
   return {}
 }
 

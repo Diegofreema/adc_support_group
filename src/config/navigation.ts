@@ -3,7 +3,7 @@ import {
   Megaphone, Network, Send, Settings, ShieldCheck, Target, UsersRound, Wallet, type LucideIcon,
 } from 'lucide-react'
 
-import type { GroupStatus, Role } from '@/types/domain'
+import type { GroupStatus, Power, Role } from '@/types/domain'
 
 export interface NavItem {
   to: string
@@ -126,18 +126,41 @@ const noGroupNav: RoleNavigation = {
   bottom: [home, notifications, profile],
 }
 
-const NAVIGATION: Record<Role, RoleNavigation> = {
-  leader: leaderNav,
-  member: memberNav,
-  directorate: directorateNav,
+/**
+ * Executives and coordinators: the member menu plus the group screens their
+ * powers open (Members, Payments' offline record, Messages, the review tab).
+ */
+function executiveNav(powers: Power[]): RoleNavigation {
+  const can = (power: Power) => powers.includes(power)
+  const acts = can('approvals') ? activities : { ...activities, badgeKey: undefined }
+  const group: NavItem = { to: '/group', label: 'Group overview', icon: UsersRound }
+  const members: NavItem[] = can('members') ? [{ to: '/members', label: 'Members', icon: ContactRound }] : []
+  const payments: NavItem[] = can('money') ? [{ to: '/payments', label: 'Payments', icon: Wallet }] : []
+  const messages: NavItem[] = can('messages') ? [{ to: '/messages', label: 'Messages', icon: Send }] : []
+  return {
+    home: '/home',
+    sidebar: [
+      { title: 'Menu', items: [home, acts] },
+      { title: 'My group', items: [group, ...members, { to: '/chapters', label: 'Chapters', icon: Network }, ...payments, ...messages] },
+      { title: 'Account', items: [{ ...notifications, label: 'Notifications' }, { ...profile, label: 'My profile' }] },
+    ],
+    bottom: [
+      home,
+      acts,
+      { to: '/group', label: 'Group', icon: UsersRound, matches: ['/members', '/chapters'] },
+      ...payments,
+      { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/messages', '/notifications', '/profile'] },
+    ],
+  }
 }
 
 /** groupStatus: the active group's status; undefined means no group (ignored for the Directorate). */
-export function navigationFor(role: Role, groupStatus?: GroupStatus): RoleNavigation {
+export function navigationFor(role: Role, groupStatus?: GroupStatus, powers: Power[] = []): RoleNavigation {
   if (role === 'directorate') return directorateNav
   if (!groupStatus) return noGroupNav
   if (groupStatus !== 'verified') return waitingNav
-  return NAVIGATION[role]
+  if (role === 'leader') return leaderNav
+  return powers.length > 0 ? executiveNav(powers) : memberNav
 }
 
 /** True when the current path belongs to this nav item. */

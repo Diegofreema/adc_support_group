@@ -5,7 +5,7 @@ import type { ReviewGroup } from '../types'
 export function GroupHistoryCard({ group }: { group: ReviewGroup }) {
   return (
     <Card className="mt-4">
-      <CardHead title="History" />
+      <CardHead title="Review history" />
       <Timeline steps={groupTimeline(group)} />
     </Card>
   )

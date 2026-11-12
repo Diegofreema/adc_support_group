@@ -4,7 +4,7 @@ import { activityTypeIcon } from '@/config/activity-types'
 import { rpc, supabase, unwrap } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { ActivityStatus, PaymentStatus } from '@/types/domain'
-import type { ActivityDetail, ActivityTypeOption, ChapterOption, LinkedPayment, NewActivityInput, RejectInput } from '../types'
+import type { ActivityDetail, ActivityTypeOption, ActivityVersion, ChapterOption, GeoFix, LinkedPayment, MemberOption, NewActivityInput, RejectInput } from '../types'
 
 /** private.support_group_activity_json */
 interface ActivityJson {
@@ -31,7 +31,16 @@ interface ActivityJson {
   rejection_reason: string | null
   checked_by_directorate: boolean
   payment_id: string | null
+  recorded_by_name: string | null
+  recorded_by_title: string | null
+  version: number
+  /** get_support_group_activity only. */
+  can_edit?: boolean
+  can_review?: boolean
 }
+
+/** A calendar day: read it at local midday so no time zone shifts it. */
+const calendarDay = (day: string) => `${day.slice(0, 10)}T12:00:00`
 
 function toActivity(json: ActivityJson): ActivityDetail {
   const photoUrls = json.media_urls ?? []
@@ -44,8 +53,7 @@ function toActivity(json: ActivityJson): ActivityDetail {
     type: json.type,
     typeName: json.type_name,
     title: json.title,
-    // A calendar day: read it at local midday so no time zone shifts it.
-    date: `${json.occurred_on}T12:00:00`,
+    date: calendarDay(json.occurred_on),
     peopleReached: Number(json.people_reached),
     state: json.state ?? undefined,
     lga: json.lga ?? undefined,
@@ -61,6 +69,11 @@ function toActivity(json: ActivityJson): ActivityDetail {
     checkedByDirectorate: json.checked_by_directorate,
     rejectionReason: json.rejection_reason ?? undefined,
     paymentId: json.payment_id ?? undefined,
+    recordedByName: json.recorded_by_name ?? undefined,
+    recordedByTitle: json.recorded_by_name ? json.recorded_by_title ?? undefined : undefined,
+    version: Number(json.version ?? 1),
+    canEdit: json.can_edit ?? false,
+    canReview: json.can_review ?? false,
   }
 }
 
@@ -144,11 +157,20 @@ async function uploadPhoto(groupId: string, file: File): Promise<string> {
   return supabase.storage.from('activity-media').getPublicUrl(path).data.publicUrl
 }
 
-/** Leader's own entries come back approved; everyone else's wait for the leader. */
-export async function createActivity(input: NewActivityInput): Promise<ActivityDetail> {
+/** Uploads the new photos and returns every URL to save, kept ones first. */
+async function mediaUrls(input: NewActivityInput): Promise<string[]> {
   const groupId = activeGroupId()
-  const mediaUrls = await Promise.all(input.photos.map((file) => uploadPhoto(groupId, file)))
-  return toActivity(await rpc<ActivityJson>('record_support_group_activity', {
+  const uploaded = await Promise.all(input.photos.map((file) => uploadPhoto(groupId, file)))
+  return [...input.keptPhotoUrls, ...uploaded]
+}
+
+function locationArgs(location?: GeoFix) {
+  return { p_lat: location?.lat ?? null, p_lng: location?.lng ?? null, p_accuracy_m: location ? Math.round(location.accuracyM) : null }
+}
+
+/** The fields record and edit share. */
+function activityArgs(input: NewActivityInput, media: string[]) {
+  return {
     p_type: input.type,
     p_title: input.title,
     p_occurred_on: input.date,
@@ -158,9 +180,78 @@ export async function createActivity(input: NewActivityInput): Promise<ActivityD
     p_ward: input.ward,
     p_note: input.note || null,
     p_video_url: input.videoUrl || null,
-    p_media_urls: mediaUrls,
+    p_media_urls: media,
+    ...locationArgs(input.location),
+  }
+}
+
+/** Entries by someone with the approvals power come back approved; everyone else's wait. */
+export async function createActivity(input: NewActivityInput): Promise<ActivityDetail> {
+  const media = await mediaUrls(input)
+  return toActivity(await rpc<ActivityJson>('record_support_group_activity', {
+    ...activityArgs(input, media),
     p_chapter_id: input.chapterId ?? null,
+    p_for_profile_id: input.forProfileId ?? null,
   }))
+}
+
+/** Edit a waiting or sent-back activity; the old version is kept and it goes back for approval. */
+export async function editActivity(id: string, input: NewActivityInput): Promise<ActivityDetail> {
+  const media = await mediaUrls(input)
+  return toActivity(await rpc<ActivityJson>('edit_support_group_activity', { p_activity_id: id, ...activityArgs(input, media) }))
+}
+
+/** get_support_group_activity_versions row */
+interface VersionJson {
+  version: number
+  title: string
+  type_name: string | null
+  occurred_on: string
+  people_reached: number
+  state: string | null
+  lga: string | null
+  ward: string | null
+  note: string | null
+  media_urls: string[] | null
+  status: ActivityStatus
+  rejection_reason: string | null
+  edited_by_name: string | null
+  replaced_at: string
+}
+
+function toVersion(json: VersionJson): ActivityVersion {
+  return {
+    version: Number(json.version),
+    title: json.title,
+    typeName: json.type_name ?? undefined,
+    date: calendarDay(json.occurred_on),
+    peopleReached: Number(json.people_reached),
+    place: [json.ward, json.lga, json.state].filter(Boolean).join(', '),
+    note: json.note ?? undefined,
+    photoCount: json.media_urls?.length ?? 0,
+    status: json.status,
+    rejectionReason: json.rejection_reason ?? undefined,
+    editedBy: json.edited_by_name ?? undefined,
+    replacedAt: json.replaced_at,
+  }
+}
+
+/** Versions replaced by edits, newest first. */
+export async function listActivityVersions(id: string): Promise<ActivityVersion[]> {
+  const rows = await rpc<VersionJson[]>('get_support_group_activity_versions', { p_activity_id: id })
+  return (rows ?? []).map(toVersion)
+}
+
+const MEMBER_SEARCH_LIMIT = 8
+
+/** Members the caller can record for (the backend scopes coordinators to their chapter). */
+export async function searchMembers(search: string): Promise<MemberOption[]> {
+  const page = await rpc<{ rows: { profile_id: string; full_name: string | null; phone: string | null }[] }>('get_support_group_roster', {
+    p_search: search.trim() || null,
+    p_limit: MEMBER_SEARCH_LIMIT,
+    p_offset: 0,
+  })
+  return page.rows.map((row) => ({ id: row.profile_id, name: row.full_name ?? 'Member', phone: row.phone ?? undefined }))
 }
 
 export async function approveActivity(id: string): Promise<ActivityDetail> {

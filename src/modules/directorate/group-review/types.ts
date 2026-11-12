@@ -41,3 +41,13 @@ export interface GroupFilterValues extends Record<string, string> {
   state: string
   category: string
 }
+
+/** One line of a group's audit history (leader, executive, member or staff action). */
+export interface GroupAuditEntry {
+  id: string
+  action: string
+  actorName: string
+  actorIsStaff: boolean
+  details: Record<string, unknown>
+  at: string
+}

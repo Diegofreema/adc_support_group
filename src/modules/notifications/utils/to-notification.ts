@@ -28,9 +28,26 @@ function groupKind(title: string, metadata: Record<string, unknown>): Notificati
   return 'group-update'
 }
 
-/** The ADC backend tags rows by metadata (activity_id, payment_id, mode, decision, kind). */
+const KNOWN_KINDS: ReadonlySet<string> = new Set<NotificationKind>([
+  'activity-approved', 'activity-sent-back', 'activity-waiting', 'members-joined',
+  'payment-received', 'payment-rejected', 'upload-finished', 'cause-posted',
+  'group-verified', 'group-update', 'handover-approved', 'message',
+])
+
+/** Phase-1 kind names that map onto today's kinds. */
+const LEGACY_KINDS: Record<string, NotificationKind> = { added_to_group: 'group-update' }
+
+/** The backend's `metadata.kind`, when it is one this app knows. */
+function taggedKind(kind: unknown): NotificationKind | undefined {
+  if (typeof kind !== 'string') return undefined
+  return KNOWN_KINDS.has(kind) ? (kind as NotificationKind) : LEGACY_KINDS[kind]
+}
+
+/** `metadata.kind` wins; untagged rows fall back to metadata keys and the title. */
 export function notificationKind(row: NotificationRow): NotificationKind {
   const metadata = row.metadata ?? {}
+  const tagged = taggedKind(metadata.kind)
+  if (tagged) return tagged
   if (has(metadata, 'activity_id')) return activityKind(row.title)
   if (has(metadata, 'payment_id')) return /rejected|failed/i.test(row.title) ? 'payment-rejected' : 'payment-received'
   if (has(metadata, 'mode')) return 'message'

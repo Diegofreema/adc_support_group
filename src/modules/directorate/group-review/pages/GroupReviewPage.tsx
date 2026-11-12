@@ -4,6 +4,7 @@ import { ShieldCheck } from 'lucide-react'
 import { EmptyState, ErrorState, PageLoader } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
 import { DuplicateBanner } from '../components/DuplicateBanner'
+import { GroupAuditCard } from '../components/GroupAuditCard'
 import { GroupDetailsCard } from '../components/GroupDetailsCard'
 import { GroupHistoryCard } from '../components/GroupHistoryCard'
 import { GroupReviewHeader } from '../components/GroupReviewHeader'
@@ -43,6 +44,7 @@ function GroupReviewDetails({ group }: { group: ReviewGroup }) {
       <MembersSourceCard group={group} />
       <ReviewThreadCard group={group} />
       <GroupHistoryCard group={group} />
+      <GroupAuditCard groupId={group.id} />
       {group.status === 'verified' && <SuspendSection groupId={group.id} />}
     </>
   )

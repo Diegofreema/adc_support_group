@@ -5,6 +5,7 @@ import { useDisclosure } from '@/hooks/use-disclosure'
 import { useExecutives } from '../hooks/use-executives'
 import { useAddExecutive } from '../hooks/use-member-mutations'
 import { AddExecutiveDialog } from './AddExecutiveDialog'
+import { PowerTags } from './PowerTags'
 
 /** Leader + executives; leaders can add more. */
 export function ExecutivesSection({ groupId, canManage }: { groupId: string; canManage: boolean }) {
@@ -18,7 +19,9 @@ export function ExecutivesSection({ groupId, canManage }: { groupId: string; can
       <SectionTitle title="Executives" action={addButton} className="!mt-0" />
       <List>
         {executives.map((member) => (
-          <ListItem key={member.id} leading={<Avatar name={member.fullName} />} title={member.fullName} meta={member.title ?? 'Executive'} />
+          <ListItem key={member.id} leading={<Avatar name={member.fullName} />} title={member.fullName} meta={member.title ?? 'Executive'}>
+            <PowerTags member={member} />
+          </ListItem>
         ))}
       </List>
       <AddExecutiveDialog open={dialog.isOpen} onOpenChange={dialog.setOpen} onSubmit={submit} />

@@ -1,4 +1,4 @@
-import type { MenuCounts, Profile } from '../types/profile.types'
+import type { MenuCounts, PendingDeletion, Profile } from '../types/profile.types'
 import type { ProfileValues } from '../utils/schemas'
 import { refreshSessionUser } from '@/modules/auth'
 import type { MyGroup } from '@/modules/home'
@@ -20,6 +20,16 @@ interface MySupportGroup {
   is_leader: boolean
   group: { id: string; name: string; member_count: number; chapter_count: number } | null
   membership: { member_role: Exclude<MemberRole, 'leader'>; chapter_name: string | null } | null
+  pending_deletion?: DeletionRow | null
+}
+
+interface DeletionRow {
+  requested_at: string
+  due_at: string
+}
+
+function toPendingDeletion(row: DeletionRow | null | undefined): PendingDeletion | null {
+  return row ? { requestedAt: row.requested_at, dueAt: row.due_at } : null
 }
 
 /** Aliases like phone-234803…@auth.riseup.local are not real addresses. */
@@ -53,6 +63,8 @@ export async function fetchProfile(userId: string): Promise<Profile> {
     lga: row.lga ?? '',
     ward: row.ward ?? '',
     groups: groupsOf(mine),
+    isLeader: mine.is_leader,
+    pendingDeletion: toPendingDeletion(mine.pending_deletion),
   }
 }
 
@@ -67,6 +79,21 @@ export async function updateProfile(userId: string, values: ProfileValues): Prom
   if (error) throw new Error(error.message)
   await refreshSessionUser()
   return fetchProfile(userId)
+}
+
+/** A member leaves their group at once; their history stays with the group. Leaders are refused. */
+export async function leaveGroup(): Promise<void> {
+  await rpc('leave_support_group')
+  await refreshSessionUser()
+}
+
+/** Asks to delete name, phone and email in 7 days. Calling again returns the same request. */
+export async function requestAccountDeletion(): Promise<PendingDeletion> {
+  return toPendingDeletion(await rpc<DeletionRow>('request_my_account_deletion'))!
+}
+
+export async function cancelAccountDeletion(): Promise<void> {
+  await rpc('cancel_my_account_deletion')
 }
 
 export type CodeChannel = 'email' | 'sms'
