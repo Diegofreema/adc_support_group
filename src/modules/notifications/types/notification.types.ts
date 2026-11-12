@@ -1,10 +1,11 @@
 export type NotificationKind =
-  | 'activity-approved' | 'activity-sent-back' | 'members-joined' | 'payment-received'
-  | 'upload-finished' | 'cause-posted' | 'group-verified' | 'handover-approved'
+  | 'activity-approved' | 'activity-sent-back' | 'activity-waiting' | 'members-joined'
+  | 'payment-received' | 'payment-rejected' | 'upload-finished' | 'cause-posted'
+  | 'group-verified' | 'group-update' | 'handover-approved' | 'message'
 
 export type NotificationTopic = 'activities' | 'payments' | 'members' | 'group'
 export type NotificationFilter = 'all' | Exclude<NotificationTopic, 'group'>
-export type NotificationDay = 'today' | 'week'
+export type NotificationDay = 'today' | 'week' | 'earlier'
 
 export interface AppNotification {
   id: string

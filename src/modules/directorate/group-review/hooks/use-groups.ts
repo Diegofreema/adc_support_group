@@ -1,24 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { askForInfo, groupQuery, groupsQuery, rejectGroup, restoreGroup, suspendGroup, verifyGroup } from '../services/groups.service'
+import { askForInfo, groupQuery, rejectGroup, restoreGroup, suspendGroup, verifyGroup } from '../services/groups.service'
 import { directorateKeys } from '../../shared/query-keys'
 import { notify } from '@/lib/toast'
-
-export function useGroups() {
-  return useQuery(groupsQuery)
-}
 
 export function useGroup(id: string) {
   return useQuery(groupQuery(id))
 }
 
-/** Wrap a group mutation: refresh lists + toast on success. */
+/** Wrap a group mutation: refresh lists, the dashboard to-dos and the toast on success. */
 function useGroupMutation<Args>(fn: (args: Args) => Promise<unknown>, message: string) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: fn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: directorateKeys.groups() })
+      queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
       notify(message)
     },
   })

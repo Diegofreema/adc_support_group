@@ -26,7 +26,7 @@ function CauseProgress({ cause }: { cause: Cause }) {
       <span className="mt-3 block"><Progress value={cause.raised} max={cause.target} small label={cause.title} /></span>
       <span className="row-between choice-desc mt-2">
         <span>{formatNairaShort(cause.raised)} of {formatNairaShort(cause.target)}</span>
-        <span>{formatDay(cause.deadline)}</span>
+        {cause.deadline && <span>{formatDay(cause.deadline)}</span>}
       </span>
     </>
   )

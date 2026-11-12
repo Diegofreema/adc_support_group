@@ -8,7 +8,7 @@ export function ActivityHeader({ activity }: { activity: Activity }) {
   return (
     <header>
       <div className="row-between wrap gap-2">
-        <ActivityTypeTag type={activity.type} />
+        <ActivityTypeTag type={activity.type} label={activity.typeName} />
         <StatusChip status={activity.status} label={activity.status === 'rejected' ? 'Sent back' : undefined} />
       </div>
       <h1 className="h1 mt-3">{activity.title}</h1>

@@ -1,6 +1,8 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
 
-import { getPayment, listActivityOptions, listChapters, listOpenCauses, listPayments } from '../services/payments.service'
+import {
+  getPayment, listActivityOptions, listChapters, listOpenCauses, listPayerOptions, listPayments,
+} from '../services/payments.service'
 
 export const paymentKeys = {
   all: ['payments'] as const,
@@ -9,6 +11,7 @@ export const paymentKeys = {
   causes: () => [...paymentKeys.all, 'causes'] as const,
   chapters: () => [...paymentKeys.all, 'chapters'] as const,
   activities: () => [...paymentKeys.all, 'activity-options'] as const,
+  payers: () => [...paymentKeys.all, 'payer-options'] as const,
 }
 
 export function usePayments(groupId: string) {
@@ -29,4 +32,9 @@ export function useChapterOptions() {
 
 export function useActivityOptions() {
   return useQuery(queryOptions({ queryKey: paymentKeys.activities(), queryFn: listActivityOptions }))
+}
+
+/** Leader only: the roster RPC refuses everyone else. */
+export function usePayerOptions(enabled: boolean) {
+  return useQuery(queryOptions({ queryKey: paymentKeys.payers(), queryFn: listPayerOptions, enabled }))
 }

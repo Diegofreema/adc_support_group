@@ -12,13 +12,13 @@ export function CategoriesSection() {
   const renaming = useTarget<Category>()
   const removing = useTarget<Category>()
   const saveName = (name: string) => renaming.target && rename.mutate({ id: renaming.target.id, name }, { onSuccess: renaming.close })
-  const confirmRemove = () => removing.target && remove.mutate(removing.target.id)
+  const confirmRemove = () => removing.target && remove.mutate(removing.target)
   return (
     <>
       <Card flush>{items.map((category) => <CategoryRow key={category.id} category={category} onRename={renaming.open} onRemove={removing.open} />)}</Card>
       <AddItemRow placeholder="New category" onAdd={(name) => add.mutate(name)} />
       <RenameModal key={renaming.target?.id ?? 'none'} open={renaming.isOpen} onOpenChange={renaming.setOpen} initialName={renaming.target?.name ?? ''} onSave={saveName} />
-      <ConfirmDialog open={removing.isOpen} onOpenChange={removing.setOpen} title={`Remove ${removing.target?.name ?? ''}?`} description="Groups keep their category." confirmLabel="Remove" destructive onConfirm={confirmRemove} />
+      <ConfirmDialog open={removing.isOpen} onOpenChange={removing.setOpen} title={`Remove ${removing.target?.name ?? ''}?`} description="Leaders can no longer pick it. Groups keep their category." confirmLabel="Remove" destructive onConfirm={confirmRemove} />
     </>
   )
 }

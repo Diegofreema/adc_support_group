@@ -1,0 +1,115 @@
+import { formatNumber } from '@/lib/format'
+import type { ActivityStatus, GroupStatus, MemberRole } from '@/types/domain'
+import type { GroupSummary, LeaderNote, MyActivity, MyGroup, RecentItem, TodoItem } from '../types/home.types'
+import { dayLabel, shortAgo } from './day-label'
+
+/** get_my_support_group (only the fields home reads). */
+export interface MySupportGroup {
+  is_leader: boolean
+  group: {
+    id: string
+    name: string
+    status: GroupStatus
+    join_code: string
+    leader_profile_id: string
+    leader_name: string | null
+    member_count: number
+    member_growth: number
+    chapter_count: number
+    activity_count: number
+    amount_given: number
+  } | null
+  membership: { member_role: Exclude<MemberRole, 'leader'>; chapter_name: string | null } | null
+}
+
+export type GroupRow = NonNullable<MySupportGroup['group']>
+
+export interface ActivityRow {
+  id: string
+  title: string
+  type: string
+  occurred_on: string
+  people_reached: number
+  status: ActivityStatus
+  logged_by: string
+  approved_at: string | null
+  rejection_reason: string | null
+  group_name: string
+  chapter_name: string | null
+  created_at: string
+}
+
+export interface PaymentRow {
+  id: string
+  cause_title: string | null
+  purpose: string | null
+  amount: number
+  paid_on: string | null
+  created_at: string
+}
+
+export interface UpdateRow {
+  id: string
+  title: string
+  body: string
+  is_pinned: boolean
+  created_at: string
+  author_profile_id: string
+}
+
+export function toGroupSummary(group: GroupRow): GroupSummary {
+  return {
+    id: group.id, name: group.name, status: group.status, joinCode: group.join_code,
+    memberCount: Number(group.member_count), memberGrowth: Number(group.member_growth),
+  }
+}
+
+export function myGroups(mine: MySupportGroup): MyGroup[] {
+  if (!mine.group) return []
+  const role: MemberRole = mine.is_leader ? 'leader' : mine.membership?.member_role ?? 'member'
+  return [{ id: mine.group.id, name: mine.group.name, role, chapterName: mine.membership?.chapter_name ?? undefined }]
+}
+
+export function leaderTodos(group: GroupRow, pendingActivities: number): TodoItem[] {
+  const todos: TodoItem[] = []
+  if (group.status === 'pending') todos.push({ id: 'verify', kind: 'verify-pending', count: 0, to: '/group' })
+  if (pendingActivities > 0) todos.push({ id: 'approve', kind: 'approve-activities', count: pendingActivities, to: '/activities' })
+  return todos
+}
+
+function activityItem(row: ActivityRow): RecentItem & { at: string } {
+  return {
+    id: row.id, kind: 'activity', title: row.title, activityType: row.type, status: row.status,
+    meta: `${dayLabel(row.occurred_on)} · ${formatNumber(Number(row.people_reached))} people`,
+    to: `/activities/${row.id}`, at: row.created_at,
+  }
+}
+
+function paymentItem(row: PaymentRow): RecentItem & { at: string } {
+  return {
+    id: row.id, kind: 'payment', title: row.cause_title ?? row.purpose ?? 'Payment', amount: Number(row.amount),
+    meta: `${dayLabel(row.paid_on ?? row.created_at)} · Payment`, to: `/payments/${row.id}`, at: row.created_at,
+  }
+}
+
+/** Newest activities and payments, mixed. */
+export function recentItems(activities: ActivityRow[], payments: PaymentRow[], limit: number): RecentItem[] {
+  return [...activities.map(activityItem), ...payments.map(paymentItem)]
+    .sort((a, b) => b.at.localeCompare(a.at))
+    .slice(0, limit)
+    .map(({ at: _at, ...item }) => item as RecentItem)
+}
+
+export function toMyActivity(row: ActivityRow): MyActivity {
+  return {
+    id: row.id, title: row.title, activityType: row.type, status: row.status,
+    meta: `${dayLabel(row.occurred_on)} · ${row.chapter_name ?? row.group_name}`,
+    reason: row.rejection_reason ?? undefined,
+  }
+}
+
+/** Members can't read other profiles; the group's leader is the usual author. */
+export function toLeaderNote(row: UpdateRow, group: GroupRow): LeaderNote {
+  const author = row.author_profile_id === group.leader_profile_id ? group.leader_name ?? 'Your leader' : 'Group leaders'
+  return { id: row.id, author, groupName: group.name, time: shortAgo(row.created_at), title: row.title, body: row.body, pinned: row.is_pinned }
+}

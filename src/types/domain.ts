@@ -91,6 +91,13 @@ export interface Activity extends Place {
   date: string
   peopleReached: number
   photoTones: PhotoTone[]
+  /** Public URLs of uploaded photos. When set, shown instead of photoTones. */
+  photoUrls?: string[]
+  /** Activity type name from the backend (the type slug is `type`). */
+  typeName?: string
+  chapterId?: string
+  /** Profile id of whoever recorded it. */
+  loggedById?: string
   videoUrl?: string
   note?: string
   status: ActivityStatus

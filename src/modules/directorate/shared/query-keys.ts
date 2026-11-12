@@ -8,7 +8,8 @@ export const directorateKeys = {
   payments: () => [...directorateKeys.all, 'payments'] as const,
   causes: () => [...directorateKeys.all, 'causes'] as const,
   broadcasts: () => [...directorateKeys.all, 'broadcasts'] as const,
-  points: () => [...directorateKeys.all, 'points'] as const,
+  reports: (period: string) => [...directorateKeys.all, 'reports', period] as const,
   exports: () => [...directorateKeys.all, 'exports'] as const,
   settings: (section: string) => [...directorateKeys.all, 'settings', section] as const,
+  lookups: (kind: string) => [...directorateKeys.all, 'lookups', kind] as const,
 }

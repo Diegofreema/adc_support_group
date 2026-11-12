@@ -6,6 +6,7 @@ import { activityTypeIcon } from '@/config/activity-types'
 import { SentBackActivity } from './SentBackActivity'
 
 export function MyActivitiesList({ activities }: { activities: MyActivity[] }) {
+  if (activities.length === 0) return null
   return (
     <>
       <SectionTitle title="My activities" action={<Link to="/activities">See all</Link>} />
@@ -21,6 +22,6 @@ export function MyActivitiesList({ activities }: { activities: MyActivity[] }) {
 function MyActivityRow({ activity }: { activity: MyActivity }) {
   if (activity.status === 'rejected') return <SentBackActivity activity={activity} />
   return (
-    <ListItem to="/activities" title={activity.title} meta={activity.meta} leading={<IconTile icon={activityTypeIcon(activity.activityType)} />} trailing={<StatusChip status={activity.status} />} />
+    <ListItem to={`/activities/${activity.id}`} title={activity.title} meta={activity.meta} leading={<IconTile icon={activityTypeIcon(activity.activityType)} />} trailing={<StatusChip status={activity.status} />} />
   )
 }

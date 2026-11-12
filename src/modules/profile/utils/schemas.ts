@@ -9,9 +9,10 @@ export const profileSchema = z.object({
 })
 export type ProfileValues = z.infer<typeof profileSchema>
 
+/** Phone accounts change password with a texted code, not the current password. */
 export const changePasswordSchema = z.object({
-  current: z.string().min(1, 'Enter your current password'),
-  next: z.string().min(8, '8+ characters').regex(/\d/, 'Add a number'),
+  code: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
+  next: z.string().min(8, '8+ characters').max(72, 'Keep it under 72 characters').regex(/\d/, 'Add a number'),
 })
 export type ChangePasswordValues = z.infer<typeof changePasswordSchema>
 

@@ -11,7 +11,7 @@ export function ActivityTypesSection() {
         {items.map((type) => (
           <div key={type.id} className="setting">
             <span className="bold">{type.name}</span>
-            <Toggle label={type.name} checked={type.enabled} onChange={(enabled) => toggle.mutate({ id: type.id, enabled })} />
+            <Toggle label={type.name} checked={type.enabled} onChange={(enabled) => toggle.mutate({ type, enabled })} />
           </div>
         ))}
       </Card>

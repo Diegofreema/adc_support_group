@@ -1,8 +1,8 @@
 import type { AppNotification, NotificationDay, NotificationFilter, NotificationSectionData } from '../types/notification.types'
 import { notificationStyle } from './notification-style'
 
-const DAY_TITLES: Record<NotificationDay, string> = { today: 'Today', week: 'This week' }
-const DAY_ORDER: NotificationDay[] = ['today', 'week']
+const DAY_TITLES: Record<NotificationDay, string> = { today: 'Today', week: 'This week', earlier: 'Earlier' }
+const DAY_ORDER: NotificationDay[] = ['today', 'week', 'earlier']
 
 export function filterNotifications(items: AppNotification[], filter: NotificationFilter): AppNotification[] {
   if (filter === 'all') return items

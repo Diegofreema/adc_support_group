@@ -8,6 +8,12 @@ export interface AudienceOption {
   count: number
 }
 
+export interface ChapterAudience {
+  id: string
+  name: string
+  count: number
+}
+
 export interface SentMessage {
   id: string
   subject: string
@@ -27,7 +33,15 @@ export interface NewMessageInput {
   audience: Audience
   channel: Channel
   body: string
-  recipients: number
+  /** Required when audience is 'chapter'. */
+  chapterId?: string
+}
+
+/** verify-sms-points: has the Funz purchase settled? */
+export interface PointsPurchase {
+  status: 'confirmed' | 'pending' | 'failed'
+  expired: boolean
+  balance: number
 }
 
 export interface SmsCost {

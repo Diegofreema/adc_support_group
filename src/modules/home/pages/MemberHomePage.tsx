@@ -17,14 +17,14 @@ export function MemberHomePage() {
       left={(
         <>
           <MemberActivityCard approvedCount={data.approvedCount} approvedGrowth={data.approvedGrowth} groupCount={data.groups.length} />
-          <MyGroupsList groups={data.groups} />
+          {data.groups.length > 0 && <MyGroupsList groups={data.groups} />}
           <MyActivitiesList activities={data.activities} />
         </>
       )}
       right={(
         <>
           <LeaderNotes notes={data.notes} />
-          <InviteFriendCard code={data.inviteCode} groupName={user.activeGroupName ?? 'my group'} />
+          {data.inviteCode && <InviteFriendCard code={data.inviteCode} groupName={user.activeGroupName ?? 'my group'} />}
         </>
       )}
     />

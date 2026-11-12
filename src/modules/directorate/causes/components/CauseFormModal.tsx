@@ -16,7 +16,7 @@ export function CauseFormModal({ editor }: { editor: CauseEditor }) {
       actions={<><Button onClick={editor.close}>Cancel</Button><Button variant="primary" type="submit" form={FORM_ID} disabled={editor.saving}>Save</Button></>}
     >
       <form id={FORM_ID} noValidate onSubmit={form.handleSubmit(editor.submit)}>
-        <CauseFormFields form={form} />
+        <CauseFormFields form={form} visibleToOptions={editor.visibleToOptions} />
       </form>
     </Modal>
   )

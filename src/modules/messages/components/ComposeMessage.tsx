@@ -14,7 +14,7 @@ export function ComposeMessage() {
   const buy = useBuyPointsDialog()
   const form = (
     <form onSubmit={(event) => { event.preventDefault(); compose.submit() }}>
-      <AudiencePicker audiences={compose.audiences} value={compose.audience} onChange={compose.setAudience} />
+      <AudiencePicker audiences={compose.audiences} value={compose.audience} onChange={compose.setAudience} chapters={compose.chapters} chapterId={compose.chapterId} onChapterChange={compose.setChapterId} />
       <ChannelPicker value={compose.channel} onChange={compose.setChannel} cost={compose.cost} balance={compose.balance} />
       <MessageField value={compose.body} onChange={compose.setBody} pages={compose.cost.pages} />
       <ComposeAction needsPoints={compose.needsPoints} busy={compose.isSending} onSend={compose.submit} onBuy={buy.dialog.open} />

@@ -1,28 +1,27 @@
 import { useState } from 'react'
 
-import { usePoints, useSendBroadcast } from './use-broadcast-data'
+import { useSendBroadcast } from './use-broadcast-data'
 import { ALL } from '../../shared/constants/options'
-import { placeLabel, recipientCount } from '../utils/audience'
-import { smsPages, smsPoints } from '@/lib/sms'
+import { useCategories, useCategoryOptions } from '../../shared/hooks/use-lookups'
+import { audienceLabel } from '../utils/audience'
+import { smsPages } from '@/lib/sms'
 import type { BroadcastDraft } from '../types'
 
-const EMPTY: BroadcastDraft = { audience: 'leaders', state: ALL, category: ALL, group: '', channels: { app: true, sms: false }, text: '' }
+const EMPTY: BroadcastDraft = { audience: 'leaders', state: ALL, category: ALL, group: '', channel: 'free', text: '' }
 
-/** Draft state + everything derived from it (recipients, pages, cost). */
+/** Draft state + what's derived from it (who it goes to, SMS pages). */
 export function useBroadcastComposer() {
   const [draft, setDraft] = useState<BroadcastDraft>(EMPTY)
-  const balance = usePoints()
   const send = useSendBroadcast()
+  const categories = useCategories()
+  const categoryOptions = useCategoryOptions()
   const update = <K extends keyof BroadcastDraft>(key: K) => (value: BroadcastDraft[K]) => setDraft((current) => ({ ...current, [key]: value }))
-  const recipients = recipientCount(draft)
-  const pages = smsPages(draft.text)
-  const cost = draft.channels.sms ? smsPoints(recipients, pages) : 0
-  const hasChannel = draft.channels.app || draft.channels.sms
-  const submit = () => send.mutate(
-    { message: { text: draft.text, audience: draft.audience, place: placeLabel(draft), recipients, channels: draft.channels }, cost },
-    { onSuccess: () => setDraft(EMPTY) },
-  )
-  return { draft, update, recipients, pages, cost, balance, enoughPoints: cost <= balance, canSend: Boolean(draft.text.trim()) && hasChannel, submit, sending: send.isPending }
+  const categoryName = categories.find((category) => category.id === draft.category)?.name
+  const submit = () => send.mutate(draft, { onSuccess: () => setDraft(EMPTY) })
+  return {
+    draft, update, categoryOptions, audience: audienceLabel(draft, categoryName), pages: smsPages(draft.text),
+    canSend: Boolean(draft.text.trim()), submit, sending: send.isPending,
+  }
 }
 
 export type BroadcastComposer = ReturnType<typeof useBroadcastComposer>

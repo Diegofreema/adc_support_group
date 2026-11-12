@@ -3,10 +3,10 @@ import { Banknote, Landmark, Receipt } from 'lucide-react'
 import { Button, EmptyState, IconTile, List, ListItem } from '@/components/shared'
 import { formatDay, formatNaira } from '@/lib/format'
 import { methodLabel, purposeLabel } from '../utils/labels'
-import type { Payment } from '@/types/domain'
+import type { ReviewPayment } from '../types'
 
 /** Offline payments waiting for staff, each with a "Check" button. */
-export function OfflineQueue({ payments, onCheck }: { payments: Payment[]; onCheck: (payment: Payment) => void }) {
+export function OfflineQueue({ payments, onCheck }: { payments: ReviewPayment[]; onCheck: (payment: ReviewPayment) => void }) {
   if (!payments.length) return <EmptyState icon={Receipt} title="Nothing to confirm" />
   return (
     <List>

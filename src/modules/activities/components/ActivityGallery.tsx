@@ -1,12 +1,13 @@
-import { PhotoPlaceholder } from '@/components/shared'
-import type { PhotoTone } from '@/types/domain'
+import type { ActivityPhoto } from '../utils/activity-photos'
+import { ActivityPhotoView } from './ActivityPhotoView'
 
-export function ActivityGallery({ tones }: { tones: PhotoTone[] }) {
+/** Detail screen photos; real ones open full size in a new tab. */
+export function ActivityGallery({ photos }: { photos: ActivityPhoto[] }) {
   return (
     <div className="gallery">
-      {tones.map((tone, index) => (
-        <PhotoPlaceholder key={index} tone={tone} crowd={index % 2 === 0} />
-      ))}
+      {photos.map((photo, index) => photo.url
+        ? <a key={index} href={photo.url} target="_blank" rel="noreferrer" className="block overflow-hidden"><ActivityPhotoView photo={photo} /></a>
+        : <ActivityPhotoView key={index} photo={photo} crowd={index % 2 === 0} />)}
     </div>
   )
 }

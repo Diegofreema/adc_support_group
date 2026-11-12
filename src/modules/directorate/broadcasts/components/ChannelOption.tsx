@@ -1,18 +1,19 @@
 interface ChannelOptionProps {
+  name: string
   label: string
   note: string
   checked: boolean
-  onChange: (checked: boolean) => void
+  onSelect: () => void
 }
 
-/** Checkbox card (channels can be combined, unlike ChoiceList radios). */
-export function ChannelOption({ label, note, checked, onChange }: ChannelOptionProps) {
+/** One delivery channel (radio card). */
+export function ChannelOption({ name, label, note, checked, onSelect }: ChannelOptionProps) {
   return (
     <label className="choice">
-      <input type="checkbox" checked={checked} onChange={(event) => onChange(event.target.checked)} />
+      <input type="radio" name={name} checked={checked} onChange={onSelect} />
       <span className="dot" />
       <span className="grow choice-title">{label}</span>
-      <span className={`chip ${note === 'Free' ? 'chip-approved' : 'chip-neutral'}`}>{note}</span>
+      <span className="chip chip-approved">{note}</span>
     </label>
   )
 }

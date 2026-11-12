@@ -3,11 +3,10 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { causeFormSchema, EMPTY_CAUSE, toFormValues } from '../utils/cause-form'
-import type { CauseFormValues } from '../types'
-import type { Cause } from '@/types/domain'
+import type { CauseFormValues, DirectorateCause } from '../types'
 
 /** react-hook-form setup for a cause; refills whenever a different cause opens. */
-export function useCauseForm(cause: Cause | null, open: boolean) {
+export function useCauseForm(cause: DirectorateCause | null, open: boolean) {
   const form = useForm<CauseFormValues>({ resolver: zodResolver(causeFormSchema), defaultValues: EMPTY_CAUSE })
   const { reset } = form
   useEffect(() => {

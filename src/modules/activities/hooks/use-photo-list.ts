@@ -1,21 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import type { PhotoTone } from '@/types/domain'
+import type { PickedPhoto } from '../types'
 
 const MAX_PHOTOS = 6
 
-/** Mock: each picked file becomes a coloured placeholder until uploads exist. */
-function tonesFor(count: number, start: number): PhotoTone[] {
-  return Array.from({ length: count }, (_, index) => (((start + index) % 6) + 1) as PhotoTone)
-}
+/** Picked photo files with local previews (revoked when removed or on leave). */
+export function usePhotoList() {
+  const [items, setItems] = useState<PickedPhoto[]>([])
+  const latest = useRef(items)
 
-export function usePhotoList(initial: PhotoTone[] = []) {
-  const [items, setItems] = useState<PhotoTone[]>(initial)
+  useEffect(() => { latest.current = items })
+  useEffect(() => () => latest.current.forEach((photo) => URL.revokeObjectURL(photo.preview)), [])
 
-  const add = (files: File[]) =>
-    setItems((current) => [...current, ...tonesFor(files.length, current.length)].slice(0, MAX_PHOTOS))
+  const add = (files: File[]) => {
+    const room = Math.max(MAX_PHOTOS - items.length, 0)
+    const picked = files.filter((file) => file.type.startsWith('image/')).slice(0, room)
+    setItems([...items, ...picked.map((file) => ({ file, preview: URL.createObjectURL(file) }))])
+  }
 
-  const remove = (index: number) => setItems((current) => current.filter((_, position) => position !== index))
+  const remove = (index: number) => {
+    const gone = items[index]
+    if (gone) URL.revokeObjectURL(gone.preview)
+    setItems(items.filter((_, position) => position !== index))
+  }
 
   return { items, add, remove, max: MAX_PHOTOS }
 }

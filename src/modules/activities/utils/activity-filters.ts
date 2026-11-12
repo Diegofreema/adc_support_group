@@ -5,14 +5,14 @@ export function pendingActivities(activities: Activity[]): Activity[] {
   return activities.filter((activity) => activity.status === 'pending')
 }
 
-export function activitiesBy(activities: Activity[], userName: string): Activity[] {
-  return activities.filter((activity) => activity.loggedBy === userName)
+export function activitiesBy(activities: Activity[], userId: string): Activity[] {
+  return activities.filter((activity) => activity.loggedById === userId)
 }
 
 /** Activities shown under a tab. */
-export function activitiesForTab(activities: Activity[], tab: ActivityTab, userName: string): Activity[] {
+export function activitiesForTab(activities: Activity[], tab: ActivityTab, userId: string): Activity[] {
   if (tab === 'review') return pendingActivities(activities)
-  if (tab === 'mine') return activitiesBy(activities, userName)
+  if (tab === 'mine') return activitiesBy(activities, userId)
   return activities
 }
 

@@ -13,6 +13,7 @@ function details(payment: Payment) {
     { label: 'For', value: purposeLabel(payment) },
     { label: 'How', value: methodLabel(payment.method) },
     { label: 'Reference', value: payment.reference },
+    { label: 'Paid by', value: payment.payerName },
     { label: 'Date', value: formatDay(payment.date) },
   ]
 }
@@ -26,24 +27,32 @@ export function OfflineCheckModal({ check }: { check: OfflineCheck }) {
     <Modal open onOpenChange={(open) => !open && check.close()} title={payment.groupName} actions={rejecting ? <RejectActions check={check} /> : <CheckActions check={check} />}>
       {rejecting
         ? <ChoiceList name="offline-reason" label="Reason" options={toReasonOptions(OFFLINE_REJECT_REASONS)} value={check.form.value.reason} onChange={check.form.setReason} />
-        : <><ProofPlaceholder /><KeyValueList items={details(payment)} /></>}
+        : <><Proof check={check} /><KeyValueList items={details(payment)} /></>}
     </Modal>
   )
 }
 
-function ProofPlaceholder() {
+/** The uploaded proof (opens full size), or a note when there is none. */
+function Proof({ check }: { check: OfflineCheck }) {
+  if (check.proofUrl) {
+    return (
+      <a href={check.proofUrl} target="_blank" rel="noreferrer" className="mb-3 block">
+        <img src={check.proofUrl} alt="Proof of payment" className="max-h-80 w-full rounded object-contain" />
+      </a>
+    )
+  }
   return (
     <div className="dropzone mb-3 !cursor-default" aria-label="Proof of payment">
       <ImageIcon className="i i-lg" aria-hidden />
-      <span className="small">Proof of payment</span>
+      <span className="small">{check.proofLoading ? 'Loading proof…' : 'No proof uploaded'}</span>
     </div>
   )
 }
 
 function CheckActions({ check }: { check: OfflineCheck }) {
-  return <><Button variant="danger" onClick={check.startReject}>Reject</Button><Button variant="primary" icon={Check} onClick={check.confirmPayment}>Confirm</Button></>
+  return <><Button variant="danger" onClick={check.startReject}>Reject</Button><Button variant="primary" icon={Check} disabled={check.busy} onClick={check.confirmPayment}>Confirm</Button></>
 }
 
 function RejectActions({ check }: { check: OfflineCheck }) {
-  return <><Button onClick={check.close}>Cancel</Button><Button variant="danger-solid" disabled={!check.form.isValid} onClick={check.rejectPayment}>Reject</Button></>
+  return <><Button onClick={check.close}>Cancel</Button><Button variant="danger-solid" disabled={!check.form.isValid || check.busy} onClick={check.rejectPayment}>Reject</Button></>
 }

@@ -1,17 +1,30 @@
 export type ExportSubject = 'groups' | 'members' | 'activities' | 'payments'
-export type ExportFormat = 'excel' | 'csv'
 
 export interface ExportSpec {
   subject: ExportSubject
   state: string
+  /** Category id, or "" for all. */
   category: string
   period: string
-  format: ExportFormat
 }
 
 export interface ExportRecord {
   id: string
   label: string
-  format: ExportFormat
+  spec: ExportSpec
+  rows: number
   createdAt: string
+}
+
+export interface ExportTable {
+  headers: string[]
+  rows: (string | number | null | undefined)[][]
+}
+
+export interface ReportTotals {
+  groups: number
+  members: number
+  activities: number
+  peopleReached: number
+  amountPaid: number
 }

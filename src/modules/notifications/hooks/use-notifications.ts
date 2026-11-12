@@ -5,6 +5,7 @@ import { fetchNotifications, markAllRead } from '../services/notifications.servi
 import type { NotificationFilter } from '../types/notification.types'
 import { countUnread, filterNotifications, groupByDay } from '../utils/group-notifications'
 import { notify } from '@/lib/toast'
+import { navBadgesQuery } from '@/services/nav-badges.service'
 
 const notificationsQuery = queryOptions({ queryKey: ['notifications'], queryFn: fetchNotifications })
 
@@ -22,6 +23,7 @@ export function useMarkAllRead() {
     mutationFn: markAllRead,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: notificationsQuery.queryKey })
+      queryClient.invalidateQueries({ queryKey: navBadgesQuery.queryKey })
       notify('All read')
     },
   })

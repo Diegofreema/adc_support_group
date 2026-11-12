@@ -2,14 +2,14 @@ import { Field } from '@/components/shared'
 import type { BroadcastComposer } from '../hooks/use-broadcast-composer'
 import { ChannelOption } from './ChannelOption'
 
+/** App + email, or app + SMS. Both are free for the Directorate. */
 export function ChannelPicker({ composer }: { composer: BroadcastComposer }) {
-  const { channels } = composer.draft
-  const setChannel = (key: keyof typeof channels) => (checked: boolean) => composer.update('channels')({ ...channels, [key]: checked })
+  const { draft, update } = composer
   return (
     <Field label="Send by" className="mt-4">
       <div className="choices">
-        <ChannelOption label="App + email" note="Free" checked={channels.app} onChange={setChannel('app')} />
-        <ChannelOption label="SMS" note="Points" checked={channels.sms} onChange={setChannel('sms')} />
+        <ChannelOption name="b-channel" label="App + email" note="Free" checked={draft.channel === 'free'} onSelect={() => update('channel')('free')} />
+        <ChannelOption name="b-channel" label="App + SMS" note="Free" checked={draft.channel === 'sms'} onSelect={() => update('channel')('sms')} />
       </div>
     </Field>
   )

@@ -1,7 +1,7 @@
 import { Tabs, type TabItem } from '@/components/shared'
 import type { ReviewStage } from '../types'
 
-const LABELS: Record<ReviewStage, string> = { 'to-check': 'To check', 'leader-approved': 'Approved by leaders', flagged: 'Flagged' }
+const LABELS: Record<ReviewStage, string> = { 'to-check': 'To check', checked: 'Checked', rejected: 'Rejected' }
 
 interface ActivityStageTabsProps {
   value: ReviewStage

@@ -1,39 +1,49 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { useSettingsMutation } from './use-settings-mutation'
 import {
-  activityTypesQuery, addActivityType, addCategory, addStaff, categoriesQuery, decideHandover, handoversQuery,
-  removeCategory, removeStaff, renameCategory, setActivityTypeEnabled, staffQuery,
+  activityTypesQuery, addActivityType, addCategory, categoriesQuery, decideHandover, handoversQuery,
+  removeCategory, renameCategory, setActivityTypeEnabled, staffQuery,
 } from '../services/settings.service'
+import { directorateKeys } from '../../shared/query-keys'
+
+/** Lists here also feed the filters and pickers on other directorate screens. */
+function useWithLookupRefresh(kind: string) {
+  const queryClient = useQueryClient()
+  return <A>(fn: (args: A) => Promise<void>) => async (args: A) => {
+    await fn(args)
+    await queryClient.invalidateQueries({ queryKey: directorateKeys.lookups(kind) })
+  }
+}
 
 export function useCategories() {
+  const withRefresh = useWithLookupRefresh('categories')
   return {
-    items: useQuery(categoriesQuery).data ?? [],
-    add: useSettingsMutation('categories', addCategory, 'Category added'),
-    rename: useSettingsMutation('categories', renameCategory, 'Category renamed'),
-    remove: useSettingsMutation('categories', removeCategory, 'Category removed'),
+    items: (useQuery(categoriesQuery).data ?? []).filter((category) => category.isActive),
+    add: useSettingsMutation(['lists'], withRefresh(addCategory), 'Category added'),
+    rename: useSettingsMutation(['lists'], withRefresh(renameCategory), 'Category renamed'),
+    remove: useSettingsMutation(['lists'], withRefresh(removeCategory), 'Category removed'),
   }
 }
 
 export function useActivityTypes() {
+  const withRefresh = useWithLookupRefresh('activity-types')
   return {
     items: useQuery(activityTypesQuery).data ?? [],
-    add: useSettingsMutation('types', addActivityType, 'Type added'),
-    toggle: useSettingsMutation('types', setActivityTypeEnabled, ({ enabled }) => (enabled ? 'Type turned on' : 'Type turned off')),
+    add: useSettingsMutation(['lists'], withRefresh(addActivityType), 'Type added'),
+    toggle: useSettingsMutation(['lists'], withRefresh(setActivityTypeEnabled), ({ enabled }) => (enabled ? 'Type turned on' : 'Type turned off')),
   }
 }
 
 export function useStaff() {
-  return {
-    items: useQuery(staffQuery).data ?? [],
-    add: useSettingsMutation('staff', addStaff, 'Staff added'),
-    remove: useSettingsMutation('staff', removeStaff, 'Staff removed'),
-  }
+  return { items: useQuery(staffQuery).data ?? [] }
 }
 
 export function useHandovers() {
-  return {
-    items: useQuery(handoversQuery).data ?? [],
-    decide: useSettingsMutation('handovers', decideHandover, ({ approve }) => (approve ? 'Handover approved' : 'Handover declined')),
-  }
+  const queryClient = useQueryClient()
+  const decide = useSettingsMutation(['handovers'], async (args: { id: string; approve: boolean }) => {
+    await decideHandover(args)
+    await queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
+  }, ({ approve }) => (approve ? 'Handover approved' : 'Handover declined'))
+  return { items: useQuery(handoversQuery).data ?? [], decide }
 }

@@ -1,31 +1,32 @@
 export type Audience = 'leaders' | 'members'
 
-export interface Channels {
-  app: boolean
-  sms: boolean
-}
+/** 'free' = in-app + email; 'sms' = in-app + SMS (free for the Directorate). */
+export type Channel = 'free' | 'sms'
 
 export interface BroadcastDraft {
   audience: Audience
   state: string
+  /** Category id, or "" for all. */
   category: string
+  /** Group name typed by staff; matched to one verified group when sending. */
   group: string
-  channels: Channels
+  channel: Channel
   text: string
 }
 
 export interface SentBroadcast {
   id: string
   text: string
-  audience: Audience
-  place: string
+  audience?: Audience
   recipients: number
-  channels: Channels
+  channel: Channel
+  status: string
   sentAt: string
 }
 
-export interface PointPack {
-  id: string
-  naira: number
-  points: number
+export interface BroadcastResult {
+  campaignId: string
+  recipients: number
+  queued: number
+  inAppOnly: number
 }

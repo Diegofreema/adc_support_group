@@ -15,14 +15,14 @@ export function RecordActivityPage() {
       <WizardProgress step={flow.wizard.step} total={flow.wizard.total} />
       <section className="mt-6"><CurrentStep flow={flow} /></section>
       <StepActions flow={flow} />
-      <ActivitySentDialog open={flow.isSent} />
+      <ActivitySentDialog status={flow.sentStatus} />
     </div>
   )
 }
 
 function CurrentStep({ flow }: { flow: Flow }) {
   switch (flow.wizard.step) {
-    case 0: return <TypeStep value={flow.type} onChange={flow.setType} />
+    case 0: return <TypeStep options={flow.types} value={flow.type} onChange={flow.setType} />
     case 1: return <DetailsStep form={flow.form} />
     case 2: return <PhotosStep photos={flow.photos.items} max={flow.photos.max} onAdd={flow.photos.add} onRemove={flow.photos.remove} videoUrl={flow.videoUrl} onVideoUrlChange={flow.setVideoUrl} />
     default: return <ReviewStep summary={flow.summary()} />

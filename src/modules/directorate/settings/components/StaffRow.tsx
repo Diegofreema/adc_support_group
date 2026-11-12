@@ -1,16 +1,16 @@
-import { Trash2 } from 'lucide-react'
+import { Avatar } from '@/components/shared'
+import type { StaffMember, StaffRole } from '../types'
 
-import { Avatar, IconButton } from '@/components/shared'
-import type { StaffMember } from '../types'
+const ROLE_LABEL: Record<StaffRole, string> = { super_admin: 'Super admin', admin: 'Admin', state_admin: 'State admin' }
 
-export function StaffRow({ member, onRemove }: { member: StaffMember; onRemove: (member: StaffMember) => void }) {
-  const isSuper = member.role === 'super-admin'
+export function StaffRow({ member }: { member: StaffMember }) {
+  const isSuper = member.role === 'super_admin'
+  const role = member.role === 'state_admin' && member.state ? `${ROLE_LABEL.state_admin} · ${member.state}` : ROLE_LABEL[member.role]
   return (
     <div className="setting">
       <Avatar name={member.fullName} size="sm" />
       <span className="grow min-w-0"><span className="bold block truncate">{member.fullName}</span><span className="small faint">{member.contact}</span></span>
-      <span className={`chip ${isSuper ? 'chip-approved' : 'chip-neutral'}`}>{isSuper ? 'Super admin' : 'Staff'}</span>
-      {!isSuper && <IconButton icon={Trash2} label={`Remove ${member.fullName}`} onClick={() => onRemove(member)} />}
+      <span className={`chip ${isSuper ? 'chip-approved' : 'chip-neutral'}`}>{role}</span>
     </div>
   )
 }

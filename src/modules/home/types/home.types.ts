@@ -34,7 +34,8 @@ export interface LeaderDashboard {
   /** Groups the leader can switch between. */
   groups: MyGroup[]
   todos: TodoItem[]
-  month: { activities: number; chapters: number; given: number }
+  /** Group totals so far: approved activities, chapters, amount paid. */
+  totals: { activities: number; chapters: number; given: number }
   recent: RecentItem[]
 }
 
@@ -52,7 +53,9 @@ export interface LeaderNote {
   author: string
   groupName: string
   time: string
+  title: string
   body: string
+  pinned: boolean
 }
 
 export interface MemberDashboard {

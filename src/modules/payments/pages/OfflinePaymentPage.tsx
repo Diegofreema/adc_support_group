@@ -6,13 +6,13 @@ import { OfflinePaymentFields } from '../components/OfflinePaymentFields'
 import { useOfflinePayment } from '../hooks/use-offline-payment'
 
 export function OfflinePaymentPage() {
-  const { form, lookups, submit, isSending } = useOfflinePayment()
+  const { form, lookups, payers, leaderName, submit, isSending } = useOfflinePayment()
   return (
     <div className="main-narrow mx-auto">
       <h1 className="h1">Paid offline</h1>
       <Banner tone="info" className="mt-4">Counts after staff check.</Banner>
       <form className="mt-5" onSubmit={submit} noValidate>
-        <OfflinePaymentFields form={form} causes={lookups.causes} chapters={lookups.chapters} />
+        <OfflinePaymentFields form={form} causes={lookups.causes} chapters={lookups.chapters} payers={payers} leaderName={leaderName} />
         <ActionBar>
           <Button type="submit" variant="primary" size="lg" block icon={Send} disabled={isSending}>Send</Button>
         </ActionBar>

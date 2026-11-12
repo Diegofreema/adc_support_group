@@ -1,22 +1,37 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { causesQuery, createCause, updateCause } from '../services/causes.service'
+import { causesQuery, saveCause, setCauseStatus } from '../services/causes.service'
 import { directorateKeys } from '../../shared/query-keys'
 import type { CauseInput } from '../types'
 import { notify } from '@/lib/toast'
+import type { CauseStatus } from '@/types/domain'
 
 export function useCauses() {
   return useQuery(causesQuery).data ?? []
 }
 
+function useInvalidateCauses() {
+  const queryClient = useQueryClient()
+  return () => {
+    queryClient.invalidateQueries({ queryKey: directorateKeys.causes() })
+    queryClient.invalidateQueries({ queryKey: [...directorateKeys.payments(), 'by-cause'] })
+  }
+}
+
 /** Create when there's no id, update otherwise. */
 export function useSaveCause() {
-  const queryClient = useQueryClient()
+  const invalidate = useInvalidateCauses()
   return useMutation({
-    mutationFn: ({ id, input }: { id?: string; input: CauseInput }) => (id ? updateCause(id, input) : createCause(input)),
-    onSuccess: (_cause, { id }) => {
-      queryClient.invalidateQueries({ queryKey: directorateKeys.causes() })
-      notify(id ? 'Cause updated' : 'Cause created')
-    },
+    mutationFn: ({ id, input }: { id?: string; input: CauseInput }) => saveCause(id, input),
+    onSuccess: (_id, { id }) => { invalidate(); notify(id ? 'Cause updated' : 'Cause created') },
+  })
+}
+
+/** Close a cause (groups stop seeing it) or open it again. */
+export function useSetCauseStatus() {
+  const invalidate = useInvalidateCauses()
+  return useMutation({
+    mutationFn: ({ id, status }: { id: string; status: CauseStatus }) => setCauseStatus(id, status),
+    onSuccess: (_data, { status }) => { invalidate(); notify(status === 'closed' ? 'Cause closed' : 'Cause reopened') },
   })
 }

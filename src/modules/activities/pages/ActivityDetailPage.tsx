@@ -9,6 +9,7 @@ import { ActivityVideoLink } from '../components/ActivityVideoLink'
 import { ApprovalCard } from '../components/ApprovalCard'
 import { LinkedPaymentCard } from '../components/LinkedPaymentCard'
 import { useActivity } from '../hooks/use-activities'
+import { activityPhotos } from '../utils/activity-photos'
 import type { ActivityDetail } from '../types'
 
 const routeApi = getRouteApi('/_app/activities/$activityId')
@@ -30,7 +31,7 @@ export function ActivityDetailPage() {
 function ActivityMain({ activity }: { activity: ActivityDetail }) {
   return (
     <>
-      <ActivityGallery tones={activity.photoTones} />
+      <ActivityGallery photos={activityPhotos(activity)} />
       {activity.videoUrl && <ActivityVideoLink url={activity.videoUrl} />}
     </>
   )

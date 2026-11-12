@@ -1,23 +1,22 @@
-import { ALL, STATE_OPTIONS } from '../../shared/constants/options'
+import type { SelectOption } from '@/components/shared'
+import { STATE_OPTIONS } from '../../shared/constants/options'
 import { FilterBar } from '../../shared/components/FilterBar'
-import { NAMED_ACTIVITY_TYPE_LABELS } from '@/config/activity-types'
 import type { ActivityFilterValues } from '../types'
-
-const TYPE_OPTIONS = [{ value: ALL, label: 'All types' }, ...NAMED_ACTIVITY_TYPE_LABELS.map((type) => ({ value: type, label: type }))]
 
 interface ActivityFiltersProps {
   filters: ActivityFilterValues
   setFilter: <K extends keyof ActivityFilterValues>(key: K) => (value: ActivityFilterValues[K]) => void
+  typeOptions: SelectOption[]
 }
 
-export function ActivityFilters({ filters, setFilter }: ActivityFiltersProps) {
+export function ActivityFilters({ filters, setFilter, typeOptions }: ActivityFiltersProps) {
   return (
     <FilterBar
       search={filters.search}
       onSearch={setFilter('search')}
-      placeholder="Search group or place"
+      placeholder="Search activity or group"
       selects={[
-        { label: 'Type', value: filters.type, options: TYPE_OPTIONS, onChange: setFilter('type') },
+        { label: 'Type', value: filters.type, options: typeOptions, onChange: setFilter('type') },
         { label: 'State', value: filters.state, options: STATE_OPTIONS, onChange: setFilter('state') },
       ]}
     />

@@ -11,6 +11,7 @@ export function usePaymentHistory() {
   const chapters = useChapterOptions().data ?? []
   const [chapter, setChapter] = useState('')
   return {
+    canRecordOffline: user.role === 'leader',
     totals: paymentTotals(payments),
     chapters,
     chapter,

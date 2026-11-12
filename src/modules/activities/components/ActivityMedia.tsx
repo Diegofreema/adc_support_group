@@ -1,17 +1,17 @@
-import { PhotoPlaceholder } from '@/components/shared'
-import type { PhotoTone } from '@/types/domain'
+import type { ActivityPhoto } from '../utils/activity-photos'
 import { mediaTones } from '../utils/activity-display'
+import { ActivityPhotoView } from './ActivityPhotoView'
 
 const SHOWN = 3
 
 /** Feed card photo mosaic: one big, two small, "+N" on the last. */
-export function ActivityMedia({ tones }: { tones: PhotoTone[] }) {
-  const extra = tones.length - SHOWN
+export function ActivityMedia({ photos }: { photos: ActivityPhoto[] }) {
+  const extra = photos.length - SHOWN
   return (
     <div className="media">
-      {mediaTones(tones, SHOWN).map((tone, index) => (
-        <span key={index} className="relative block">
-          <PhotoPlaceholder tone={tone} crowd={index === 0} />
+      {mediaTones(photos, SHOWN).map((photo, index) => (
+        <span key={index} className="relative block overflow-hidden">
+          <ActivityPhotoView photo={photo} crowd={index === 0} />
           {index === SHOWN - 1 && extra > 0 && <MoreOverlay count={extra} />}
         </span>
       ))}

@@ -4,7 +4,7 @@ import type { PaymentTotals } from '../types'
 
 export function paymentStats(totals: PaymentTotals): StatItem[] {
   return [
-    { label: 'Total raised', value: formatNairaShort(totals.raised), sub: `${formatNumber(totals.groups)} groups` },
+    { label: 'Total raised', value: formatNairaShort(totals.raised), sub: `${formatNumber(totals.paidCount)} payments` },
     { label: 'Funz', value: formatNairaShort(totals.funz), sub: `${formatNumber(totals.funzCount)} payments` },
     { label: 'Offline', value: formatNairaShort(totals.offline), sub: `${formatNumber(totals.offlineCount)} confirmed` },
     { label: 'To confirm', value: formatNairaShort(totals.toConfirm), sub: `${totals.toConfirmCount} payments` },

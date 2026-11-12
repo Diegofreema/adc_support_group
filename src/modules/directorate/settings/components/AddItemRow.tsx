@@ -2,7 +2,7 @@ import { Plus } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 
 import { Button, TextInput } from '@/components/shared'
-import { cleanName } from '../utils/staff-form'
+import { cleanName } from '../utils/names'
 
 /** Input + Add, for growing a simple list. */
 export function AddItemRow({ placeholder, onAdd }: { placeholder: string; onAdd: (name: string) => void }) {

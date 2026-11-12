@@ -1,4 +1,6 @@
-import { Banner, Button, Field, Modal, TextInput } from '@/components/shared'
+import { Controller } from 'react-hook-form'
+
+import { Banner, Button, Field, Modal, OtpInput, TextInput } from '@/components/shared'
 import { useChangePassword } from '../hooks/use-change-password'
 
 interface ChangePasswordDialogProps {
@@ -7,23 +9,50 @@ interface ChangePasswordDialogProps {
 }
 
 export function ChangePasswordDialog({ open, onOpenChange }: ChangePasswordDialogProps) {
-  const { form, onSubmit, isPending, error } = useChangePassword(() => onOpenChange(false))
+  const password = useChangePassword(() => onOpenChange(false))
+  const close = (next: boolean) => {
+    if (!next) password.reset()
+    onOpenChange(next)
+  }
+  return (
+    <Modal open={open} onOpenChange={close} title="Change password">
+      {password.challenge ? <CodeStep password={password} onCancel={() => close(false)} /> : <SendStep password={password} onCancel={() => close(false)} />}
+    </Modal>
+  )
+}
+
+type ChangePassword = ReturnType<typeof useChangePassword>
+
+function SendStep({ password, onCancel }: { password: ChangePassword; onCancel: () => void }) {
+  return (
+    <>
+      <p className="muted">We will text a code to your phone.</p>
+      {password.error && <Banner tone="danger" className="mt-4">{password.error}</Banner>}
+      <div className="dialog-actions">
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button variant="primary" onClick={password.sendCode} disabled={password.isPending}>Send code</Button>
+      </div>
+    </>
+  )
+}
+
+function CodeStep({ password, onCancel }: { password: ChangePassword; onCancel: () => void }) {
+  const { form } = password
   const errors = form.formState.errors
   return (
-    <Modal open={open} onOpenChange={onOpenChange} title="Change password">
-      <form onSubmit={onSubmit} noValidate>
-        <Field label="Current" htmlFor="pw-current" error={errors.current?.message}>
-          <TextInput id="pw-current" type="password" autoComplete="current-password" {...form.register('current')} />
-        </Field>
-        <Field label="New" htmlFor="pw-next" error={errors.next?.message}>
-          <TextInput id="pw-next" type="password" autoComplete="new-password" placeholder="8+ characters" {...form.register('next')} />
-        </Field>
-        {error && <Banner tone="danger" className="mt-4">{error}</Banner>}
-        <div className="dialog-actions">
-          <Button onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button type="submit" variant="primary" disabled={isPending}>Save</Button>
-        </div>
-      </form>
-    </Modal>
+    <form onSubmit={password.onSubmit} noValidate>
+      <p className="muted small">Code sent to {password.challenge?.phone}</p>
+      <Field label="Code" error={errors.code?.message}>
+        <Controller control={form.control} name="code" render={({ field }) => <OtpInput value={field.value} onChange={field.onChange} />} />
+      </Field>
+      <Field label="New password" htmlFor="pw-next" error={errors.next?.message}>
+        <TextInput id="pw-next" type="password" autoComplete="new-password" placeholder="8+ characters" {...form.register('next')} />
+      </Field>
+      {password.error && <Banner tone="danger" className="mt-4">{password.error}</Banner>}
+      <div className="dialog-actions">
+        <Button onClick={onCancel}>Cancel</Button>
+        <Button type="submit" variant="primary" disabled={password.isPending}>Save</Button>
+      </div>
+    </form>
   )
 }

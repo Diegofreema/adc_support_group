@@ -1,11 +1,10 @@
 import type { UseFormReturn } from 'react-hook-form'
 
-import { Field, SelectInput, TextInput } from '@/components/shared'
-import { VISIBLE_TO_OPTIONS } from '../utils/cause-form'
+import { Field, SelectInput, TextInput, type SelectOption } from '@/components/shared'
 import type { CauseFormValues } from '../types'
 
 /** The inputs of the cause form, bound to react-hook-form. */
-export function CauseFormFields({ form }: { form: UseFormReturn<CauseFormValues> }) {
+export function CauseFormFields({ form, visibleToOptions }: { form: UseFormReturn<CauseFormValues>; visibleToOptions: SelectOption[] }) {
   const { register, formState: { errors } } = form
   return (
     <>
@@ -15,7 +14,7 @@ export function CauseFormFields({ form }: { form: UseFormReturn<CauseFormValues>
         <Field label="Target (₦)" htmlFor="cause-target" error={errors.target?.message}><TextInput id="cause-target" inputMode="numeric" {...register('target')} /></Field>
         <Field label="Last day" htmlFor="cause-deadline" error={errors.deadline?.message} className="!mt-0"><TextInput id="cause-deadline" type="date" {...register('deadline')} /></Field>
       </div>
-      <Field label="Who sees it" htmlFor="cause-visible" className="mt-4"><SelectInput id="cause-visible" options={VISIBLE_TO_OPTIONS} {...register('visibleTo')} /></Field>
+      <Field label="Who sees it" htmlFor="cause-visible" className="mt-4"><SelectInput id="cause-visible" options={visibleToOptions} {...register('visibleTo')} /></Field>
     </>
   )
 }

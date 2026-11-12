@@ -1,7 +1,7 @@
 import type { Cause, CauseStatus } from '@/types/domain'
 import type { PillOption } from '@/components/shared'
 
-export function causesWithStatus(causes: Cause[], status: CauseStatus): Cause[] {
+export function causesWithStatus<T extends Cause>(causes: T[], status: CauseStatus): T[] {
   return causes.filter((cause) => cause.status === status)
 }
 
@@ -15,6 +15,7 @@ export function statusPills(causes: Cause[]): PillOption<CauseStatus>[] {
 
 /** "Ends 10 Dec" / "Ended 25 Oct" */
 export function deadlineLabel(cause: Cause): string {
+  if (!cause.deadline) return cause.status === 'open' ? 'No end date' : 'Closed'
   const day = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' }).format(new Date(cause.deadline))
   return `${cause.status === 'open' ? 'Ends' : 'Ended'} ${day}`
 }

@@ -3,6 +3,7 @@ import type { LeaderNote } from '../types/home.types'
 
 /** Short messages from the member's group leaders. */
 export function LeaderNotes({ notes }: { notes: LeaderNote[] }) {
+  if (notes.length === 0) return null
   return (
     <>
       <SectionTitle title="From your leaders" />
@@ -25,7 +26,8 @@ function LeaderNoteItem({ note }: { note: LeaderNote }) {
           <span className="meta tiny block">{note.groupName} · {note.time}</span>
         </span>
       </div>
-      <p className="mt-2">{note.body}</p>
+      <p className="bold mt-2">{note.title}</p>
+      <p className="mt-1">{note.body}</p>
     </article>
   )
 }

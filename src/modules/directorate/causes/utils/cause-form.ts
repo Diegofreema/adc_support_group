@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-import type { Cause } from '@/types/domain'
-import type { CauseFormValues, CauseInput } from '../types'
+import { EVERYONE, visibilityFromKey, visibilityKey } from './visibility'
+import type { CauseFormValues, CauseInput, DirectorateCause } from '../types'
 
 export const causeFormSchema = z.object({
   title: z.string().trim().min(3, 'Give it a name'),
@@ -11,14 +11,27 @@ export const causeFormSchema = z.object({
   visibleTo: z.string().min(1),
 })
 
-export const VISIBLE_TO_OPTIONS = ['All groups', 'North West', 'North East', 'North Central', 'South West', 'South East', 'South South'] as const
+export const EMPTY_CAUSE: CauseFormValues = { title: '', description: '', target: '', deadline: '', visibleTo: EVERYONE }
 
-export const EMPTY_CAUSE: CauseFormValues = { title: '', description: '', target: '', deadline: '', visibleTo: 'All groups' }
-
-export function toCauseInput(values: CauseFormValues): CauseInput {
-  return { ...values, description: values.description || undefined, target: Number(values.target) }
+/** Form values → what the save RPC takes; "keep" keeps the cause's current audience. */
+export function toCauseInput(values: CauseFormValues, current: DirectorateCause | null): CauseInput {
+  const visibility = visibilityFromKey(values.visibleTo, { states: current?.visibleStates ?? [], categoryIds: current?.visibleCategoryIds ?? [] })
+  return {
+    title: values.title.trim(),
+    description: values.description.trim() || undefined,
+    target: Number(values.target),
+    deadline: values.deadline,
+    visibleStates: visibility.states,
+    visibleCategoryIds: visibility.categoryIds,
+  }
 }
 
-export function toFormValues(cause: Cause): CauseFormValues {
-  return { title: cause.title, description: cause.description ?? '', target: String(cause.target), deadline: cause.deadline, visibleTo: cause.visibleTo }
+export function toFormValues(cause: DirectorateCause): CauseFormValues {
+  return {
+    title: cause.title,
+    description: cause.description ?? '',
+    target: String(cause.target),
+    deadline: cause.deadline,
+    visibleTo: visibilityKey({ states: cause.visibleStates, categoryIds: cause.visibleCategoryIds }),
+  }
 }

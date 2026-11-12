@@ -4,14 +4,20 @@ import { useForm } from 'react-hook-form'
 
 import { activityDetailsSchema, type ActivityDetailsForm } from '../utils/activity-schema'
 import { activitySummary, buildActivityInput } from '../utils/build-activity-input'
+import { useActivityTypes } from './use-activities'
 import { useCreateActivity } from './use-create-activity'
 import { usePhotoList } from './use-photo-list'
+import { ACTIVITY_TYPES } from '@/config/activity-types'
 import { useWizard } from '@/hooks/use-wizard'
-import type { ActivityTypeId } from '../types'
+import type { ActivityTypeOption } from '../types'
 
 const STEPS = 4
 
-const today = () => new Date().toISOString().slice(0, 10)
+/** Local calendar day, so late-evening entries don't land on tomorrow. */
+const today = () => {
+  const now = new Date()
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10)
+}
 
 function useDetailsForm() {
   return useForm<ActivityDetailsForm>({
@@ -20,23 +26,32 @@ function useDetailsForm() {
   })
 }
 
+/** Enabled types from the backend (config list until they load); the pick falls back to the first one offered. */
+function useTypeChoice() {
+  const loaded = useActivityTypes().data
+  const types: ActivityTypeOption[] = loaded?.length ? loaded : ACTIVITY_TYPES
+  const [picked, setType] = useState('rally')
+  const type = types.some((option) => option.value === picked) ? picked : types[0]!.value
+  return { types, type, setType }
+}
+
 /** All state for the "Record activity" wizard. */
 export function useRecordActivity() {
   const wizard = useWizard(STEPS)
   const form = useDetailsForm()
   const photos = usePhotoList()
-  const [type, setType] = useState<ActivityTypeId>('rally')
+  const { types, type, setType } = useTypeChoice()
   const [videoUrl, setVideoUrl] = useState('')
   const create = useCreateActivity()
 
-  const draft = () => ({ type, details: form.getValues(), photoTones: photos.items, videoUrl })
+  const draft = () => ({ type, details: form.getValues(), photos: photos.items.map((photo) => photo.file), videoUrl })
 
   return {
-    wizard, form, photos, type, setType, videoUrl, setVideoUrl,
+    wizard, form, photos, types, type, setType, videoUrl, setVideoUrl,
     submitDetails: form.handleSubmit(() => wizard.next()),
-    summary: () => activitySummary(draft()),
+    summary: () => activitySummary(draft(), types),
     send: () => create.mutate(buildActivityInput(draft())),
     isSending: create.isPending,
-    isSent: create.isSuccess,
+    sentStatus: create.data?.status,
   }
 }

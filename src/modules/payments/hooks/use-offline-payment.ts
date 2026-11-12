@@ -6,18 +6,26 @@ import { offlinePaymentSchema, type OfflinePaymentForm } from '../utils/offline-
 import { parseAmount } from '../utils/amount'
 import { usePayLookups } from './use-pay-lookups'
 import { useReportOfflinePayment } from './use-pay-mutation'
+import { usePayerOptions } from './use-payments'
 import { notify } from '@/lib/toast'
+import { useRequiredUser } from '@/stores/session-store'
 
-const today = () => new Date().toISOString().slice(0, 10)
+/** Local calendar day. */
+const today = () => {
+  const now = new Date()
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 10)
+}
 
-/** "Paid offline" form: validation, lookups and submit. */
+/** "Paid offline" form (leader only): validation, lookups and submit. */
 export function useOfflinePayment() {
   const navigate = useNavigate()
+  const user = useRequiredUser()
   const lookups = usePayLookups()
+  const payers = usePayerOptions(user.role === 'leader').data ?? []
   const report = useReportOfflinePayment()
   const form = useForm<OfflinePaymentForm>({
     resolver: zodResolver(offlinePaymentSchema),
-    defaultValues: { forId: '', payerId: 'group', amount: '', date: today(), method: 'transfer', reference: '', proofName: '' },
+    defaultValues: { forId: '', chapterId: '', payerId: '', amount: '', date: today(), method: 'transfer', reference: '' },
   })
 
   const onValid = (values: OfflinePaymentForm) =>
@@ -25,5 +33,5 @@ export function useOfflinePayment() {
       onSuccess: () => { notify('Sent for check'); void navigate({ to: '/payments' }) },
     })
 
-  return { form, lookups, submit: form.handleSubmit(onValid), isSending: report.isPending }
+  return { form, lookups, payers, leaderName: user.fullName, submit: form.handleSubmit(onValid), isSending: report.isPending }
 }

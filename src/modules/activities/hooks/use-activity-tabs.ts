@@ -22,5 +22,5 @@ export function useActivityTabs() {
     count: value === 'review' ? reviewCount : undefined,
   }))
 
-  return { tab, setTab, tabs, isLoading: query.isLoading, visible: activitiesForTab(activities, tab, user.fullName) }
+  return { tab, setTab, tabs, isLoading: query.isLoading, visible: activitiesForTab(activities, tab, user.id) }
 }

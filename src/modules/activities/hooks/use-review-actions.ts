@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { approveActivity, rejectActivity } from '../services/activities.service'
 import { activityKeys } from './use-activities'
 import { notify } from '@/lib/toast'
-import { useRequiredUser } from '@/stores/session-store'
 import type { RejectInput } from '../types'
 
 function useInvalidateActivities() {
@@ -12,10 +11,9 @@ function useInvalidateActivities() {
 }
 
 export function useApproveActivity() {
-  const user = useRequiredUser()
   const invalidate = useInvalidateActivities()
   return useMutation({
-    mutationFn: (id: string) => approveActivity(id, user),
+    mutationFn: (id: string) => approveActivity(id),
     onSuccess: () => { notify('Approved'); return invalidate() },
   })
 }

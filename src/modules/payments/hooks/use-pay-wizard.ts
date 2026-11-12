@@ -7,9 +7,9 @@ import { useWizard } from '@/hooks/use-wizard'
 import { notify } from '@/lib/toast'
 import type { PayDraft } from '../types'
 
-const STEPS = 4
+const STEPS = 3
 
-/** State for the 4-step "Pay as a group" flow. */
+/** State for the 3-step "Pay" flow: for what, how much, check. */
 export function usePayWizard() {
   const wizard = useWizard(STEPS)
   const lookups = usePayLookups()
@@ -17,7 +17,7 @@ export function usePayWizard() {
   const [draft, setDraft] = useState<PayDraft>(EMPTY_DRAFT)
 
   const update = (changes: Partial<PayDraft>) => setDraft((current) => ({ ...current, ...changes }))
-  const next = () => (isStepComplete(draft, wizard.step) ? wizard.next() : notify('Choose one first', 'error'))
+  const next = () => (isStepComplete(draft, wizard.step) ? wizard.next() : notify(stepHint(wizard.step), 'error'))
 
   return {
     wizard,
@@ -27,7 +27,11 @@ export function usePayWizard() {
     next,
     summary: () => payDraftSummary(draft, lookups),
     submit: () => pay.mutate(draft),
-    isPaying: pay.isPending,
-    receipt: pay.data,
+    // Stays busy while the browser leaves for Funz.
+    isPaying: pay.isPending || pay.isSuccess,
   }
+}
+
+function stepHint(step: number): string {
+  return step === 1 ? 'Enter between ₦100 and ₦10,000,000' : 'Choose one first'
 }

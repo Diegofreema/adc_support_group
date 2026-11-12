@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { payWithFunz, reportOfflinePayment } from '../services/payments.service'
+import { reportOfflinePayment, startFunzPayment } from '../services/payments.service'
 import { paymentKeys } from './use-payments'
-import { useRequiredUser } from '@/stores/session-store'
 import type { OfflinePaymentInput, PayDraft } from '../types'
 
 function useInvalidatePayments() {
@@ -10,14 +9,15 @@ function useInvalidatePayments() {
   return () => queryClient.invalidateQueries({ queryKey: paymentKeys.all })
 }
 
+/** Starts the Funz checkout and sends the browser there; Funz returns the payer to /payments/<id>?ref=…. */
 export function usePayWithFunz() {
-  const user = useRequiredUser()
-  const invalidate = useInvalidatePayments()
-  return useMutation({ mutationFn: (draft: PayDraft) => payWithFunz(draft, user), onSuccess: invalidate })
+  return useMutation({
+    mutationFn: (draft: PayDraft) => startFunzPayment(draft),
+    onSuccess: (checkout) => window.location.assign(checkout.paymentUrl),
+  })
 }
 
 export function useReportOfflinePayment() {
-  const user = useRequiredUser()
   const invalidate = useInvalidatePayments()
-  return useMutation({ mutationFn: (input: OfflinePaymentInput) => reportOfflinePayment(input, user), onSuccess: invalidate })
+  return useMutation({ mutationFn: (input: OfflinePaymentInput) => reportOfflinePayment(input), onSuccess: invalidate })
 }

@@ -1,37 +1,35 @@
 import type { KeyValue } from '@/components/shared'
 import { formatDay, formatNumber } from '@/lib/format'
-import type { PhotoTone } from '@/types/domain'
-import { activityTypeLabel } from '@/config/activity-types'
 import type { ActivityDetailsForm } from './activity-schema'
-import type { ActivityTypeId, NewActivityInput } from '../types'
+import type { ActivityTypeOption, NewActivityInput } from '../types'
 
 interface Draft {
-  type: ActivityTypeId
+  type: string
   details: ActivityDetailsForm
-  photoTones: PhotoTone[]
+  photos: File[]
   videoUrl: string
 }
 
-/** Form state → service input. */
-export function buildActivityInput({ type, details, photoTones, videoUrl }: Draft): NewActivityInput {
+/** Form state → service input. The date stays YYYY-MM-DD. */
+export function buildActivityInput({ type, details, photos, videoUrl }: Draft): NewActivityInput {
   return {
     ...details,
     type,
     peopleReached: Number(details.peopleReached),
-    date: new Date(details.date).toISOString(),
-    photoTones,
+    note: details.note?.trim() || undefined,
+    photos,
     videoUrl: videoUrl.trim() || undefined,
   }
 }
 
 /** Rows for the "Check and send" step. */
-export function activitySummary({ type, details, photoTones }: Draft): KeyValue[] {
+export function activitySummary({ type, details, photos }: Draft, types: ActivityTypeOption[]): KeyValue[] {
   return [
-    { label: 'Activity', value: activityTypeLabel(type) },
+    { label: 'Activity', value: types.find((option) => option.value === type)?.label ?? type },
     { label: 'Title', value: details.title || '—' },
     { label: 'Date', value: details.date ? formatDay(details.date) : '—' },
     { label: 'Where', value: [details.ward, details.lga, details.state].filter(Boolean).join(', ') || '—' },
     { label: 'People', value: details.peopleReached ? formatNumber(Number(details.peopleReached)) : '—' },
-    { label: 'Photos', value: photoTones.length },
+    { label: 'Photos', value: photos.length },
   ]
 }

@@ -9,7 +9,7 @@ export function PaymentsPage() {
   const view = usePaymentHistory()
   return (
     <>
-      <PageHeader title="Payments" actions={<PaymentsActions />} />
+      <PageHeader title="Payments" actions={<PaymentsActions canRecordOffline={view.canRecordOffline} />} />
       <PaymentTotalsRow totals={view.totals} />
       <SectionTitle title="History" action={<ChapterFilter chapters={view.chapters} value={view.chapter} onChange={view.setChapter} />} />
       <PaymentHistory payments={view.history} />

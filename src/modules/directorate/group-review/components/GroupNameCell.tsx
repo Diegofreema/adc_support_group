@@ -1,10 +1,10 @@
 import { Copy } from 'lucide-react'
 
 import { GroupMark } from '@/components/shared'
-import type { ReviewGroup } from '../types'
+import type { ListGroup } from '../types'
 
 /** Mark + name, with a duplicate warning when needed. */
-export function GroupNameCell({ group }: { group: ReviewGroup }) {
+export function GroupNameCell({ group }: { group: ListGroup }) {
   return (
     <div className="row">
       <GroupMark name={group.name} className="!h-10 !w-10 !text-[0.8125rem]" />

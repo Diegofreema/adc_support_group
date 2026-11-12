@@ -1,8 +1,7 @@
-import type { PaymentMethod } from '@/types/domain'
+import type { PaymentMethod, PaymentStatus } from '@/types/domain'
 
 export type PayFor = 'cause' | 'general'
 export type GeneralPurposeId = 'mobilisation' | 'logistics' | 'media' | 'materials' | 'other'
-export type Payer = 'group' | 'chapter'
 export type OfflineMethod = Exclude<PaymentMethod, 'funz'>
 
 export interface ChapterOption {
@@ -16,28 +15,52 @@ export interface ActivityOption {
   date: string
 }
 
-/** Everything chosen in the pay wizard. */
+/** A group member who can be named as the payer of an offline payment. */
+export interface PayerOption {
+  id: string
+  name: string
+}
+
+/**
+ * Everything chosen in the pay wizard. Online payments are paid by the
+ * signed-in person; the backend files them under their own chapter.
+ */
 export interface PayDraft {
   payFor: PayFor
   causeId?: string
   purpose: GeneralPurposeId
   note: string
-  payer: Payer
-  chapterId?: string
   amount: number
   activityId?: string
 }
 
+/** initiate-group-payment's answer: where to send the payer. */
+export interface FunzCheckout {
+  paymentId: string
+  reference: string
+  paymentUrl: string
+}
+
+/** verify-group-payment's answer. */
+export interface PaymentCheck {
+  status: Extract<PaymentStatus, 'checking' | 'paid' | 'failed'>
+  amount: number
+  expired: boolean
+}
+
 export interface OfflinePaymentInput {
-  /** Cause id, or "general". */
+  /** A cause id, or "purpose:<GeneralPurposeId>". */
   forId: string
-  /** Chapter id, or "group". */
+  /** Chapter id, or "" for the whole group. */
+  chapterId: string
+  /** Member's profile id, or "" for the leader recording it. */
   payerId: string
   amount: number
+  /** YYYY-MM-DD */
   date: string
   method: OfflineMethod
   reference?: string
-  proofName: string
+  proof: File
 }
 
 export interface PaymentTotals {

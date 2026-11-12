@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Download } from 'lucide-react'
 
-import { PageHeader, SectionTitle, StatGrid, buttonClassName } from '@/components/shared'
+import { Banner, PageHeader, SectionTitle, StatGrid, buttonClassName } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
 import { CategoriesCard } from '../components/CategoriesCard'
 import { PeriodSelect } from '../components/PeriodSelect'
@@ -13,10 +13,11 @@ import { headlineStats } from '../utils/stats'
 import type { Dashboard, Period } from '../types'
 
 export function DashboardPage() {
-  const { period, setPeriod, dashboard } = useDashboard()
+  const { period, setPeriod, dashboard, error } = useDashboard()
   return (
     <>
       <PageHeader title="Overview" actions={<HeaderActions period={period} onPeriod={setPeriod} />} />
+      {error && !dashboard && <Banner tone="danger" title="Could not load the overview">{error.message}</Banner>}
       {dashboard && <DashboardBody dashboard={dashboard} />}
     </>
   )

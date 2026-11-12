@@ -18,7 +18,7 @@ export function MemberActivityCard({ approvedCount, approvedGrowth, groupCount }
       eyebrow="Your activities"
       value={formatNumber(approvedCount)}
       caption={<GrowthCaption label="approved" growth={approvedGrowth} />}
-      badge={<Tag icon={Users}>{groupCount} groups</Tag>}
+      badge={groupCount > 0 ? <Tag icon={Users}>{groupCount === 1 ? '1 group' : `${groupCount} groups`}</Tag> : undefined}
       action={<RecordActivityLink />}
     />
   )

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Button, Field, Modal, TextInput } from '@/components/shared'
-import { cleanName } from '../utils/staff-form'
+import { cleanName } from '../utils/names'
 
 interface RenameModalProps {
   open: boolean

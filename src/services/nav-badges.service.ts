@@ -1,13 +1,56 @@
 import { queryOptions } from '@tanstack/react-query'
 
-import { respond } from '@/lib/mock-api'
+import { rpc, supabase } from '@/lib/supabase'
 import type { BadgeKey } from '@/config/navigation'
+import { sessionStore } from '@/stores/session-store'
+import type { User } from '@/types/domain'
 
 export type NavBadges = Partial<Record<BadgeKey, number>>
 
-/** Mock counts for nav badges. Replace with a single "counts" endpoint later. */
+/** Unread ADC notifications: a head-only count, no rows. */
+async function unreadNotifications(userId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('notifications')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .eq('is_read', false)
+    .eq('metadata->>app', 'adc')
+  if (error) throw new Error(error.message)
+  return count ?? 0
+}
+
+/** Activities waiting for the leader. An unverified group has none (the RPC refuses). */
+async function pendingActivities(): Promise<number> {
+  const page = await rpc<{ total: number }>('get_support_group_activities', { p_status: 'pending', p_limit: 1 }).catch(() => ({ total: 0 }))
+  return Number(page.total)
+}
+
+interface AdminDashboard {
+  groups_pending: number
+  activities_to_check: number
+  payments_to_check: number
+}
+
+async function directorateBadges(): Promise<NavBadges> {
+  const dashboard = await rpc<AdminDashboard>('get_admin_sg_dashboard')
+  return {
+    groupsToVerify: Number(dashboard.groups_pending),
+    activitiesToCheck: Number(dashboard.activities_to_check),
+    offlineToConfirm: Number(dashboard.payments_to_check),
+  }
+}
+
+async function roleBadges(user: User): Promise<NavBadges> {
+  if (user.role === 'leader') return { toReview: await pendingActivities() }
+  if (user.role === 'directorate') return directorateBadges()
+  return {}
+}
+
 async function fetchNavBadges(): Promise<NavBadges> {
-  return respond({ toReview: 4, notifications: 3, groupsToVerify: 18, activitiesToCheck: 42, offlineToConfirm: 5 }, 150)
+  const user = sessionStore.getUser()
+  if (!user) return {}
+  const [notifications, byRole] = await Promise.all([unreadNotifications(user.id), roleBadges(user)])
+  return { notifications, ...byRole }
 }
 
 export const navBadgesQuery = queryOptions({ queryKey: ['nav-badges'], queryFn: fetchNavBadges })

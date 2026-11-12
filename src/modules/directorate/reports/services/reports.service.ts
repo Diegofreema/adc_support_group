@@ -1,21 +1,43 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { directorateKeys } from '../../shared/query-keys'
-import { exportLabel } from '../utils/export-label'
-import type { ExportRecord, ExportSpec } from '../types'
-import { newId, respond } from '@/lib/mock-api'
+import { isoDay, periodStart } from '../../shared/utils/period'
+import { csvFileName, toCsv } from '../utils/csv'
+import { downloadText } from '../utils/download'
+import { buildExportTable } from './export-tables'
+import { readRecentExports, rememberExport } from './recent-exports'
+import type { ExportRecord, ExportSpec, ReportTotals } from '../types'
+import { rpc } from '@/lib/supabase'
 
-const recent: ExportRecord[] = [
-  { id: 'exp_1', label: 'Groups · Kano', format: 'excel', createdAt: '2026-11-01T09:00:00Z' },
-  { id: 'exp_2', label: 'Payments · All · This month', format: 'csv', createdAt: '2026-10-27T12:00:00Z' },
-  { id: 'exp_3', label: 'Activities · All', format: 'excel', createdAt: '2026-10-28T08:00:00Z' },
-]
+type Num = number | string
 
-export const recentExportsQuery = queryOptions({ queryKey: directorateKeys.exports(), queryFn: () => respond(recent) })
+interface ReportsJson {
+  totals: { groups: Num; members: Num; activities: Num; people_reached: Num; amount_paid: Num }
+}
 
-/** Mock: the real backend builds the file and returns a download link. */
-export async function createExport(spec: ExportSpec): Promise<ExportRecord> {
-  const record: ExportRecord = { id: newId('exp'), label: exportLabel(spec), format: spec.format, createdAt: new Date().toISOString() }
-  recent.unshift(record)
-  return respond(record, 800)
+/** Headline numbers for a period (get_admin_sg_reports; state admins see their state). */
+async function fetchReportTotals(period: string): Promise<ReportTotals> {
+  const start = periodStart(period)
+  const { totals } = await rpc<ReportsJson>('get_admin_sg_reports', { p_from: start ? isoDay(start) : null, p_to: null })
+  return {
+    groups: Number(totals.groups),
+    members: Number(totals.members),
+    activities: Number(totals.activities),
+    peopleReached: Number(totals.people_reached),
+    amountPaid: Number(totals.amount_paid),
+  }
+}
+
+export const reportTotalsQuery = (period: string) =>
+  queryOptions({ queryKey: directorateKeys.reports(period), queryFn: () => fetchReportTotals(period) })
+
+export const recentExportsQuery = queryOptions({ queryKey: directorateKeys.exports(), queryFn: async () => readRecentExports(), staleTime: 0 })
+
+/** Build the CSV in the browser, download it, and remember it in "Recent". */
+export async function createExport(spec: ExportSpec, label: string): Promise<ExportRecord> {
+  const table = await buildExportTable(spec)
+  downloadText(csvFileName(label), toCsv(table))
+  const record: ExportRecord = { id: crypto.randomUUID(), label, spec, rows: table.rows.length, createdAt: new Date().toISOString() }
+  rememberExport(record)
+  return record
 }

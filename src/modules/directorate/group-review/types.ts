@@ -6,15 +6,19 @@ export interface GroupHistoryEntry {
   by?: string
 }
 
+/** A group in the Directorate's lists. */
+export interface ListGroup extends Group {
+  suspendedReason?: string
+}
+
 /** A group as the Directorate reviews it. */
-export interface ReviewGroup extends Group {
+export interface ReviewGroup extends ListGroup {
   leaderPhoneChecked: boolean
   membersByLink: number
   membersByExcel: number
   history: GroupHistoryEntry[]
-  /** Name, location and size of the verified group this may duplicate. */
+  /** Name, location and size of the group this may duplicate. */
   duplicate?: { id: string; name: string; place: string; memberCount: number }
-  suspendedReason?: string
   decidedAt?: string
 }
 

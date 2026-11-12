@@ -10,7 +10,7 @@ src/
   modules/<feature>/ Everything for one feature.
     components/      UI only. One job per component. No fetching, no business rules.
     hooks/           React glue: TanStack Query hooks, form hooks, view-model hooks.
-    services/        Data access (mock today, Supabase later). Pure async functions.
+    services/        Data access (Supabase RPCs, tables, edge functions). Pure async functions.
     types/           Feature types.
     utils/           Pure helpers: validation schemas, mapping, calculations.
     pages/           One page component per route; composes components + hooks.
@@ -18,7 +18,7 @@ src/
     shared/          Reusable, feature-agnostic UI (Button, Card, ListItem, Field…).
     layout/          App shell, auth layout, action bar, split layouts.
   hooks/             Cross-feature hooks (useWizard, useDisclosure, useCopy).
-  lib/               Cross-feature helpers (format, toast, route guards, mock-api).
+  lib/               Cross-feature helpers (supabase, edge functions, format, toast, route guards, sms).
   config/            Static config (navigation per role).
   stores/            Global client state (session).
   services/          Cross-feature services (nav badges).
@@ -44,10 +44,7 @@ The backend is Rise Up Naija's Supabase project, shared with Rise Up (see `docs/
 - `src/lib/edge-functions.ts`: `invokeFunction()` for edge functions. It always sends `app: 'adc'`, so SMS and emails say ADC and new accounts are tagged as ADC accounts.
 - Services call one of those two. Hooks, pages and components never touch Supabase directly.
 
-| Module | Backend |
-|---|---|
-| auth | Live: phone/email login, join by link, register a group, password reset by code |
-| everything else | Still mock: `src/lib/mock-api.ts` plus in-module `*.mock.ts` seeds. Unknown group ids fall back to demo data |
+Every module reads and writes the live backend; there is no mock data left. Where the backend can't do something yet, the module's service says so in a comment instead of faking it.
 
 ## Session
 

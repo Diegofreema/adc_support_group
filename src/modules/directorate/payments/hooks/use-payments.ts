@@ -1,16 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { baseTotalsQuery, causeTotalsQuery, confirmOfflinePayment, paymentsQuery, rejectOfflinePayment } from '../services/payments.service'
+import { causeTotalsQuery, confirmOfflinePayment, paidTotalsQuery, paymentsQuery, proofUrlQuery, rejectOfflinePayment, waitingOfflineQuery } from '../services/payments.service'
 import { directorateKeys } from '../../shared/query-keys'
-import { paymentTotals, waitingOffline } from '../utils/totals'
+import { paymentTotals } from '../utils/totals'
 import { notify } from '@/lib/toast'
 
 /** Everything the payments screen shows. */
 export function usePaymentsOverview() {
   const payments = useQuery(paymentsQuery).data ?? []
-  const base = useQuery(baseTotalsQuery).data
+  const waiting = useQuery(waitingOfflineQuery).data ?? []
+  const paid = useQuery(paidTotalsQuery).data
   const causes = useQuery(causeTotalsQuery).data ?? []
-  return { payments, waiting: waitingOffline(payments), causes, totals: base && paymentTotals(base, payments) }
+  return { payments, waiting, causes, totals: paid && paymentTotals(paid, waiting) }
+}
+
+/** Signed link to a payment's proof image (private bucket). */
+export function useProofUrl(path: string | undefined) {
+  return useQuery({ ...proofUrlQuery(path ?? ''), enabled: Boolean(path) })
 }
 
 function usePaymentMutation<Args>(fn: (args: Args) => Promise<unknown>, message: string) {
@@ -19,6 +25,8 @@ function usePaymentMutation<Args>(fn: (args: Args) => Promise<unknown>, message:
     mutationFn: fn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: directorateKeys.payments() })
+      queryClient.invalidateQueries({ queryKey: directorateKeys.causes() })
+      queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
       notify(message)
     },
   })

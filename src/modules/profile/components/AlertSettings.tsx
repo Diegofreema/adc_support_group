@@ -2,7 +2,7 @@ import { Languages, Mail, MessageSquare } from 'lucide-react'
 
 import { List, SectionTitle, SelectInput, Toggle } from '@/components/shared'
 import { useAlertPreferences } from '../hooks/use-alert-preferences'
-import { LANGUAGES } from '../services/profile.mock'
+import { LANGUAGES } from '../utils/languages'
 import type { Profile } from '../types/profile.types'
 import { SettingRow } from './SettingRow'
 

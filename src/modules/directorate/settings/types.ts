@@ -2,6 +2,7 @@ export interface Category {
   id: string
   name: string
   groupCount: number
+  isActive: boolean
 }
 
 export interface ActivityType {
@@ -10,13 +11,14 @@ export interface ActivityType {
   enabled: boolean
 }
 
-export type StaffRole = 'super-admin' | 'staff'
+export type StaffRole = 'super_admin' | 'admin' | 'state_admin'
 
 export interface StaffMember {
   id: string
   fullName: string
   contact: string
   role: StaffRole
+  state?: string
 }
 
 export interface Handover {
@@ -24,6 +26,7 @@ export interface Handover {
   groupName: string
   fromName: string
   toName: string
+  reason?: string
   requestedAt: string
 }
 

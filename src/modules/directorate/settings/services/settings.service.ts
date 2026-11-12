@@ -1,61 +1,90 @@
 import { queryOptions } from '@tanstack/react-query'
 
-import { ACTIVITY_TYPES, CATEGORIES, HANDOVERS, STAFF } from './settings.mock'
 import { directorateKeys } from '../../shared/query-keys'
-import type { ActivityType, Category, Handover, StaffMember } from '../types'
-import { newId, notFound, respond } from '@/lib/mock-api'
+import type { ActivityType, Category, Handover, StaffMember, StaffRole } from '../types'
+import { rpc } from '@/lib/supabase'
 
-let categories: Category[] = structuredClone(CATEGORIES)
-const activityTypes: ActivityType[] = structuredClone(ACTIVITY_TYPES)
-let staff: StaffMember[] = structuredClone(STAFF)
-let handovers: Handover[] = structuredClone(HANDOVERS)
-
-function findById<T extends { id: string }>(items: T[], id: string, entity: string): T {
-  return items.find((item) => item.id === id) ?? notFound(entity, id)
+interface SettingsJson {
+  categories: { id: string; name: string; is_active: boolean; sort: number; group_count: number }[]
+  activity_types: { id: string; slug: string; name: string; is_enabled: boolean; sort: number }[]
 }
 
-export const categoriesQuery = queryOptions({ queryKey: directorateKeys.settings('categories'), queryFn: () => respond(categories) })
-export const activityTypesQuery = queryOptions({ queryKey: directorateKeys.settings('types'), queryFn: () => respond(activityTypes) })
-export const staffQuery = queryOptions({ queryKey: directorateKeys.settings('staff'), queryFn: () => respond(staff) })
-export const handoversQuery = queryOptions({ queryKey: directorateKeys.settings('handovers'), queryFn: () => respond(handovers) })
-
-export async function addCategory(name: string) {
-  categories.push({ id: newId('cat'), name, groupCount: 0 })
-  return respond(categories)
+interface StaffJson {
+  id: string
+  full_name: string
+  contact: string | null
+  role: StaffRole
+  state: string | null
 }
 
-export async function renameCategory({ id, name }: { id: string; name: string }) {
-  findById(categories, id, 'Category').name = name
-  return respond(categories)
+interface HandoverJson {
+  id: string
+  group_name: string
+  from_name: string
+  to_name: string
+  reason: string | null
+  requested_at: string
 }
 
-export async function removeCategory(id: string) {
-  categories = categories.filter((category) => category.id !== id)
-  return respond(categories)
+const fetchSettings = () => rpc<SettingsJson>('get_admin_sg_settings')
+
+/** Categories and activity types come from one RPC; each list reads its half. */
+const settingsQuery = queryOptions({ queryKey: directorateKeys.settings('lists'), queryFn: fetchSettings })
+
+export const categoriesQuery = queryOptions({
+  ...settingsQuery,
+  select: (data: SettingsJson): Category[] => data.categories.map((row) => ({ id: row.id, name: row.name, groupCount: Number(row.group_count), isActive: row.is_active })),
+})
+
+export const activityTypesQuery = queryOptions({
+  ...settingsQuery,
+  select: (data: SettingsJson): ActivityType[] => data.activity_types.map((row) => ({ id: row.id, name: row.name, enabled: row.is_enabled })),
+})
+
+/** Read-only: staff are managed in Rise Up's admin. */
+export const staffQuery = queryOptions({
+  queryKey: directorateKeys.settings('staff'),
+  queryFn: async (): Promise<StaffMember[]> => (await rpc<StaffJson[]>('get_admin_sg_staff')).map((row) => ({
+    id: row.id, fullName: row.full_name, contact: row.contact ?? '', role: row.role, state: row.state ?? undefined,
+  })),
+})
+
+export const handoversQuery = queryOptions({
+  queryKey: directorateKeys.settings('handovers'),
+  queryFn: async (): Promise<Handover[]> => (await rpc<HandoverJson[]>('get_admin_sg_handovers', { p_status: 'pending' })).map((row) => ({
+    id: row.id, groupName: row.group_name, fromName: row.from_name, toName: row.to_name, reason: row.reason ?? undefined, requestedAt: row.requested_at,
+  })),
+})
+
+function saveCategory(id: string | null, name: string, isActive: boolean | null): Promise<string> {
+  return rpc<string>('save_support_group_category', { p_category_id: id, p_name: name, p_is_active: isActive, p_sort: null })
 }
 
-export async function addActivityType(name: string) {
-  activityTypes.push({ id: newId('typ'), name, enabled: true })
-  return respond(activityTypes)
+/** Adding a name that was removed earlier brings that category back. */
+export async function addCategory(name: string): Promise<void> {
+  const { categories } = await fetchSettings()
+  const removed = categories.find((category) => !category.is_active && category.name.toLowerCase() === name.toLowerCase())
+  await (removed ? saveCategory(removed.id, removed.name, true) : saveCategory(null, name, true))
 }
 
-export async function setActivityTypeEnabled({ id, enabled }: { id: string; enabled: boolean }) {
-  findById(activityTypes, id, 'Activity type').enabled = enabled
-  return respond(activityTypes)
+export async function renameCategory({ id, name }: { id: string; name: string }): Promise<void> {
+  await saveCategory(id, name, null)
 }
 
-export async function addStaff(input: { fullName: string; contact: string }) {
-  staff.push({ id: newId('stf'), ...input, role: 'staff' })
-  return respond(staff)
+/** Removing hides it from new registrations; groups keep their category. */
+export async function removeCategory(category: Category): Promise<void> {
+  await saveCategory(category.id, category.name, false)
 }
 
-export async function removeStaff(id: string) {
-  staff = staff.filter((member) => member.id !== id || member.role === 'super-admin')
-  return respond(staff)
+export async function addActivityType(name: string): Promise<void> {
+  await rpc('save_support_group_activity_type', { p_type_id: null, p_name: name, p_is_enabled: true, p_sort: null })
 }
 
-/** Approve or decline a leadership handover; either way it leaves the queue. */
-export async function decideHandover({ id }: { id: string; approve: boolean }) {
-  handovers = handovers.filter((handover) => handover.id !== id)
-  return respond(handovers)
+export async function setActivityTypeEnabled({ type, enabled }: { type: ActivityType; enabled: boolean }): Promise<void> {
+  await rpc('save_support_group_activity_type', { p_type_id: type.id, p_name: type.name, p_is_enabled: enabled, p_sort: null })
+}
+
+/** Approve swaps the leader in one transaction; either way it leaves the queue. */
+export async function decideHandover({ id, approve }: { id: string; approve: boolean }): Promise<void> {
+  await rpc('review_support_group_handover', { p_handover_id: id, p_approve: approve, p_note: null })
 }
