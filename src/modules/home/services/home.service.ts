@@ -67,10 +67,10 @@ const MY_RECENT = 5
 const NOTES = 5
 const NO_COUNTS: MyActivityStats = { approved: 0, approved_last_30_days: 0, pending: 0, rejected: 0, people_reached: 0 }
 
-/** Members see approved activities plus their own; keep their own. */
-async function myRecentActivities(userId: string): Promise<ActivityRow[]> {
-  const page = await activities({ p_limit: 100 }).catch(() => EMPTY_PAGE)
-  return page.rows.filter((row) => row.logged_by === userId).slice(0, MY_RECENT)
+/** The member's own latest activities, any status (waiting and sent back too). */
+async function myRecentActivities(): Promise<ActivityRow[]> {
+  const page = await rpc<Page<ActivityRow>>('get_my_support_group_activities', { p_limit: MY_RECENT }).catch(() => EMPTY_PAGE)
+  return page.rows
 }
 
 /** Leader posts with the real author's name. */
@@ -80,13 +80,13 @@ async function leaderNotes(group: GroupRow) {
 }
 
 /** Everything on the member home screen. Activity RPCs refuse unverified groups. */
-export async function fetchMemberDashboard(userId: string): Promise<MemberDashboard> {
+export async function fetchMemberDashboard(_userId: string): Promise<MemberDashboard> {
   const mine = await getMine()
   const group = mine.group
   const verified = group?.status === 'verified'
   const [counts, own, notes] = await Promise.all([
     verified ? rpc<MyActivityStats>('get_my_support_group_activity_stats') : Promise.resolve(NO_COUNTS),
-    verified ? myRecentActivities(userId) : Promise.resolve([]),
+    verified ? myRecentActivities() : Promise.resolve([]),
     verified && group ? leaderNotes(group) : Promise.resolve([]),
   ])
   return {
