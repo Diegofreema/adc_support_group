@@ -199,3 +199,14 @@ Decisions with the product owner, 2026-11-12: delete-my-details closes the whole
 - **Server paging:** `get_support_group_activities(..., p_mine)` (logged or recorded by me) backs the All / To review / Mine tabs, 20 per page with Load more; the members table pages on the server (20) with search; only CSV export reads the whole roster.
 - `get_support_group_roster` returns `leader`; `get_admin_sg_group_history` returns `actor_title` and `target_name`.
 - **Tests:** 29, pass on live (rolled back).
+
+## Phase 3: events (live, migration `20261112090000`)
+
+Agreed 2026-11-12: reminders 6pm Lagos the day before (email, or SMS within the Directorate budget) and 2h before (in-app), only to people who said they'd come; QR check-in works from 1h before the start to 3h after, the phone's location marks check-ins over 1 km from the venue as "far" (never blocks); headcount = members present + guests, editable.
+
+- **Tables:** `support_group_events` (whole group or one chapter, venue + optional lat/lng, `scheduled`/`cancelled`/`done`, secret `checkin_code`, `activity_id` once recorded), `support_group_event_rsvps`, `support_group_event_attendance` (`ticked` or `qr`, location, `far_from_venue`; un-ticking stamps `removed_at`).
+- **Who:** the events power runs an event (coordinators: their chapter's); everyone in the group sees and RSVPs.
+- **RPCs:** `create_`/`update_`/`cancel_support_group_event`, `get_support_group_events(p_when)`, `get_support_group_event`, `set_support_group_event_rsvp`, `check_in_to_support_group_event(p_code, lat, lng)`, `get_`/`set_support_group_event_attendance`, `support_group_event_to_activity` (goes through `record_support_group_activity`; idempotent). All organiser actions are in the group history.
+- **Reminders:** cron `adc-event-reminders` every 15 min → `private.send_support_group_event_reminders(p_now)`; the day-before one carries `kind: event_reminder` (important), the 2h one `event-soon` (in-app).
+- **App:** `src/modules/events` (list, form, detail, attendance, venue QR, check-in link `/events/checkin/$code`, "Make it an activity"); Home shows "Coming up"; activity photo uploads share `src/lib/activity-media.ts`.
+- **Tests:** 34, pass on live (rolled back).

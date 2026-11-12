@@ -5,10 +5,12 @@ import { InviteDialog } from '../components/InviteDialog'
 import { LeaderGroupCard } from '../components/LeaderGroupCard'
 import { LeaderQuickActions } from '../components/LeaderQuickActions'
 import { MonthStats } from '../components/MonthStats'
+import { NextEvents } from '../components/NextEvents'
 import { RecentList } from '../components/RecentList'
 import { SwitchGroupDialog } from '../components/SwitchGroupDialog'
 import { TodoList } from '../components/TodoList'
 import { useLeaderDashboard } from '../hooks/use-leader-dashboard'
+import { useNextEvents } from '../hooks/use-next-events'
 import type { LeaderDashboard } from '../types/home.types'
 
 export function LeaderHomePage() {
@@ -20,6 +22,7 @@ export function LeaderHomePage() {
 function LeaderHome({ dashboard }: { dashboard: LeaderDashboard }) {
   const invite = useDisclosure()
   const switcher = useDisclosure()
+  const next = useNextEvents()
   const { group } = dashboard
   return (
     <>
@@ -33,6 +36,7 @@ function LeaderHome({ dashboard }: { dashboard: LeaderDashboard }) {
         )}
         right={(
           <>
+            <NextEvents events={next.events} onAnswer={next.answer} pendingId={next.pendingId} />
             <MonthStats month={dashboard.month} />
             {dashboard.recent.length > 0 && <RecentList items={dashboard.recent} />}
           </>

@@ -2,6 +2,7 @@ export type NotificationKind =
   | 'activity-approved' | 'activity-sent-back' | 'activity-waiting' | 'members-joined'
   | 'payment-received' | 'payment-rejected' | 'upload-finished' | 'cause-posted'
   | 'group-verified' | 'group-update' | 'handover-approved' | 'message'
+  | 'event' | 'event-cancelled'
 
 export type NotificationTopic = 'activities' | 'payments' | 'members' | 'group'
 export type NotificationFilter = 'all' | Exclude<NotificationTopic, 'group'>

@@ -34,6 +34,9 @@ import { Route as AppActivitiesActivityIdRouteImport } from './routes/_app/activ
 import { Route as AppActivitiesNewRouteImport } from './routes/_app/activities/new'
 import { Route as AppChaptersIndexRouteImport } from './routes/_app/chapters/index'
 import { Route as AppChaptersChapterIdRouteImport } from './routes/_app/chapters/$chapterId'
+import { Route as AppEventsIndexRouteImport } from './routes/_app/events/index'
+import { Route as AppEventsEventIdRouteImport } from './routes/_app/events/$eventId'
+import { Route as AppEventsNewRouteImport } from './routes/_app/events/new'
 import { Route as AppMembersIndexRouteImport } from './routes/_app/members/index'
 import { Route as AppMembersAddRouteImport } from './routes/_app/members/add'
 import { Route as AppMembersImportRouteImport } from './routes/_app/members/import'
@@ -44,6 +47,10 @@ import { Route as AppPaymentsOfflineRouteImport } from './routes/_app/payments/o
 import { Route as AdminGroupsIndexRouteImport } from './routes/admin/groups/index'
 import { Route as AdminGroupsGroupIdRouteImport } from './routes/admin/groups/$groupId'
 import { Route as AppActivitiesActivityIdEditRouteImport } from './routes/_app/activities/$activityId_.edit'
+import { Route as AppEventsEventIdAttendanceRouteImport } from './routes/_app/events/$eventId_.attendance'
+import { Route as AppEventsEventIdEditRouteImport } from './routes/_app/events/$eventId_.edit'
+import { Route as AppEventsEventIdRecordRouteImport } from './routes/_app/events/$eventId_.record'
+import { Route as AppEventsCheckinCodeRouteImport } from './routes/_app/events/checkin/$code'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -169,6 +176,21 @@ const AppChaptersChapterIdRoute = AppChaptersChapterIdRouteImport.update({
   path: '/chapters/$chapterId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppEventsIndexRoute = AppEventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEventsEventIdRoute = AppEventsEventIdRouteImport.update({
+  id: '/events/$eventId',
+  path: '/events/$eventId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEventsNewRoute = AppEventsNewRouteImport.update({
+  id: '/events/new',
+  path: '/events/new',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppMembersIndexRoute = AppMembersIndexRouteImport.update({
   id: '/members/',
   path: '/members/',
@@ -220,6 +242,27 @@ const AppActivitiesActivityIdEditRoute =
     path: '/activities/$activityId/edit',
     getParentRoute: () => AppRoute,
   } as any)
+const AppEventsEventIdAttendanceRoute =
+  AppEventsEventIdAttendanceRouteImport.update({
+    id: '/events/$eventId_/attendance',
+    path: '/events/$eventId/attendance',
+    getParentRoute: () => AppRoute,
+  } as any)
+const AppEventsEventIdEditRoute = AppEventsEventIdEditRouteImport.update({
+  id: '/events/$eventId_/edit',
+  path: '/events/$eventId/edit',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEventsEventIdRecordRoute = AppEventsEventIdRecordRouteImport.update({
+  id: '/events/$eventId_/record',
+  path: '/events/$eventId/record',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEventsCheckinCodeRoute = AppEventsCheckinCodeRouteImport.update({
+  id: '/events/checkin/$code',
+  path: '/events/checkin/$code',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -244,6 +287,8 @@ export interface FileRoutesByFullPath {
   '/activities/$activityId': typeof AppActivitiesActivityIdRoute
   '/activities/new': typeof AppActivitiesNewRoute
   '/chapters/$chapterId': typeof AppChaptersChapterIdRoute
+  '/events/$eventId': typeof AppEventsEventIdRoute
+  '/events/new': typeof AppEventsNewRoute
   '/members/add': typeof AppMembersAddRoute
   '/members/import': typeof AppMembersImportRoute
   '/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
@@ -252,10 +297,15 @@ export interface FileRoutesByFullPath {
   '/admin/groups/$groupId': typeof AdminGroupsGroupIdRoute
   '/activities/': typeof AppActivitiesIndexRoute
   '/chapters/': typeof AppChaptersIndexRoute
+  '/events/': typeof AppEventsIndexRoute
   '/members/': typeof AppMembersIndexRoute
   '/payments/': typeof AppPaymentsIndexRoute
   '/admin/groups/': typeof AdminGroupsIndexRoute
   '/activities/$activityId/edit': typeof AppActivitiesActivityIdEditRoute
+  '/events/$eventId/attendance': typeof AppEventsEventIdAttendanceRoute
+  '/events/$eventId/edit': typeof AppEventsEventIdEditRoute
+  '/events/$eventId/record': typeof AppEventsEventIdRecordRoute
+  '/events/checkin/$code': typeof AppEventsCheckinCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -279,6 +329,8 @@ export interface FileRoutesByTo {
   '/activities/$activityId': typeof AppActivitiesActivityIdRoute
   '/activities/new': typeof AppActivitiesNewRoute
   '/chapters/$chapterId': typeof AppChaptersChapterIdRoute
+  '/events/$eventId': typeof AppEventsEventIdRoute
+  '/events/new': typeof AppEventsNewRoute
   '/members/add': typeof AppMembersAddRoute
   '/members/import': typeof AppMembersImportRoute
   '/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
@@ -287,10 +339,15 @@ export interface FileRoutesByTo {
   '/admin/groups/$groupId': typeof AdminGroupsGroupIdRoute
   '/activities': typeof AppActivitiesIndexRoute
   '/chapters': typeof AppChaptersIndexRoute
+  '/events': typeof AppEventsIndexRoute
   '/members': typeof AppMembersIndexRoute
   '/payments': typeof AppPaymentsIndexRoute
   '/admin/groups': typeof AdminGroupsIndexRoute
   '/activities/$activityId/edit': typeof AppActivitiesActivityIdEditRoute
+  '/events/$eventId/attendance': typeof AppEventsEventIdAttendanceRoute
+  '/events/$eventId/edit': typeof AppEventsEventIdEditRoute
+  '/events/$eventId/record': typeof AppEventsEventIdRecordRoute
+  '/events/checkin/$code': typeof AppEventsCheckinCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -317,6 +374,8 @@ export interface FileRoutesById {
   '/_app/activities/$activityId': typeof AppActivitiesActivityIdRoute
   '/_app/activities/new': typeof AppActivitiesNewRoute
   '/_app/chapters/$chapterId': typeof AppChaptersChapterIdRoute
+  '/_app/events/$eventId': typeof AppEventsEventIdRoute
+  '/_app/events/new': typeof AppEventsNewRoute
   '/_app/members/add': typeof AppMembersAddRoute
   '/_app/members/import': typeof AppMembersImportRoute
   '/_app/payments/$paymentId': typeof AppPaymentsPaymentIdRoute
@@ -325,10 +384,15 @@ export interface FileRoutesById {
   '/admin/groups/$groupId': typeof AdminGroupsGroupIdRoute
   '/_app/activities/': typeof AppActivitiesIndexRoute
   '/_app/chapters/': typeof AppChaptersIndexRoute
+  '/_app/events/': typeof AppEventsIndexRoute
   '/_app/members/': typeof AppMembersIndexRoute
   '/_app/payments/': typeof AppPaymentsIndexRoute
   '/admin/groups/': typeof AdminGroupsIndexRoute
   '/_app/activities/$activityId_/edit': typeof AppActivitiesActivityIdEditRoute
+  '/_app/events/$eventId_/attendance': typeof AppEventsEventIdAttendanceRoute
+  '/_app/events/$eventId_/edit': typeof AppEventsEventIdEditRoute
+  '/_app/events/$eventId_/record': typeof AppEventsEventIdRecordRoute
+  '/_app/events/checkin/$code': typeof AppEventsCheckinCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -355,6 +419,8 @@ export interface FileRouteTypes {
     | '/activities/$activityId'
     | '/activities/new'
     | '/chapters/$chapterId'
+    | '/events/$eventId'
+    | '/events/new'
     | '/members/add'
     | '/members/import'
     | '/payments/$paymentId'
@@ -363,10 +429,15 @@ export interface FileRouteTypes {
     | '/admin/groups/$groupId'
     | '/activities/'
     | '/chapters/'
+    | '/events/'
     | '/members/'
     | '/payments/'
     | '/admin/groups/'
     | '/activities/$activityId/edit'
+    | '/events/$eventId/attendance'
+    | '/events/$eventId/edit'
+    | '/events/$eventId/record'
+    | '/events/checkin/$code'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -390,6 +461,8 @@ export interface FileRouteTypes {
     | '/activities/$activityId'
     | '/activities/new'
     | '/chapters/$chapterId'
+    | '/events/$eventId'
+    | '/events/new'
     | '/members/add'
     | '/members/import'
     | '/payments/$paymentId'
@@ -398,10 +471,15 @@ export interface FileRouteTypes {
     | '/admin/groups/$groupId'
     | '/activities'
     | '/chapters'
+    | '/events'
     | '/members'
     | '/payments'
     | '/admin/groups'
     | '/activities/$activityId/edit'
+    | '/events/$eventId/attendance'
+    | '/events/$eventId/edit'
+    | '/events/$eventId/record'
+    | '/events/checkin/$code'
   id:
     | '__root__'
     | '/'
@@ -427,6 +505,8 @@ export interface FileRouteTypes {
     | '/_app/activities/$activityId'
     | '/_app/activities/new'
     | '/_app/chapters/$chapterId'
+    | '/_app/events/$eventId'
+    | '/_app/events/new'
     | '/_app/members/add'
     | '/_app/members/import'
     | '/_app/payments/$paymentId'
@@ -435,10 +515,15 @@ export interface FileRouteTypes {
     | '/admin/groups/$groupId'
     | '/_app/activities/'
     | '/_app/chapters/'
+    | '/_app/events/'
     | '/_app/members/'
     | '/_app/payments/'
     | '/admin/groups/'
     | '/_app/activities/$activityId_/edit'
+    | '/_app/events/$eventId_/attendance'
+    | '/_app/events/$eventId_/edit'
+    | '/_app/events/$eventId_/record'
+    | '/_app/events/checkin/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -627,6 +712,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppChaptersChapterIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/events/': {
+      id: '/_app/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof AppEventsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/events/$eventId': {
+      id: '/_app/events/$eventId'
+      path: '/events/$eventId'
+      fullPath: '/events/$eventId'
+      preLoaderRoute: typeof AppEventsEventIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/events/new': {
+      id: '/_app/events/new'
+      path: '/events/new'
+      fullPath: '/events/new'
+      preLoaderRoute: typeof AppEventsNewRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/members/': {
       id: '/_app/members/'
       path: '/members'
@@ -697,6 +803,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppActivitiesActivityIdEditRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/events/$eventId_/attendance': {
+      id: '/_app/events/$eventId_/attendance'
+      path: '/events/$eventId/attendance'
+      fullPath: '/events/$eventId/attendance'
+      preLoaderRoute: typeof AppEventsEventIdAttendanceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/events/$eventId_/edit': {
+      id: '/_app/events/$eventId_/edit'
+      path: '/events/$eventId/edit'
+      fullPath: '/events/$eventId/edit'
+      preLoaderRoute: typeof AppEventsEventIdEditRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/events/$eventId_/record': {
+      id: '/_app/events/$eventId_/record'
+      path: '/events/$eventId/record'
+      fullPath: '/events/$eventId/record'
+      preLoaderRoute: typeof AppEventsEventIdRecordRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/events/checkin/$code': {
+      id: '/_app/events/checkin/$code'
+      path: '/events/checkin/$code'
+      fullPath: '/events/checkin/$code'
+      preLoaderRoute: typeof AppEventsCheckinCodeRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -710,6 +844,8 @@ interface AppRouteChildren {
   AppActivitiesActivityIdRoute: typeof AppActivitiesActivityIdRoute
   AppActivitiesNewRoute: typeof AppActivitiesNewRoute
   AppChaptersChapterIdRoute: typeof AppChaptersChapterIdRoute
+  AppEventsEventIdRoute: typeof AppEventsEventIdRoute
+  AppEventsNewRoute: typeof AppEventsNewRoute
   AppMembersAddRoute: typeof AppMembersAddRoute
   AppMembersImportRoute: typeof AppMembersImportRoute
   AppPaymentsPaymentIdRoute: typeof AppPaymentsPaymentIdRoute
@@ -717,9 +853,14 @@ interface AppRouteChildren {
   AppPaymentsOfflineRoute: typeof AppPaymentsOfflineRoute
   AppActivitiesIndexRoute: typeof AppActivitiesIndexRoute
   AppChaptersIndexRoute: typeof AppChaptersIndexRoute
+  AppEventsIndexRoute: typeof AppEventsIndexRoute
   AppMembersIndexRoute: typeof AppMembersIndexRoute
   AppPaymentsIndexRoute: typeof AppPaymentsIndexRoute
   AppActivitiesActivityIdEditRoute: typeof AppActivitiesActivityIdEditRoute
+  AppEventsEventIdAttendanceRoute: typeof AppEventsEventIdAttendanceRoute
+  AppEventsEventIdEditRoute: typeof AppEventsEventIdEditRoute
+  AppEventsEventIdRecordRoute: typeof AppEventsEventIdRecordRoute
+  AppEventsCheckinCodeRoute: typeof AppEventsCheckinCodeRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -732,6 +873,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppActivitiesActivityIdRoute: AppActivitiesActivityIdRoute,
   AppActivitiesNewRoute: AppActivitiesNewRoute,
   AppChaptersChapterIdRoute: AppChaptersChapterIdRoute,
+  AppEventsEventIdRoute: AppEventsEventIdRoute,
+  AppEventsNewRoute: AppEventsNewRoute,
   AppMembersAddRoute: AppMembersAddRoute,
   AppMembersImportRoute: AppMembersImportRoute,
   AppPaymentsPaymentIdRoute: AppPaymentsPaymentIdRoute,
@@ -739,9 +882,14 @@ const AppRouteChildren: AppRouteChildren = {
   AppPaymentsOfflineRoute: AppPaymentsOfflineRoute,
   AppActivitiesIndexRoute: AppActivitiesIndexRoute,
   AppChaptersIndexRoute: AppChaptersIndexRoute,
+  AppEventsIndexRoute: AppEventsIndexRoute,
   AppMembersIndexRoute: AppMembersIndexRoute,
   AppPaymentsIndexRoute: AppPaymentsIndexRoute,
   AppActivitiesActivityIdEditRoute: AppActivitiesActivityIdEditRoute,
+  AppEventsEventIdAttendanceRoute: AppEventsEventIdAttendanceRoute,
+  AppEventsEventIdEditRoute: AppEventsEventIdEditRoute,
+  AppEventsEventIdRecordRoute: AppEventsEventIdRecordRoute,
+  AppEventsCheckinCodeRoute: AppEventsCheckinCodeRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

@@ -31,11 +31,15 @@ function groupKind(title: string, metadata: Record<string, unknown>): Notificati
 const KNOWN_KINDS: ReadonlySet<string> = new Set<NotificationKind>([
   'activity-approved', 'activity-sent-back', 'activity-waiting', 'members-joined',
   'payment-received', 'payment-rejected', 'upload-finished', 'cause-posted',
-  'group-verified', 'group-update', 'handover-approved', 'message',
+  'group-verified', 'group-update', 'handover-approved', 'message', 'event', 'event-cancelled',
 ])
 
-/** Phase-1 kind names that map onto today's kinds. */
-const LEGACY_KINDS: Record<string, NotificationKind> = { added_to_group: 'group-update' }
+/** Backend kind names that map onto the kinds this app draws. */
+const LEGACY_KINDS: Record<string, NotificationKind> = {
+  added_to_group: 'group-update',
+  // Event notices: new, changed, the day-before reminder, starting soon.
+  'event-new': 'event', 'event-changed': 'event', event_reminder: 'event', 'event-soon': 'event',
+}
 
 /** The backend's `metadata.kind`, when it is one this app knows. */
 function taggedKind(kind: unknown): NotificationKind | undefined {

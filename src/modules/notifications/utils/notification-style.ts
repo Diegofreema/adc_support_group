@@ -1,4 +1,4 @@
-import { BadgeCheck, Check, ClipboardCheck, FileSpreadsheet, Info, Receipt, ReceiptText, Repeat, Send, Target, Undo2, UserPlus, type LucideIcon } from 'lucide-react'
+import { BadgeCheck, CalendarDays, CalendarX, Check, ClipboardCheck, FileSpreadsheet, Info, Receipt, ReceiptText, Repeat, Send, Target, Undo2, UserPlus, type LucideIcon } from 'lucide-react'
 
 import type { Tone } from '@/components/shared'
 import type { NotificationKind, NotificationTopic } from '../types/notification.types'
@@ -22,6 +22,8 @@ const KIND_STYLES: Record<NotificationKind, KindStyle> = {
   'group-update': { icon: Info, tone: 'amber', topic: 'group' },
   'handover-approved': { icon: Repeat, tone: 'grey', topic: 'group' },
   message: { icon: Send, tone: 'blue', topic: 'group' },
+  event: { icon: CalendarDays, tone: 'blue', topic: 'group' },
+  'event-cancelled': { icon: CalendarX, tone: 'red', topic: 'group' },
 }
 
 export function notificationStyle(kind: NotificationKind): KindStyle {

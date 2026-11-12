@@ -1,5 +1,5 @@
 import {
-  BarChart3, Banknote, Bell, CircleUserRound, ContactRound, FileSpreadsheet, House, LayoutGrid,
+  BarChart3, Banknote, Bell, CalendarDays, CircleUserRound, ContactRound, FileSpreadsheet, House, LayoutGrid,
   Megaphone, Network, Send, Settings, ShieldCheck, Target, UsersRound, Wallet, type LucideIcon,
 } from 'lucide-react'
 
@@ -30,13 +30,14 @@ export interface RoleNavigation {
 
 const home: NavItem = { to: '/home', label: 'Home', icon: House }
 const activities: NavItem = { to: '/activities', label: 'Activities', icon: Megaphone, badgeKey: 'toReview' }
+const events: NavItem = { to: '/events', label: 'Events', icon: CalendarDays }
 const notifications: NavItem = { to: '/notifications', label: 'Alerts', icon: Bell, badgeKey: 'notifications' }
 const profile: NavItem = { to: '/profile', label: 'Me', icon: CircleUserRound }
 
 const leaderNav: RoleNavigation = {
   home: '/home',
   sidebar: [
-    { title: 'Menu', items: [home, activities] },
+    { title: 'Menu', items: [home, activities, events] },
     {
       title: 'My group',
       items: [
@@ -54,17 +55,18 @@ const leaderNav: RoleNavigation = {
     activities,
     { to: '/group', label: 'Group', icon: UsersRound, matches: ['/members', '/chapters'] },
     { to: '/payments', label: 'Payments', icon: Wallet },
-    { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/messages', '/notifications', '/profile'] },
+    { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/events', '/messages', '/notifications', '/profile'] },
   ],
 }
 
 const memberNav: RoleNavigation = {
   home: '/home',
   sidebar: [
-    { title: 'Menu', items: [home, { ...activities, badgeKey: undefined }, { to: '/group', label: 'My group', icon: UsersRound }] },
+    { title: 'Menu', items: [home, { ...activities, badgeKey: undefined }, events, { to: '/group', label: 'My group', icon: UsersRound }] },
     { title: 'Account', items: [{ ...notifications, label: 'Notifications' }, { ...profile, label: 'My profile' }] },
   ],
-  bottom: [home, { ...activities, badgeKey: undefined }, { to: '/group', label: 'My group', icon: UsersRound }, notifications, profile],
+  // Alerts stay one tap away in the top bar.
+  bottom: [home, { ...activities, badgeKey: undefined }, events, { to: '/group', label: 'My group', icon: UsersRound }, { ...profile, matches: ['/notifications'] }],
 }
 
 const directorateNav: RoleNavigation = {
@@ -140,7 +142,7 @@ function executiveNav(powers: Power[]): RoleNavigation {
   return {
     home: '/home',
     sidebar: [
-      { title: 'Menu', items: [home, acts] },
+      { title: 'Menu', items: [home, acts, events] },
       { title: 'My group', items: [group, ...members, { to: '/chapters', label: 'Chapters', icon: Network }, ...payments, ...messages] },
       { title: 'Account', items: [{ ...notifications, label: 'Notifications' }, { ...profile, label: 'My profile' }] },
     ],
@@ -149,7 +151,7 @@ function executiveNav(powers: Power[]): RoleNavigation {
       acts,
       { to: '/group', label: 'Group', icon: UsersRound, matches: ['/members', '/chapters'] },
       ...payments,
-      { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/messages', '/notifications', '/profile'] },
+      { to: '/more', label: 'More', icon: LayoutGrid, matches: ['/events', '/messages', '/notifications', '/profile'] },
     ],
   }
 }

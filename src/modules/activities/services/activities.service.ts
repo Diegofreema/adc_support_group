@@ -1,7 +1,7 @@
 import { rejectReasonText } from '../utils/reject-reasons'
 import { placeholderTones } from '../utils/activity-photos'
 import { activityTypeIcon } from '@/config/activity-types'
-import { PHOTO_CACHE_SECONDS, thumbPath, type ShrunkImage } from '@/lib/image'
+import { uploadGroupPhotos } from '@/lib/activity-media'
 import { rpc, supabase, unwrap } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { ActivityStatus, PaymentStatus } from '@/types/domain'
@@ -143,41 +143,15 @@ export async function listChapterOptions(): Promise<ChapterOption[]> {
   return chapters.map((chapter) => ({ value: chapter.id, label: `${chapter.name} chapter` }))
 }
 
-const BUCKET = 'activity-media'
-
 export function activeGroupId(): string {
   const groupId = sessionStore.getUser()?.activeGroupId
   if (!groupId) throw new Error('You are not in a group')
   return groupId
 }
 
-/** Members can't overwrite, so an earlier upload of the same path (a re-sent draft) comes back as a duplicate. */
-function isDuplicate(error: { message: string; status?: number; statusCode?: string }): boolean {
-  return error.statusCode === '409' || error.status === 409 || /already exists|duplicate/i.test(error.message)
-}
-
-async function uploadImage(path: string, image: ShrunkImage): Promise<void> {
-  const { error } = await supabase.storage.from(BUCKET).upload(path, image.blob, {
-    contentType: image.contentType,
-    cacheControl: PHOTO_CACHE_SECONDS,
-    upsert: false,
-  })
-  if (error && !isDuplicate(error)) throw new Error(`Could not upload a photo: ${error.message}`)
-}
-
-/** Upload a photo and its thumbnail beside it; returns the photo's public URL. */
-async function uploadPhoto(groupId: string, photo: NamedPhoto): Promise<string> {
-  const path = `support-groups/${groupId}/${photo.id}.${photo.photo.ext}`
-  await uploadImage(path, photo.photo)
-  await uploadImage(thumbPath(path), photo.thumb)
-  return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
-}
-
-/** Upload new photos one after another (patchy data: one at a time finishes sooner than six at once). */
-async function uploadPhotos(groupId: string, photos: NamedPhoto[]): Promise<string[]> {
-  const urls: string[] = []
-  for (const photo of photos) urls.push(await uploadPhoto(groupId, photo))
-  return urls
+/** Upload new photos (named by their draft id, so a re-sent draft reuses its paths). */
+function uploadPhotos(groupId: string, photos: NamedPhoto[]): Promise<string[]> {
+  return uploadGroupPhotos(groupId, photos.map((p) => ({ name: p.id, photo: p.photo, thumb: p.thumb })))
 }
 
 function locationArgs(location?: GeoFix) {
