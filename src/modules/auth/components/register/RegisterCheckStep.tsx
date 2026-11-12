@@ -7,12 +7,13 @@ import { StepHeading } from '../shared/StepHeading'
 
 interface RegisterCheckStepProps {
   form: UseFormReturn<RegisterGroupValues>
-  onBack: () => void
+  onBack?: () => void
   onSubmit: () => void
   loading: boolean
+  submitLabel?: string
 }
 
-export function RegisterCheckStep({ form, onBack, onSubmit, loading }: RegisterCheckStepProps) {
+export function RegisterCheckStep({ form, onBack, onSubmit, loading, submitLabel = 'Submit' }: RegisterCheckStepProps) {
   const error = form.formState.errors.confirmed?.message
   return (
     <>
@@ -22,7 +23,7 @@ export function RegisterCheckStep({ form, onBack, onSubmit, loading }: RegisterC
         <Checkbox {...form.register('confirmed')}>This group supports Atiku Abubakar</Checkbox>
         {error && <span className="error-text" role="alert">{error}</span>}
       </div>
-      <WizardActions onBack={onBack} onNext={onSubmit} nextLabel="Submit" loading={loading} />
+      <WizardActions onBack={onBack} onNext={onSubmit} nextLabel={submitLabel} loading={loading} />
     </>
   )
 }

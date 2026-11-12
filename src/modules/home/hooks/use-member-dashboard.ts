@@ -4,7 +4,7 @@ import { fetchMemberDashboard } from '../services/home.service'
 import { useRequiredUser } from '@/stores/session-store'
 
 export const memberDashboardQuery = (userId: string) =>
-  queryOptions({ queryKey: ['home', 'member', userId], queryFn: () => fetchMemberDashboard(userId) })
+  queryOptions({ queryKey: ['home', 'member', userId], queryFn: () => fetchMemberDashboard(userId), throwOnError: true })
 
 export function useMemberDashboard() {
   const user = useRequiredUser()

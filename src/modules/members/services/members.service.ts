@@ -1,4 +1,4 @@
-import type { ChapterOption, MemberRecord, NewMemberInput } from '../types'
+import type { AddedMember, ChapterOption, MemberRecord, NewMemberInput, WelcomeChannel, WelcomeShare, WelcomeSummary } from '../types'
 import { invokeFunction } from '@/lib/edge-functions'
 import { normalisePhone } from '@/lib/phone'
 import { rpc } from '@/lib/supabase'
@@ -92,14 +92,44 @@ export interface AddMembersRow {
   chapterId?: string
 }
 
-export interface AddMembersResult {
-  added: number
-  results: { row: number; phone: string | null; result: string; error?: string; created: boolean }[]
+interface ShareRow {
+  row: number
+  full_name: string
+  phone: string
+  link: string
+  message: string
 }
 
-/** Find or create each person's account and add them (support-group-add-members). */
-export function addMembers(rows: AddMembersRow[], joinedVia: 'excel' | 'manual'): Promise<AddMembersResult> {
-  return invokeFunction<AddMembersResult>('support-group-add-members', { rows, joinedVia })
+export interface AddMembersResult {
+  added: number
+  results: { row: number; phone: string | null; result: string; error?: string; created: boolean; welcome: WelcomeChannel | null }[]
+  share: WelcomeShare[]
+}
+
+function toShare(row: ShareRow): WelcomeShare {
+  return { fullName: row.full_name, phone: row.phone, link: row.link, message: row.message }
+}
+
+/**
+ * Find or create each person's account and add them (support-group-add-members).
+ * New accounts are welcomed by email, else SMS from the leader's points, else
+ * listed under `share` for the leader to send themselves.
+ */
+export async function addMembers(rows: AddMembersRow[], joinedVia: 'excel' | 'manual'): Promise<AddMembersResult> {
+  const result = await invokeFunction<Omit<AddMembersResult, 'share'> & { share?: ShareRow[] }>(
+    'support-group-add-members', { rows, joinedVia, welcome: 'auto' },
+  )
+  return { ...result, share: (result.share ?? []).map(toShare) }
+}
+
+/** Totals of how new people were told, across one or more calls. */
+export function summariseWelcome(calls: AddMembersResult[]): WelcomeSummary {
+  const results = calls.flatMap((call) => call.results)
+  return {
+    email: results.filter((r) => r.welcome === 'email').length,
+    sms: results.filter((r) => r.welcome === 'sms').length,
+    share: calls.flatMap((call) => call.share),
+  }
 }
 
 const REFUSALS: Record<string, string> = {
@@ -114,14 +144,11 @@ export function refusalReason(result: string, error?: string): string {
   return error ?? REFUSALS[result] ?? 'Could not add'
 }
 
-export async function addMember(groupId: string, input: NewMemberInput): Promise<MemberRecord> {
-  const { results } = await addMembers([{ ...input, phone: normalisePhone(input.phone) }], 'manual')
+export async function addMember(input: NewMemberInput): Promise<AddedMember> {
+  const { results, share } = await addMembers([{ ...input, phone: normalisePhone(input.phone) }], 'manual')
   const outcome = results[0]
   if (!outcome || outcome.result !== 'added') throw new Error(refusalReason(outcome?.result ?? '', outcome?.error))
-  const members = await fetchMembers(groupId)
-  const added = members.find((member) => member.phone === normalisePhone(input.phone))
-  if (!added) throw new Error('Added, but could not load them yet')
-  return added
+  return { fullName: input.fullName.trim(), welcome: outcome.welcome ?? null, share }
 }
 
 /** Role, title and chapter are set together; this keeps the ones not changing. */

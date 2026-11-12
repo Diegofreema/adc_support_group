@@ -1,4 +1,4 @@
-import type { AlertPreferences, MenuCounts, Profile } from '../types/profile.types'
+import type { MenuCounts, Profile } from '../types/profile.types'
 import type { ProfileValues } from '../utils/schemas'
 import { refreshSessionUser } from '@/modules/auth'
 import type { MyGroup } from '@/modules/home'
@@ -22,8 +22,6 @@ interface MySupportGroup {
   membership: { member_role: Exclude<MemberRole, 'leader'>; chapter_name: string | null } | null
 }
 
-const DEFAULT_ALERTS: AlertPreferences = { email: true, sms: true }
-
 /** Aliases like phone-234803…@auth.riseup.local are not real addresses. */
 function realEmail(email: string | null): string {
   return email && !email.endsWith('.local') ? email : ''
@@ -33,13 +31,6 @@ function groupsOf(mine: MySupportGroup): MyGroup[] {
   if (!mine.group) return []
   const role: MemberRole = mine.is_leader ? 'leader' : mine.membership?.member_role ?? 'member'
   return [{ id: mine.group.id, name: mine.group.name, role, chapterName: mine.membership?.chapter_name ?? undefined }]
-}
-
-/** No table holds alert choices; they live in the auth user's metadata. */
-async function readAlerts(): Promise<AlertPreferences> {
-  const { data } = await supabase.auth.getSession()
-  const saved = data.session?.user.user_metadata?.adc_alerts as Partial<AlertPreferences> | undefined
-  return { ...DEFAULT_ALERTS, ...saved }
 }
 
 async function readProfileRow(userId: string): Promise<ProfileRow> {
@@ -53,7 +44,7 @@ async function readProfileRow(userId: string): Promise<ProfileRow> {
 }
 
 export async function fetchProfile(userId: string): Promise<Profile> {
-  const [row, mine, alerts] = await Promise.all([readProfileRow(userId), rpc<MySupportGroup>('get_my_support_group'), readAlerts()])
+  const [row, mine] = await Promise.all([readProfileRow(userId), rpc<MySupportGroup>('get_my_support_group')])
   return {
     fullName: row.full_name ?? '',
     phone: row.phone ? formatPhone(row.phone) : '',
@@ -62,8 +53,6 @@ export async function fetchProfile(userId: string): Promise<Profile> {
     lga: row.lga ?? '',
     ward: row.ward ?? '',
     groups: groupsOf(mine),
-    alerts,
-    language: 'English',
   }
 }
 
@@ -80,21 +69,40 @@ export async function updateProfile(userId: string, values: ProfileValues): Prom
   return fetchProfile(userId)
 }
 
-export async function updateAlerts(_userId: string, alerts: AlertPreferences): Promise<AlertPreferences> {
-  const { error } = await supabase.auth.updateUser({ data: { adc_alerts: alerts } })
-  if (error) throw new Error(error.message)
-  return alerts
-}
+export type CodeChannel = 'email' | 'sms'
 
 export interface PasswordChallenge {
   challengeId: string
-  phone: string
+  /** Where the code went, e.g. "your phone" or the masked email. */
+  sentTo: string
 }
 
-/** Step 1: text a code to the account's phone. */
-export async function startPasswordChange(): Promise<PasswordChallenge> {
-  const result = await invokeFunction<{ challenge_id: string; phone: string }>('auth-phone-change-password-initiate')
-  return { challengeId: result.challenge_id, phone: result.phone }
+/** The account has both email and phone: the person picks; values are masked. */
+export interface ChannelChoice {
+  email: string
+  sms: string
+}
+
+export type StartPasswordChange =
+  | { kind: 'sent'; challenge: PasswordChallenge }
+  | { kind: 'choose'; channels: ChannelChoice }
+
+interface InitiateResult {
+  challenge_id?: string
+  phone?: string
+  needs_channel?: boolean
+  channels?: ChannelChoice
+}
+
+/**
+ * Step 1: send a code. With both email and phone on file and no channel,
+ * the function sends nothing and asks which one (roadmap: the person chooses).
+ */
+export async function startPasswordChange(channel?: CodeChannel, choice?: ChannelChoice): Promise<StartPasswordChange> {
+  const result = await invokeFunction<InitiateResult>('auth-phone-change-password-initiate', channel ? { channel } : undefined)
+  if (result.needs_channel && result.channels) return { kind: 'choose', channels: result.channels }
+  const sentTo = channel === 'email' ? choice?.email ?? 'your email' : formatPhone(result.phone ?? '') || 'your phone'
+  return { kind: 'sent', challenge: { challengeId: result.challenge_id!, sentTo } }
 }
 
 /** Step 2: the code plus the new password. */

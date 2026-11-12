@@ -7,7 +7,7 @@ import { StepHeading } from '../shared/StepHeading'
 
 interface RegisterGroupStepProps {
   form: UseFormReturn<RegisterGroupValues>
-  onBack: () => void
+  onBack?: () => void
   onNext: () => void
 }
 

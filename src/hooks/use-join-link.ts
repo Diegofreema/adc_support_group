@@ -13,7 +13,7 @@ export function useJoinLink(joinCode: string, inviteName: string): JoinLinkActio
   const link = joinLink(joinCode)
   return {
     link,
-    copy: () => void copyText(`https://${link}`, 'Link copied'),
-    whatsappUrl: whatsappShareUrl(`Join ${inviteName}: https://${link}`),
+    copy: () => void copyText(link, 'Link copied'),
+    whatsappUrl: whatsappShareUrl(`Join ${inviteName}: ${link}`),
   }
 }

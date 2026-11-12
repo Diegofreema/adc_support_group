@@ -66,3 +66,33 @@ export interface MemberDashboard {
   notes: LeaderNote[]
   inviteCode: string
 }
+
+/** One message between the Directorate and a waiting leader. */
+export interface ReviewMessage {
+  id: string
+  fromStaff: boolean
+  author: string
+  body: string
+  at: string
+}
+
+/** The leader's "Waiting for the Directorate" page (get_my_support_group_review). */
+export interface GroupReview {
+  id: string
+  name: string
+  status: GroupStatus
+  submittedAt: string
+  reviewedAt?: string
+  /** Rejection (or suspension) reason. */
+  reviewNote?: string
+  messages: ReviewMessage[]
+  /** The Directorate wrote last and is waiting for the leader. */
+  waitingForReply: boolean
+}
+
+/** A member or leader whose group can't be used right now (suspended). */
+export interface GroupNotice {
+  name: string
+  status: GroupStatus
+  reason?: string
+}

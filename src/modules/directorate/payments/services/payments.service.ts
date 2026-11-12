@@ -84,10 +84,16 @@ async function fetchPayments(limit: number, offset: number): Promise<Page<Review
   return { total: Number(page.total), rows: page.rows.map(toPayment) }
 }
 
-/** Offline payments waiting for staff (Funz payments in "checking" settle themselves). */
+/**
+ * Offline payments waiting for staff. Asked per method so abandoned Funz
+ * checkouts (also "checking") can't push offline ones out of the page.
+ */
 async function fetchWaitingOffline(): Promise<ReviewPayment[]> {
-  const page = await fetchPage({ status: 'checking' }, 500)
-  return page.rows.filter((row) => row.method !== 'funz').map(toPayment)
+  const pages = await Promise.all((['transfer', 'cash'] as const).map((method) => fetchPage({ status: 'checking', method }, 500)))
+  return pages
+    .flatMap((page) => page.rows)
+    .sort((a, b) => b.created_at.localeCompare(a.created_at))
+    .map(toPayment)
 }
 
 export interface PaidTotals {

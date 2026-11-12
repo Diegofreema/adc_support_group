@@ -1,6 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router'
 
-import { PageLoader } from '@/components/shared'
+import { ErrorState, PageLoader } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
 import { ActivityGallery } from '../components/ActivityGallery'
 import { ActivityHeader } from '../components/ActivityHeader'
@@ -16,7 +16,8 @@ const routeApi = getRouteApi('/_app/activities/$activityId')
 
 export function ActivityDetailPage() {
   const { activityId } = routeApi.useParams()
-  const { data: activity } = useActivity(activityId)
+  const { data: activity, error, refetch } = useActivity(activityId)
+  if (error && !activity) return <ErrorState title="Could not load this activity" error={error} onRetry={() => void refetch()} />
   if (!activity) return <PageLoader />
   return (
     <>

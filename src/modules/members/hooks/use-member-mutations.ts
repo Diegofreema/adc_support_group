@@ -17,8 +17,8 @@ function useMemberMutation<Input, Output>(mutationFn: (input: Input) => Promise<
   })
 }
 
-export function useAddMember(groupId: string) {
-  return useMemberMutation((input: NewMemberInput) => addMember(groupId, input), 'Added · they sign in with “Forgot password”')
+export function useAddMember() {
+  return useMemberMutation((input: NewMemberInput) => addMember(input), 'Added')
 }
 
 export function useMakeExecutive() {

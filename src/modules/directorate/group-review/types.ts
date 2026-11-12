@@ -6,6 +6,15 @@ export interface GroupHistoryEntry {
   by?: string
 }
 
+/** One message in the Directorate ↔ leader review thread. */
+export interface ReviewMessage {
+  id: string
+  fromStaff: boolean
+  body: string
+  authorName: string
+  createdAt: string
+}
+
 /** A group in the Directorate's lists. */
 export interface ListGroup extends Group {
   suspendedReason?: string
@@ -19,6 +28,8 @@ export interface ReviewGroup extends ListGroup {
   membersByLink: number
   membersByExcel: number
   history: GroupHistoryEntry[]
+  /** The review thread, oldest first. */
+  messages: ReviewMessage[]
   /** Name, location and size of the group this may duplicate. */
   duplicate?: { id: string; name: string; place: string; memberCount: number }
 }

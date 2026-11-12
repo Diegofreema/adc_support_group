@@ -1,6 +1,6 @@
 import { formatNumber } from '@/lib/format'
 import type { ActivityStatus, GroupStatus, MemberRole } from '@/types/domain'
-import type { GroupSummary, LeaderNote, MyActivity, MyGroup, RecentItem, TodoItem } from '../types/home.types'
+import type { GroupReview, GroupSummary, LeaderNote, MyActivity, MyGroup, RecentItem, TodoItem } from '../types/home.types'
 import { dayLabel, shortAgo } from './day-label'
 
 /** get_my_support_group (only the fields home reads). */
@@ -18,6 +18,7 @@ export interface MySupportGroup {
     chapter_count: number
     activity_count: number
     amount_given: number
+    review_note: string | null
   } | null
   membership: { member_role: Exclude<MemberRole, 'leader'>; chapter_name: string | null } | null
 }
@@ -130,4 +131,36 @@ export function toMyActivity(row: ActivityRow): MyActivity {
 export function toLeaderNote(row: NoteRow, group: GroupRow): LeaderNote {
   const author = row.author_name ?? 'Group leaders'
   return { id: row.id, author, groupName: group.name, time: shortAgo(row.created_at), title: row.title, body: row.body, pinned: row.is_pinned }
+}
+
+/** get_my_support_group_review (only the fields the waiting page reads). */
+export interface ReviewRow {
+  id: string
+  name: string
+  status: GroupStatus
+  submitted_at: string | null
+  created_at: string
+  reviewed_at: string | null
+  review_note: string | null
+  waiting_for_reply: boolean
+  messages: { id: string; from_staff: boolean; body: string; author_name: string | null; created_at: string }[]
+}
+
+export function toGroupReview(row: ReviewRow): GroupReview {
+  return {
+    id: row.id,
+    name: row.name,
+    status: row.status,
+    submittedAt: row.submitted_at ?? row.created_at,
+    reviewedAt: row.reviewed_at ?? undefined,
+    reviewNote: row.review_note ?? undefined,
+    waitingForReply: Boolean(row.waiting_for_reply),
+    messages: (row.messages ?? []).map((message) => ({
+      id: message.id,
+      fromStaff: message.from_staff,
+      author: message.author_name ?? (message.from_staff ? 'The Directorate' : 'You'),
+      body: message.body,
+      at: message.created_at,
+    })),
+  }
 }

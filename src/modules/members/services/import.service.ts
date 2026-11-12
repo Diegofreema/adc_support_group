@@ -1,4 +1,4 @@
-import { addMembers, refusalReason, type AddMembersRow } from './members.service'
+import { addMembers, refusalReason, summariseWelcome, type AddMembersResult, type AddMembersRow } from './members.service'
 import type { ColumnMapping, ImportResult, ImportRowIssue, ParsedSheet } from '../types'
 import { parseCsv } from '../utils/csv'
 import { splitRows } from '../utils/import-validation'
@@ -62,11 +62,13 @@ export async function importMembers(
   const notAdded: ImportRowIssue[] = [...issues]
   let added = 0
   let linked = 0
+  const calls: AddMembersResult[] = []
 
   for (let start = 0; start < ready.length; start += BATCH) {
     const batch = ready.slice(start, start + BATCH)
-    const { results } = await addMembers(batch.map((row) => toRow(row, mapping, chapter?.id)), 'excel')
-    results.forEach((outcome, index) => {
+    const call = await addMembers(batch.map((row) => toRow(row, mapping, chapter?.id)), 'excel')
+    calls.push(call)
+    call.results.forEach((outcome, index) => {
       const row = batch[index]!
       if (outcome.result === 'added') {
         if (outcome.created) added += 1
@@ -82,5 +84,5 @@ export async function importMembers(
   }
 
   notAdded.sort((a, b) => a.row - b.row)
-  return { added, linked, notAdded }
+  return { added, linked, notAdded, welcome: summariseWelcome(calls) }
 }

@@ -5,6 +5,12 @@ import { sessionStore } from '@/stores/session-store'
 
 const LIMIT = 100
 
+/**
+ * ADC rows: tagged app = 'adc', or support-group notices from older SQL that
+ * carry a group_id but no app tag (e.g. "removed from group").
+ */
+const ADC_ONLY = 'metadata->>app.eq.adc,metadata->>group_id.not.is.null'
+
 function userId(): string {
   const user = sessionStore.getUser()
   if (!user) throw new Error('Sign in first')
@@ -17,7 +23,7 @@ export async function fetchNotifications(): Promise<AppNotification[]> {
     .from('notifications')
     .select('id, type, title, body, action_url, is_read, metadata, created_at')
     .eq('user_id', userId())
-    .eq('metadata->>app', 'adc')
+    .or(ADC_ONLY)
     .order('created_at', { ascending: false })
     .limit(LIMIT)
   if (error) throw new Error(error.message)
@@ -30,6 +36,6 @@ export async function markAllRead(): Promise<void> {
     .update({ is_read: true })
     .eq('user_id', userId())
     .eq('is_read', false)
-    .eq('metadata->>app', 'adc')
+    .or(ADC_ONLY)
   if (error) throw new Error(error.message)
 }

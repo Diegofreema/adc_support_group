@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useForm, useWatch } from 'react-hook-form'
 
 import { homePathFor, login } from '../services/auth.service'
@@ -12,11 +12,13 @@ const DEFAULTS: LoginValues = { method: 'phone', identifier: '', password: '' }
 /** Login form state, validation and submit. */
 export function useLogin() {
   const navigate = useNavigate()
+  const { redirect } = useSearch({ from: '/' })
   const form = useForm<LoginValues>({ resolver: zodResolver(loginSchema), defaultValues: DEFAULTS })
   const mutation = useMutation({
     mutationFn: login,
     meta: { inlineError: true },
-    onSuccess: (user) => navigate({ to: homePathFor(user) }),
+    // redirect is already limited to internal paths by the route's validateSearch.
+    onSuccess: (user) => (redirect ? navigate({ href: redirect }) : navigate({ to: homePathFor(user) })),
   })
 
   const method = useWatch({ control: form.control, name: 'method' })

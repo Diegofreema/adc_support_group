@@ -31,6 +31,8 @@ export interface User {
   /** Group currently being worked on (leaders, members). */
   activeGroupId?: string
   activeGroupName?: string
+  /** Status of that group; only a verified group can invite, pay, message or record. */
+  activeGroupStatus?: GroupStatus
   title?: string
 }
 

@@ -1,4 +1,4 @@
-import { Bell, CircleUserRound, ContactRound, LifeBuoy, Network, Send } from 'lucide-react'
+import { Bell, CircleUserRound, ContactRound, Network, Send } from 'lucide-react'
 
 import type { MenuLink } from '../components/MenuSection'
 
@@ -20,6 +20,5 @@ export function accountLinks(counts: Counts): MenuLink[] {
   return [
     { label: 'Notifications', icon: Bell, to: '/notifications', count: counts.notifications, alert: true },
     { label: 'Profile', icon: CircleUserRound, to: '/profile' },
-    { label: 'Help', icon: LifeBuoy, to: '/more' },
   ]
 }

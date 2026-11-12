@@ -30,4 +30,4 @@ export interface Handover {
   requestedAt: string
 }
 
-export type SettingsTab = 'categories' | 'types' | 'staff' | 'handovers'
+export type SettingsTab = 'categories' | 'types' | 'sms' | 'staff' | 'handovers'

@@ -1,6 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router'
 
-import { PageLoader } from '@/components/shared'
+import { ErrorState, PageLoader } from '@/components/shared'
 import { PaymentCheckBanner } from '../components/PaymentCheckBanner'
 import { ReceiptActions } from '../components/ReceiptActions'
 import { ReceiptCard } from '../components/ReceiptCard'
@@ -18,9 +18,10 @@ function useReturnReference(): string | undefined {
 export function ReceiptPage() {
   const { paymentId } = routeApi.useParams()
   const reference = useReturnReference()
-  const { data: payment } = usePayment(paymentId)
+  const { data: payment, error, refetch } = usePayment(paymentId)
   const check = useVerifyPayment(reference)
   const actions = useReceiptActions(payment)
+  if (error && !payment) return <ErrorState title="Could not load this payment" error={error} onRetry={() => void refetch()} />
   if (!payment) return <PageLoader />
   return (
     <div className="main-narrow mx-auto">

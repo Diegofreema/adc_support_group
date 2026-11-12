@@ -1,9 +1,10 @@
 import { refreshSessionUser } from './session.service'
 import { completeSignup } from './verification.service'
-import type { RegistrationReceipt } from '../types/auth.types'
+import type { RegistrationDraft, RegistrationReceipt } from '../types/auth.types'
 import type { RegisterGroupValues } from '../utils/schemas'
 import { rpc, supabase } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
+import type { GroupLevel, GroupStatus } from '@/types/domain'
 
 async function categoryId(name: string): Promise<string> {
   const { data, error } = await supabase.from('support_group_categories').select('id').eq('name', name).maybeSingle()
@@ -14,11 +15,41 @@ async function categoryId(name: string): Promise<string> {
 
 const blank = (value: string) => value.trim() || null
 
+const PHOTO_BUCKET = 'activity-media'
+
+function extensionOf(file: File): string {
+  const fromName = file.name.split('.').pop()?.toLowerCase()
+  if (fromName && /^[a-z0-9]{2,5}$/.test(fromName)) return fromName
+  return file.type.split('/')[1] ?? 'jpg'
+}
+
+/**
+ * Upload the leader's photo to the group's folder (the leader may write
+ * there in any status) and save it on the group.
+ */
+async function uploadGroupPhoto(groupId: string, file: File): Promise<void> {
+  const path = `support-groups/${groupId}/group-${crypto.randomUUID()}.${extensionOf(file)}`
+  const { error } = await supabase.storage.from(PHOTO_BUCKET).upload(path, file, { contentType: file.type, upsert: false })
+  if (error) throw new Error(error.message)
+  const publicUrl = supabase.storage.from(PHOTO_BUCKET).getPublicUrl(path).data.publicUrl
+  await rpc('update_support_group_details', { p_photo_url: publicUrl })
+}
+
+export interface RegisterInput {
+  values: RegisterGroupValues
+  challengeId: string | null
+  /** New photo picked in the leader step. */
+  photo: File | null
+  /** Editing: the photo already on the group (register_support_group would clear it otherwise). */
+  existingPhotoUrl?: string
+}
+
 /**
  * Create the leader's account (unless they're already signed in), then submit
- * the group for Directorate checks. The leader stays signed in.
+ * the group for Directorate checks. The same call edits a pending group in
+ * place and resubmits a rejected one. The leader stays signed in.
  */
-export async function registerGroup(values: RegisterGroupValues, challengeId: string | null): Promise<RegistrationReceipt> {
+export async function registerGroup({ values, challengeId, photo, existingPhotoUrl }: RegisterInput): Promise<RegistrationReceipt> {
   if (!sessionStore.getUser()) {
     if (!challengeId) throw new Error('Send yourself a code first')
     await completeSignup({
@@ -34,7 +65,7 @@ export async function registerGroup(values: RegisterGroupValues, challengeId: st
   }
 
   const abroad = values.location === 'abroad'
-  const group = await rpc<{ name: string; submitted_at: string }>('register_support_group', {
+  const group = await rpc<{ id: string; name: string; submitted_at: string }>('register_support_group', {
     p_name: values.groupName,
     p_category_id: await categoryId(values.category),
     p_level: abroad ? 'abroad' : values.level,
@@ -46,7 +77,54 @@ export async function registerGroup(values: RegisterGroupValues, challengeId: st
     p_city: abroad ? blank(values.city) : null,
     p_about: blank(values.about),
     p_cac_number: blank(values.cacNumber),
+    p_photo_url: existingPhotoUrl ?? null,
   })
+
+  // The group is in either way; a failed photo upload is reported, not fatal.
+  const photoFailed = photo ? await uploadGroupPhoto(group.id, photo).then(() => false, () => true) : false
   await refreshSessionUser()
-  return { groupName: group.name, submittedAt: group.submitted_at }
+  return { groupName: group.name, submittedAt: group.submitted_at, photoFailed }
+}
+
+/** support_group_json fields the edit form needs (from get_my_support_group_review). */
+interface DraftRow {
+  name: string
+  status: GroupStatus
+  category: string | null
+  level: GroupLevel | null
+  state: string | null
+  lga: string | null
+  ward: string | null
+  country: string | null
+  city: string | null
+  about: string | null
+  photo_url: string | null
+  cac_number: string | null
+  leader_title: string | null
+}
+
+/** The leader's pending or rejected group, as form values for "Edit details". */
+export async function fetchRegistrationDraft(): Promise<RegistrationDraft> {
+  const row = await rpc<DraftRow>('get_my_support_group_review')
+  if (row.status !== 'pending' && row.status !== 'rejected') throw new Error('This group can no longer be edited')
+  const level = row.level
+  const abroad = level === 'abroad'
+  return {
+    status: row.status,
+    photoUrl: row.photo_url ?? undefined,
+    values: {
+      groupName: row.name,
+      category: row.category ?? '',
+      about: row.about ?? '',
+      location: abroad ? 'abroad' : 'nigeria',
+      level: level === 'abroad' || !level ? 'national' : level,
+      state: row.state ?? '',
+      lga: row.lga ?? '',
+      ward: row.ward ?? '',
+      country: row.country ?? '',
+      city: row.city ?? '',
+      leaderTitle: row.leader_title ?? '',
+      cacNumber: row.cac_number ?? '',
+    },
+  }
 }

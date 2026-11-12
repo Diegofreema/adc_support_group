@@ -1,13 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { directorateKeys } from '../../shared/query-keys'
+import { adminSettingsQuery, fetchAdminSettings, type AdminSettingsJson } from '../../shared/services/admin-settings'
 import type { ActivityType, Category, Handover, StaffMember, StaffRole } from '../types'
 import { rpc } from '@/lib/supabase'
 
-interface SettingsJson {
-  categories: { id: string; name: string; is_active: boolean; sort: number; group_count: number }[]
-  activity_types: { id: string; slug: string; name: string; is_enabled: boolean; sort: number }[]
-}
+type SettingsJson = AdminSettingsJson
 
 interface StaffJson {
   id: string
@@ -26,10 +24,10 @@ interface HandoverJson {
   requested_at: string
 }
 
-const fetchSettings = () => rpc<SettingsJson>('get_admin_sg_settings')
+const fetchSettings = fetchAdminSettings
 
-/** Categories and activity types come from one RPC; each list reads its half. */
-const settingsQuery = queryOptions({ queryKey: directorateKeys.settings('lists'), queryFn: fetchSettings })
+/** Categories, activity types and the SMS budget come from one RPC; each part selects its own. */
+const settingsQuery = adminSettingsQuery
 
 export const categoriesQuery = queryOptions({
   ...settingsQuery,

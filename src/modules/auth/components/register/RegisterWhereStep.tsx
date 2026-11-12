@@ -13,7 +13,7 @@ const LOCATIONS: SegmentOption<RegisterGroupValues['location']>[] = [
 
 interface RegisterWhereStepProps {
   form: UseFormReturn<RegisterGroupValues>
-  onBack: () => void
+  onBack?: () => void
   onNext: () => void
 }
 

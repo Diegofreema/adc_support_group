@@ -1,4 +1,5 @@
-import { WizardActions, WizardProgress } from '@/components/shared'
+import { PendingGroupNote, WizardActions, WizardProgress } from '@/components/shared'
+import { useGroupLocked } from '@/hooks/use-group-verified'
 import { ActivitySentDialog } from '../components/ActivitySentDialog'
 import { DetailsStep } from '../components/DetailsStep'
 import { PhotosStep } from '../components/PhotosStep'
@@ -9,6 +10,19 @@ import { useRecordActivity } from '../hooks/use-record-activity'
 type Flow = ReturnType<typeof useRecordActivity>
 
 export function RecordActivityPage() {
+  const locked = useGroupLocked()
+  if (locked) {
+    return (
+      <div className="main-narrow mx-auto">
+        <h1 className="h1">Record activity</h1>
+        <PendingGroupNote className="mt-5" />
+      </div>
+    )
+  }
+  return <RecordActivityWizard />
+}
+
+function RecordActivityWizard() {
   const flow = useRecordActivity()
   return (
     <div className="main-narrow mx-auto">

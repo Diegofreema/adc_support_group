@@ -14,9 +14,9 @@ function scrollToTop(): void {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-/** Step state for multi-step forms. */
-export function useWizard(total: number): Wizard {
-  const [step, setStep] = useState(0)
+/** Step state for multi-step forms. `initial` lets a flow skip leading steps. */
+export function useWizard(total: number, initial = 0): Wizard {
+  const [step, setStep] = useState(initial)
 
   const goTo = useCallback((target: number) => {
     setStep(Math.max(0, Math.min(total - 1, target)))

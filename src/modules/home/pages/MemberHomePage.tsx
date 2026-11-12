@@ -24,7 +24,7 @@ export function MemberHomePage() {
       right={(
         <>
           <LeaderNotes notes={data.notes} />
-          {data.inviteCode && <InviteFriendCard code={data.inviteCode} groupName={user.activeGroupName ?? 'my group'} />}
+          {data.inviteCode && user.activeGroupStatus === 'verified' && <InviteFriendCard code={data.inviteCode} groupName={user.activeGroupName ?? 'my group'} />}
         </>
       )}
     />

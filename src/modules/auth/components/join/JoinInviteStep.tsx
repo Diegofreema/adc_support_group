@@ -10,7 +10,7 @@ export function JoinInviteStep({ invite, onJoin }: { invite: Invite; onJoin: () 
       <StepHeading title="Join group" />
       <InviteCard invite={invite} />
       <WizardActions onNext={onJoin} nextLabel="Join" />
-      <HaveAccount />
+      <HaveAccount redirect={`/join/${invite.code}`} />
     </>
   )
 }

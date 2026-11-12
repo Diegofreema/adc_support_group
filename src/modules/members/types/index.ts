@@ -46,8 +46,33 @@ export interface ImportCheck {
   issues: ImportRowIssue[]
 }
 
+/** How a new account hears about it: email, SMS, or the leader sends the link. */
+export type WelcomeChannel = 'email' | 'sms' | 'share'
+
+/** A new person the leader must send their link to (no email, no SMS points). */
+export interface WelcomeShare {
+  fullName: string
+  phone: string
+  link: string
+  message: string
+}
+
+export interface WelcomeSummary {
+  email: number
+  sms: number
+  share: WelcomeShare[]
+}
+
 export interface ImportResult {
   added: number
   linked: number
   notAdded: ImportRowIssue[]
+  welcome: WelcomeSummary
+}
+
+export interface AddedMember {
+  fullName: string
+  /** null when they already had an account (told in-app). */
+  welcome: WelcomeChannel | null
+  share: WelcomeShare[]
 }

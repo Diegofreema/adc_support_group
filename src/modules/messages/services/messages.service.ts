@@ -26,11 +26,14 @@ export async function listChapterAudiences(): Promise<ChapterAudience[]> {
   return chapters.map((chapter) => ({ id: chapter.id, name: chapter.name, count: Number(chapter.member_count) }))
 }
 
-/** All members and executives; "One chapter" only when the group has chapters. */
+/**
+ * All members and executives; "One chapter" only when the group has chapters.
+ * Its count depends on the chapter picked, so the compose hook fills it in.
+ */
 export async function listAudiences(): Promise<AudienceOption[]> {
   const [all, executives, chapters] = await Promise.all([rosterTotal('all'), rosterTotal('executives'), listChapterAudiences()])
   const options: AudienceOption[] = [{ value: 'all', label: AUDIENCE_LABEL.all, count: all }]
-  if (chapters.length > 0) options.push({ value: 'chapter', label: AUDIENCE_LABEL.chapter, count: chapters[0]!.count })
+  if (chapters.length > 0) options.push({ value: 'chapter', label: AUDIENCE_LABEL.chapter, count: 0 })
   options.push({ value: 'executives', label: AUDIENCE_LABEL.executives, count: executives })
   return options
 }

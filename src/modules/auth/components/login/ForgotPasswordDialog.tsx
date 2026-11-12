@@ -1,24 +1,27 @@
-import { Button, Field, Modal, TextInput } from '@/components/shared'
-import { useForgotPassword } from '../../hooks/use-forgot-password'
+import { useNavigate } from '@tanstack/react-router'
+
+import { Button, Modal } from '@/components/shared'
+import { RequestCodeForm } from '../RequestCodeForm'
 
 interface ForgotPasswordDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
+/** Send a reset code (choosing email or SMS when the account has both), then set a new password. */
 export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialogProps) {
-  const { form, onSubmit, isPending } = useForgotPassword(() => onOpenChange(false))
+  const navigate = useNavigate()
   return (
     <Modal open={open} onOpenChange={onOpenChange} title="Reset password" description="We'll send you a code.">
-      <form onSubmit={onSubmit} noValidate>
-        <Field label="Phone or email" htmlFor="forgot-id" error={form.formState.errors.identifier?.message}>
-          <TextInput id="forgot-id" placeholder="0803 123 4567" {...form.register('identifier')} />
-        </Field>
-        <div className="dialog-actions">
-          <Button onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button type="submit" variant="primary" disabled={isPending}>Send code</Button>
-        </div>
-      </form>
+      {open && (
+        <RequestCodeForm
+          onSent={({ phone, challengeId, channel }) => {
+            onOpenChange(false)
+            navigate({ to: '/set-password', search: { phone, challenge: challengeId, via: channel } })
+          }}
+          secondary={<Button onClick={() => onOpenChange(false)}>Cancel</Button>}
+        />
+      )}
     </Modal>
   )
 }

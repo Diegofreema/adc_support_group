@@ -8,10 +8,12 @@ const STEPS: TimelineStep[] = [
   { title: 'Verified', state: 'todo' },
 ]
 
-export function RegisterDoneDialog({ open }: { open: boolean }) {
+const TITLES = { submitted: 'Submitted', resubmitted: 'Resubmitted', saved: 'Changes saved' } as const
+
+export function RegisterDoneDialog({ open, mode = 'submitted' }: { open: boolean; mode?: keyof typeof TITLES }) {
   return (
-    <Modal open={open} onOpenChange={() => undefined} title="Submitted">
-      <ResultHeader title="Usually 1–3 days" />
+    <Modal open={open} onOpenChange={() => undefined} title={TITLES[mode]}>
+      <ResultHeader title={mode === 'saved' ? 'Your place in the queue is kept' : 'Usually 1–3 days'} />
       <div className="mt-6"><Timeline steps={STEPS} /></div>
       <Link to="/home" className={`${buttonClassName('primary', 'md', true)} mt-6`}>Go to home</Link>
     </Modal>

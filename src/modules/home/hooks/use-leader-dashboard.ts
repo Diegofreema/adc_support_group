@@ -4,7 +4,7 @@ import { fetchLeaderDashboard } from '../services/home.service'
 import { useRequiredUser } from '@/stores/session-store'
 
 export const leaderDashboardQuery = (groupId: string | undefined) =>
-  queryOptions({ queryKey: ['home', 'leader', groupId], queryFn: () => fetchLeaderDashboard(groupId) })
+  queryOptions({ queryKey: ['home', 'leader', groupId], queryFn: () => fetchLeaderDashboard(groupId), throwOnError: true })
 
 export function useLeaderDashboard() {
   const user = useRequiredUser()

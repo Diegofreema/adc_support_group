@@ -2,7 +2,7 @@ import { refreshSessionUser } from './session.service'
 import { completeSignup } from './verification.service'
 import type { Invite } from '../types/auth.types'
 import type { JoinValues } from '../utils/schemas'
-import { rpc } from '@/lib/supabase'
+import { rpc, supabase } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { GroupStatus, User } from '@/types/domain'
 
@@ -39,11 +39,23 @@ async function joinByCode(code: string): Promise<User> {
   return user
 }
 
+/** Save the optional email on the person's own profile (RLS allows self-update). */
+async function saveEmail(userId: string, email: string): Promise<boolean> {
+  const { error } = await supabase.from('profiles').update({ email: email.trim().toLowerCase() }).eq('id', userId)
+  return !error
+}
+
+export interface JoinResult {
+  user: User
+  /** False when an email was given but couldn't be saved (the join itself worked). */
+  emailSaved: boolean
+}
+
 /**
- * New visitor: create the account with the phone code, then join. The code is
- * checked here, so a wrong code fails this call.
+ * New visitor: create the account with the phone code, then join, then save
+ * the optional email. The code is checked here, so a wrong code fails this call.
  */
-export async function joinGroup(values: JoinValues, invite: Invite, challengeId: string): Promise<User> {
+export async function joinGroup(values: JoinValues, invite: Invite, challengeId: string): Promise<JoinResult> {
   await completeSignup({
     challengeId,
     code: values.code,
@@ -55,7 +67,11 @@ export async function joinGroup(values: JoinValues, invite: Invite, challengeId:
     ward: values.ward,
     gender: GENDERS[values.gender],
   })
-  return joinByCode(invite.code)
+  const user = await joinByCode(invite.code)
+  if (!values.email) return { user, emailSaved: true }
+  const emailSaved = await saveEmail(user.id, values.email)
+  const refreshed = emailSaved ? await refreshSessionUser().catch(() => null) : null
+  return { user: refreshed ?? user, emailSaved }
 }
 
 /** Someone already signed in opens a join link: one tap. */

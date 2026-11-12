@@ -4,7 +4,7 @@ import type { Page } from '../../shared/services/paging'
 import { groupListArgs, toGroup, type GroupJson, type GroupListArgs } from '../../shared/services/group-json'
 import { directorateKeys } from '../../shared/query-keys'
 import { groupPlace } from '../utils/group-filters'
-import type { GroupHistoryEntry, GroupTab, ListGroup, ReviewGroup } from '../types'
+import type { GroupHistoryEntry, GroupTab, ListGroup, ReviewGroup, ReviewMessage } from '../types'
 import { rpc } from '@/lib/supabase'
 
 const TABS: GroupTab[] = ['pending', 'verified', 'rejected', 'suspended']
@@ -25,6 +25,17 @@ interface GroupReviewJson {
   members_by_excel: number
   leader_phone_verified: boolean
   history: { title: string; date: string; by: string | null }[]
+  messages?: { id: string; from_staff: boolean; body: string; author_name: string | null; created_at: string }[]
+}
+
+function toMessages(rows: GroupReviewJson['messages']): ReviewMessage[] {
+  return (rows ?? []).map((row) => ({
+    id: row.id,
+    fromStaff: row.from_staff,
+    body: row.body,
+    authorName: row.author_name ?? (row.from_staff ? 'The Directorate' : 'Leader'),
+    createdAt: row.created_at,
+  }))
 }
 
 async function fetchGroups(args: GroupListArgs, limit: number, offset: number): Promise<Page<ListGroup>> {
@@ -65,6 +76,7 @@ async function fetchGroup(id: string): Promise<ReviewGroup> {
     membersByLink: Number(extras.members_by_link),
     membersByExcel: Number(extras.members_by_excel),
     history: toHistory(extras.history),
+    messages: toMessages(extras.messages),
   }
 }
 

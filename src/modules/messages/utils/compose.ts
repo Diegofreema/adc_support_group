@@ -8,7 +8,7 @@ export function recipientsFor(audiences: AudienceOption[], audience: Audience, c
 
 /** The chapter option shows the chosen chapter's count. */
 export function withChapterCount(audiences: AudienceOption[], chapter?: ChapterAudience): AudienceOption[] {
-  return audiences.map((option) => (option.value === 'chapter' && chapter ? { ...option, count: chapter.count } : option))
+  return audiences.map((option) => (option.value === 'chapter' ? { ...option, count: chapter?.count ?? 0 } : option))
 }
 
 /** The SMS starts with the group's name ("Group: message"), and that is billed too. */

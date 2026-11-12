@@ -1,8 +1,8 @@
-import type { LeaderDashboard, MemberDashboard } from '../types/home.types'
+import type { GroupNotice, GroupReview, LeaderDashboard, MemberDashboard } from '../types/home.types'
 import {
-  leaderTodos, myGroups, recentItems, toGroupSummary, toLeaderNote, toMyActivity,
+  leaderTodos, myGroups, recentItems, toGroupReview, toGroupSummary, toLeaderNote, toMyActivity,
   type ActivityRow, type GroupRow, type MyActivityStats, type MySupportGroup, type NoteRow, type PaymentRow,
-  type PeriodStats,
+  type PeriodStats, type ReviewRow,
 } from '../utils/to-dashboard'
 import { rpc } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
@@ -107,4 +107,23 @@ export async function switchActiveGroup(group: { id: string; name: string }): Pr
   const user = sessionStore.getUser()
   if (!user) return
   sessionStore.setUser({ ...user, activeGroupId: group.id, activeGroupName: group.name })
+}
+
+/** The leader's own group while it waits for (or was turned down by) the Directorate. */
+export async function fetchMyGroupReview(): Promise<GroupReview> {
+  return toGroupReview(await rpc<ReviewRow>('get_my_support_group_review'))
+}
+
+/** Answer the Directorate's "we need more information". */
+export async function replyToDirectorate(message: string): Promise<void> {
+  const body = message.trim()
+  if (!body) throw new Error('Write your reply')
+  await rpc('reply_support_group_info', { p_message: body })
+}
+
+/** Name, status and reason of the caller's group (e.g. why it was suspended). */
+export async function fetchGroupNotice(): Promise<GroupNotice | null> {
+  const mine = await getMine()
+  if (!mine.group) return null
+  return { name: mine.group.name, status: mine.group.status, reason: mine.group.review_note ?? undefined }
 }

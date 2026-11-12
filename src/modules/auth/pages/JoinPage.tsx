@@ -17,7 +17,7 @@ export function JoinPage() {
   const { code } = useParams({ from: '/join/$code' })
   const { data: invite, isError } = useInvite(code)
   return (
-    <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={<LoginLink />}>
+    <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={<LoginLink redirect={`/join/${code}`} />}>
       {isError && <EmptyState icon={Link2Off} title="Link not found" />}
       {invite && <JoinWizard invite={invite} />}
     </AuthLayout>
@@ -32,7 +32,7 @@ function JoinWizard({ invite }: { invite: Invite }) {
       <WizardProgress step={wizard.step} total={wizard.total} />
       <section className="mt-6">
         {wizard.step === 0 && <JoinInviteStep invite={invite} onJoin={flow.start} />}
-        {wizard.step === 1 && <JoinPhoneStep form={form} onBack={wizard.back} onNext={flow.submitPhone} loading={flow.isPending} />}
+        {wizard.step === 1 && <JoinPhoneStep form={form} onBack={wizard.back} onNext={flow.submitPhone} loading={flow.isPending} error={flow.sendError} loginToJoin={flow.loginToJoin} />}
         {wizard.step === 2 && <JoinCodeStep form={form} onBack={wizard.back} onNext={flow.submitCode} onResend={flow.resendCode} loading={flow.isPending} />}
         {wizard.step === 3 && <JoinDetailsStep form={form} onBack={wizard.back} onFinish={flow.finish} loading={flow.isPending} />}
       </section>

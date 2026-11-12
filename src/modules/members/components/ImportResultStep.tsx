@@ -5,15 +5,17 @@ import { Button, ResultHeader, SectionTitle, buttonClassName } from '@/component
 import type { ImportResult } from '../types'
 import { ImportCounts } from './ImportCounts'
 import { ImportIssueList } from './ImportIssueList'
+import { WelcomeSummaryNote } from './WelcomeSummaryNote'
 
 export function ImportResultStep({ result, onDownloadIssues }: { result: ImportResult; onDownloadIssues: () => void }) {
   const hasIssues = result.notAdded.length > 0
   return (
     <section className="mt-6">
-      <ResultHeader title="Done" subtitle="Passwords sent by email or SMS." />
+      <ResultHeader title="Done" subtitle="New people set their password from the link they get." />
       <div className="mt-6">
         <ImportCounts items={[{ label: 'New', value: result.added, tone: 'green' }, { label: 'Linked', value: result.linked }, { label: 'Not added', value: result.notAdded.length, tone: 'red' }]} />
       </div>
+      <div className="mt-6"><WelcomeSummaryNote summary={result.welcome} /></div>
       {hasIssues && (
         <>
           <SectionTitle title="Not added" action={<Button variant="ghost" size="sm" icon={Download} onClick={onDownloadIssues}>Download</Button>} />

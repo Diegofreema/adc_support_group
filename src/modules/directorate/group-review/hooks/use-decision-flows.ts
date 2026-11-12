@@ -24,11 +24,10 @@ export function useSuspendFlow(groupId: string) {
   return { dialog, form, submit }
 }
 
-/** Ask the leader for more information. */
+/** Ask the leader for more information (the composer under the review thread). */
 export function useAskInfoFlow(groupId: string) {
-  const dialog = useDisclosure()
   const [message, setMessage] = useState('')
   const { askInfo } = useGroupDecisions(groupId)
-  const submit = () => askInfo.mutate(message.trim(), { onSuccess: () => { setMessage(''); dialog.close() } })
-  return { dialog, message, setMessage, canSend: message.trim().length > 2, submit }
+  const submit = () => askInfo.mutate(message.trim(), { onSuccess: () => setMessage('') })
+  return { message, setMessage, canSend: message.trim().length > 2, submit, isSending: askInfo.isPending }
 }

@@ -7,15 +7,18 @@ import { LeaderPhotoPicker } from './LeaderPhotoPicker'
 
 interface RegisterLeaderStepProps {
   form: UseFormReturn<RegisterGroupValues>
-  onBack: () => void
+  onBack?: () => void
   onNext: () => void
+  onPickPhoto: (file: File) => void
+  /** Editing: the photo already on the group. */
+  existingPhotoUrl?: string
 }
 
-export function RegisterLeaderStep({ form, onBack, onNext }: RegisterLeaderStepProps) {
+export function RegisterLeaderStep({ form, onBack, onNext, onPickPhoto, existingPhotoUrl }: RegisterLeaderStepProps) {
   return (
     <>
       <StepHeading title="Leader" />
-      <LeaderPhotoPicker fileName={form.watch('photoName')} onPick={(file) => form.setValue('photoName', file.name)} />
+      <LeaderPhotoPicker fileName={form.watch('photoName')} onPick={onPickPhoto} currentUrl={existingPhotoUrl} />
       <Field label="Your title" htmlFor="reg-title" error={form.formState.errors.leaderTitle?.message} className="mt-5">
         <TextInput id="reg-title" placeholder="National Coordinator" {...form.register('leaderTitle')} />
       </Field>

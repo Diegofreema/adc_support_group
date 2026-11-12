@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form'
 
-import { Banner, Button, Field, Modal, OtpInput, TextInput } from '@/components/shared'
+import { Banner, Button, ChoiceList, Field, Modal, OtpInput, TextInput } from '@/components/shared'
 import { useChangePassword } from '../hooks/use-change-password'
 
 interface ChangePasswordDialogProps {
@@ -26,7 +26,19 @@ type ChangePassword = ReturnType<typeof useChangePassword>
 function SendStep({ password, onCancel }: { password: ChangePassword; onCancel: () => void }) {
   return (
     <>
-      <p className="muted">We will text a code to your phone.</p>
+      {password.channels
+        ? (
+          <Field label="Send the code to">
+            <ChoiceList
+              name="code-channel" label="Send the code to" value={password.channel} onChange={password.setChannel}
+              options={[
+                { value: 'email', title: 'Email', description: password.channels.email },
+                { value: 'sms', title: 'SMS', description: password.channels.sms },
+              ]}
+            />
+          </Field>
+        )
+        : <p className="muted">We will send a code to your email, or to your phone if you have no email.</p>}
       {password.error && <Banner tone="danger" className="mt-4">{password.error}</Banner>}
       <div className="dialog-actions">
         <Button onClick={onCancel}>Cancel</Button>
@@ -41,7 +53,7 @@ function CodeStep({ password, onCancel }: { password: ChangePassword; onCancel: 
   const errors = form.formState.errors
   return (
     <form onSubmit={password.onSubmit} noValidate>
-      <p className="muted small">Code sent to {password.challenge?.phone}</p>
+      <p className="muted small">Code sent to {password.challenge?.sentTo}</p>
       <Field label="Code" error={errors.code?.message}>
         <Controller control={form.control} name="code" render={({ field }) => <OtpInput value={field.value} onChange={field.onChange} />} />
       </Field>

@@ -21,48 +21,59 @@ export const loginSchema = z
   })
 export type LoginValues = z.infer<typeof loginSchema>
 
-export const forgotPasswordSchema = z.object({ identifier: required('Enter your phone or email') })
-export type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>
+/** Ask for a reset / set-password code: the phone on the account. */
+export const requestCodeSchema = z.object({ phone })
+export type RequestCodeValues = z.infer<typeof requestCodeSchema>
 
 export const joinSchema = z.object({
   phone,
   code: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
-  fullName: required('Enter your name'),
+  fullName: z.string().trim().min(2, 'Enter your name'),
   state: required('Choose your state'),
   lga: required('Choose your LGA'),
   ward: required('Choose your ward'),
   password: newPassword,
+  /** Optional; saved to the profile after joining (email-first messages). */
   email: z.union([z.email('Enter a valid email'), z.literal('')]),
   gender: z.string(),
-  ageRange: z.string(),
-  occupation: z.string(),
-  pollingUnit: z.string(),
 })
 export type JoinValues = z.infer<typeof joinSchema>
 
-export const registerGroupSchema = z
-  .object({
-    fullName: required('Enter your name'),
-    phone,
-    code: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
-    password: newPassword,
-    groupName: z.string().trim().min(3, 'Enter the group name'),
-    category: required('Pick a category'),
-    about: z.string(),
-    location: z.enum(['nigeria', 'abroad']),
-    level: z.enum(['national', 'state', 'lga', 'ward']),
-    state: z.string(),
-    lga: z.string(),
-    ward: z.string(),
-    country: z.string(),
-    city: z.string(),
-    leaderTitle: required('Enter your title'),
-    photoName: z.string(),
-    cacNumber: z.string(),
-    confirmed: z.boolean().refine(Boolean, 'Please confirm'),
-  })
-  .superRefine(validatePlace)
+const account = {
+  fullName: required('Enter your name'),
+  phone,
+  code: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'),
+  password: newPassword,
+}
+
+const groupDetails = {
+  groupName: z.string().trim().min(3, 'Enter the group name'),
+  category: required('Pick a category'),
+  about: z.string(),
+  location: z.enum(['nigeria', 'abroad']),
+  level: z.enum(['national', 'state', 'lga', 'ward']),
+  state: z.string(),
+  lga: z.string(),
+  ward: z.string(),
+  country: z.string(),
+  city: z.string(),
+  leaderTitle: required('Enter your title'),
+  photoName: z.string(),
+  cacNumber: z.string(),
+  confirmed: z.boolean().refine(Boolean, 'Please confirm'),
+}
+
+/** New leader: account + group. */
+export const registerGroupSchema = z.object({ ...account, ...groupDetails }).superRefine(validatePlace)
 export type RegisterGroupValues = z.infer<typeof registerGroupSchema>
+
+/**
+ * Already signed in (registering from "not in a group", or editing a
+ * pending/rejected group): the account fields aren't asked for.
+ */
+export const registerSignedInSchema = z
+  .object({ ...groupDetails, fullName: z.string(), phone: z.string(), code: z.string(), password: z.string() })
+  .superRefine(validatePlace)
 
 type PlaceCheck = Pick<RegisterGroupValues, 'location' | 'level' | 'state' | 'lga' | 'ward' | 'country' | 'city'>
 

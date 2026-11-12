@@ -3,6 +3,7 @@ import { Download } from 'lucide-react'
 
 import { Banner, PageHeader, SectionTitle, StatGrid, buttonClassName } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
+import { SmsBudgetWarning } from '../../shared/components/SmsBudgetWarning'
 import { CategoriesCard } from '../components/CategoriesCard'
 import { PeriodSelect } from '../components/PeriodSelect'
 import { StatesSection } from '../components/StatesSection'
@@ -17,6 +18,7 @@ export function DashboardPage() {
   return (
     <>
       <PageHeader title="Overview" actions={<HeaderActions period={period} onPeriod={setPeriod} />} />
+      <SmsBudgetWarning className="mb-4" />
       {error && !dashboard && <Banner tone="danger" title="Could not load the overview">{error.message}</Banner>}
       {dashboard && <DashboardBody dashboard={dashboard} />}
     </>

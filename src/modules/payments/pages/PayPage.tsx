@@ -1,6 +1,7 @@
 import { CreditCard } from 'lucide-react'
 
-import { WizardActions, WizardProgress } from '@/components/shared'
+import { PendingGroupNote, WizardActions, WizardProgress } from '@/components/shared'
+import { useGroupLocked } from '@/hooks/use-group-verified'
 import { AmountStep } from '../components/AmountStep'
 import { PayCheckStep } from '../components/PayCheckStep'
 import { PayForStep } from '../components/PayForStep'
@@ -9,6 +10,19 @@ import { usePayWizard } from '../hooks/use-pay-wizard'
 type Flow = ReturnType<typeof usePayWizard>
 
 export function PayPage() {
+  const locked = useGroupLocked()
+  if (locked) {
+    return (
+      <div className="main-narrow mx-auto">
+        <h1 className="h1">Pay</h1>
+        <PendingGroupNote className="mt-5" />
+      </div>
+    )
+  }
+  return <PayWizard />
+}
+
+function PayWizard() {
   const flow = usePayWizard()
   return (
     <div className="main-narrow mx-auto">

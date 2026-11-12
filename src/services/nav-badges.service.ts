@@ -7,6 +7,9 @@ import type { User } from '@/types/domain'
 
 export type NavBadges = Partial<Record<BadgeKey, number>>
 
+/** Same rule as the notifications list: tagged ADC, or an older support-group notice. */
+const ADC_ONLY = 'metadata->>app.eq.adc,metadata->>group_id.not.is.null'
+
 /** Unread ADC notifications: a head-only count, no rows. */
 async function unreadNotifications(userId: string): Promise<number> {
   const { count, error } = await supabase
@@ -14,7 +17,7 @@ async function unreadNotifications(userId: string): Promise<number> {
     .select('id', { count: 'exact', head: true })
     .eq('user_id', userId)
     .eq('is_read', false)
-    .eq('metadata->>app', 'adc')
+    .or(ADC_ONLY)
   if (error) throw new Error(error.message)
   return count ?? 0
 }

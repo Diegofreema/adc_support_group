@@ -3,7 +3,7 @@ import {
   Megaphone, Network, Send, Settings, ShieldCheck, Target, UsersRound, Wallet, type LucideIcon,
 } from 'lucide-react'
 
-import type { Role } from '@/types/domain'
+import type { GroupStatus, Role } from '@/types/domain'
 
 export interface NavItem {
   to: string
@@ -103,13 +103,40 @@ const directorateNav: RoleNavigation = {
   ],
 }
 
+/**
+ * A group that isn't verified (pending, rejected, suspended) can't invite,
+ * add members, pay, message, run chapters or record activities: the backend
+ * refuses. Only what still works is shown. No group at all: home and account.
+ */
+const waitingNav: RoleNavigation = {
+  home: '/home',
+  sidebar: [
+    { title: 'Menu', items: [home, { to: '/group', label: 'My group', icon: UsersRound }] },
+    { title: 'Account', items: [{ ...notifications, label: 'Notifications' }, { ...profile, label: 'My profile' }] },
+  ],
+  bottom: [home, { to: '/group', label: 'My group', icon: UsersRound }, notifications, profile],
+}
+
+const noGroupNav: RoleNavigation = {
+  home: '/home',
+  sidebar: [
+    { title: 'Menu', items: [home] },
+    { title: 'Account', items: [{ ...notifications, label: 'Notifications' }, { ...profile, label: 'My profile' }] },
+  ],
+  bottom: [home, notifications, profile],
+}
+
 const NAVIGATION: Record<Role, RoleNavigation> = {
   leader: leaderNav,
   member: memberNav,
   directorate: directorateNav,
 }
 
-export function navigationFor(role: Role): RoleNavigation {
+/** groupStatus: the active group's status; undefined means no group (ignored for the Directorate). */
+export function navigationFor(role: Role, groupStatus?: GroupStatus): RoleNavigation {
+  if (role === 'directorate') return directorateNav
+  if (!groupStatus) return noGroupNav
+  if (groupStatus !== 'verified') return waitingNav
   return NAVIGATION[role]
 }
 

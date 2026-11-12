@@ -18,10 +18,7 @@ export function JoinDetailsStep({ form, onBack, onFinish, loading }: JoinDetails
   const errors = form.formState.errors
   return (
     <>
-      <StepHeading title="Your details" />
-      <Field label="Full name" htmlFor="join-name" error={errors.fullName?.message} className="mt-5">
-        <TextInput id="join-name" autoComplete="name" {...form.register('fullName')} />
-      </Field>
+      <StepHeading title="Where you are" />
       <PlaceSelects compact idPrefix="join" value={place.value} onChange={place.onChange} errors={place.errors} />
       <Field label="Password" htmlFor="join-password" error={errors.password?.message}>
         <TextInput id="join-password" type="password" autoComplete="new-password" placeholder="8+ characters" {...form.register('password')} />

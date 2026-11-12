@@ -1,4 +1,5 @@
-import { WizardProgress } from '@/components/shared'
+import { PendingGroupNote, WizardProgress } from '@/components/shared'
+import { useGroupLocked } from '@/hooks/use-group-verified'
 import { useActiveGroupId } from '@/modules/groups'
 import { ImportCheckStep } from '../components/ImportCheckStep'
 import { ImportResultStep } from '../components/ImportResultStep'
@@ -6,6 +7,19 @@ import { ImportUploadStep } from '../components/ImportUploadStep'
 import { useImportWizard } from '../hooks/use-import-wizard'
 
 export function ImportMembersPage() {
+  const locked = useGroupLocked()
+  if (locked) {
+    return (
+      <div className="main-narrow mx-auto">
+        <h1 className="h1">Import members</h1>
+        <PendingGroupNote className="mt-5" />
+      </div>
+    )
+  }
+  return <ImportWizard />
+}
+
+function ImportWizard() {
   const groupId = useActiveGroupId()
   const flow = useImportWizard(groupId)
   const { wizard, file } = flow

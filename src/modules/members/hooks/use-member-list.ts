@@ -25,6 +25,8 @@ export function useMemberList(groupId: string) {
 
   return {
     isLoading: members.isLoading,
+    error: members.error,
+    retry: () => void members.refetch(),
     all: members.data ?? [],
     filtered,
     pageData: paginate(filtered, page, PAGE_SIZE),

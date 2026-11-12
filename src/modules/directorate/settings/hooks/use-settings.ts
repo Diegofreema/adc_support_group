@@ -6,6 +6,8 @@ import {
   removeCategory, renameCategory, setActivityTypeEnabled, staffQuery,
 } from '../services/settings.service'
 import { directorateKeys } from '../../shared/query-keys'
+import { setSmsBudget, smsBudgetQuery } from '../../shared/services/admin-settings'
+import { useRequiredUser } from '@/stores/session-store'
 
 /** Lists here also feed the filters and pickers on other directorate screens. */
 function useWithLookupRefresh(kind: string) {
@@ -46,4 +48,14 @@ export function useHandovers() {
     await queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
   }, ({ approve }) => (approve ? 'Handover approved' : 'Handover declined'))
   return { items: useQuery(handoversQuery).data ?? [], decide }
+}
+
+/** Staff read the budget; only a super admin can change it. */
+export function useSmsBudget() {
+  const user = useRequiredUser()
+  return {
+    budget: useQuery(smsBudgetQuery).data ?? null,
+    canEdit: user.title === 'Super admin',
+    save: useSettingsMutation(['lists'], (value: number) => setSmsBudget(value), 'SMS budget saved'),
+  }
 }
