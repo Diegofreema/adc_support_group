@@ -653,3 +653,13 @@ a.list-item:hover .chev { transform: translateX(3px); color: var(--text); }
 @media (max-width: 767px) {
   td > a { display: inline-flex; align-items: center; min-height: 44px; }
 }
+
+/* Password box with a show/hide eye (PasswordInput). */
+.password-field { position: relative; display: block; }
+.password-field > .input { padding-right: 48px; }
+.password-toggle { position: absolute; top: 50%; right: 2px; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: transparent; color: var(--text-3); cursor: pointer; border-radius: var(--r); }
+.password-toggle:hover { color: var(--text); }
+.password-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: -4px; }
+/* Hide the browser's own reveal button (Edge) so there is one eye. */
+.password-field input::-ms-reveal, .password-field input::-ms-clear { display: none; }
+

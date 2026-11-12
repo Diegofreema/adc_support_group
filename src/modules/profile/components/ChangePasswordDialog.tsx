@@ -1,6 +1,6 @@
 import { Controller } from 'react-hook-form'
 
-import { Banner, Button, ChoiceList, Field, Modal, OtpInput, TextInput } from '@/components/shared'
+import { Banner, Button, ChoiceList, Field, Modal, OtpInput, PasswordInput } from '@/components/shared'
 import { useChangePassword } from '../hooks/use-change-password'
 
 interface ChangePasswordDialogProps {
@@ -58,7 +58,7 @@ function CodeStep({ password, onCancel }: { password: ChangePassword; onCancel: 
         <Controller control={form.control} name="code" render={({ field }) => <OtpInput value={field.value} onChange={field.onChange} />} />
       </Field>
       <Field label="New password" htmlFor="pw-next" error={errors.next?.message}>
-        <TextInput id="pw-next" type="password" autoComplete="new-password" placeholder="8+ characters" {...form.register('next')} />
+        <PasswordInput id="pw-next" autoComplete="new-password" placeholder="8+ characters" {...form.register('next')} />
       </Field>
       {password.error && <Banner tone="danger" className="mt-4">{password.error}</Banner>}
       <div className="dialog-actions">

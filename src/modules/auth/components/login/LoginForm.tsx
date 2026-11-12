@@ -1,4 +1,4 @@
-import { Banner, Button, Field, Segmented, TextInput, type SegmentOption } from '@/components/shared'
+import { Banner, Button, Field, PasswordInput, Segmented, type SegmentOption } from '@/components/shared'
 import { useDisclosure } from '@/hooks/use-disclosure'
 import { useLogin } from '../../hooks/use-login'
 import type { LoginMethod } from '../../types/auth.types'
@@ -20,7 +20,7 @@ export function LoginForm() {
       <form className="mt-5" onSubmit={onSubmit} noValidate>
         <LoginIdentifierField form={form} method={method} />
         <Field label="Password" htmlFor="login-password" error={form.formState.errors.password?.message} aside={<ForgotLink onClick={forgot.open} />}>
-          <TextInput id="login-password" type="password" autoComplete="current-password" placeholder="••••••••" {...form.register('password')} />
+          <PasswordInput id="login-password" autoComplete="current-password" placeholder="••••••••" {...form.register('password')} />
         </Field>
         {error && <Banner tone="danger" className="mt-4">{error}</Banner>}
         <Button type="submit" variant="primary" size="lg" block className="mt-6" disabled={isPending}>

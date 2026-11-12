@@ -20,7 +20,7 @@ export function useSetPassword() {
   const { phone, challenge, via, welcome } = useSearch({ from: '/set-password' })
   const form = useForm<SetPasswordValues>({
     resolver: zodResolver(setPasswordSchema),
-    defaultValues: { code: '', password: '', repeat: '', show: false },
+    defaultValues: { code: '', password: '', repeat: '' },
   })
   const mutation = useMutation({
     mutationFn: (values: SetPasswordValues) =>
@@ -30,7 +30,7 @@ export function useSetPassword() {
       navigate({ to: homePathFor(user) })
     },
   })
-  const [password, show] = useWatch({ control: form.control, name: ['password', 'show'] })
+  const password = useWatch({ control: form.control, name: 'password' })
   return {
     form,
     phone,
@@ -41,7 +41,6 @@ export function useSetPassword() {
     onCodeSent: (sent: CodeSent) =>
       navigate({ to: '/set-password', search: { phone: sent.phone, challenge: sent.challengeId, via: sent.channel, welcome }, replace: true }),
     rules: passwordRules(password),
-    showPassword: show,
     onSubmit: form.handleSubmit((values) => mutation.mutate(values)),
     isPending: mutation.isPending,
   }

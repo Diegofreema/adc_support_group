@@ -1,6 +1,6 @@
 import { KeyRound } from 'lucide-react'
 
-import { Button, Checkbox, Field, IconTile, TextInput } from '@/components/shared'
+import { Button, Field, IconTile, PasswordInput, TextInput } from '@/components/shared'
 import { formatPhone } from '@/lib/phone'
 import { useSetPassword } from '../hooks/use-set-password'
 import { RequestCodeForm } from './RequestCodeForm'
@@ -8,8 +8,7 @@ import { PasswordRules } from './shared/PasswordRules'
 import { StepHeading } from './shared/StepHeading'
 
 export function SetPasswordForm() {
-  const { form, phone, via, welcome, hasCode, onCodeSent, rules, showPassword, onSubmit, isPending } = useSetPassword()
-  const type = showPassword ? 'text' : 'password'
+  const { form, phone, via, welcome, hasCode, onCodeSent, rules, onSubmit, isPending } = useSetPassword()
   const errors = form.formState.errors
 
   if (!hasCode) {
@@ -34,13 +33,12 @@ export function SetPasswordForm() {
         <TextInput id="reset-code" inputMode="numeric" autoComplete="one-time-code" maxLength={6} placeholder="6 digits" {...form.register('code')} />
       </Field>
       <Field label="New password" htmlFor="new-password" error={errors.password?.message}>
-        <TextInput id="new-password" type={type} autoComplete="new-password" {...form.register('password')} />
+        <PasswordInput id="new-password" autoComplete="new-password" {...form.register('password')} />
         <PasswordRules rules={rules} />
       </Field>
       <Field label="Repeat password" htmlFor="repeat-password" error={errors.repeat?.message}>
-        <TextInput id="repeat-password" type={type} autoComplete="new-password" {...form.register('repeat')} />
+        <PasswordInput id="repeat-password" autoComplete="new-password" {...form.register('repeat')} />
       </Field>
-      <div className="mt-4"><Checkbox {...form.register('show')}><span className="small">Show password</span></Checkbox></div>
       <Button type="submit" variant="primary" size="lg" block className="mt-6" disabled={isPending}>Save and sign in</Button>
     </form>
   )
