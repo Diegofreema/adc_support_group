@@ -1,11 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { directorateKeys } from '../../shared/query-keys'
+import type { Page } from '../../shared/services/paging'
 import type { CauseTotal, ReviewPayment } from '../types'
 import { rpc, supabase } from '@/lib/supabase'
 import type { PaymentMethod, PaymentStatus } from '@/types/domain'
 
-const LIST_LIMIT = 200
 const PROOF_BUCKET = 'support-group-payment-proofs'
 
 /** private.support_group_payment_json */
@@ -78,9 +78,10 @@ function fetchPage(args: PaymentListArgs, limit: number, offset = 0): Promise<Pa
   return rpc<PaymentPage>('get_admin_sg_payments', paymentListArgs(args, limit, offset))
 }
 
-/** The most recent payments, any status. */
-async function fetchPayments(): Promise<ReviewPayment[]> {
-  return (await fetchPage({}, LIST_LIMIT)).rows.map(toPayment)
+/** One page of payments, most recent first, any status. */
+async function fetchPayments(limit: number, offset: number): Promise<Page<ReviewPayment>> {
+  const page = await fetchPage({}, limit, offset)
+  return { total: Number(page.total), rows: page.rows.map(toPayment) }
 }
 
 /** Offline payments waiting for staff (Funz payments in "checking" settle themselves). */
@@ -121,7 +122,8 @@ async function fetchProofUrl(path: string): Promise<string> {
   return data.signedUrl
 }
 
-export const paymentsQuery = queryOptions({ queryKey: [...directorateKeys.payments(), 'list'], queryFn: fetchPayments })
+export const paymentsQuery = (limit: number, offset: number) =>
+  queryOptions({ queryKey: [...directorateKeys.payments(), 'list', limit, offset], queryFn: () => fetchPayments(limit, offset) })
 
 export const waitingOfflineQuery = queryOptions({ queryKey: [...directorateKeys.payments(), 'waiting'], queryFn: fetchWaitingOffline })
 

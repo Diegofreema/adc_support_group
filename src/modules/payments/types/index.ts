@@ -23,7 +23,8 @@ export interface PayerOption {
 
 /**
  * Everything chosen in the pay wizard. Online payments are paid by the
- * signed-in person; the backend files them under their own chapter.
+ * signed-in person; without a chapter the backend files them under the
+ * payer's own chapter (the whole group for a leader).
  */
 export interface PayDraft {
   payFor: PayFor
@@ -32,6 +33,8 @@ export interface PayDraft {
   note: string
   amount: number
   activityId?: string
+  /** Chapter the payment counts for; undefined = the default above. */
+  chapterId?: string
 }
 
 /** initiate-group-payment's answer: where to send the payer. */

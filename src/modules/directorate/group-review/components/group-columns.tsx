@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 
 import { buttonClassName, type Column } from '@/components/shared'
-import { formatNumber } from '@/lib/format'
+import { formatDay, formatNumber } from '@/lib/format'
 import { daysAgoLabel } from '../../shared/utils/filters'
 import { groupPlace } from '../utils/group-filters'
 import type { GroupTab, ListGroup } from '../types'
@@ -13,6 +13,11 @@ type GroupColumn = Column<ListGroup>
 const name: GroupColumn = { key: 'name', header: 'Group', main: true, cell: (group) => <GroupNameCell group={group} /> }
 const category: GroupColumn = { key: 'category', header: 'Category', cell: (group) => group.category }
 const place: GroupColumn = { key: 'place', header: 'Location', cell: groupPlace }
+/** Location is secondary once a decision is made; desktop only. */
+const placeWide: GroupColumn = { ...place, className: 'hide-mobile' }
+const decidedCell = (group: ListGroup) => (group.decidedAt ? formatDay(group.decidedAt) : '')
+const rejectedOn: GroupColumn = { key: 'decided', header: 'Date', cell: decidedCell }
+const suspendedSince: GroupColumn = { key: 'decided', header: 'Since', cell: decidedCell }
 const members: GroupColumn = { key: 'members', header: 'Members', numeric: true, cell: (group) => formatNumber(group.memberCount) }
 const sent: GroupColumn = { key: 'sent', header: 'Sent', cell: (group) => daysAgoLabel(group.submittedAt) }
 const review: GroupColumn = {
@@ -27,6 +32,6 @@ const restore: GroupColumn = { key: 'restore', header: '', numeric: true, cell: 
 export const GROUP_COLUMNS: Record<GroupTab, GroupColumn[]> = {
   pending: [name, category, place, members, sent, review],
   verified: [name, category, place, members],
-  rejected: [name, rejectReason, place],
-  suspended: [name, suspendReason, place, restore],
+  rejected: [name, rejectReason, placeWide, rejectedOn],
+  suspended: [name, suspendReason, placeWide, suspendedSince, restore],
 }

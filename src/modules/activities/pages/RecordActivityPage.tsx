@@ -23,7 +23,7 @@ export function RecordActivityPage() {
 function CurrentStep({ flow }: { flow: Flow }) {
   switch (flow.wizard.step) {
     case 0: return <TypeStep options={flow.types} value={flow.type} onChange={flow.setType} />
-    case 1: return <DetailsStep form={flow.form} />
+    case 1: return <DetailsStep form={flow.form} chapters={flow.chapters} defaultChapterLabel={flow.defaultChapterLabel} />
     case 2: return <PhotosStep photos={flow.photos.items} max={flow.photos.max} onAdd={flow.photos.add} onRemove={flow.photos.remove} videoUrl={flow.videoUrl} onVideoUrlChange={flow.setVideoUrl} />
     default: return <ReviewStep summary={flow.summary()} />
   }

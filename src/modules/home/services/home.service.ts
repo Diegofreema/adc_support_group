@@ -1,9 +1,10 @@
 import type { LeaderDashboard, MemberDashboard } from '../types/home.types'
 import {
   leaderTodos, myGroups, recentItems, toGroupSummary, toLeaderNote, toMyActivity,
-  type ActivityRow, type GroupRow, type MySupportGroup, type PaymentRow, type UpdateRow,
+  type ActivityRow, type GroupRow, type MyActivityStats, type MySupportGroup, type NoteRow, type PaymentRow,
+  type PeriodStats,
 } from '../utils/to-dashboard'
-import { rpc, supabase } from '@/lib/supabase'
+import { rpc } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 
 interface Page<Row> {
@@ -37,61 +38,62 @@ async function leaderActivity(group: GroupRow) {
   return { pending: Number(pending.total), recent: recentItems(latest.rows, paid.rows, RECENT) }
 }
 
+const STATS_DAYS = 30
+const NO_STATS = { activities: 0, chapters: 0, given: 0 }
+
+/** The last 30 days ("this month"). The RPC refuses unverified groups; they show zeros. */
+async function monthStats(group: GroupRow): Promise<LeaderDashboard['month']> {
+  if (group.status !== 'verified') return NO_STATS
+  const stats = await rpc<PeriodStats>('get_support_group_period_stats', { p_days: STATS_DAYS })
+  return { activities: Number(stats.activities), chapters: Number(stats.chapters), given: Number(stats.given) }
+}
+
 /** Everything on the leader home screen. A user leads at most one group. */
 export async function fetchLeaderDashboard(_groupId: string | undefined): Promise<LeaderDashboard> {
   const mine = await getMine()
   if (!mine.group) throw new Error('You are not leading a group')
   const group = mine.group
-  const { pending, recent } = await leaderActivity(group)
+  const [{ pending, recent }, month] = await Promise.all([leaderActivity(group), monthStats(group)])
   return {
     group: toGroupSummary(group),
     groups: myGroups(mine),
     todos: leaderTodos(group, pending),
-    totals: { activities: Number(group.activity_count), chapters: Number(group.chapter_count), given: Number(group.amount_given) },
+    month,
     recent,
   }
 }
 
-const MY_ACTIVITIES = 100
-const GROWTH_DAYS = 30
+const MY_RECENT = 5
+const NOTES = 5
+const NO_COUNTS: MyActivityStats = { approved: 0, approved_last_30_days: 0, pending: 0, rejected: 0, people_reached: 0 }
 
 /** Members see approved activities plus their own; keep their own. */
-async function myActivities(userId: string, verified: boolean): Promise<ActivityRow[]> {
-  if (!verified) return []
-  const page = await activities({ p_limit: MY_ACTIVITIES }).catch(() => EMPTY_PAGE)
-  return page.rows.filter((row) => row.logged_by === userId)
+async function myRecentActivities(userId: string): Promise<ActivityRow[]> {
+  const page = await activities({ p_limit: 100 }).catch(() => EMPTY_PAGE)
+  return page.rows.filter((row) => row.logged_by === userId).slice(0, MY_RECENT)
 }
 
+/** Leader posts with the real author's name. */
 async function leaderNotes(group: GroupRow) {
-  const { data, error } = await supabase
-    .from('support_group_updates')
-    .select('id, title, body, is_pinned, created_at, author_profile_id')
-    .eq('group_id', group.id)
-    .order('is_pinned', { ascending: false })
-    .order('created_at', { ascending: false })
-    .limit(5)
-  if (error) throw new Error(error.message)
-  return (data as UpdateRow[]).map((row) => toLeaderNote(row, group))
+  const rows = await rpc<NoteRow[]>('get_support_group_notes', { p_limit: NOTES })
+  return rows.map((row) => toLeaderNote(row, group))
 }
 
-function approvedSince(rows: ActivityRow[], days: number): number {
-  const since = Date.now() - days * 86_400_000
-  return rows.filter((row) => row.status === 'approved' && row.approved_at && new Date(row.approved_at).getTime() > since).length
-}
-
-/** Everything on the member home screen. */
+/** Everything on the member home screen. Activity RPCs refuse unverified groups. */
 export async function fetchMemberDashboard(userId: string): Promise<MemberDashboard> {
   const mine = await getMine()
   const group = mine.group
-  const [own, notes] = await Promise.all([
-    myActivities(userId, group?.status === 'verified'),
-    group ? leaderNotes(group) : Promise.resolve([]),
+  const verified = group?.status === 'verified'
+  const [counts, own, notes] = await Promise.all([
+    verified ? rpc<MyActivityStats>('get_my_support_group_activity_stats') : Promise.resolve(NO_COUNTS),
+    verified ? myRecentActivities(userId) : Promise.resolve([]),
+    verified && group ? leaderNotes(group) : Promise.resolve([]),
   ])
   return {
-    approvedCount: own.filter((row) => row.status === 'approved').length,
-    approvedGrowth: approvedSince(own, GROWTH_DAYS),
+    approvedCount: Number(counts.approved),
+    approvedGrowth: Number(counts.approved_last_30_days),
     groups: myGroups(mine),
-    activities: own.slice(0, 5).map(toMyActivity),
+    activities: own.map(toMyActivity),
     notes,
     inviteCode: group?.join_code ?? '',
   }

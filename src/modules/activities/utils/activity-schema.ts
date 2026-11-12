@@ -9,6 +9,8 @@ export const activityDetailsSchema = z.object({
   lga: z.string().min(1, 'Pick an LGA'),
   ward: z.string().min(1, 'Pick a ward'),
   note: z.string().trim().max(300).optional(),
+  /** Chapter id, or "" for the recorder's own chapter. */
+  chapterId: z.string(),
 })
 
 export type ActivityDetailsForm = z.infer<typeof activityDetailsSchema>

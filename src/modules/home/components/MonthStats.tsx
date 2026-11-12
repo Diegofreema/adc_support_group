@@ -2,16 +2,16 @@ import { SectionTitle, StatGrid } from '@/components/shared'
 import { formatNairaShort, formatNumber } from '@/lib/format'
 import type { LeaderDashboard } from '../types/home.types'
 
-/** The group's running totals (the backend keeps totals, not monthly figures). */
-export function MonthStats({ totals }: { totals: LeaderDashboard['totals'] }) {
+/** The group's last 30 days: approved activities, new chapters, amount paid. */
+export function MonthStats({ month }: { month: LeaderDashboard['month'] }) {
   const stats = [
-    { label: 'Activities', value: formatNumber(totals.activities) },
-    { label: 'Chapters', value: formatNumber(totals.chapters) },
-    { label: 'Given', value: formatNairaShort(totals.given) },
+    { label: 'Activities', value: formatNumber(month.activities) },
+    { label: 'Chapters', value: formatNumber(month.chapters) },
+    { label: 'Given', value: formatNairaShort(month.given) },
   ]
   return (
     <>
-      <SectionTitle title="So far" />
+      <SectionTitle title="This month" />
       <StatGrid stats={stats} columns={3} />
     </>
   )

@@ -18,6 +18,8 @@ export interface SentBroadcast {
   id: string
   text: string
   audience?: Audience
+  /** The state it went to, when one was chosen (older broadcasts don't record it). */
+  state?: string
   recipients: number
   channel: Channel
   status: string

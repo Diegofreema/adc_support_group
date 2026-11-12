@@ -42,7 +42,8 @@ interface CampaignRow {
   channel: string
   recipient_count: number | null
   created_at: string
-  provider_meta: { audience?: string | null } | null
+  /** chapter_name is only on chapter sends made after it was added. */
+  provider_meta: { audience?: string | null; chapter_name?: string | null } | null
 }
 
 function audienceOf(row: CampaignRow): Audience {
@@ -50,11 +51,18 @@ function audienceOf(row: CampaignRow): Audience {
   return audience === 'chapter' || audience === 'executives' ? audience : 'all'
 }
 
+/** "Chapter: Ikeja" when the send names its chapter; older chapter sends say "One chapter". */
+function audienceLabel(row: CampaignRow): string {
+  const audience = audienceOf(row)
+  const chapterName = row.provider_meta?.chapter_name
+  return audience === 'chapter' && chapterName ? `Chapter: ${chapterName}` : AUDIENCE_LABEL[audience]
+}
+
 function toSentMessage(row: CampaignRow): SentMessage {
   return {
     id: row.id,
     subject: row.subject || subjectOf(row.body),
-    audienceLabel: AUDIENCE_LABEL[audienceOf(row)],
+    audienceLabel: audienceLabel(row),
     // 'email' is the free App + Email channel.
     channel: row.channel === 'sms' ? 'sms' : 'free',
     recipients: Number(row.recipient_count ?? 0),

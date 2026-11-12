@@ -16,6 +16,12 @@ export interface ActivityTypeOption {
   icon: LucideIcon
 }
 
+/** A chapter an activity can be filed under. */
+export interface ChapterOption {
+  value: string
+  label: string
+}
+
 export interface LinkedPayment {
   id: string
   title: string
@@ -38,6 +44,8 @@ export interface ActivityDetailsInput {
   lga: string
   ward: string
   note?: string
+  /** Chapter id; empty = the recorder's own chapter (the backend default). */
+  chapterId?: string
 }
 
 export interface NewActivityInput extends ActivityDetailsInput {

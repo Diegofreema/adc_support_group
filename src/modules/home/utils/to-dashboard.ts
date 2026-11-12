@@ -48,13 +48,32 @@ export interface PaymentRow {
   created_at: string
 }
 
-export interface UpdateRow {
+/** get_support_group_notes */
+export interface NoteRow {
   id: string
   title: string
   body: string
   is_pinned: boolean
+  author_name: string | null
   created_at: string
-  author_profile_id: string
+}
+
+/** get_support_group_period_stats */
+export interface PeriodStats {
+  activities: number
+  people_reached: number
+  chapters: number
+  given: number
+  members_joined: number
+}
+
+/** get_my_support_group_activity_stats */
+export interface MyActivityStats {
+  approved: number
+  approved_last_30_days: number
+  pending: number
+  rejected: number
+  people_reached: number
 }
 
 export function toGroupSummary(group: GroupRow): GroupSummary {
@@ -108,8 +127,7 @@ export function toMyActivity(row: ActivityRow): MyActivity {
   }
 }
 
-/** Members can't read other profiles; the group's leader is the usual author. */
-export function toLeaderNote(row: UpdateRow, group: GroupRow): LeaderNote {
-  const author = row.author_profile_id === group.leader_profile_id ? group.leader_name ?? 'Your leader' : 'Group leaders'
+export function toLeaderNote(row: NoteRow, group: GroupRow): LeaderNote {
+  const author = row.author_name ?? 'Group leaders'
   return { id: row.id, author, groupName: group.name, time: shortAgo(row.created_at), title: row.title, body: row.body, pinned: row.is_pinned }
 }

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { approveActivity, rejectActivity, reviewActivitiesQuery, stageCountsQuery } from '../services/activities.service'
 import { useDebouncedValue } from '../../shared/hooks/use-debounced-value'
 import { useFilters } from '../../shared/hooks/use-filters'
+import { useKeepPageInRange, usePaging } from '../../shared/hooks/use-paging'
 import { useActivityTypeOptions } from '../../shared/hooks/use-lookups'
 import { ALL } from '../../shared/constants/options'
 import { directorateKeys } from '../../shared/query-keys'
@@ -17,10 +18,13 @@ export function useActivityQueue() {
   const [stage, setStage] = useState<ReviewStage>('to-check')
   const { filters, setFilter } = useFilters<ActivityFilterValues>({ search: '', type: ALL, state: ALL })
   const search = useDebouncedValue(filters.search)
-  const rows = useQuery({ ...reviewActivitiesQuery(stage, { ...filters, search }), placeholderData: keepPreviousData }).data ?? []
+  const applied = { ...filters, search }
+  const paging = usePaging(JSON.stringify([stage, applied]))
+  const list = useQuery({ ...reviewActivitiesQuery(stage, applied, paging.pageSize, paging.offset), placeholderData: keepPreviousData }).data
+  useKeepPageInRange(paging, list?.total)
   const counts = useQuery(stageCountsQuery).data ?? NO_COUNTS
   const typeOptions = useActivityTypeOptions()
-  return { stage, setStage, filters, setFilter, typeOptions, rows, counts }
+  return { stage, setStage, filters, setFilter, typeOptions, rows: list?.rows ?? [], total: list?.total ?? 0, paging, counts }
 }
 
 function useQueueMutation<Args>(fn: (args: Args) => Promise<unknown>, message: string) {

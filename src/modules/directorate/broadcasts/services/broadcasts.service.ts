@@ -13,7 +13,8 @@ interface CampaignRow {
   recipient_count: number | null
   status: string
   created_at: string
-  provider_meta: { audience?: Audience } | null
+  /** `state` is only stored on newer broadcasts. */
+  provider_meta: { audience?: Audience; state?: string | null } | null
 }
 
 function toSent(row: CampaignRow): SentBroadcast {
@@ -21,6 +22,7 @@ function toSent(row: CampaignRow): SentBroadcast {
     id: row.id,
     text: row.body ?? '',
     audience: row.provider_meta?.audience,
+    state: row.provider_meta?.state ?? undefined,
     recipients: Number(row.recipient_count ?? 0),
     channel: row.channel === 'sms' ? 'sms' : 'free',
     status: row.status,

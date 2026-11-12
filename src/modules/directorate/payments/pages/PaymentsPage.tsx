@@ -3,6 +3,7 @@ import { Download } from 'lucide-react'
 import { useState } from 'react'
 
 import { PageHeader, StatGrid, buttonClassName } from '@/components/shared'
+import { Pager } from '../../shared/components/Pager'
 import { CauseTotalsList } from '../components/CauseTotalsList'
 import { OfflineCheckModal } from '../components/OfflineCheckModal'
 import { OfflineQueue } from '../components/OfflineQueue'
@@ -24,7 +25,7 @@ export function PaymentsPage() {
       <div className="mt-6"><PaymentsTabs value={tab} waiting={overview.waiting.length} onChange={setTab} /></div>
       <div className="mt-4">
         {tab === 'to-confirm' && <OfflineQueue payments={overview.waiting} onCheck={check.open} />}
-        {tab === 'all' && <PaymentsTable payments={overview.payments} />}
+        {tab === 'all' && <><PaymentsTable payments={overview.payments} /><Pager paging={overview.paging} total={overview.paymentCount} /></>}
         {tab === 'by-cause' && <CauseTotalsList causes={overview.causes} />}
       </div>
       <OfflineCheckModal check={check} />

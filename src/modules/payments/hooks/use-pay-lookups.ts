@@ -10,6 +10,8 @@ export function usePayLookups(): DraftLookups {
     payerName: user.fullName,
     causes: useOpenCauses().data ?? [],
     chapters: useChapterOptions().data ?? [],
+    // Leaders have no chapter of their own; members default to theirs.
+    defaultChapterLabel: user.role === 'leader' ? 'Whole group' : 'My chapter',
     activities: useActivityOptions().data ?? [],
   }
 }

@@ -33,7 +33,7 @@ function LeaderHome({ dashboard }: { dashboard: LeaderDashboard }) {
         )}
         right={(
           <>
-            <MonthStats totals={dashboard.totals} />
+            <MonthStats month={dashboard.month} />
             {dashboard.recent.length > 0 && <RecentList items={dashboard.recent} />}
           </>
         )}

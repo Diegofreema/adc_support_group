@@ -1,10 +1,18 @@
 import type { UseFormReturn } from 'react-hook-form'
 
-import { Field, TextArea, TextInput } from '@/components/shared'
+import { Field, SelectInput, TextArea, TextInput } from '@/components/shared'
+import type { ChapterOption } from '../types'
 import type { ActivityDetailsForm } from '../utils/activity-schema'
 import { LocationFields } from './LocationFields'
 
-export function DetailsStep({ form }: { form: UseFormReturn<ActivityDetailsForm> }) {
+interface DetailsStepProps {
+  form: UseFormReturn<ActivityDetailsForm>
+  chapters: ChapterOption[]
+  /** Label for "no chapter picked" (the backend files it under the recorder's own chapter). */
+  defaultChapterLabel: string
+}
+
+export function DetailsStep({ form, chapters, defaultChapterLabel }: DetailsStepProps) {
   const { register, formState: { errors } } = form
   return (
     <>
@@ -21,6 +29,11 @@ export function DetailsStep({ form }: { form: UseFormReturn<ActivityDetailsForm>
         </Field>
       </div>
       <div className="mt-4"><LocationFields form={form} /></div>
+      {chapters.length > 0 && (
+        <Field label="Chapter" htmlFor="act-chapter" optional className="mt-4">
+          <SelectInput id="act-chapter" placeholder={defaultChapterLabel} options={chapters} {...register('chapterId')} />
+        </Field>
+      )}
       <Field label="Note" htmlFor="act-note" optional className="mt-4">
         <TextArea id="act-note" placeholder="Anything to add" {...register('note')} />
       </Field>

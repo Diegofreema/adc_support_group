@@ -1,11 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
 
 import { directorateKeys } from '../../shared/query-keys'
+import type { Page } from '../../shared/services/paging'
 import type { ActivityFilterValues, ReviewActivity, ReviewStage } from '../types'
 import { rpc } from '@/lib/supabase'
 import type { ActivityStatus } from '@/types/domain'
 
-const LIST_LIMIT = 200
 const STAGES: ReviewStage[] = ['to-check', 'checked', 'rejected']
 const QUEUE: Record<ReviewStage, string> = { 'to-check': 'to_check', checked: 'checked', rejected: 'rejected' }
 
@@ -83,10 +83,10 @@ export function activityListArgs(args: ActivityListArgs, limit: number, offset: 
   }
 }
 
-async function fetchQueue(stage: ReviewStage, filters: ActivityFilterValues): Promise<ReviewActivity[]> {
-  const args = activityListArgs({ queue: QUEUE[stage], state: filters.state, type: filters.type, search: filters.search }, LIST_LIMIT, 0)
-  const page = await rpc<{ total: number; rows: ActivityJson[] }>('get_admin_sg_activities', args)
-  return page.rows.map(toReviewActivity)
+async function fetchQueue(stage: ReviewStage, filters: ActivityFilterValues, limit: number, offset: number): Promise<Page<ReviewActivity>> {
+  const args = activityListArgs({ queue: QUEUE[stage], state: filters.state, type: filters.type, search: filters.search }, limit, offset)
+  const page = await rpc<Page<ActivityJson>>('get_admin_sg_activities', args)
+  return { total: Number(page.total), rows: page.rows.map(toReviewActivity) }
 }
 
 async function fetchStageCounts(): Promise<Record<ReviewStage, number>> {
@@ -95,8 +95,8 @@ async function fetchStageCounts(): Promise<Record<ReviewStage, number>> {
   return Object.fromEntries(STAGES.map((stage, index) => [stage, totals[index]])) as Record<ReviewStage, number>
 }
 
-export const reviewActivitiesQuery = (stage: ReviewStage, filters: ActivityFilterValues) =>
-  queryOptions({ queryKey: [...directorateKeys.activities(), 'list', stage, filters], queryFn: () => fetchQueue(stage, filters) })
+export const reviewActivitiesQuery = (stage: ReviewStage, filters: ActivityFilterValues, limit: number, offset: number) =>
+  queryOptions({ queryKey: [...directorateKeys.activities(), 'list', stage, filters, limit, offset], queryFn: () => fetchQueue(stage, filters, limit, offset) })
 
 export const stageCountsQuery = queryOptions({ queryKey: [...directorateKeys.activities(), 'counts'], queryFn: fetchStageCounts })
 

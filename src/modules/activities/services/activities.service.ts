@@ -4,7 +4,7 @@ import { activityTypeIcon } from '@/config/activity-types'
 import { rpc, supabase, unwrap } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { ActivityStatus, PaymentStatus } from '@/types/domain'
-import type { ActivityDetail, ActivityTypeOption, LinkedPayment, NewActivityInput, RejectInput } from '../types'
+import type { ActivityDetail, ActivityTypeOption, ChapterOption, LinkedPayment, NewActivityInput, RejectInput } from '../types'
 
 /** private.support_group_activity_json */
 interface ActivityJson {
@@ -117,6 +117,15 @@ export async function listActivityTypes(): Promise<ActivityTypeOption[]> {
   return (rows ?? []).map((row) => ({ value: row.slug as string, label: row.name as string, icon: activityTypeIcon(row.slug as string) }))
 }
 
+/** The group's chapters. An unverified group has none (the RPC refuses it). */
+export async function listChapterOptions(): Promise<ChapterOption[]> {
+  const chapters = await rpc<{ id: string; name: string }[]>('get_support_group_chapters').catch((error: Error) => {
+    if (/not been verified/.test(error.message)) return []
+    throw error
+  })
+  return chapters.map((chapter) => ({ value: chapter.id, label: `${chapter.name} chapter` }))
+}
+
 const PHOTO_TYPES: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' }
 
 function activeGroupId(): string {
@@ -150,6 +159,7 @@ export async function createActivity(input: NewActivityInput): Promise<ActivityD
     p_note: input.note || null,
     p_video_url: input.videoUrl || null,
     p_media_urls: mediaUrls,
+    p_chapter_id: input.chapterId ?? null,
   }))
 }
 

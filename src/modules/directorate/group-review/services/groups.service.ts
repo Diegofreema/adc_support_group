@@ -1,24 +1,23 @@
 import { queryOptions } from '@tanstack/react-query'
 
+import type { Page } from '../../shared/services/paging'
 import { groupListArgs, toGroup, type GroupJson, type GroupListArgs } from '../../shared/services/group-json'
 import { directorateKeys } from '../../shared/query-keys'
 import { groupPlace } from '../utils/group-filters'
 import type { GroupHistoryEntry, GroupTab, ListGroup, ReviewGroup } from '../types'
 import { rpc } from '@/lib/supabase'
 
-const LIST_LIMIT = 200
 const TABS: GroupTab[] = ['pending', 'verified', 'rejected', 'suspended']
 
 /** review_note is the rejection reason or the suspension reason, depending on status. */
 function toListGroup(json: GroupJson): ListGroup {
-  const group = toGroup(json)
+  const group = { ...toGroup(json), decidedAt: json.reviewed_at ?? undefined }
   if (group.status !== 'suspended') return group
   return { ...group, rejectionReason: undefined, suspendedReason: json.review_note ?? undefined }
 }
 
 interface GroupDetailJson extends GroupJson {
   possible_duplicate: GroupJson | null
-  reviewed_at: string | null
 }
 
 interface GroupReviewJson {
@@ -28,9 +27,9 @@ interface GroupReviewJson {
   history: { title: string; date: string; by: string | null }[]
 }
 
-async function fetchGroups(args: GroupListArgs): Promise<ListGroup[]> {
-  const page = await rpc<{ total: number; rows: GroupJson[] }>('get_admin_sg_groups', groupListArgs(args, LIST_LIMIT, 0))
-  return page.rows.map(toListGroup)
+async function fetchGroups(args: GroupListArgs, limit: number, offset: number): Promise<Page<ListGroup>> {
+  const page = await rpc<Page<GroupJson>>('get_admin_sg_groups', groupListArgs(args, limit, offset))
+  return { total: Number(page.total), rows: page.rows.map(toListGroup) }
 }
 
 /** How many groups sit in each status (unfiltered). */
@@ -62,7 +61,6 @@ async function fetchGroup(id: string): Promise<ReviewGroup> {
     ...group,
     possibleDuplicateOf: detail.possible_duplicate?.name,
     duplicate: toDuplicate(detail.possible_duplicate),
-    decidedAt: detail.reviewed_at ?? undefined,
     leaderPhoneChecked: extras.leader_phone_verified,
     membersByLink: Number(extras.members_by_link),
     membersByExcel: Number(extras.members_by_excel),
@@ -70,8 +68,8 @@ async function fetchGroup(id: string): Promise<ReviewGroup> {
   }
 }
 
-export const groupsQuery = (args: GroupListArgs) =>
-  queryOptions({ queryKey: [...directorateKeys.groups(), 'list', args], queryFn: () => fetchGroups(args) })
+export const groupsQuery = (args: GroupListArgs, limit: number, offset: number) =>
+  queryOptions({ queryKey: [...directorateKeys.groups(), 'list', args, limit, offset], queryFn: () => fetchGroups(args, limit, offset) })
 
 export const groupCountsQuery = queryOptions({ queryKey: [...directorateKeys.groups(), 'counts'], queryFn: fetchGroupCounts })
 

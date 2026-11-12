@@ -12,6 +12,8 @@ export interface DraftLookups {
   payerName: string
   causes: Cause[]
   chapters: ChapterOption[]
+  /** What an online payment counts for when no chapter is picked. */
+  defaultChapterLabel: string
   activities: ActivityOption[]
 }
 
@@ -32,6 +34,7 @@ export function payDraftSummary(draft: PayDraft, lookups: DraftLookups): KeyValu
     { label: 'For', value: draftForLabel(draft, lookups.causes) },
     { label: 'Group', value: lookups.groupName },
     { label: 'Paid by', value: lookups.payerName },
+    { label: 'Counts for', value: nameOf(lookups.chapters, draft.chapterId, (chapter) => `${chapter.name} chapter`) ?? lookups.defaultChapterLabel },
     { label: 'Amount', value: formatNaira(draft.amount) },
     { label: 'Activity', value: nameOf(lookups.activities, draft.activityId, (activity) => activity.title) ?? 'None' },
   ]

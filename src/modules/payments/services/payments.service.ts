@@ -134,7 +134,7 @@ export async function startFunzPayment(draft: PayDraft): Promise<FunzCheckout> {
     : { purpose: draft.purpose, note: draft.note.trim() || undefined }
   const result = await invokeFunction<{ payment_id: string; reference: string; payment_url: string }>(
     'initiate-group-payment',
-    { amount: draft.amount, ...target, activityId: draft.activityId },
+    { amount: draft.amount, ...target, activityId: draft.activityId, chapterId: draft.chapterId },
   )
   return { paymentId: result.payment_id, reference: result.reference, paymentUrl: result.payment_url }
 }

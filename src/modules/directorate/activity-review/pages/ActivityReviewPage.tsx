@@ -1,4 +1,5 @@
 import { PageHeader } from '@/components/shared'
+import { Pager } from '../../shared/components/Pager'
 import { ReasonModal } from '../../shared/components/ReasonModal'
 import { ActivityCardGrid } from '../components/ActivityCardGrid'
 import { ActivityFilters } from '../components/ActivityFilters'
@@ -22,6 +23,7 @@ export function ActivityReviewPage() {
       <div className="mt-4">
         <StageBody stage={queue.stage} rows={queue.rows} onApprove={(id) => approve.mutate(id)} onReject={reject.openFor} />
       </div>
+      <Pager paging={queue.paging} total={queue.total} />
       <ReasonModal open={reject.isOpen} onOpenChange={reject.setOpen} title={isChecked ? 'Overturn check' : 'Reject activity'} reasons={ACTIVITY_REJECT_REASONS} form={reject.form} confirmLabel={isChecked ? 'Overturn' : 'Reject'} onConfirm={reject.submit} showPreview />
     </>
   )

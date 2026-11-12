@@ -26,6 +26,8 @@ export interface GroupJson {
   submitted_at: string | null
   created_at: string
   review_note: string | null
+  /** When the Directorate last decided (verified, rejected or suspended). */
+  reviewed_at?: string | null
   possible_duplicate_of?: { id: string; name: string } | null
 }
 

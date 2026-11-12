@@ -4,9 +4,6 @@ import { periodStart } from '../../shared/utils/period'
 import type { ExportSpec, ExportTable } from '../types'
 import { rpc } from '@/lib/supabase'
 
-/** Members are read group by group; past this many groups, ask for a narrower export. */
-const MEMBER_GROUP_LIMIT = 100
-
 interface ActivityRow {
   group_id: string
   group_name: string
@@ -39,12 +36,20 @@ interface PaymentRow {
   created_at: string
 }
 
+/** get_admin_sg_member_export row: one person in one verified group (leaders included). */
 interface MemberRow {
-  full_name: string
-  status: string
-  joined_at: string
-  activity_count: number
-  total_count: number
+  group_name: string
+  full_name: string | null
+  phone: string | null
+  email: string | null
+  state: string | null
+  lga: string | null
+  ward: string | null
+  member_role: string
+  title: string | null
+  chapter_name: string | null
+  joined_via: string | null
+  joined_at: string | null
 }
 
 function sinceFilter(period: string): (iso: string | null | undefined) => boolean {
@@ -52,10 +57,10 @@ function sinceFilter(period: string): (iso: string | null | undefined) => boolea
   return (iso) => !start || (Boolean(iso) && new Date(iso as string) >= start)
 }
 
-/** Groups matching the state and category filters (any status unless given). */
-function fetchGroups(spec: ExportSpec, status?: 'verified'): Promise<GroupJson[]> {
+/** Groups matching the state and category filters (any status). */
+function fetchGroups(spec: ExportSpec): Promise<GroupJson[]> {
   return fetchAllPages((limit, offset) =>
-    rpc<Page<GroupJson>>('get_admin_sg_groups', groupListArgs({ status, state: spec.state, categoryId: spec.category }, limit, offset)), 500)
+    rpc<Page<GroupJson>>('get_admin_sg_groups', groupListArgs({ state: spec.state, categoryId: spec.category }, limit, offset)), 500)
 }
 
 /** Only rows from groups in the chosen state / category (activities and payments have no category). */
@@ -114,28 +119,24 @@ async function paymentsTable(spec: ExportSpec): Promise<ExportTable> {
   }
 }
 
-/** Every member of one group (names only: that is all the admin member RPC returns). */
-async function groupMembers(groupId: string): Promise<MemberRow[]> {
-  return fetchAllPages(async (limit, offset) => {
-    const rows = await rpc<MemberRow[]>('get_admin_support_group_members', { p_group_id: groupId, p_limit: limit, p_offset: offset, p_search: null })
-    return { total: Number(rows[0]?.total_count ?? 0), rows }
-  }, 200)
-}
+/** Members export page size (the RPC allows up to 5000). */
+const MEMBER_PAGE = 2000
 
+/** One roster across every verified group in the filters (state, category applied by the server). */
 async function membersTable(spec: ExportSpec): Promise<ExportTable> {
-  const groups = await fetchGroups(spec, 'verified')
-  if (groups.length > MEMBER_GROUP_LIMIT) {
-    throw new Error(`That covers ${groups.length} groups. Pick a state or category to export members (up to ${MEMBER_GROUP_LIMIT} groups at a time).`)
-  }
+  const members = await fetchAllPages((limit, offset) => rpc<Page<MemberRow>>('get_admin_sg_member_export', {
+    p_state: spec.state || null, p_category_id: spec.category || null, p_group_id: null, p_limit: limit, p_offset: offset,
+  }), MEMBER_PAGE, 200_000)
+  // Leaders have no join date; they stay in the roster whatever the period.
   const since = sinceFilter(spec.period)
-  const rows: ExportTable['rows'] = []
-  for (const group of groups) {
-    const members = await groupMembers(group.id)
-    members.filter((member) => since(member.joined_at)).forEach((member) => {
-      rows.push([group.name, group.state, group.category, member.full_name, member.status, member.joined_at.slice(0, 10), Number(member.activity_count)])
-    })
+  const rows = members.filter((member) => member.member_role === 'leader' || since(member.joined_at))
+  return {
+    headers: ['Group', 'Member', 'Phone', 'Email', 'Role', 'Title', 'Chapter', 'State', 'LGA', 'Ward', 'Joined via', 'Joined'],
+    rows: rows.map((member) => [
+      member.group_name, member.full_name, member.phone, member.email, member.member_role, member.title, member.chapter_name,
+      member.state, member.lga, member.ward, member.joined_via, member.joined_at?.slice(0, 10),
+    ]),
   }
-  return { headers: ['Group', 'State', 'Category', 'Member', 'Status', 'Joined', 'Activities logged'], rows }
 }
 
 const BUILDERS: Record<ExportSpec['subject'], (spec: ExportSpec) => Promise<ExportTable>> = {

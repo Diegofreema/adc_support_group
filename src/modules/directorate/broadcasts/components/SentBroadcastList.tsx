@@ -8,7 +8,7 @@ import type { SentBroadcast } from '../types'
 const AUDIENCE_LABEL = { leaders: 'Leaders', members: 'Members' } as const
 
 function meta(item: SentBroadcast): string {
-  return [item.audience && AUDIENCE_LABEL[item.audience], `${formatNumber(item.recipients)} people`, formatDay(item.sentAt), item.status === 'failed' ? 'Failed' : undefined]
+  return [item.audience && AUDIENCE_LABEL[item.audience], item.state, `${formatNumber(item.recipients)} people`, formatDay(item.sentAt), item.status === 'failed' ? 'Failed' : undefined]
     .filter(Boolean).join(' · ')
 }
 

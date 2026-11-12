@@ -34,8 +34,8 @@ export interface LeaderDashboard {
   /** Groups the leader can switch between. */
   groups: MyGroup[]
   todos: TodoItem[]
-  /** Group totals so far: approved activities, chapters, amount paid. */
-  totals: { activities: number; chapters: number; given: number }
+  /** The last 30 days: approved activities, new chapters, amount paid. */
+  month: { activities: number; chapters: number; given: number }
   recent: RecentItem[]
 }
 

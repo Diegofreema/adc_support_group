@@ -4,11 +4,12 @@ import { useForm } from 'react-hook-form'
 
 import { activityDetailsSchema, type ActivityDetailsForm } from '../utils/activity-schema'
 import { activitySummary, buildActivityInput } from '../utils/build-activity-input'
-import { useActivityTypes } from './use-activities'
+import { useActivityChapters, useActivityTypes } from './use-activities'
 import { useCreateActivity } from './use-create-activity'
 import { usePhotoList } from './use-photo-list'
 import { ACTIVITY_TYPES } from '@/config/activity-types'
 import { useWizard } from '@/hooks/use-wizard'
+import { useRequiredUser } from '@/stores/session-store'
 import type { ActivityTypeOption } from '../types'
 
 const STEPS = 4
@@ -22,7 +23,7 @@ const today = () => {
 function useDetailsForm() {
   return useForm<ActivityDetailsForm>({
     resolver: zodResolver(activityDetailsSchema),
-    defaultValues: { title: '', date: today(), peopleReached: '', state: '', lga: '', ward: '', note: '' },
+    defaultValues: { title: '', date: today(), peopleReached: '', state: '', lga: '', ward: '', note: '', chapterId: '' },
   })
 }
 
@@ -35,6 +36,15 @@ function useTypeChoice() {
   return { types, type, setType }
 }
 
+/** The group's chapters; the default ("") is the recorder's own chapter, or the whole group for a leader. */
+function useChapterChoice() {
+  const user = useRequiredUser()
+  return {
+    chapters: useActivityChapters().data ?? [],
+    defaultChapterLabel: user.role === 'leader' ? 'Whole group' : 'My chapter',
+  }
+}
+
 /** All state for the "Record activity" wizard. */
 export function useRecordActivity() {
   const wizard = useWizard(STEPS)
@@ -43,13 +53,14 @@ export function useRecordActivity() {
   const { types, type, setType } = useTypeChoice()
   const [videoUrl, setVideoUrl] = useState('')
   const create = useCreateActivity()
+  const { chapters, defaultChapterLabel } = useChapterChoice()
 
   const draft = () => ({ type, details: form.getValues(), photos: photos.items.map((photo) => photo.file), videoUrl })
 
   return {
-    wizard, form, photos, types, type, setType, videoUrl, setVideoUrl,
+    wizard, form, photos, types, type, setType, videoUrl, setVideoUrl, chapters, defaultChapterLabel,
     submitDetails: form.handleSubmit(() => wizard.next()),
-    summary: () => activitySummary(draft(), types),
+    summary: () => activitySummary(draft(), { types, chapters, defaultChapterLabel }),
     send: () => create.mutate(buildActivityInput(draft())),
     isSending: create.isPending,
     sentStatus: create.data?.status,

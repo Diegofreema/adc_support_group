@@ -23,7 +23,7 @@ function CurrentStep({ flow }: { flow: Flow }) {
   const { draft, lookups, update } = flow
   switch (flow.wizard.step) {
     case 0: return <PayForStep draft={draft} causes={lookups.causes} onChange={update} />
-    case 1: return <AmountStep draft={draft} activities={lookups.activities} onChange={update} />
+    case 1: return <AmountStep draft={draft} activities={lookups.activities} chapters={lookups.chapters} defaultChapterLabel={lookups.defaultChapterLabel} onChange={update} />
     default: return <PayCheckStep summary={flow.summary()} />
   }
 }
