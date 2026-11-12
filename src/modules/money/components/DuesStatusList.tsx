@@ -3,6 +3,7 @@ import { Users } from 'lucide-react'
 
 import { Avatar, Button, EmptyState, List, ListItem, StatusChip } from '@/components/shared'
 import type { DuesStatusRow } from '../types'
+import { formatPhone } from '@/lib/phone'
 
 interface DuesStatusListProps {
   people: DuesStatusRow[]
@@ -21,5 +22,5 @@ function PersonRow({ person, period }: { person: DuesStatusRow; period: string }
       <Link to="/money/dues/new" search={{ member: person.profileId, name: person.name, period }}>Record</Link>
     </Button>
   )
-  return <ListItem leading={<Avatar name={person.name} size="sm" />} title={person.name} meta={person.phone} trailing={trailing} />
+  return <ListItem leading={<Avatar name={person.name} size="sm" />} title={person.name} meta={formatPhone(person.phone)} trailing={trailing} />
 }

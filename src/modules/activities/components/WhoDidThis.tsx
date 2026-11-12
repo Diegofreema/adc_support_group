@@ -1,6 +1,7 @@
 import { Field, List, ListItem, Avatar, Button, SearchInput, Segmented, type SegmentOption } from '@/components/shared'
 import type { MemberChoice, WhoMode } from '../hooks/use-member-choice'
 import type { MemberOption } from '../types'
+import { formatPhone } from '@/lib/phone'
 
 const MODES: SegmentOption<WhoMode>[] = [
   { value: 'me', label: 'Me' },
@@ -32,7 +33,7 @@ function MemberResults({ members, searching, onPick }: { members: MemberOption[]
   return (
     <List className="mt-2">
       {members.map((member) => (
-        <ListItem key={member.id} leading={<Avatar name={member.name} size="sm" />} title={member.name} meta={member.phone} onClick={() => onPick(member)} />
+        <ListItem key={member.id} leading={<Avatar name={member.name} size="sm" />} title={member.name} meta={formatPhone(member.phone)} onClick={() => onPick(member)} />
       ))}
     </List>
   )
@@ -41,7 +42,7 @@ function MemberResults({ members, searching, onPick }: { members: MemberOption[]
 function PickedMember({ member, onChange }: { member: MemberOption; onChange: () => void }) {
   return (
     <List>
-      <ListItem leading={<Avatar name={member.name} size="sm" />} title={member.name} meta={member.phone} trailing={<Button size="sm" onClick={onChange}>Change</Button>} />
+      <ListItem leading={<Avatar name={member.name} size="sm" />} title={member.name} meta={formatPhone(member.phone)} trailing={<Button size="sm" onClick={onChange}>Change</Button>} />
     </List>
   )
 }

@@ -1,4 +1,4 @@
-import { formatDay, formatNaira } from '@/lib/format'
+import { formatDay, formatNaira, countLabel } from '@/lib/format'
 import type { GroupAuditEntry } from '../types'
 
 type Details = Record<string, unknown>
@@ -117,5 +117,5 @@ export function shortWhen(iso: string, now: Date = new Date()): string {
   if (date.toDateString() === now.toDateString()) return date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
   const days = Math.max(1, Math.round(minutes / 1440))
   if (days === 1) return 'Yesterday'
-  return days < 7 ? `${days} days ago` : formatDay(iso)
+  return days < 7 ? `${countLabel(days, 'day', 'days')} ago` : formatDay(iso)
 }

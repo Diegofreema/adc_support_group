@@ -9,6 +9,7 @@ import { SmsBudgetSection } from '../components/SmsBudgetSection'
 import { StaffSection } from '../components/StaffSection'
 import { SmsBudgetWarning } from '../../shared/components/SmsBudgetWarning'
 import { useHandovers } from '../hooks/use-settings'
+import { useRequiredUser } from '@/stores/session-store'
 import type { SettingsTab } from '../types'
 
 const SECTIONS: Record<SettingsTab, () => React.JSX.Element | null> = {
@@ -20,22 +21,28 @@ const SECTIONS: Record<SettingsTab, () => React.JSX.Element | null> = {
   handovers: HandoversSection,
 }
 
+/** National settings: admins and super admins only (the server refuses state admins). */
+const NATIONAL_TABS: { value: SettingsTab; label: string }[] = [
+  { value: 'categories', label: 'Categories' },
+  { value: 'types', label: 'Activity types' },
+  { value: 'sms', label: 'SMS budget' },
+  { value: 'giving', label: 'Giving limit' },
+  { value: 'staff', label: 'Staff' },
+]
+
 export function SettingsPage() {
-  const [tab, setTab] = useState<SettingsTab>('categories')
+  const stateAdmin = useRequiredUser().stateAdmin === true
+  const [tab, setTab] = useState<SettingsTab>(stateAdmin ? 'handovers' : 'categories')
   const handoverCount = useHandovers().count
   const Section = SECTIONS[tab]
   const tabs = [
-    { value: 'categories' as const, label: 'Categories' },
-    { value: 'types' as const, label: 'Activity types' },
-    { value: 'sms' as const, label: 'SMS budget' },
-    { value: 'giving' as const, label: 'Giving limit' },
-    { value: 'staff' as const, label: 'Staff' },
+    ...(stateAdmin ? [] : NATIONAL_TABS),
     { value: 'handovers' as const, label: 'Handovers', count: handoverCount },
   ]
   return (
     <>
       <PageHeader title="Settings" />
-      {tab !== 'sms' && <SmsBudgetWarning className="mb-4" />}
+      {tab !== 'sms' && !stateAdmin && <SmsBudgetWarning className="mb-4" />}
       <Tabs label="Settings" tabs={tabs} value={tab} onChange={setTab} />
       <section className="mt-4"><Section /></section>
     </>

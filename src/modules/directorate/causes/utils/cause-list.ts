@@ -16,6 +16,9 @@ export function statusPills(causes: Cause[], loaded = true): PillOption<CauseSta
 /** "Ends 10 Dec" / "Ended 25 Oct" */
 export function deadlineLabel(cause: Cause): string {
   if (!cause.deadline) return cause.status === 'open' ? 'No end date' : 'Closed'
-  const day = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' }).format(new Date(cause.deadline))
+  const end = new Date(cause.deadline)
+  // Closed before its last day: it didn't "end" on that date.
+  if (cause.status === 'closed' && end.getTime() > Date.now()) return 'Closed'
+  const day = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short' }).format(end)
   return `${cause.status === 'open' ? 'Ends' : 'Ended'} ${day}`
 }

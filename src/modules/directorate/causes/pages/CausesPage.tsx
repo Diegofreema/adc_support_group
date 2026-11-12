@@ -21,7 +21,7 @@ export function CausesPage() {
       <FilterPills label="Status" options={statusPills(causes, !isLoading)} value={status} onChange={setStatus} />
       {isLoading ? <CausesSkeleton /> : (
         <div className="grid-2 mt-4">
-          {visible.map((cause) => <CauseCard key={cause.id} cause={cause} onEdit={editor.openEdit} onToggleStatus={(next) => statusChange.mutate({ id: cause.id, status: next })} />)}
+          {visible.map((cause) => <CauseCard key={cause.id} cause={cause} onEdit={editor.openEdit} onToggleStatus={(next) => { statusChange.mutate({ id: cause.id, status: next }); setStatus(next) }} />)}
         </div>
       )}
       {!isLoading && !visible.length && <EmptyState icon={Target} title="No causes" />}

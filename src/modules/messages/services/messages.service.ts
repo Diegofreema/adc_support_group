@@ -64,7 +64,8 @@ function audienceLabel(row: CampaignRow): string {
 function toSentMessage(row: CampaignRow): SentMessage {
   return {
     id: row.id,
-    subject: row.subject || subjectOf(row.body),
+    // The stored subject is "Message from <group>"; the list shows what was said.
+    subject: subjectOf(row.body),
     audienceLabel: audienceLabel(row),
     // 'email' is the free App + Email channel.
     channel: row.channel === 'sms' ? 'sms' : 'free',
@@ -109,8 +110,8 @@ export async function sendMessage(input: NewMessageInput): Promise<SendResult> {
   return invokeFunction<SendResult>('adc-send-message', {
     mode: 'group',
     channel: input.channel,
+    // No subject: the server titles it "Message from <group>" (the body would repeat itself).
     message: input.body.trim(),
-    subject: subjectOf(input.body),
     audience: input.audience,
     chapterId: input.audience === 'chapter' ? input.chapterId : undefined,
   })

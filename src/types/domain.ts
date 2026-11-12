@@ -42,6 +42,8 @@ export interface User {
   powerChapterId?: string
   /** Members: the chapter they belong to (none means the whole group). */
   chapterName?: string
+  /** Directorate: a state admin sees one state and none of the national settings. */
+  stateAdmin?: boolean
 }
 
 export interface Group extends Place {

@@ -1,6 +1,7 @@
 import { Avatar, Button, Card, Field, List, ListItem, SearchInput } from '@/components/shared'
 import { useMemberSearch } from '../hooks/use-member-search'
 import type { MemberOption } from '../types'
+import { formatPhone } from '@/lib/phone'
 
 interface MemberPickerProps {
   label: string
@@ -35,7 +36,7 @@ function MemberSearch({ onPick }: { onPick: (member: MemberOption) => void }) {
     <div className="stack">
       <SearchInput value={search} onChange={setSearch} placeholder="Name or phone" />
       {matches.length > 0 && (
-        <List>{matches.map((member) => <ListItem key={member.id} onClick={() => onPick(member)} leading={<Avatar name={member.name} size="sm" />} title={member.name} meta={member.phone} />)}</List>
+        <List>{matches.map((member) => <ListItem key={member.id} onClick={() => onPick(member)} leading={<Avatar name={member.name} size="sm" />} title={member.name} meta={formatPhone(member.phone)} />)}</List>
       )}
       {typed && !isSearching && matches.length === 0 && <p className="small faint">No member found</p>}
     </div>

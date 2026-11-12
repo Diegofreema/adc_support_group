@@ -10,6 +10,7 @@ export interface Invite {
   status: GroupStatus
   memberCount: number
   invitedBy: string
+  photoUrl?: string
 }
 
 export type LoginMethod = 'phone' | 'email'

@@ -4,13 +4,20 @@ import { HaveAccount } from '../shared/HaveAccount'
 import { StepHeading } from '../shared/StepHeading'
 import { InviteCard } from './InviteCard'
 
-export function JoinInviteStep({ invite, onJoin }: { invite: Invite; onJoin: () => void }) {
+interface JoinInviteStepProps {
+  invite: Invite
+  onJoin: () => void
+  /** Already signed in: one tap joins, no account steps. */
+  signedInName?: string
+}
+
+export function JoinInviteStep({ invite, onJoin, signedInName }: JoinInviteStepProps) {
   return (
     <>
       <StepHeading title="Join group" />
       <InviteCard invite={invite} />
-      <WizardActions onNext={onJoin} nextLabel="Join" />
-      <HaveAccount redirect={`/join/${invite.code}`} />
+      <WizardActions onNext={onJoin} nextLabel={signedInName ? `Join as ${signedInName}` : 'Join'} />
+      {!signedInName && <HaveAccount redirect={`/join/${invite.code}`} />}
     </>
   )
 }

@@ -14,6 +14,7 @@ interface InviteRow {
   status: GroupStatus
   member_count: number
   invited_by: string | null
+  photo_url?: string | null
 }
 
 /** What a group or chapter join link points to. Works before sign-in. */
@@ -27,6 +28,7 @@ export async function fetchInvite(code: string): Promise<Invite> {
     status: row.status,
     memberCount: row.member_count,
     invitedBy: row.invited_by ?? 'The group leader',
+    photoUrl: row.photo_url ?? undefined,
   }
 }
 

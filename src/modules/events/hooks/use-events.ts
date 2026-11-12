@@ -3,7 +3,8 @@ import { queryOptions, useQuery } from '@tanstack/react-query'
 import { getEvent, listChapterOptions, listEventTypes } from '../services/events.service'
 import { eventKeys } from '../utils/event-keys'
 
-export const eventQuery = (id: string) => queryOptions({ queryKey: eventKeys.detail(id), queryFn: () => getEvent(id) })
+/** Read again on every visit: RSVPs, check-ins and edits come from other people. */
+export const eventQuery = (id: string) => queryOptions({ queryKey: eventKeys.detail(id), queryFn: () => getEvent(id), staleTime: 0 })
 
 export function useEvent(id: string) {
   return useQuery(eventQuery(id))

@@ -5,8 +5,9 @@ import { activityKeys } from '../utils/activity-keys'
 
 export { activityKeys }
 
+/** Read again on every visit: someone else may have edited, approved or sent it back. */
 export const activityQuery = (id: string) =>
-  queryOptions({ queryKey: activityKeys.detail(id), queryFn: () => getActivity(id) })
+  queryOptions({ queryKey: activityKeys.detail(id), queryFn: () => getActivity(id), staleTime: 0 })
 
 export function useActivity(id: string) {
   return useQuery(activityQuery(id))

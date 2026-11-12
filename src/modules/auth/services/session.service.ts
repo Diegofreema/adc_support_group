@@ -64,6 +64,7 @@ export function toUser(profile: ProfileRow, mine: MySupportGroup | null): User {
     powers: mine?.powers ?? [],
     powerChapterId: mine?.power_chapter_id ?? undefined,
     chapterName: mine?.membership?.chapter_name ?? undefined,
+    stateAdmin: profile.role === 'state_admin' || undefined,
   }
 }
 

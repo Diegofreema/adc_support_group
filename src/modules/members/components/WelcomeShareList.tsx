@@ -4,6 +4,7 @@ import { Button, List, ListItem, SectionTitle, buttonClassName } from '@/compone
 import { notify } from '@/lib/toast'
 import type { WelcomeShare } from '../types'
 import { printWelcomeSheet, whatsappTo } from '../utils/welcome'
+import { formatPhone } from '@/lib/phone'
 
 function print(people: WelcomeShare[]) {
   try {
@@ -25,7 +26,7 @@ export function WelcomeShareList({ people }: { people: WelcomeShare[] }) {
           <ListItem
             key={person.phone}
             title={person.fullName}
-            meta={person.phone}
+            meta={formatPhone(person.phone)}
             trailing={(
               <a className={buttonClassName('secondary', 'sm')} href={whatsappTo(person)} target="_blank" rel="noreferrer">
                 <MessageCircle className="i" aria-hidden />WhatsApp

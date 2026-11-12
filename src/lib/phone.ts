@@ -13,7 +13,8 @@ export function isValidPhone(input: string): boolean {
 }
 
 /** "08062214590" → "0806 221 4590" */
-export function formatPhone(phone: string): string {
+export function formatPhone(phone: string | null | undefined): string {
+  if (!phone) return ''
   const digits = normalisePhone(phone)
   return digits.length === 11 ? `${digits.slice(0, 4)} ${digits.slice(4, 7)} ${digits.slice(7)}` : phone
 }

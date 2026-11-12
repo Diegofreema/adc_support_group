@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 
 import { Button, Card, Progress, StatusChip, buttonClassName } from '@/components/shared'
-import { formatNairaShort } from '@/lib/format'
+import { formatNairaShort, countLabel } from '@/lib/format'
 import { deadlineLabel } from '../utils/cause-list'
 import type { DirectorateCause } from '../types'
 import type { CauseStatus } from '@/types/domain'
@@ -22,7 +22,7 @@ export function CauseCard({ cause, onEdit, onToggleStatus }: CauseCardProps) {
       <div className="mt-3"><Progress value={cause.raised} max={cause.target} label={cause.title} /></div>
       <div className="row-between small mt-2">
         <span><b>{formatNairaShort(cause.raised)}</b> <span className="faint">of {formatNairaShort(cause.target)}</span></span>
-        <span className="faint">{cause.groupsCount} groups</span>
+        <span className="faint">{countLabel(cause.groupsCount, 'group', 'groups')}</span>
       </div>
       <div className="grid-3 mt-4 !grid-cols-3">
         <Link to="/admin/payments" className={buttonClassName('secondary', 'sm')}>Payments</Link>

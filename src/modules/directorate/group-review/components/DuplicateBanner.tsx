@@ -1,5 +1,5 @@
 import { Banner, Card } from '@/components/shared'
-import { formatNumber } from '@/lib/format'
+import { countLabel } from '@/lib/format'
 import { groupPlace } from '../utils/group-filters'
 import type { ReviewGroup } from '../types'
 
@@ -28,7 +28,7 @@ function CompareCard({ label, name, place, members }: CompareCardProps) {
     <Card className="!p-3">
       <div className="eyebrow">{label}</div>
       <div className="bold mt-1">{name}</div>
-      <div className="small faint">{place} · {formatNumber(members)} members</div>
+      <div className="small faint">{place} · {countLabel(members, 'member', 'members')}</div>
     </Card>
   )
 }

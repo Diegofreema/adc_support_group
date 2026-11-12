@@ -12,12 +12,13 @@ interface RejectActivityDialogProps {
 
 /** Pick why an activity goes back to the person who recorded it. */
 export function RejectActivityDialog({ open, onOpenChange, onConfirm }: RejectActivityDialogProps) {
-  const [reason, setReason] = useState<RejectReasonId>('unclear-photos')
+  // No reason picked for them: a default one gets sent by mistake.
+  const [reason, setReason] = useState<RejectReasonId | undefined>(undefined)
   const [note, setNote] = useState('')
   const actions = (
     <>
       <Button onClick={() => onOpenChange(false)}>Cancel</Button>
-      <Button variant="danger-solid" onClick={() => onConfirm({ reason, note: note.trim() || undefined })}>Send back</Button>
+      <Button variant="danger-solid" disabled={!reason} onClick={() => reason && onConfirm({ reason, note: note.trim() || undefined })}>Send back</Button>
     </>
   )
   return (

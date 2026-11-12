@@ -645,3 +645,11 @@ a.list-item:hover .chev { transform: translateX(3px); color: var(--text); }
   .skel-table-head { display: none; }
 }
 @media (max-width: 767px) { .skel-desktop { display: none; } }
+
+/* "See all" and other heading links: a full tap target without changing the heading's look. */
+.section-title > a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 8px; margin-block: -12px; margin-inline-end: -8px; }
+
+/* Links inside table cells (group names in reports) are tap targets on phones. */
+@media (max-width: 767px) {
+  td > a { display: inline-flex; align-items: center; min-height: 44px; }
+}

@@ -12,12 +12,14 @@ import { LoginLink } from '../components/shared/LoginLink'
 import { useInvite } from '../hooks/use-invite'
 import { useJoinFlow } from '../hooks/use-join-flow'
 import type { Invite } from '../types/auth.types'
+import { useSessionUser } from '@/stores/session-store'
 
 export function JoinPage() {
   const { code } = useParams({ from: '/join/$code' })
   const { data: invite, isError } = useInvite(code)
+  const signedIn = useSessionUser()
   return (
-    <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={<LoginLink redirect={`/join/${code}`} />}>
+    <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={signedIn ? undefined : <LoginLink redirect={`/join/${code}`} />}>
       {isError && <EmptyState icon={Link2Off} title="Link not found" />}
       {invite && <JoinWizard invite={invite} />}
     </AuthLayout>
@@ -29,9 +31,9 @@ function JoinWizard({ invite }: { invite: Invite }) {
   const { wizard, form } = flow
   return (
     <form onSubmit={(event) => event.preventDefault()} noValidate>
-      <WizardProgress step={wizard.step} total={wizard.total} />
+      {!flow.signedInName && <WizardProgress step={wizard.step} total={wizard.total} />}
       <section className="mt-6">
-        {wizard.step === 0 && <JoinInviteStep invite={invite} onJoin={flow.start} />}
+        {wizard.step === 0 && <JoinInviteStep invite={invite} onJoin={flow.start} signedInName={flow.signedInName} />}
         {wizard.step === 1 && <JoinPhoneStep form={form} onBack={wizard.back} onNext={flow.submitPhone} loading={flow.isPending} error={flow.sendError} loginToJoin={flow.loginToJoin} />}
         {wizard.step === 2 && <JoinCodeStep form={form} onBack={wizard.back} onNext={flow.submitCode} onResend={flow.resendCode} loading={flow.isPending} />}
         {wizard.step === 3 && <JoinDetailsStep form={form} onBack={wizard.back} onFinish={flow.finish} loading={flow.isPending} />}

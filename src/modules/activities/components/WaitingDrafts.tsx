@@ -1,7 +1,7 @@
 import { CircleAlert, CloudUpload, Send, Trash2 } from 'lucide-react'
 
 import { Button, ConfirmDialog, IconTile, List, ListItem, SectionTitle } from '@/components/shared'
-import { formatDay } from '@/lib/format'
+import { formatDay, countLabel } from '@/lib/format'
 import type { ActivityDraft } from '../types'
 
 interface WaitingDraftsProps {
@@ -39,7 +39,7 @@ function DraftRow({ draft, sending, onSend, onDelete }: DraftRowProps) {
     <ListItem
       leading={<IconTile icon={draft.needsAttention ? CircleAlert : CloudUpload} tone={draft.needsAttention ? 'red' : 'amber'} />}
       title={draft.input.title}
-      meta={`${status} · ${formatDay(draft.input.date)} · ${draft.photos.length} photos`}
+      meta={`${status} · ${formatDay(draft.input.date)} · ${countLabel(draft.photos.length, 'photo', 'photos')}`}
     >
       {draft.lastError && <span className="small muted block mt-1">{draft.lastError}</span>}
       <span className="flex gap-2 mt-3">
