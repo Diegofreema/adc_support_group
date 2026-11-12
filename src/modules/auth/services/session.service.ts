@@ -23,7 +23,7 @@ interface ProfileRow {
 interface MySupportGroup {
   is_leader: boolean
   group: { id: string; name: string; status: GroupStatus; leader_title: string | null } | null
-  membership: { member_role: string; title: string | null } | null
+  membership: { member_role: string; title: string | null; chapter_name?: string | null } | null
   powers: Power[]
   power_chapter_id: string | null
 }
@@ -63,6 +63,7 @@ export function toUser(profile: ProfileRow, mine: MySupportGroup | null): User {
     activeGroupStatus: mine?.group?.status,
     powers: mine?.powers ?? [],
     powerChapterId: mine?.power_chapter_id ?? undefined,
+    chapterName: mine?.membership?.chapter_name ?? undefined,
   }
 }
 

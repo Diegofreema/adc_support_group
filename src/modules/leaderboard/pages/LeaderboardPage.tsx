@@ -19,7 +19,7 @@ export function LeaderboardPage() {
 }
 
 function BoardBody({ view }: { view: View }) {
-  if (view.isLoading) return <PageLoader />
+  if (view.isLoading) return <PageLoader shape="list" />
   if (view.error || !view.board) return <ErrorState title="Could not load the leaderboard" error={view.error} onRetry={view.retry} />
   if (!view.board.mine) return <BoardEmpty scope={view.scope} />
   return (

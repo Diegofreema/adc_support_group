@@ -1,7 +1,10 @@
 import { Link } from '@tanstack/react-router'
 import { Download } from 'lucide-react'
 
-import { Banner, PageHeader, SectionTitle, StatGrid, buttonClassName } from '@/components/shared'
+import {
+  Banner, PageHeader, SectionTitle, SkeletonCard, SkeletonList, SkeletonRegion, SkeletonStats, SkeletonTable, StatGrid,
+  buttonClassName,
+} from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
 import { SmsBudgetWarning } from '../../shared/components/SmsBudgetWarning'
 import { CategoriesCard } from '../components/CategoriesCard'
@@ -20,6 +23,7 @@ export function DashboardPage() {
       <PageHeader title="Overview" actions={<HeaderActions period={period} onPeriod={setPeriod} />} />
       <SmsBudgetWarning className="mb-4" />
       {error && !dashboard && <Banner tone="danger" title="Could not load the overview">{error.message}</Banner>}
+      {!dashboard && !error && <DashboardSkeleton />}
       {dashboard && <DashboardBody dashboard={dashboard} />}
     </>
   )
@@ -45,5 +49,20 @@ function DashboardBody({ dashboard }: { dashboard: Dashboard }) {
         />
       </div>
     </>
+  )
+}
+
+/** Stats, to-do rows, the state table and the two side cards, while the overview loads. */
+function DashboardSkeleton() {
+  return (
+    <SkeletonRegion label="Loading the overview">
+      <SkeletonStats count={4} />
+      <div className="mt-6">
+        <SplitLayout
+          main={<><SectionTitle title="To do" className="mt-0" /><SkeletonList rows={4} /><SectionTitle title="By state" /><SkeletonTable rows={5} /></>}
+          side={<><SkeletonCard lines={5} /><SkeletonCard lines={4} className="mt-4" /></>}
+        />
+      </div>
+    </SkeletonRegion>
   )
 }

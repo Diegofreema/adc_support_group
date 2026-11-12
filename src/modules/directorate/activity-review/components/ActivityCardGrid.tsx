@@ -11,7 +11,7 @@ interface ActivityCardGridProps {
 }
 
 export function ActivityCardGrid({ activities, onApprove, onReject }: ActivityCardGridProps) {
-  if (!activities.length) return <EmptyState icon={ClipboardCheck} title="All checked" />
+  if (!activities.length) return <EmptyState icon={ClipboardCheck} title="No activities waiting to be checked" />
   return (
     <div className="grid-2">
       {activities.map((activity) => (

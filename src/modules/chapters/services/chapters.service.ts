@@ -1,7 +1,7 @@
 import type { ChapterActivity, ChapterRecord, NewChapterInput } from '../types'
 import type { ActivityTypeId } from '@/config/activity-types'
 import { invokeFunction } from '@/lib/edge-functions'
-import { formatNumber } from '@/lib/format'
+import { countLabel } from '@/lib/format'
 import { normalisePhone } from '@/lib/phone'
 import { rpc } from '@/lib/supabase'
 import type { ActivityStatus } from '@/types/domain'
@@ -77,7 +77,7 @@ export async function fetchChapterActivities(chapterId: string): Promise<Chapter
     type: row.type as ActivityTypeId,
     title: row.title,
     date: row.occurred_on,
-    reach: `${formatNumber(row.people_reached)} people`,
+    reach: countLabel(Number(row.people_reached), 'person', 'people'),
     status: row.status,
   }))
 }

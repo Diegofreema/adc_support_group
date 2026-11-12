@@ -11,7 +11,7 @@ function useChapterChoice() {
   const user = useRequiredUser()
   return {
     chapters: useActivityChapters().data ?? [],
-    defaultChapterLabel: user.role === 'leader' ? 'Whole group' : 'My chapter',
+    defaultChapterLabel: user.chapterName ?? 'Whole group',
   }
 }
 

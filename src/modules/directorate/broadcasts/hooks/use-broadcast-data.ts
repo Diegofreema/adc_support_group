@@ -5,7 +5,11 @@ import { directorateKeys } from '../../shared/query-keys'
 import { notify } from '@/lib/toast'
 import { formatNumber } from '@/lib/format'
 
-export const useSentBroadcasts = () => useQuery(sentBroadcastsQuery).data ?? []
+/** Broadcasts already sent; `isLoading` is true only until the first answer arrives. */
+export function useSentBroadcasts() {
+  const query = useQuery(sentBroadcastsQuery)
+  return { sent: query.data ?? [], count: query.data?.length, isLoading: query.isLoading }
+}
 
 export function useSendBroadcast() {
   const queryClient = useQueryClient()

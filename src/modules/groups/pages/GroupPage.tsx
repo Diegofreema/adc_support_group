@@ -26,7 +26,7 @@ export function GroupPage() {
   const canManage = canManageGroup(useRequiredUser())
   const { data: group, isLoading, isError, refetch } = useGroup(groupId)
   const handover = useRequestHandover(groupId)
-  if (isLoading) return <PageLoader />
+  if (isLoading) return <PageLoader shape="detail" />
   if (isError) {
     return <EmptyState icon={CloudOff} title="Couldn't load your group" action={<Button icon={RotateCw} onClick={() => void refetch()}>Retry</Button>} />
   }

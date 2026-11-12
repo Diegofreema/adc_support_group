@@ -22,7 +22,7 @@ export function ActivityDetailPage() {
   const { activityId } = routeApi.useParams()
   const { data: activity, error, refetch } = useActivity(activityId)
   if (error && !activity) return <ErrorState title="Could not load this activity" error={error} onRetry={() => void refetch()} />
-  if (!activity) return <PageLoader />
+  if (!activity) return <PageLoader shape="detail" />
   return (
     <>
       <ActivityHeader activity={activity} />

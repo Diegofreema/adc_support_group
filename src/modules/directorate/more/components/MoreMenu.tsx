@@ -9,7 +9,7 @@ interface MenuEntry {
 }
 
 const ENTRIES: MenuEntry[] = [
-  { to: '/admin/causes', label: 'Causes', icon: Target },
+  { to: '/admin/causes', label: 'Funding causes', icon: Target },
   { to: '/admin/messages', label: 'Messages', icon: Send },
   { to: '/admin/reports', label: 'Reports', icon: FileSpreadsheet },
   { to: '/admin/settings', label: 'Settings', icon: Settings },

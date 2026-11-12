@@ -84,16 +84,22 @@ async function fetchPayments(limit: number, offset: number): Promise<Page<Review
   return { total: Number(page.total), rows: page.rows.map(toPayment) }
 }
 
+/** The most "checking" payments one call returns (the RPC's own cap). */
+const WAITING_LIMIT = 500
+
+const isOffline = (row: PaymentJson) => row.method !== 'funz'
+
 /**
- * Offline payments waiting for staff. Asked per method so abandoned Funz
- * checkouts (also "checking") can't push offline ones out of the page.
+ * Offline payments waiting for staff. Usually one call; only when abandoned Funz
+ * checkouts (also "checking") fill the page is it asked per method, so they
+ * can't push offline ones out.
  */
 async function fetchWaitingOffline(): Promise<ReviewPayment[]> {
-  const pages = await Promise.all((['transfer', 'cash'] as const).map((method) => fetchPage({ status: 'checking', method }, 500)))
-  return pages
-    .flatMap((page) => page.rows)
-    .sort((a, b) => b.created_at.localeCompare(a.created_at))
-    .map(toPayment)
+  const all = await fetchPage({ status: 'checking' }, WAITING_LIMIT)
+  const rows = Number(all.total) <= all.rows.length
+    ? all.rows.filter(isOffline)
+    : (await Promise.all((['transfer', 'cash'] as const).map((method) => fetchPage({ status: 'checking', method }, WAITING_LIMIT)))).flatMap((page) => page.rows)
+  return rows.sort((a, b) => b.created_at.localeCompare(a.created_at)).map(toPayment)
 }
 
 export interface PaidTotals {
@@ -101,11 +107,14 @@ export interface PaidTotals {
   paidCount: number
   funz: number
   funzCount: number
+  /** Every payment, any status (the "All" tab). */
+  allCount: number
 }
 
+/** Header numbers and the "All" count: three one-row reads (the RPC sums one filter per call). */
 async function fetchPaidTotals(): Promise<PaidTotals> {
-  const [paid, funz] = await Promise.all([fetchPage({ status: 'paid' }, 1), fetchPage({ status: 'paid', method: 'funz' }, 1)])
-  return { raised: Number(paid.total_paid), paidCount: Number(paid.total), funz: Number(funz.total_paid), funzCount: Number(funz.total) }
+  const [paid, funz, all] = await Promise.all([fetchPage({ status: 'paid' }, 1), fetchPage({ status: 'paid', method: 'funz' }, 1), fetchPage({}, 1)])
+  return { raised: Number(paid.total_paid), paidCount: Number(paid.total), funz: Number(funz.total_paid), funzCount: Number(funz.total), allCount: Number(all.total) }
 }
 
 interface CauseJson {

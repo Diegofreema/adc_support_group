@@ -24,6 +24,8 @@ export interface ListGroup extends Group {
 
 /** A group as the Directorate reviews it. */
 export interface ReviewGroup extends ListGroup {
+  /** The leader's real email, if any (sign-up placeholders are left out). */
+  leaderEmail?: string
   leaderPhoneChecked: boolean
   membersByLink: number
   membersByExcel: number

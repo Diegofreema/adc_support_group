@@ -1,7 +1,8 @@
 import { Plus } from 'lucide-react'
 
-import { Button, PageHeader, PageLoader, SearchInput } from '@/components/shared'
+import { Button, PageHeader, SearchInput, SkeletonTable } from '@/components/shared'
 import { useDisclosure } from '@/hooks/use-disclosure'
+import { countLabel } from '@/lib/format'
 import { useGroupLocked } from '@/hooks/use-group-verified'
 import { useActiveGroupId } from '@/modules/groups'
 import { useRequiredUser } from '@/stores/session-store'
@@ -19,9 +20,9 @@ export function ChaptersPage() {
   const canCreate = user.role === 'leader' && !locked
   return (
     <>
-      <PageHeader title="Chapters" subtitle={`${chapters.total} chapters`} actions={canCreate ? <Button variant="primary" icon={Plus} onClick={dialog.open}>New chapter</Button> : undefined} />
+      <PageHeader title="Chapters" subtitle={countLabel(chapters.total, 'chapter', 'chapters')} actions={canCreate ? <Button variant="primary" icon={Plus} onClick={dialog.open}>New chapter</Button> : undefined} />
       <SearchInput value={chapters.search} onChange={chapters.setSearch} placeholder="Search chapters" />
-      <div className="mt-4">{chapters.isLoading ? <PageLoader /> : <ChaptersTable chapters={chapters.results} />}</div>
+      <div className="mt-4">{chapters.isLoading ? <SkeletonTable /> : <ChaptersTable chapters={chapters.results} />}</div>
       {canCreate && <NewChapterDialog open={dialog.isOpen} onOpenChange={dialog.setOpen} groupId={groupId} groupName={user.activeGroupName ?? ''} />}
     </>
   )

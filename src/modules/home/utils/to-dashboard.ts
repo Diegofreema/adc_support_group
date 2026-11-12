@@ -1,4 +1,4 @@
-import { formatNumber } from '@/lib/format'
+import { countLabel } from '@/lib/format'
 import type { ActivityStatus, GroupStatus, MemberRole } from '@/types/domain'
 import type { ActiveBadge, GroupReview, GroupSummary, LeaderNote, MyActivity, MyGroup, RecentItem, TodoItem } from '../types/home.types'
 import { dayLabel, shortAgo } from './day-label'
@@ -107,7 +107,7 @@ export function leaderTodos(group: GroupRow, pendingActivities: number): TodoIte
 function activityItem(row: ActivityRow): RecentItem & { at: string } {
   return {
     id: row.id, kind: 'activity', title: row.title, activityType: row.type, status: row.status,
-    meta: `${dayLabel(row.occurred_on)} · ${formatNumber(Number(row.people_reached))} people`,
+    meta: `${dayLabel(row.occurred_on)} · ${countLabel(Number(row.people_reached), 'person', 'people')}`,
     to: `/activities/${row.id}`, at: row.created_at,
   }
 }

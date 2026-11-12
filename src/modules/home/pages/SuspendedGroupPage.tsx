@@ -6,7 +6,7 @@ import { useGroupNotice } from '../hooks/use-group-review'
 /** A suspended group: say so clearly, with the Directorate's reason. */
 export function SuspendedGroupPage({ isLeader }: { isLeader: boolean }) {
   const { data } = useGroupNotice()
-  if (data === undefined) return <PageLoader />
+  if (data === undefined) return <PageLoader shape="detail" />
   return (
     <Card className="mx-auto mt-6 max-w-[560px]">
       <IconTile icon={Ban} tone="red" />

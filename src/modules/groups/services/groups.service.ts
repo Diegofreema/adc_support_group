@@ -16,6 +16,7 @@ export interface GroupJson {
   country: string | null
   city: string | null
   cac_number: string | null
+  photo_url?: string | null
   leader_profile_id: string
   leader_name: string | null
   leader_phone?: string | null
@@ -52,6 +53,7 @@ export function toGroup(json: GroupJson): Group {
     // Members see their leader's name only; the leader sees their own number.
     leaderPhone: json.leader_phone ?? (viewer?.id === json.leader_profile_id ? viewer.phone : ''),
     cacNumber: json.cac_number ?? undefined,
+    photoUrl: json.photo_url ?? undefined,
     joinCode: json.join_code,
     submittedAt: json.submitted_at ?? json.created_at,
     possibleDuplicateOf: json.possible_duplicate_of?.name,

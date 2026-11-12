@@ -13,7 +13,7 @@ function buildColumns(onOpen: (member: MemberRecord) => void): Column<MemberReco
     { key: 'name', header: 'Name', main: true, cell: (member) => <MemberNameCell member={member} onOpen={() => onOpen(member)} /> },
     { key: 'ward', header: 'Ward', cell: (member) => member.ward },
     { key: 'chapter', header: 'Chapter', cell: (member) => member.chapterName ?? 'Whole group' },
-    { key: 'joined', header: 'Joined by', cell: (member) => <JoinedViaChip joinedVia={member.joinedVia} /> },
+    { key: 'joined', header: 'Joined by', cell: (member) => (member.role === 'leader' ? <span className="muted">Started the group</span> : <JoinedViaChip joinedVia={member.joinedVia} />) },
   ]
 }
 

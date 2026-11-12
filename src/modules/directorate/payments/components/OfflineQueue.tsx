@@ -16,7 +16,7 @@ export function OfflineQueue({ payments, onCheck }: { payments: ReviewPayment[];
           leading={<IconTile icon={payment.method === 'cash' ? Banknote : Landmark} tone="amber" />}
           title={payment.groupName}
           meta={`${purposeLabel(payment)} · ${methodLabel(payment.method)} · ${formatDay(payment.date)}`}
-          trailing={<div className="row"><span className="amount hide-mobile">{formatNaira(payment.amount)}</span><Button size="sm" variant="primary" onClick={() => onCheck(payment)}>Check</Button></div>}
+          trailing={<div className="row"><span className="amount hide-mobile">{formatNaira(payment.amount)}</span><Button size="sm" variant="primary" className="!min-h-11" onClick={() => onCheck(payment)}>Check</Button></div>}
         />
       ))}
     </List>

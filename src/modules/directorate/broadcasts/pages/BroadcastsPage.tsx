@@ -9,7 +9,7 @@ type BroadcastTab = 'new' | 'sent'
 
 export function BroadcastsPage() {
   const [tab, setTab] = useState<BroadcastTab>('new')
-  const sentCount = useSentBroadcasts().length
+  const sentCount = useSentBroadcasts().count
   return (
     <>
       <PageHeader title="Messages" />

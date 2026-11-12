@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { MapPin } from 'lucide-react'
 
 import { IconTile, List, ListItem, SectionTitle } from '@/components/shared'
-import { formatNumber } from '@/lib/format'
+import { countLabel } from '@/lib/format'
 import { useChapters } from '../hooks/use-chapters'
 
 const PREVIEW_COUNT = 3
@@ -22,7 +22,7 @@ export function ChaptersPreview({ groupId }: { groupId: string }) {
             params={{ chapterId: chapter.id }}
             leading={<IconTile icon={MapPin} tone="grey" />}
             title={chapter.name}
-            meta={`${formatNumber(chapter.memberCount)} members`}
+            meta={countLabel(chapter.memberCount, 'member', 'members')}
           />
         ))}
       </List>

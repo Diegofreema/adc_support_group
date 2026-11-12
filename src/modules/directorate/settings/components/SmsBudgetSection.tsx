@@ -1,7 +1,7 @@
 import { Save } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 
-import { Banner, Button, Card, CardHead, Field, StatGrid, TextInput } from '@/components/shared'
+import { Banner, Button, Card, CardHead, Field, Skeleton, SkeletonRegion, SkeletonStats, StatGrid, TextInput } from '@/components/shared'
 import { formatNumber } from '@/lib/format'
 import { SmsBudgetWarning } from '../../shared/components/SmsBudgetWarning'
 import type { SmsBudget } from '../../shared/services/admin-settings'
@@ -37,7 +37,8 @@ function budgetStats(budget: SmsBudget) {
 
 /** SMS for important messages to people without email; paid by the Directorate. */
 export function SmsBudgetSection() {
-  const { budget, canEdit, save } = useSmsBudget()
+  const { budget, isLoading, canEdit, save } = useSmsBudget()
+  if (isLoading) return <SmsBudgetSkeleton />
   if (!budget) return <Banner tone="info">The SMS budget is not available yet.</Banner>
   return (
     <>
@@ -51,5 +52,19 @@ export function SmsBudgetSection() {
           : <p className="faint small mt-4">Only a super admin can change the budget.</p>}
       </Card>
     </>
+  )
+}
+
+/** The budget card: heading, note, three numbers, the input row. */
+function SmsBudgetSkeleton() {
+  return (
+    <SkeletonRegion label="Loading the SMS budget">
+      <Card>
+        <CardHead title="SMS budget" />
+        <div className="skel-stack mb-3"><Skeleton w="90%" h={10} /><Skeleton w="60%" h={10} /></div>
+        <div className="[&>.stats]:!grid-cols-3"><SkeletonStats count={3} /></div>
+        <div className="skel-stack mt-4"><Skeleton w={140} h={9} /><Skeleton h={46} shape="box" /></div>
+      </Card>
+    </SkeletonRegion>
   )
 }

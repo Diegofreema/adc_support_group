@@ -12,7 +12,7 @@ export interface ShellState {
   meta: PageMeta
   isDirectorate: boolean
   profilePath: string
-  alertsPath: string
+  alertsPath?: string
 }
 
 /** Everything the app frame needs, derived from the logged-in user and current route. */
@@ -27,6 +27,7 @@ export function useShell(): ShellState {
     meta: usePageMeta(),
     isDirectorate,
     profilePath: isDirectorate ? '/admin/more' : '/profile',
-    alertsPath: isDirectorate ? '/admin' : '/notifications',
+    // Staff have no notifications page, so no bell.
+    alertsPath: isDirectorate ? undefined : '/notifications',
   }
 }

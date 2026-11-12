@@ -17,7 +17,7 @@ export function CheckinPage() {
       {checkin.isPending && (
         <>
           <p className="bold text-center">Checking you in…</p>
-          <PageLoader />
+          <PageLoader shape="detail" label="Checking you in" />
         </>
       )}
     </div>

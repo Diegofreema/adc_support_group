@@ -6,7 +6,7 @@ import { levelLabel } from '../utils/labels'
 export function GroupHeader({ group }: { group: Group }) {
   return (
     <div className="row gap-3.5">
-      <GroupMark name={group.name} className="!size-15 !text-xl" />
+      <GroupMark name={group.name} photoUrl={group.photoUrl} className="!size-15 !text-xl" />
       <div className="grow">
         <h1 className="h1 !text-2xl">{group.name}</h1>
         <div className="row wrap mt-2 !gap-2">

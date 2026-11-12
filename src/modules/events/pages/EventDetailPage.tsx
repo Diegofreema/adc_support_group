@@ -22,7 +22,7 @@ export function EventDetailPage() {
   const { eventId } = routeApi.useParams()
   const { data: event, error, refetch } = useEvent(eventId)
   if (error && !event) return <ErrorState title="Could not load this event" error={error} onRetry={() => void refetch()} />
-  if (!event) return <PageLoader />
+  if (!event) return <PageLoader shape="detail" />
   return (
     <>
       <EventHeader event={event} />

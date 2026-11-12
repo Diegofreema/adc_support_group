@@ -13,7 +13,7 @@ export function ChapterPage() {
   const chapterId = useChapterIdParam()
   const user = useRequiredUser()
   const { data: chapter, isLoading } = useChapter(chapterId)
-  if (isLoading) return <PageLoader />
+  if (isLoading) return <PageLoader shape="detail" />
   if (!chapter) return <EmptyState icon={MapPinOff} title="Chapter not found" />
   const groupName = user.activeGroupName ?? ''
   return (

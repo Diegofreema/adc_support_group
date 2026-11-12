@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { createExport, recentExportsQuery, reportTotalsQuery } from '../services/reports.service'
@@ -12,7 +12,11 @@ import { notify } from '@/lib/toast'
 
 export const useRecentExports = () => useQuery(recentExportsQuery).data ?? []
 
-export const useReportTotals = (period: string) => useQuery(reportTotalsQuery(period)).data
+/** Headline numbers; the last period's stay on screen while a new period loads. */
+export function useReportTotals(period: string) {
+  const query = useQuery({ ...reportTotalsQuery(period), placeholderData: keepPreviousData })
+  return { totals: query.data, isLoading: query.isLoading }
+}
 
 function useDownload() {
   const queryClient = useQueryClient()

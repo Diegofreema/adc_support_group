@@ -1,4 +1,4 @@
-import { formatDay, formatNumber } from '@/lib/format'
+import { formatDay, countLabel } from '@/lib/format'
 import type { ActivityVersion } from '../types'
 
 /** "Replaced 12 Nov · by Musa Bello" */
@@ -12,7 +12,7 @@ export function versionFacts(version: ActivityVersion): string {
     version.typeName,
     formatDay(version.date),
     version.place,
-    `${formatNumber(version.peopleReached)} people`,
+    countLabel(version.peopleReached, 'person', 'people'),
     `${version.photoCount} ${version.photoCount === 1 ? 'photo' : 'photos'}`,
   ].filter(Boolean).join(' · ')
 }

@@ -8,10 +8,12 @@ import { useRequiredUser } from '@/stores/session-store'
 /** Payments screen view-model: totals, chapter filter, filtered history. */
 export function usePaymentHistory() {
   const user = useRequiredUser()
-  const payments = usePayments(user.activeGroupId ?? '').data ?? []
+  const query = usePayments(user.activeGroupId ?? '')
+  const payments = query.data ?? []
   const chapters = useChapterOptions().data ?? []
   const [chapter, setChapter] = useState('')
   return {
+    isLoading: query.isLoading,
     canRecordOffline: hasPower(user, 'money'),
     totals: paymentTotals(payments),
     chapters,

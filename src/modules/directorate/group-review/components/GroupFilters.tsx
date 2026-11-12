@@ -14,7 +14,7 @@ export function GroupFilters({ filters, setFilter, categoryOptions }: GroupFilte
     <FilterBar
       search={filters.search}
       onSearch={setFilter('search')}
-      placeholder="Search group or leader"
+      placeholder="Search groups"
       selects={[
         { label: 'State', value: filters.state, options: STATE_OPTIONS, onChange: setFilter('state') },
         { label: 'Category', value: filters.category, options: categoryOptions, onChange: setFilter('category') },

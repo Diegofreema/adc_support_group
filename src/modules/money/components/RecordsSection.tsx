@@ -1,6 +1,6 @@
 import { Receipt } from 'lucide-react'
 
-import { EmptyState, ErrorState, List, PageLoader, SectionTitle, Tabs } from '@/components/shared'
+import { EmptyState, ErrorState, List, SectionTitle, SkeletonList, Tabs } from '@/components/shared'
 import { useEntryDetail } from '../hooks/use-entry-detail'
 import { useMoneyEntries } from '../hooks/use-money-entries'
 import { EntryDetailModal } from './EntryDetailModal'
@@ -16,7 +16,7 @@ export function RecordsSection({ canVoid }: { canVoid: boolean }) {
       <SectionTitle title="Records" />
       <Tabs tabs={view.tabs} value={view.tab} onChange={view.setTab} label="Records" />
       <div className="mt-3">
-        {view.isLoading ? <PageLoader /> : view.error ? <ErrorState title="Could not load the records" error={view.error} onRetry={view.retry} />
+        {view.isLoading ? <SkeletonList rows={4} /> : view.error ? <ErrorState title="Could not load the records" error={view.error} onRetry={view.retry} />
           : view.entries.length === 0 ? <EmptyState icon={Receipt} title="Nothing recorded yet" />
           : <List>{view.entries.map((entry) => <EntryRow key={entry.id} entry={entry} onOpen={detail.open} />)}</List>}
       </div>

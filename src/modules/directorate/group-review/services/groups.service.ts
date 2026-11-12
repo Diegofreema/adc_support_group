@@ -56,6 +56,11 @@ function toHistory(entries: GroupReviewJson['history']): GroupHistoryEntry[] {
     .map((entry) => ({ title: entry.title, date: entry.date, by: entry.by ?? undefined }))
 }
 
+/** Phone-only sign-ups get a placeholder '….local' address; that's not a way to reach anyone. */
+function realEmail(email: string | null | undefined): string | undefined {
+  return email && !email.endsWith('.local') ? email : undefined
+}
+
 function toDuplicate(json: GroupJson | null): ReviewGroup['duplicate'] {
   if (!json) return undefined
   const group = toGroup(json)
@@ -70,6 +75,7 @@ async function fetchGroup(id: string): Promise<ReviewGroup> {
   const group = toListGroup(detail)
   return {
     ...group,
+    leaderEmail: realEmail(detail.leader_email),
     possibleDuplicateOf: detail.possible_duplicate?.name,
     duplicate: toDuplicate(detail.possible_duplicate),
     leaderPhoneChecked: extras.leader_phone_verified,

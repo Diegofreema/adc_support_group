@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js'
 
 import { installSession } from './auth.service'
 import { invokeFunction } from '@/lib/edge-functions'
+import { normalisePhone } from '@/lib/phone'
 
 /**
  * Phone one-time codes. The code itself is checked server-side when the step
@@ -27,7 +28,7 @@ export function isExistingAccountError(error: Error): boolean {
 
 /** Send a sign-up code. Refuses a phone that already has an account. */
 export async function startSignup(fullName: string, phone: string): Promise<Challenge> {
-  return toChallenge(await invokeFunction<ChallengeResponse>('auth-phone-signup-initiate', { fullName, phone }))
+  return toChallenge(await invokeFunction<ChallengeResponse>('auth-phone-signup-initiate', { fullName, phone: normalisePhone(phone) }))
 }
 
 export interface SignupInput {
@@ -44,7 +45,7 @@ export interface SignupInput {
 
 /** Create the account with the code and sign in. */
 export async function completeSignup({ code, ...input }: SignupInput): Promise<void> {
-  const { session } = await invokeFunction<{ session: Session }>('auth-phone-signup-complete', { ...input, otp: code })
+  const { session } = await invokeFunction<{ session: Session }>('auth-phone-signup-complete', { ...input, phone: normalisePhone(input.phone), otp: code })
   await installSession(session)
 }
 
@@ -70,7 +71,8 @@ export type ResetCodeResult =
  */
 export async function requestPasswordReset(phone: string, channel?: CodeChannel): Promise<ResetCodeResult> {
   if (phone.includes('@')) throw new Error('Enter the phone number on your account')
-  const response = await invokeFunction<ResetInitiateResponse>('auth-phone-password-reset-initiate', channel ? { phone, channel } : { phone })
+  const local = normalisePhone(phone)
+  const response = await invokeFunction<ResetInitiateResponse>('auth-phone-password-reset-initiate', channel ? { phone: local, channel } : { phone: local })
   if (response.needs_channel && response.channels) return { kind: 'choose', channels: response.channels }
   if (!response.challenge_id || !response.phone) throw new Error('Something went wrong. Please try again.')
   return { kind: 'sent', challenge: toChallenge(response as ChallengeResponse), channel: channel ?? 'sms' }
@@ -78,5 +80,5 @@ export async function requestPasswordReset(phone: string, channel?: CodeChannel)
 
 export async function completePasswordReset(input: { challengeId: string; code: string; phone: string; password: string }): Promise<void> {
   const { code, ...rest } = input
-  await invokeFunction('auth-phone-password-reset-complete', { ...rest, otp: code })
+  await invokeFunction('auth-phone-password-reset-complete', { ...rest, phone: normalisePhone(rest.phone), otp: code })
 }

@@ -22,7 +22,7 @@ export function EventsPage() {
 
 function EventsBody({ view }: { view: View }) {
   const rsvp = useEventRsvp()
-  if (view.isLoading) return <PageLoader />
+  if (view.isLoading) return <PageLoader shape="list" />
   if (view.error) return <ErrorState title="Could not load events" error={view.error} onRetry={view.retry} />
   return (
     <>

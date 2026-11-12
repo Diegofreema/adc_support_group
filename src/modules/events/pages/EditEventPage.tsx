@@ -13,7 +13,7 @@ export function EditEventPage() {
   const { eventId } = routeApi.useParams()
   const { data: event, error, refetch } = useEvent(eventId)
   if (error && !event) return <ErrorState title="Could not load this event" error={error} onRetry={() => void refetch()} />
-  if (!event) return <PageLoader />
+  if (!event) return <PageLoader shape="form" />
   if (!event.canManage || event.status !== 'scheduled') return <LockedNote eventId={eventId} />
   return <EditEventForm key={event.id} event={event} />
 }

@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js'
 
 import { refreshSessionUser } from './session.service'
 import { invokeFunction } from '@/lib/edge-functions'
+import { normalisePhone } from '@/lib/phone'
 import { supabase } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { User } from '@/types/domain'
@@ -30,7 +31,7 @@ async function signIn({ identifier, password }: Credentials): Promise<void> {
   }
   // Phone accounts sign in through the shared edge function (the phone is
   // matched in every stored shape and the session comes back directly).
-  const { session } = await invokeFunction<{ session: Session }>('auth-phone-login-initiate', { phone: value, password })
+  const { session } = await invokeFunction<{ session: Session }>('auth-phone-login-initiate', { phone: normalisePhone(value), password })
   await installSession(session)
 }
 

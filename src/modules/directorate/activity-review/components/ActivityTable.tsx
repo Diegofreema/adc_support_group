@@ -14,12 +14,12 @@ const reason: ActivityColumn = { key: 'reason', header: 'Reason', cell: (row) =>
 
 function columns(onOverturn?: (id: string) => void): ActivityColumn[] {
   if (!onOverturn) return [title, group, people, reason]
-  const overturn: ActivityColumn = { key: 'overturn', header: '', numeric: true, cell: (row) => <Button size="sm" variant="danger" onClick={() => onOverturn(row.id)}>Overturn</Button> }
+  const overturn: ActivityColumn = { key: 'overturn', header: '', numeric: true, cell: (row) => <Button size="sm" variant="danger" className="!min-h-11" onClick={() => onOverturn(row.id)}>Overturn</Button> }
   return [title, group, approvedBy, people, overturn]
 }
 
 /** Checked activities (the Directorate can overturn them) or rejected ones (with the reason). */
 export function ActivityTable({ rows, onOverturn }: { rows: ReviewActivity[]; onOverturn?: (id: string) => void }) {
-  if (!rows.length) return <EmptyState icon={ClipboardCheck} title="Nothing here" />
+  if (!rows.length) return <EmptyState icon={ClipboardCheck} title={onOverturn ? 'No checked activities' : 'No rejected activities'} />
   return <DataTable rows={rows} columns={columns(onOverturn)} rowKey={(row) => row.id} />
 }

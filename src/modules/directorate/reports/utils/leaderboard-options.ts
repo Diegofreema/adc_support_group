@@ -11,8 +11,8 @@ export const BOARD_STATE_OPTIONS: SelectOption[] = [
 ]
 
 export const MEASURE_OPTIONS: SegmentOption<BoardMeasure>[] = [
-  { value: 'activities', label: 'Most activities' },
-  { value: 'people', label: 'Most people reached' },
+  { value: 'activities', label: 'Activities' },
+  { value: 'people', label: 'People reached' },
 ]
 
 /** "12 Nov" for a 'YYYY-MM-DD' snapshot date, read at midday so no time zone shifts the day. */

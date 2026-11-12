@@ -9,7 +9,7 @@ import { reviewSteps } from '../utils/review-steps'
 /** Pending or rejected group: "Waiting for the Directorate" instead of the dashboard. */
 export function LeaderWaitingPage() {
   const { data } = useGroupReview()
-  if (!data) return <PageLoader />
+  if (!data) return <PageLoader shape="detail" />
   return <Waiting review={data} />
 }
 

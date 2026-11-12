@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
 
+import { NO_CATEGORY } from '../../shared/constants/options'
 import { directorateKeys } from '../../shared/query-keys'
 import type { Dashboard, Period } from '../types'
 import { rpc } from '@/lib/supabase'
@@ -22,6 +23,9 @@ interface OverviewJson {
   top_groups: { id: string; name: string; activities: Num; members: Num; money: Num }[]
   categories: { label: string; value: Num }[]
 }
+
+/** The RPC labels groups with no category 'Uncategorised'; the app says NO_CATEGORY everywhere. */
+const categoryLabel = (label: string) => (label === 'Uncategorised' ? NO_CATEGORY : label)
 
 function toDashboard(json: OverviewJson): Dashboard {
   const { totals, todo } = json
@@ -47,7 +51,7 @@ function toDashboard(json: OverviewJson): Dashboard {
     topGroups: json.top_groups.map((row) => ({
       id: row.id, name: row.name, activities: Number(row.activities), members: Number(row.members), money: Number(row.money),
     })),
-    categories: json.categories.map((row) => ({ label: row.label, value: Number(row.value) })),
+    categories: json.categories.map((row) => ({ label: categoryLabel(row.label), value: Number(row.value) })),
   }
 }
 

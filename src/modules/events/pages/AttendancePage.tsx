@@ -1,6 +1,6 @@
 import { getRouteApi } from '@tanstack/react-router'
 
-import { Banner, ErrorState, PageLoader } from '@/components/shared'
+import { Banner, ErrorState, PageLoader, SkeletonList } from '@/components/shared'
 import { AttendanceCounts } from '../components/AttendanceCounts'
 import { AttendanceFilters } from '../components/AttendanceFilters'
 import { AttendanceList } from '../components/AttendanceList'
@@ -25,7 +25,7 @@ export function AttendancePage() {
   const { eventId } = routeApi.useParams()
   const { data: event, error, refetch } = useEvent(eventId)
   if (error && !event) return <ErrorState title="Could not load this event" error={error} onRetry={() => void refetch()} />
-  if (!event) return <PageLoader />
+  if (!event) return <PageLoader shape="list" />
   return <Attendance event={event} />
 }
 
@@ -41,7 +41,7 @@ function Attendance({ event }: { event: GroupEvent }) {
       {locked && <Banner tone="info" className="mt-4">{locked}</Banner>}
       <div className="mt-5"><AttendanceFilters filter={view.filter} onFilter={view.setFilter} search={view.search} onSearch={view.setSearch} /></div>
       <div className="mt-4">
-        {view.isLoading ? <PageLoader /> : view.error ? <ErrorState title="Could not load the list" error={view.error} onRetry={view.retry} /> : (
+        {view.isLoading ? <SkeletonList /> : view.error ? <ErrorState title="Could not load the list" error={view.error} onRetry={view.retry} /> : (
           <AttendanceList people={view.people} disabled={Boolean(locked)} onMark={mark} />
         )}
       </div>

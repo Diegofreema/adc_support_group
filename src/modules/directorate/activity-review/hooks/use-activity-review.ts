@@ -11,7 +11,6 @@ import { directorateKeys } from '../../shared/query-keys'
 import type { ActivityFilterValues, ReviewStage } from '../types'
 import { notify } from '@/lib/toast'
 
-const NO_COUNTS: Record<ReviewStage, number> = { 'to-check': 0, checked: 0, rejected: 0 }
 
 /** View-model for the review queue; filters are applied by the server. */
 export function useActivityQueue() {
@@ -20,11 +19,11 @@ export function useActivityQueue() {
   const search = useDebouncedValue(filters.search)
   const applied = { ...filters, search }
   const paging = usePaging(JSON.stringify([stage, applied]))
-  const list = useQuery({ ...reviewActivitiesQuery(stage, applied, paging.pageSize, paging.offset), placeholderData: keepPreviousData }).data
-  useKeepPageInRange(paging, list?.total)
-  const counts = useQuery(stageCountsQuery).data ?? NO_COUNTS
+  const list = useQuery({ ...reviewActivitiesQuery(stage, applied, paging.pageSize, paging.offset), placeholderData: keepPreviousData })
+  useKeepPageInRange(paging, list.data?.total)
+  const counts = useQuery(stageCountsQuery).data
   const typeOptions = useActivityTypeOptions()
-  return { stage, setStage, filters, setFilter, typeOptions, rows: list?.rows ?? [], total: list?.total ?? 0, paging, counts }
+  return { stage, setStage, filters, setFilter, typeOptions, rows: list.data?.rows ?? [], total: list.data?.total ?? 0, paging, counts, isLoading: list.isLoading }
 }
 
 function useQueueMutation<Args>(fn: (args: Args) => Promise<unknown>, message: string) {

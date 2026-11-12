@@ -40,6 +40,8 @@ export interface User {
   powers: Power[]
   /** Coordinators: the one chapter their powers cover. */
   powerChapterId?: string
+  /** Members: the chapter they belong to (none means the whole group). */
+  chapterName?: string
 }
 
 export interface Group extends Place {
@@ -56,6 +58,8 @@ export interface Group extends Place {
   leaderName: string
   leaderPhone: string
   cacNumber?: string
+  /** The group photo the leader uploaded when registering. */
+  photoUrl?: string
   joinCode: string
   submittedAt: string
   possibleDuplicateOf?: string

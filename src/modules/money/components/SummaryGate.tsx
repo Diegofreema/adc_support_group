@@ -8,6 +8,6 @@ import type { MoneySummary } from '../types'
 export function SummaryGate({ children }: { children: (summary: MoneySummary) => ReactNode }) {
   const { summary, error, retry } = useMoneySummary()
   if (error) return <ErrorState title="Could not load the money" error={error} onRetry={retry} />
-  if (!summary) return <PageLoader />
+  if (!summary) return <PageLoader shape="dashboard" />
   return <>{children(summary)}</>
 }

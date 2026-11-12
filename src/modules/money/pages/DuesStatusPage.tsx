@@ -1,10 +1,9 @@
 import { DuesOffNote } from '../components/DuesOffNote'
 import { DuesStatusFilters } from '../components/DuesStatusFilters'
 import { DuesStatusList } from '../components/DuesStatusList'
-import { LoadMoreButton } from '@/components/shared'
+import { ErrorState, LoadMoreButton, SkeletonList } from '@/components/shared'
 import { PeriodStepper } from '../components/PeriodStepper'
 import { SummaryGate } from '../components/SummaryGate'
-import { ErrorState, PageLoader } from '@/components/shared'
 import { useDuesStatus } from '../hooks/use-dues-status'
 import type { DuesPeriod, MoneySummary } from '../types'
 import { periodLabel } from '../utils/periods'
@@ -32,7 +31,7 @@ function DuesStatus({ current, period, startOn }: { current: string; period: Due
       {view.counts && <p className="muted text-center mt-1">{view.counts.paid} of {view.counts.members} paid</p>}
       <div className="mt-5"><DuesStatusFilters filter={view.filter} onFilter={view.setFilter} search={view.search} onSearch={view.setSearch} /></div>
       <div className="mt-4">
-        {view.isLoading ? <PageLoader /> : view.error ? <ErrorState title="Could not load the list" error={view.error} onRetry={view.retry} /> : <DuesStatusList people={view.people} period={view.period} />}
+        {view.isLoading ? <SkeletonList /> : view.error ? <ErrorState title="Could not load the list" error={view.error} onRetry={view.retry} /> : <DuesStatusList people={view.people} period={view.period} />}
       </div>
       <LoadMoreButton hasMore={view.hasMore} loading={view.isLoadingMore} onClick={view.loadMore} />
     </>

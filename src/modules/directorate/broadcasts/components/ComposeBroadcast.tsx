@@ -20,7 +20,7 @@ export function ComposeBroadcast() {
 function DeliveryNote() {
   return (
     <Banner tone="info" title="How it's delivered">
-      Only verified groups get broadcasts. Everyone also gets an in-app notification. SMS from the Directorate uses no points.
+      Only verified groups get broadcasts. Everyone also gets an in-app notification. Each SMS costs money, and long messages use more than one SMS page.
     </Banner>
   )
 }

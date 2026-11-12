@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import { ChevronRight } from 'lucide-react'
+import type { KeyboardEvent, ReactNode } from 'react'
 
 import { Card } from '../display/Card'
 import { cn } from '@/lib/utils'
@@ -46,14 +47,25 @@ interface DataRowProps<Row> {
   onClick?: (row: Row) => void
 }
 
+/** Opening a row works with Enter and Space, not just a tap. */
+function openOnKey(open: () => void) {
+  return (event: KeyboardEvent) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return
+    event.preventDefault()
+    open()
+  }
+}
+
 function DataRow<Row>({ row, columns, onClick }: DataRowProps<Row>) {
+  const open = onClick && (() => onClick(row))
   return (
-    <tr onClick={onClick && (() => onClick(row))} className={cn(onClick && 'cursor-pointer')}>
+    <tr onClick={open} onKeyDown={open && openOnKey(open)} tabIndex={open ? 0 : undefined} role={open ? 'link' : undefined} className={cn(open && 'cursor-pointer')}>
       {columns.map((column) => (
         <td key={column.key} data-label={column.header} className={cn(column.numeric && 't-right', column.main && 't-main', column.className)}>
           {column.cell(row)}
         </td>
       ))}
+      {open && <td className="row-chevron" aria-hidden><ChevronRight className="i" /></td>}
     </tr>
   )
 }

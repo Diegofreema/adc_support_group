@@ -7,7 +7,7 @@ import type { ListGroup } from '../types'
 export function GroupNameCell({ group }: { group: ListGroup }) {
   return (
     <div className="row">
-      <GroupMark name={group.name} className="!h-10 !w-10 !text-[0.8125rem]" />
+      <GroupMark name={group.name} photoUrl={group.photoUrl} className="!h-10 !w-10 !text-[0.8125rem]" />
       <div className="grow">
         <div className="bold">{group.name}</div>
         {group.possibleDuplicateOf && <DuplicateChip />}

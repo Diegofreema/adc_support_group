@@ -22,7 +22,7 @@ export function ReceiptPage() {
   const check = useVerifyPayment(reference)
   const actions = useReceiptActions(payment)
   if (error && !payment) return <ErrorState title="Could not load this payment" error={error} onRetry={() => void refetch()} />
-  if (!payment) return <PageLoader />
+  if (!payment) return <PageLoader shape="detail" />
   return (
     <div className="main-narrow mx-auto">
       {reference && <PaymentCheckBanner check={check.data} isChecking={check.isFetching} failed={check.isError} />}

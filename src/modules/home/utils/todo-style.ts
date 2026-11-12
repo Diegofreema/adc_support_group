@@ -10,7 +10,7 @@ interface TodoStyle {
 }
 
 const TODO_STYLES: Record<TodoKind, TodoStyle> = {
-  'approve-activities': { icon: ClipboardCheck, tone: 'amber', label: (count) => `Approve ${count} activities` },
+  'approve-activities': { icon: ClipboardCheck, tone: 'amber', label: (count) => `Approve ${count === 1 ? '1 activity' : `${count} activities`}` },
   'fix-upload': { icon: FileWarning, tone: 'red', label: (count) => `Fix ${count} upload errors` },
   'verify-pending': { icon: ShieldCheck, tone: 'blue', label: () => 'Group being checked' },
 }

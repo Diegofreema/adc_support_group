@@ -14,7 +14,7 @@ export function ActivityFilters({ filters, setFilter, typeOptions }: ActivityFil
     <FilterBar
       search={filters.search}
       onSearch={setFilter('search')}
-      placeholder="Search activity or group"
+      placeholder="Search activities"
       selects={[
         { label: 'Type', value: filters.type, options: typeOptions, onChange: setFilter('type') },
         { label: 'State', value: filters.state, options: STATE_OPTIONS, onChange: setFilter('state') },

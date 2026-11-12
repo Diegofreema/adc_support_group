@@ -2,7 +2,7 @@ import { getRouteApi, Link } from '@tanstack/react-router'
 
 import { Banner, buttonClassName, ErrorState, PageLoader } from '@/components/shared'
 import { RecordEventForm } from '../components/RecordEventForm'
-import { useEvent } from '../hooks/use-events'
+import { useFreshEvent } from '../hooks/use-events'
 import { useRecordEvent } from '../hooks/use-record-event'
 import { canRecord } from '../utils/event-status'
 import type { GroupEvent } from '../types'
@@ -11,9 +11,10 @@ const routeApi = getRouteApi('/_app/events/$eventId_/record')
 
 export function RecordEventPage() {
   const { eventId } = routeApi.useParams()
-  const { data: event, error, refetch } = useEvent(eventId)
+  const { data: event, error, refetch, isFetchedAfterMount } = useFreshEvent(eventId)
   if (error && !event) return <ErrorState title="Could not load this event" error={error} onRetry={() => void refetch()} />
-  if (!event) return <PageLoader />
+  // The form's "people reached" starts from the present count, so wait for today's number.
+  if (!event || (!isFetchedAfterMount && !error)) return <PageLoader shape="form" />
   if (!canRecord(event)) return <NotNow event={event} />
   return <RecordEvent key={event.id} event={event} />
 }

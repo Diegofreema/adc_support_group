@@ -1,7 +1,9 @@
 import { Link } from '@tanstack/react-router'
 import { UserMinus } from 'lucide-react'
 
-import { DataTable, EmptyState, ErrorState, FilterPills, SectionTitle, StatusChip, type Column, type PillOption } from '@/components/shared'
+import {
+  DataTable, EmptyState, ErrorState, FilterPills, SectionTitle, SkeletonRegion, SkeletonTable, StatusChip, type Column, type PillOption,
+} from '@/components/shared'
 import { formatDay } from '@/lib/format'
 import { Pager } from '../../shared/components/Pager'
 import { useDepartures } from '../hooks/use-departures'
@@ -47,6 +49,7 @@ export function DeparturesCard() {
 
 function DeparturesBody({ log }: { log: ReturnType<typeof useDepartures> }) {
   if (log.error && !log.rows.length) return <ErrorState title="Could not load who left" error={log.error} onRetry={log.retry} />
-  if (!log.rows.length) return log.isLoading ? null : <EmptyState icon={UserMinus} title="No one has left yet" />
+  if (log.isLoading) return <SkeletonRegion label="Loading who left"><SkeletonTable rows={5} /></SkeletonRegion>
+  if (!log.rows.length) return <EmptyState icon={UserMinus} title="No one has left yet" />
   return <DataTable rows={log.rows} columns={COLUMNS} rowKey={(row) => row.key} />
 }

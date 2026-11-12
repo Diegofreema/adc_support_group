@@ -5,11 +5,12 @@ const LABELS: Record<GroupTab, string> = { pending: 'To verify', verified: 'Veri
 
 interface GroupTabsProps {
   value: GroupTab
-  counts: Record<GroupTab, number>
+  /** Undefined until loaded, so no "0" flashes. */
+  counts?: Record<GroupTab, number>
   onChange: (tab: GroupTab) => void
 }
 
 export function GroupTabs({ value, counts, onChange }: GroupTabsProps) {
-  const tabs: TabItem<GroupTab>[] = (Object.keys(LABELS) as GroupTab[]).map((tab) => ({ value: tab, label: LABELS[tab], count: counts[tab] }))
+  const tabs: TabItem<GroupTab>[] = (Object.keys(LABELS) as GroupTab[]).map((tab) => ({ value: tab, label: LABELS[tab], count: counts?.[tab] }))
   return <Tabs label="Group status" tabs={tabs} value={value} onChange={onChange} />
 }

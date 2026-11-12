@@ -3,6 +3,7 @@ import { formatNumber } from '@/lib/format'
 import type { ColumnMapping, ImportCheck, ImportField, ParsedSheet } from '../types'
 import { ColumnMappingCard } from './ColumnMappingCard'
 import { ImportCounts } from './ImportCounts'
+import { ImportIssueList } from './ImportIssueList'
 import { ImportPreviewTable } from './ImportPreviewTable'
 
 interface ImportCheckStepProps {
@@ -24,6 +25,12 @@ export function ImportCheckStep({ sheet, mapping, check, canImport, isImporting,
       <div className="mt-5">
         <ImportCounts items={[{ label: 'Rows', value: check.total }, { label: 'Ready', value: check.ready, tone: 'green' }, { label: 'Errors', value: check.issues.length, tone: 'red' }]} />
       </div>
+      {check.issues.length > 0 && (
+        <>
+          <SectionTitle title="Won't be added" />
+          <ImportIssueList issues={check.issues} />
+        </>
+      )}
       <div className="mt-4"><ColumnMappingCard headers={sheet.headers} mapping={mapping} onChange={onMap} /></div>
       <SectionTitle title="Preview" />
       <ImportPreviewTable sheet={sheet} mapping={mapping} />

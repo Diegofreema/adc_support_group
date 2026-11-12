@@ -16,7 +16,7 @@ import type { LeaderDashboard } from '../types/home.types'
 
 export function LeaderHomePage() {
   const { data } = useLeaderDashboard()
-  if (!data) return <PageLoader />
+  if (!data) return <PageLoader shape="dashboard" />
   return <LeaderHome dashboard={data} />
 }
 

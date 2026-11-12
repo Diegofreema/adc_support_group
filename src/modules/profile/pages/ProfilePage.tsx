@@ -22,7 +22,7 @@ export function ProfilePage() {
   const logout = useDisclosure()
   const deletion = useAccountDeletion()
   if (error && !profile) return <ErrorState title="Could not load your profile" error={error} onRetry={() => void refetch()} />
-  if (!profile) return <PageLoader />
+  if (!profile) return <PageLoader shape="detail" />
   return (
     <div className="main-narrow mx-auto">
       <ProfileHeader name={profile.fullName} phone={profile.phone} />

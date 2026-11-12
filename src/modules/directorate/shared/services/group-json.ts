@@ -1,6 +1,7 @@
 import type { Group, GroupLevel, GroupStatus } from '@/types/domain'
+import { NO_CATEGORY } from '../constants/options'
 
-/** private.support_group_json plus the admin extras (leader phone, duplicate hint). */
+/** private.support_group_json plus the admin extras (leader contact, duplicate hint). */
 export interface GroupJson {
   id: string
   name: string
@@ -15,9 +16,12 @@ export interface GroupJson {
   country: string | null
   city: string | null
   cac_number: string | null
+  photo_url?: string | null
   leader_profile_id: string
   leader_name: string | null
   leader_phone?: string | null
+  /** Only from get_admin_sg_group. */
+  leader_email?: string | null
   member_count: number
   member_growth?: number
   chapter_count: number
@@ -36,7 +40,7 @@ export function toGroup(json: GroupJson): Group {
   return {
     id: json.id,
     name: json.name,
-    category: json.category ?? 'Other',
+    category: json.category ?? NO_CATEGORY,
     level: json.level ?? 'national',
     status: json.status,
     state: json.state ?? undefined,
@@ -52,6 +56,7 @@ export function toGroup(json: GroupJson): Group {
     leaderName: json.leader_name ?? '',
     leaderPhone: json.leader_phone ?? '',
     cacNumber: json.cac_number ?? undefined,
+    photoUrl: json.photo_url ?? undefined,
     joinCode: json.join_code,
     submittedAt: json.submitted_at ?? json.created_at,
     possibleDuplicateOf: json.possible_duplicate_of?.name,

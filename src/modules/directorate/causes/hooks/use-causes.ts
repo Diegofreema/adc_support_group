@@ -6,8 +6,10 @@ import type { CauseInput } from '../types'
 import { notify } from '@/lib/toast'
 import type { CauseStatus } from '@/types/domain'
 
+/** All causes; `isLoading` is true only until the first answer arrives. */
 export function useCauses() {
-  return useQuery(causesQuery).data ?? []
+  const query = useQuery(causesQuery)
+  return { causes: query.data ?? [], isLoading: query.isLoading }
 }
 
 function useInvalidateCauses() {

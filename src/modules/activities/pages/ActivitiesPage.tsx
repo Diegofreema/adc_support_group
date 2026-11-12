@@ -36,7 +36,7 @@ function Drafts() {
 }
 
 function ActivitiesBody({ view }: { view: View }) {
-  if (view.isLoading) return <PageLoader />
+  if (view.isLoading) return <PageLoader shape="list" />
   if (view.error) return <ErrorState title="Could not load activities" error={view.error} onRetry={view.retry} />
   return (
     <>

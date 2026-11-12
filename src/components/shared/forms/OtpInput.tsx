@@ -18,7 +18,6 @@ export function OtpInput({ value, onChange, label = 'Code' }: OtpInputProps) {
           className="input"
           inputMode="numeric"
           autoComplete={index === 0 ? 'one-time-code' : 'off'}
-          maxLength={1}
           aria-label={`Digit ${index + 1}`}
           value={value[index]?.trim() ?? ''}
           onChange={handleChange(index)}

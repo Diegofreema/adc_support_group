@@ -21,7 +21,7 @@ export function ActivityReviewCard({ activity, onApprove, onReject }: ActivityRe
         <h3 className="h3 mt-3">{activity.title}</h3>
         <ActivityFacts activity={activity} />
         {activity.note && <p className="small mt-2">{activity.note}</p>}
-        {activity.videoUrl && <a className="small mt-2 row" href={activity.videoUrl} target="_blank" rel="noreferrer"><PlayCircle className="i i-sm" aria-hidden />Video</a>}
+        {activity.videoUrl && <a className="small mt-1 row min-h-11" href={activity.videoUrl} target="_blank" rel="noreferrer"><PlayCircle className="i i-sm" aria-hidden />Video</a>}
         <div className="grid-2 mt-4 !grid-cols-2">
           <Button variant="primary" icon={Check} onClick={() => onApprove(activity.id)}>Approve</Button>
           <Button variant="danger" icon={X} onClick={() => onReject(activity.id)}>Reject</Button>

@@ -11,3 +11,6 @@ export const PERIOD_OPTIONS: SelectOption[] = [
   { value: 'month', label: 'This month' },
   { value: 'week', label: 'This week' },
 ]
+
+/** The one label for a group with no category ("Other" is a real category). */
+export const NO_CATEGORY = 'No category'

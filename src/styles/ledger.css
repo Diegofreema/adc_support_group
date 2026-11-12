@@ -138,6 +138,9 @@ ul, ol { margin: 0; padding: 0; }
 .btn:active { transform: translateY(2px); box-shadow: none; }
 .btn-primary { --bg: var(--green); --fg: var(--green-ink); --bd: var(--green-deep); --edge: var(--key); }
 .btn-primary:hover { --bg: var(--green-strong); }
+/* A button that can't be pressed yet looks it: flat, faded, no hover. */
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; box-shadow: none; transform: none; }
+.icon-btn:disabled { opacity: .45; cursor: not-allowed; }
 .btn-primary .i:last-child:not(:first-child) { transition: transform .15s; }
 .btn-primary:hover .i:last-child:not(:first-child) { transform: translateX(3px); }
 .btn-ghost { --bg: transparent; --bd: transparent; --fg: var(--text-2); --edge: none; }
@@ -602,3 +605,43 @@ a.list-item:hover .chev { transform: translateX(3px); color: var(--text); }
   .auth-inner h1.h1::before { content: ""; position: absolute; top: 0; left: 0; width: 28px; height: 3px; background: var(--green); }
   .auth-main .action-bar { background: linear-gradient(to top, var(--surface) 75%, rgba(255, 255, 255, 0)); padding-bottom: 16px; }
 }
+
+/* ---------- Small phones ---------- */
+/* The top bar already names the page; the big heading is for wider screens. */
+@media (max-width: 767px) {
+  .page-head-row .h1 { display: none; }
+  .page-head-row { margin-bottom: 14px; }
+  /* Nothing left but the hidden title (no subtitle, no actions): drop the row. */
+  .page-head-row:not(:has(p, .row)) { display: none; }
+}
+/* Tabs that run off the edge fade out, so it's clear there are more. */
+.tabs[data-overflow="end"] { mask-image: linear-gradient(to right, #000 85%, transparent); }
+.tabs[data-overflow="both"] { mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent); }
+.tabs[data-overflow="start"] { mask-image: linear-gradient(to right, transparent, #000 15%); }
+/* Tappable rows on phones get a chevron. */
+.row-chevron { display: none; }
+@media (max-width: 767px) {
+  .table-cards tr[role="link"] { position: relative; padding-right: 40px; }
+  .table-cards td.row-chevron { display: block; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: auto; padding: 0; color: var(--text-3); }
+  .table-cards td.row-chevron::before { display: none; }
+}
+
+/* ---------- Skeletons: the page's shape while its data loads ---------- */
+.skel { display: block; border-radius: var(--r-xs); background: linear-gradient(90deg, var(--surface-4) 0%, var(--surface-3) 40%, var(--surface-4) 80%); background-size: 300% 100%; animation: skel-shine 1.4s ease-in-out infinite; }
+.skel-round { border-radius: 999px; }
+.skel-box { border-radius: var(--r-sm); }
+@keyframes skel-shine { from { background-position: 100% 0; } to { background-position: -50% 0; } }
+@media (prefers-reduced-motion: reduce) { .skel { animation: none; background: var(--surface-4); } }
+.skel-stack { display: grid; gap: 8px; }
+.skel-row { display: flex; align-items: center; gap: 14px; padding: 14px 16px; min-height: 66px; }
+.skel-row + .skel-row { border-top: 1px solid var(--line); }
+.skel-row .grow { display: grid; gap: 8px; }
+.skel-table-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 16px; align-items: center; padding: 15px 16px; border-bottom: 1px solid var(--line); }
+.skel-table-row:last-child { border-bottom: 0; }
+.skel-table-head { background: var(--surface-3); padding: 12px 16px; }
+@media (max-width: 767px) {
+  .skel-table-row { grid-template-columns: 1fr; gap: 8px; }
+  .skel-table-row > :nth-child(n+3) { display: none; }
+  .skel-table-head { display: none; }
+}
+@media (max-width: 767px) { .skel-desktop { display: none; } }

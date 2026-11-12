@@ -5,7 +5,7 @@ import type { ReviewGroup } from '../types'
 export function GroupReviewHeader({ group }: { group: ReviewGroup }) {
   return (
     <div className="row mb-4 !items-start">
-      <GroupMark name={group.name} />
+      <GroupMark name={group.name} photoUrl={group.photoUrl} />
       <div className="grow">
         <h1 className="h2">{group.name}</h1>
         <div className="row wrap mt-2 !gap-1.5">

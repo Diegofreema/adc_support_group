@@ -6,6 +6,11 @@ export function formatNumber(value: number): string {
   return numberFormat.format(value)
 }
 
+/** "1 person", "3 people", "1,204 members". */
+export function countLabel(value: number, one: string, many: string): string {
+  return `${formatNumber(value)} ${value === 1 ? one : many}`
+}
+
 /** ₦250,000 */
 export function formatNaira(value: number): string {
   return `₦${formatNumber(value)}`

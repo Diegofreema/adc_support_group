@@ -16,7 +16,7 @@ export function MemberHomePage() {
   const user = useRequiredUser()
   const { data } = useMemberDashboard()
   const next = useNextEvents()
-  if (!data) return <PageLoader />
+  if (!data) return <PageLoader shape="dashboard" />
   return (
     <TwoColumn
       left={(

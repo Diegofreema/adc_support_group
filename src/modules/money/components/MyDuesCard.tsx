@@ -6,16 +6,16 @@ import type { DuesInfo } from '../types'
 import { PERIOD_WORDS } from '../utils/periods'
 
 /** My dues: how much, and whether I've paid for now. */
-export function MyDuesCard({ dues }: { dues: DuesInfo }) {
+export function MyDuesCard({ dues, recordsDues }: { dues: DuesInfo; recordsDues: boolean }) {
   return (
     <Card className="mt-4">
       <CardHead title="My dues" />
-      {dues.enabled && dues.amount && dues.period ? <DuesOn dues={dues} amount={dues.amount} period={PERIOD_WORDS[dues.period]} /> : <p className="muted">Dues are off.</p>}
+      {dues.enabled && dues.amount && dues.period ? <DuesOn dues={dues} amount={dues.amount} period={PERIOD_WORDS[dues.period]} recordsDues={recordsDues} /> : <p className="muted">Dues are off.</p>}
     </Card>
   )
 }
 
-function DuesOn({ dues, amount, period }: { dues: DuesInfo; amount: number; period: string }) {
+function DuesOn({ dues, amount, period, recordsDues }: { dues: DuesInfo; amount: number; period: string; recordsDues: boolean }) {
   const label = dues.currentLabel ?? ''
   const earlier = dues.myPaid.filter((paid) => paid.start !== dues.currentPeriod).slice(0, 6)
   return (
@@ -24,6 +24,7 @@ function DuesOn({ dues, amount, period }: { dues: DuesInfo; amount: number; peri
       <div className="mt-2">
         {dues.iPaidCurrent ? <StatusChip status="paid" label={`Paid for ${label}`} /> : <StatusChip status="pending" label={`Not paid for ${label} yet`} />}
       </div>
+      {!dues.iPaidCurrent && !recordsDues && <p className="small muted mt-2">Pay your leader or treasurer. They record it here.</p>}
       {earlier.length > 0 && (
         <div className="mt-3">
           <div className="small faint">Paid before</div>

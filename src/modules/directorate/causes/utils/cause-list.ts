@@ -5,12 +5,12 @@ export function causesWithStatus<T extends Cause>(causes: T[], status: CauseStat
   return causes.filter((cause) => cause.status === status)
 }
 
-/** "Open · 4", "Closed · 1" */
-export function statusPills(causes: Cause[]): PillOption<CauseStatus>[] {
-  return (['open', 'closed'] as const).map((status) => ({
-    value: status,
-    label: `${status === 'open' ? 'Open' : 'Closed'} · ${causesWithStatus(causes, status).length}`,
-  }))
+/** "Open · 4", "Closed · 1"; just "Open", "Closed" until the causes have loaded. */
+export function statusPills(causes: Cause[], loaded = true): PillOption<CauseStatus>[] {
+  return (['open', 'closed'] as const).map((status) => {
+    const name = status === 'open' ? 'Open' : 'Closed'
+    return { value: status, label: loaded ? `${name} · ${causesWithStatus(causes, status).length}` : name }
+  })
 }
 
 /** "Ends 10 Dec" / "Ended 25 Oct" */

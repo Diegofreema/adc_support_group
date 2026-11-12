@@ -5,24 +5,37 @@ import { useKeepPageInRange, usePaging } from '../../shared/hooks/use-paging'
 import { directorateKeys } from '../../shared/query-keys'
 import { paymentTotals } from '../utils/totals'
 import { notify } from '@/lib/toast'
+import type { PaymentsTab } from '../types'
 
-/** Everything the payments screen shows. */
-export function usePaymentsOverview() {
+/**
+ * The payments screen: header numbers and tab counts always; a tab's own list
+ * only while that tab is open ("To confirm" is both a count and a list).
+ * The `*Loading` flags are true only on a first load, so a page can tell "loading" from "empty".
+ */
+export function usePaymentsOverview(tab: PaymentsTab) {
   const paging = usePaging('all')
-  const list = useQuery({ ...paymentsQuery(paging.pageSize, paging.offset), placeholderData: keepPreviousData }).data
-  useKeepPageInRange(paging, list?.total)
-  const waiting = useQuery(waitingOfflineQuery).data ?? []
-  const paid = useQuery(paidTotalsQuery).data
-  const causes = useQuery(causeTotalsQuery).data ?? []
-  return { payments: list?.rows ?? [], paymentCount: list?.total ?? 0, paging, waiting, causes, totals: paid && paymentTotals(paid, waiting) }
+  const list = useQuery({ ...paymentsQuery(paging.pageSize, paging.offset), placeholderData: keepPreviousData, enabled: tab === 'all' })
+  useKeepPageInRange(paging, list.data?.total)
+  const waiting = useQuery(waitingOfflineQuery)
+  const paidQuery = useQuery(paidTotalsQuery)
+  const paid = paidQuery.data
+  const causes = useQuery({ ...causeTotalsQuery, enabled: tab === 'by-cause' })
+  const waitingRows = waiting.data ?? []
+  return {
+    payments: list.data?.rows ?? [], paymentCount: paid?.allCount ?? list.data?.total, paging,
+    waiting: waitingRows, waitingCount: waiting.data?.length, causes: causes.data ?? [],
+    totals: paid && waiting.data && paymentTotals(paid, waitingRows),
+    totalsLoading: paidQuery.isLoading || waiting.isLoading, paymentsLoading: list.isLoading, waitingLoading: waiting.isLoading, causesLoading: causes.isLoading,
+  }
 }
 
 /** Payments that went past the payer's yearly giving limit, paged. */
 export function useOverLimitPayments() {
   const paging = usePaging('over-limit')
-  const page = useQuery({ ...overLimitQuery(paging.pageSize, paging.offset), placeholderData: keepPreviousData }).data
+  const query = useQuery({ ...overLimitQuery(paging.pageSize, paging.offset), placeholderData: keepPreviousData })
+  const page = query.data
   useKeepPageInRange(paging, page?.total)
-  return { rows: page?.rows ?? [], total: page?.total ?? 0, limit: page?.limit ?? null, paging }
+  return { rows: page?.rows ?? [], total: page?.total ?? 0, count: page?.total, limit: page?.limit ?? null, paging, isLoading: query.isLoading }
 }
 
 /** Signed link to a payment's proof image (private bucket). */

@@ -1,6 +1,6 @@
 import { getRouteApi, Link } from '@tanstack/react-router'
 
-import { Banner, ErrorState, PageLoader, buttonClassName } from '@/components/shared'
+import { Banner, buttonClassName, ErrorState, PageLoader } from '@/components/shared'
 import { ActivityWizard } from '../components/ActivityWizard'
 import { useActivity } from '../hooks/use-activities'
 import { useEditActivity } from '../hooks/use-edit-activity'
@@ -12,7 +12,7 @@ export function EditActivityPage() {
   const { activityId } = routeApi.useParams()
   const { data: activity, error, refetch } = useActivity(activityId)
   if (error && !activity) return <ErrorState title="Could not load this activity" error={error} onRetry={() => void refetch()} />
-  if (!activity) return <PageLoader />
+  if (!activity) return <PageLoader shape="form" />
   if (!activity.canEdit) return <LockedNote activityId={activityId} />
   return <EditActivityWizard key={`${activity.id}-${activity.version}`} activity={activity} />
 }

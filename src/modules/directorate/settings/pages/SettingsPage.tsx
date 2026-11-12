@@ -22,7 +22,7 @@ const SECTIONS: Record<SettingsTab, () => React.JSX.Element | null> = {
 
 export function SettingsPage() {
   const [tab, setTab] = useState<SettingsTab>('categories')
-  const handoverCount = useHandovers().items.length
+  const handoverCount = useHandovers().count
   const Section = SECTIONS[tab]
   const tabs = [
     { value: 'categories' as const, label: 'Categories' },

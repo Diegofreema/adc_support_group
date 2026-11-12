@@ -31,7 +31,7 @@ export function RegisterGroupPage() {
 function EditWizard() {
   const draft = useRegistrationDraft(true)
   if (draft.isError) return <EmptyState icon={CloudOff} title={draft.error.message} />
-  if (!draft.data) return <PageLoader />
+  if (!draft.data) return <PageLoader shape="form" />
   return <RegisterWizard draft={draft.data} />
 }
 

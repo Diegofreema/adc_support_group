@@ -23,7 +23,7 @@ function Money({ summary }: { summary: MoneySummary }) {
       <BalanceCard balance={summary.balance} />
       <div className="mt-4"><MoneyTotals summary={summary} /></div>
       <CampaignGivingCard amount={summary.givenToCampaign} />
-      <MyDuesCard dues={summary.dues} />
+      <MyDuesCard dues={summary.dues} recordsDues={summary.canManage} />
       <MoneyActions summary={summary} />
       {summary.canSeeEntries && <RecordsSection canVoid={summary.canManage} />}
     </>

@@ -1,4 +1,4 @@
-import { PageHeader } from '@/components/shared'
+import { PageHeader, SkeletonRegion, SkeletonStats } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
 import { DeparturesCard } from '../components/DeparturesCard'
 import { LeaderboardSection } from '../components/LeaderboardSection'
@@ -9,11 +9,12 @@ import { useExportBuilder, useReportTotals } from '../hooks/use-exports'
 
 export function ReportsPage() {
   const builder = useExportBuilder()
-  const totals = useReportTotals(builder.spec.period)
+  const { totals, isLoading } = useReportTotals(builder.spec.period)
   return (
     <>
       <PageHeader title="Reports" />
       {totals && <ReportTotals totals={totals} />}
+      {isLoading && <SkeletonRegion label="Loading totals" className="mb-6"><SkeletonStats count={4} /></SkeletonRegion>}
       <SplitLayout main={<ExportBuilderCard builder={builder} />} side={<RecentExports />} />
       <LeaderboardSection />
       <DeparturesCard />

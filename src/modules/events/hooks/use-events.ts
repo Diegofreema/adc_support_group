@@ -9,6 +9,11 @@ export function useEvent(id: string) {
   return useQuery(eventQuery(id))
 }
 
+/** The event read again on arrival: check-ins since it was cached must count. */
+export function useFreshEvent(id: string) {
+  return useQuery({ ...eventQuery(id), refetchOnMount: 'always' })
+}
+
 export function useEventTypes() {
   return useQuery(queryOptions({ queryKey: eventKeys.types(), queryFn: listEventTypes, staleTime: 10 * 60_000 }))
 }

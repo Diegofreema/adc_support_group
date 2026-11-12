@@ -1,3 +1,6 @@
+import { useState } from 'react'
+
+import { ThumbImage } from './ThumbImage'
 import { initials } from '@/lib/format'
 import { cn } from '@/lib/utils'
 
@@ -8,7 +11,18 @@ function toneFor(name: string): string {
   return TONES[sum % TONES.length]!
 }
 
-/** Square monogram for a group or chapter. */
-export function GroupMark({ name, className }: { name: string; className?: string }) {
+interface GroupMarkProps {
+  name: string
+  /** The group's photo; the monogram shows when there is none or it fails to load. */
+  photoUrl?: string
+  className?: string
+}
+
+/** Square photo, or monogram, for a group or chapter. */
+export function GroupMark({ name, photoUrl, className }: GroupMarkProps) {
+  const [broken, setBroken] = useState(false)
+  if (photoUrl && !broken) {
+    return <ThumbImage src={photoUrl} className={cn('group-mark object-cover', className)} aria-hidden onFallbackError={() => setBroken(true)} />
+  }
   return <span className={cn('group-mark', toneFor(name), className)} aria-hidden>{initials(name)}</span>
 }
