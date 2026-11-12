@@ -1,13 +1,20 @@
-import { DEMO_USERS } from './auth.mock'
-import { delay } from '@/lib/mock-api'
-import { sessionStore } from '@/stores/session-store'
+import { login } from './auth.service'
+import { completePasswordReset } from './verification.service'
+import type { User } from '@/types/domain'
+
+export interface NewPasswordInput {
+  phone: string
+  challengeId: string
+  code: string
+  password: string
+}
 
 /**
- * Replace the temporary password an imported member got by SMS/email.
- * Mock: signs in the demo member so the flow lands on their home.
+ * Set a new password with the code sent to the phone, then sign in with it.
+ * Used by "Forgot password" and by members a leader imported (they never got
+ * a password of their own).
  */
-export async function setPassword(password: string): Promise<void> {
-  await delay(500)
-  if (!password) throw new Error('Password required')
-  if (!sessionStore.getUser()) sessionStore.setUser(DEMO_USERS[1]!)
+export async function setPassword(input: NewPasswordInput): Promise<User> {
+  await completePasswordReset(input)
+  return login({ identifier: input.phone, password: input.password })
 }

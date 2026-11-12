@@ -15,6 +15,7 @@ export function useLogin() {
   const form = useForm<LoginValues>({ resolver: zodResolver(loginSchema), defaultValues: DEFAULTS })
   const mutation = useMutation({
     mutationFn: login,
+    meta: { inlineError: true },
     onSuccess: (user) => navigate({ to: homePathFor(user) }),
   })
 

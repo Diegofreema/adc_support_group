@@ -3,32 +3,15 @@ import { useSyncExternalStore } from 'react'
 import type { User } from '@/types/domain'
 
 /**
- * Minimal persisted session store (no extra library).
- * Holds the logged-in user; auth services decide who that is.
+ * The signed-in user, as the app sees it. Supabase persists the session
+ * itself; auth's session.service rebuilds this User from it at start-up
+ * (bootstrapSession) and after anything that changes it (login, join,
+ * register). Route guards read it synchronously.
  */
-const STORAGE_KEY = 'adc-sg-session'
 type Listener = () => void
 
 const listeners = new Set<Listener>()
-let currentUser: User | null = readStoredUser()
-
-function readStoredUser(): User | null {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as User) : null
-  } catch {
-    return null
-  }
-}
-
-function persist(user: User | null): void {
-  try {
-    if (user) localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
-    else localStorage.removeItem(STORAGE_KEY)
-  } catch {
-    // Storage can be unavailable (private mode); the session still works in memory.
-  }
-}
+let currentUser: User | null = null
 
 function emit(): void {
   listeners.forEach((listener) => listener())
@@ -38,7 +21,6 @@ export const sessionStore = {
   getUser: (): User | null => currentUser,
   setUser(user: User | null): void {
     currentUser = user
-    persist(user)
     emit()
   },
   subscribe(listener: Listener): () => void {

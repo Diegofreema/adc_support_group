@@ -8,8 +8,9 @@ export function useLogout(): () => void {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   return () => {
-    logout()
-    queryClient.clear()
-    navigate({ to: '/' })
+    void logout().finally(() => {
+      queryClient.clear()
+      navigate({ to: '/' })
+    })
   }
 }

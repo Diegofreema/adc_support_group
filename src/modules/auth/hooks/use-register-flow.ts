@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { registerGroup } from '../services/register.service'
-import { sendCode } from '../services/verification.service'
+import { startSignup } from '../services/verification.service'
 import { missingPlaceFields, registerGroupSchema, type RegisterGroupValues } from '../utils/schemas'
 import { useStepValidation } from './use-step-validation'
 import { useDisclosure } from '@/hooks/use-disclosure'
@@ -19,14 +20,32 @@ const DEFAULTS: RegisterGroupValues = {
 
 export const REGISTER_STEPS = 5
 
-/** Register-a-group wizard: account → group → where → leader → check → submitted. */
+/**
+ * Register-a-group wizard: account → group → where → leader → check →
+ * submitted. The account is created (and the code checked) on submit.
+ */
 export function useRegisterFlow() {
   const form = useForm<RegisterGroupValues>({ resolver: zodResolver(registerGroupSchema), defaultValues: DEFAULTS })
   const wizard = useWizard(REGISTER_STEPS)
   const done = useDisclosure()
   const goNext = useStepValidation(form, wizard)
-  const send = useMutation({ mutationFn: sendCode, onSuccess: () => notify('Code sent') })
-  const submit = useMutation({ mutationFn: registerGroup, onSuccess: done.open })
+  const [challengeId, setChallengeId] = useState<string | null>(null)
+
+  const send = useMutation({
+    mutationFn: () => startSignup(form.getValues('fullName'), form.getValues('phone')),
+    onSuccess: (challenge) => {
+      setChallengeId(challenge.challengeId)
+      notify(`Code sent to ${challenge.sentTo}`)
+    },
+  })
+  const submit = useMutation({
+    mutationFn: (values: RegisterGroupValues) => registerGroup(values, challengeId),
+    onSuccess: done.open,
+  })
+
+  const sendCode = async () => {
+    if (await form.trigger(['fullName', 'phone'])) send.mutate()
+  }
 
   const submitWhere = () => {
     const missing = missingPlaceFields(form.getValues())
@@ -39,7 +58,8 @@ export function useRegisterFlow() {
     wizard,
     done,
     isPending: submit.isPending,
-    sendCode: () => send.mutate(form.getValues('phone')),
+    isSendingCode: send.isPending,
+    sendCode,
     submitAccount: () => goNext(['fullName', 'phone', 'code', 'password']),
     submitGroup: () => goNext(['groupName', 'category']),
     submitWhere,

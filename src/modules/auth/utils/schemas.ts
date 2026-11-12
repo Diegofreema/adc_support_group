@@ -81,6 +81,6 @@ export function missingPlaceFields(values: PlaceCheck): (keyof PlaceCheck)[] {
 }
 
 export const setPasswordSchema = z
-  .object({ password: newPassword, repeat: z.string(), show: z.boolean() })
+  .object({ code: z.string().regex(/^\d{6}$/, 'Enter the 6-digit code'), password: newPassword, repeat: z.string(), show: z.boolean() })
   .refine((values) => values.password === values.repeat, { path: ['repeat'], message: "Passwords don't match" })
 export type SetPasswordValues = z.infer<typeof setPasswordSchema>

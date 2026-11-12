@@ -24,7 +24,7 @@ function RegisterWizard() {
     <form onSubmit={(event) => event.preventDefault()} noValidate>
       <WizardProgress step={wizard.step} total={wizard.total} />
       <section className="mt-6">
-        {wizard.step === 0 && <RegisterAccountStep form={form} onSendCode={flow.sendCode} onNext={flow.submitAccount} />}
+        {wizard.step === 0 && <RegisterAccountStep form={form} onSendCode={flow.sendCode} sendingCode={flow.isSendingCode} onNext={flow.submitAccount} />}
         {wizard.step === 1 && <RegisterGroupStep form={form} onBack={wizard.back} onNext={flow.submitGroup} />}
         {wizard.step === 2 && <RegisterWhereStep form={form} onBack={wizard.back} onNext={flow.submitWhere} />}
         {wizard.step === 3 && <RegisterLeaderStep form={form} onBack={wizard.back} onNext={flow.submitLeader} />}

@@ -1,6 +1,8 @@
-import { DEMO_USERS } from './auth.mock'
-import { normalisePhone } from '@/lib/phone'
-import { delay } from '@/lib/mock-api'
+import type { Session } from '@supabase/supabase-js'
+
+import { refreshSessionUser } from './session.service'
+import { invokeFunction } from '@/lib/edge-functions'
+import { supabase } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { User } from '@/types/domain'
 
@@ -10,24 +12,42 @@ export interface Credentials {
   password: string
 }
 
-function findDemoUser(identifier: string): User {
-  const phone = normalisePhone(identifier)
-  const match = DEMO_USERS.find((user) => user.phone === phone || user.email === identifier.trim().toLowerCase())
-  // Demo: unknown numbers log in as the leader account.
-  return match ?? DEMO_USERS[0]!
+/** Edge functions that sign someone in hand back a session to install. */
+export async function installSession(session: Session): Promise<void> {
+  const { error } = await supabase.auth.setSession({
+    access_token: session.access_token,
+    refresh_token: session.refresh_token,
+  })
+  if (error) throw new Error(error.message)
 }
 
-/** Mock login. Real version: Supabase phone/email + password auth. */
-export async function login({ identifier, password }: Credentials): Promise<User> {
-  await delay(500)
-  if (password.length < 4) throw new Error('Wrong phone or password')
-  const user = findDemoUser(identifier)
-  sessionStore.setUser(user)
+async function signIn({ identifier, password }: Credentials): Promise<void> {
+  const value = identifier.trim()
+  if (value.includes('@')) {
+    const { error } = await supabase.auth.signInWithPassword({ email: value.toLowerCase(), password })
+    if (error) throw new Error('Wrong email or password')
+    return
+  }
+  // Phone accounts sign in through the shared edge function (the phone is
+  // matched in every stored shape and the session comes back directly).
+  const { session } = await invokeFunction<{ session: Session }>('auth-phone-login-initiate', { phone: value, password })
+  await installSession(session)
+}
+
+/** Phone or email + password. Resolves with the signed-in User. */
+export async function login(credentials: Credentials): Promise<User> {
+  await signIn(credentials)
+  const user = await refreshSessionUser()
+  if (!user) {
+    await supabase.auth.signOut()
+    throw new Error('This account has no profile yet. Please contact support.')
+  }
   return user
 }
 
-export function logout(): void {
+export async function logout(): Promise<void> {
   sessionStore.setUser(null)
+  await supabase.auth.signOut()
 }
 
 /** Where each role lands after logging in. */

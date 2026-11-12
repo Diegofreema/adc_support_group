@@ -8,10 +8,11 @@ import { StepHeading } from '../shared/StepHeading'
 interface RegisterAccountStepProps {
   form: UseFormReturn<RegisterGroupValues>
   onSendCode: () => void
+  sendingCode?: boolean
   onNext: () => void
 }
 
-export function RegisterAccountStep({ form, onSendCode, onNext }: RegisterAccountStepProps) {
+export function RegisterAccountStep({ form, onSendCode, sendingCode, onNext }: RegisterAccountStepProps) {
   const errors = form.formState.errors
   return (
     <>
@@ -25,7 +26,7 @@ export function RegisterAccountStep({ form, onSendCode, onNext }: RegisterAccoun
       <Field label="Code" htmlFor="reg-code" error={errors.code?.message}>
         <div className="row">
           <TextInput id="reg-code" className="grow" inputMode="numeric" maxLength={6} placeholder="6 digits" {...form.register('code')} />
-          <Button onClick={onSendCode}>Send</Button>
+          <Button onClick={onSendCode} disabled={sendingCode}>Send</Button>
         </div>
       </Field>
       <Field label="Password" htmlFor="reg-password" error={errors.password?.message}>

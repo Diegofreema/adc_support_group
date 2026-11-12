@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 
 import { AppToaster } from '@/components/layout/AppToaster'
 import { queryClient } from '@/lib/query-client'
+import { bootstrapSession } from '@/modules/auth'
 import { routeTree } from './routeTree.gen'
 import './index.css'
 
@@ -23,11 +24,12 @@ declare module '@tanstack/react-router' {
   }
 }
 
-createRoot(document.getElementById('root')!).render(
+// Route guards read the session synchronously: load it before the first render.
+void bootstrapSession().then(() => createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <AppToaster />
     </QueryClientProvider>
   </StrictMode>,
-)
+))

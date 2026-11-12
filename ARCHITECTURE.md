@@ -38,12 +38,26 @@ src/
 
 ## Data
 
-All services use `src/lib/mock-api.ts` (`respond`, `delay`) and in-module `*.mock.ts` seed data. Swapping to Supabase means changing service files only; hooks, pages and components stay the same.
+The backend is Rise Up Naija's Supabase project, shared with Rise Up (see `docs/specs/backend-schema.md`). `.env` needs `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
 
-## Demo logins (any password, 4+ characters)
+- `src/lib/supabase.ts`: the client, plus `rpc()` for Postgres functions.
+- `src/lib/edge-functions.ts`: `invokeFunction()` for edge functions. It always sends `app: 'adc'`, so SMS and emails say ADC and new accounts are tagged as ADC accounts.
+- Services call one of those two. Hooks, pages and components never touch Supabase directly.
 
-| Role | Phone |
+| Module | Backend |
 |---|---|
-| Group leader | 0803 555 0142 |
-| Member | 0802 334 7781 |
-| Directorate (super admin) | 0809 000 0001 |
+| auth | Live: phone/email login, join by link, register a group, password reset by code |
+| everything else | Still mock: `src/lib/mock-api.ts` plus in-module `*.mock.ts` seeds. Unknown group ids fall back to demo data |
+
+## Session
+
+Supabase persists the session. `bootstrapSession()` (auth module) runs before the first render and builds the app's `User` from `profiles` plus `get_my_support_group`:
+- Rise Up staff (admin, super admin, state admin) are `directorate`.
+- The leader of a group is `leader`.
+- Everyone else is `member`.
+
+Route guards read `sessionStore` synchronously. Call `refreshSessionUser()` after anything that changes who someone is in a group.
+
+## Errors
+
+A failed mutation shows its message in a toast (`MutationCache` in `src/lib/query-client.ts`). Forms that show the error inline set `meta: { inlineError: true }`.
