@@ -8,8 +8,8 @@ export const offlinePaymentSchema = z.object({
   payerId: z.string(),
   amount: z.string().refine((value) => {
     const amount = Number(value.replace(/\D/g, ''))
-    return amount >= 100 && amount <= 10_000_000
-  }, 'Enter between ₦100 and ₦10,000,000'),
+    return amount > 0 && amount <= 10_000_000
+  }, 'Enter an amount up to ₦10,000,000'),
   date: z.string().min(1, 'Pick the date'),
   method: z.enum(['transfer', 'cash']),
   reference: z.string().trim().optional(),

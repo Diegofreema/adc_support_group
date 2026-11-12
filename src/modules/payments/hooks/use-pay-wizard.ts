@@ -36,5 +36,5 @@ export function usePayWizard() {
 }
 
 function stepHint(step: number): string {
-  return step === 1 ? 'Enter between ₦100 and ₦10,000,000' : 'Choose one first'
+  return step === 1 ? 'Enter an amount up to ₦10,000,000' : 'Choose one first'
 }

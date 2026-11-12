@@ -4,7 +4,7 @@ import type { Cause } from '@/types/domain'
 import type { ActivityOption, ChapterOption, PayDraft } from '../types'
 import { purposeLabel } from './purposes'
 
-export const EMPTY_DRAFT: PayDraft = { payFor: 'cause', purpose: 'mobilisation', note: '', amount: 250_000 }
+export const EMPTY_DRAFT: PayDraft = { payFor: 'cause', purpose: 'mobilisation', note: '', amount: 0 }
 
 export interface DraftLookups {
   groupName: string
@@ -43,6 +43,6 @@ export function payDraftSummary(draft: PayDraft, lookups: DraftLookups): KeyValu
 /** Can the user leave this step? Steps: 0 for, 1 amount, 2 check. */
 export function isStepComplete(draft: PayDraft, step: number): boolean {
   if (step === 0) return draft.payFor === 'general' || Boolean(draft.causeId)
-  if (step === 1) return draft.amount >= 100 && draft.amount <= 10_000_000
+  if (step === 1) return draft.amount > 0 && draft.amount <= 10_000_000
   return true
 }
