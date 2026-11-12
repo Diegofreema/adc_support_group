@@ -1,16 +1,22 @@
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, queryOptions, useQuery } from '@tanstack/react-query'
 
 import { memberKeys } from './query-keys'
-import { fetchChapterOptions, fetchMembers } from '../services/members.service'
+import { fetchChapterOptions, fetchMemberPage } from '../services/members.service'
+import type { RosterQuery } from '../types'
 
-export const membersQuery = (groupId: string) =>
-  queryOptions({ queryKey: memberKeys.list(groupId), queryFn: () => fetchMembers(groupId) })
+/** One roster page; the previous page stays on screen while the next loads. */
+export const memberPageQuery = (groupId: string, query: RosterQuery) =>
+  queryOptions({
+    queryKey: memberKeys.page(groupId, query),
+    queryFn: () => fetchMemberPage(groupId, query),
+    placeholderData: keepPreviousData,
+  })
 
 export const chapterOptionsQuery = (groupId: string) =>
   queryOptions({ queryKey: memberKeys.chapters(groupId), queryFn: () => fetchChapterOptions(groupId) })
 
-export function useMembers(groupId: string) {
-  return useQuery(membersQuery(groupId))
+export function useMemberPage(groupId: string, query: RosterQuery) {
+  return useQuery(memberPageQuery(groupId, query))
 }
 
 export function useChapterOptions(groupId: string) {

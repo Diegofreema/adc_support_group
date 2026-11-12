@@ -14,16 +14,23 @@ const JOIN_ROUTE: Record<string, string> = {
   request: 'from join requests',
 }
 
-function roleSet(details: Details): string {
+/** The person acted on, or a stand-in when the backend couldn't name them. */
+const person = (target: string, fallback = 'a member'): string => target || fallback
+const possessive = (target: string): string => (target ? `${target}'s` : "a member's")
+/** An activity by its title in quotes, or a stand-in. */
+const activity = (target: string): string => (target ? `'${target}'` : 'an activity')
+
+function roleSet(details: Details, target: string): string {
   const title = text(details.title)
-  if (details.role === 'coordinator') return 'made a member a chapter coordinator'
-  if (details.role === 'executive') return title ? `made a member ${title}` : 'made a member an executive'
-  return 'made someone a plain member'
+  const who = person(target)
+  if (details.role === 'coordinator') return `made ${who} a chapter coordinator`
+  if (details.role === 'executive') return title ? `made ${who} ${title}` : `made ${who} an executive`
+  return `made ${person(target, 'someone')} a plain member`
 }
 
-function powersSet(details: Details): string {
+function powersSet(details: Details, target: string): string {
   const count = Array.isArray(details.powers) ? details.powers.length : 0
-  return count ? `changed a member's powers (${plural(count, 'power')})` : "took away a member's extra powers"
+  return count ? `changed ${possessive(target)} powers (${plural(count, 'power')})` : `took away ${possessive(target)} extra powers`
 }
 
 function membersAdded(details: Details): string {
@@ -32,10 +39,13 @@ function membersAdded(details: Details): string {
   return `added ${plural(count, 'member')}${route ? ` ${route}` : ''}`
 }
 
-function chapterUpdated(details: Details): string {
+/** The chapter's name from the log, else the backend's name for it today. */
+const chapterName = (details: Details, target: string): string => quoted(text(details.name) || target)
+
+function chapterUpdated(details: Details, target: string): string {
   const name = text(details.name)
   const old = text(details.old_name)
-  return old && name && old !== name ? `renamed chapter '${old}' to '${name}'` : `updated chapter${quoted(name)}`
+  return old && name && old !== name ? `renamed chapter '${old}' to '${name}'` : `updated chapter${chapterName(details, target)}`
 }
 
 function withReason(verb: string, details: Details): string {
@@ -47,22 +57,24 @@ function memberLeft(details: Details): string {
   return details.reason === 'details_deleted' ? 'left the group and had their details deleted' : 'left the group'
 }
 
-/** What the actor did, as a verb phrase ("removed a member"). */
-const PHRASES: Record<string, (details: Details) => string> = {
-  support_group_member_removed: () => 'removed a member',
-  support_group_member_blocked: () => 'removed and blocked a member',
+type Phrase = (details: Details, target: string) => string
+
+/** What the actor did, as a verb phrase ("removed Bola"). `target` is who or what was acted on ('' when unknown). */
+const PHRASES: Record<string, Phrase> = {
+  support_group_member_removed: (_, target) => `removed ${person(target)}`,
+  support_group_member_blocked: (_, target) => `removed and blocked ${person(target)}`,
   support_group_member_left: memberLeft,
   support_group_member_role_set: roleSet,
   support_group_member_powers_set: powersSet,
   support_group_members_added: membersAdded,
   support_group_join_code_replaced: () => 'replaced the join code',
-  support_group_chapter_created: (details) => `created chapter${quoted(details.name)}`,
+  support_group_chapter_created: (details, target) => `created chapter${chapterName(details, target)}`,
   support_group_chapter_updated: chapterUpdated,
-  support_group_chapter_archived: (details) => `archived chapter${quoted(details.name)}`,
-  support_group_activity_approved: () => 'approved an activity',
-  support_group_activity_sent_back: (details) => withReason('sent an activity back', details),
-  support_group_activity_checked: () => 'checked an activity',
-  support_group_activity_rejected: (details) => withReason('rejected an activity', details),
+  support_group_chapter_archived: (details, target) => `archived chapter${chapterName(details, target)}`,
+  support_group_activity_approved: (_, target) => `approved ${activity(target)}`,
+  support_group_activity_sent_back: (details, target) => withReason(`sent ${activity(target)} back`, details),
+  support_group_activity_checked: (_, target) => `checked ${activity(target)}`,
+  support_group_activity_rejected: (details, target) => withReason(`rejected ${activity(target)}`, details),
   support_group_payment_recorded: (details) => (Number(details.amount) ? `recorded a payment of ${formatNaira(Number(details.amount))}` : 'recorded a payment'),
   support_group_payment_confirmed: () => 'confirmed a payment',
   support_group_payment_rejected: (details) => withReason('rejected a payment', details),
@@ -75,8 +87,8 @@ const PHRASES: Record<string, (details: Details) => string> = {
   support_group_resubmitted: () => 'resubmitted the group for review',
   support_group_info_requested: () => 'asked the leader for more information',
   support_group_info_replied: () => 'replied to the Directorate',
-  support_group_leader_appointed: () => 'appointed a leader',
-  support_group_leader_revoked: () => 'removed the leader',
+  support_group_leader_appointed: (_, target) => (target ? `appointed ${target} as leader` : 'appointed a leader'),
+  support_group_leader_revoked: (_, target) => (target ? `removed ${target} as leader` : 'removed the leader'),
 }
 
 /** "support_group_cause_saved" → "cause saved", for codes without a phrase. */
@@ -84,15 +96,16 @@ export function humaniseAction(action: string): string {
   return action.replace(/^support_group_/, '').replaceAll('_', ' ')
 }
 
-/** "Ada (Directorate)" for staff, otherwise just the name. */
+/** "Ada (Directorate)" for staff, "Secretary Ada" when they hold a title, otherwise just the name. */
 function actorLabel(entry: GroupAuditEntry): string {
-  return entry.actorIsStaff ? `${entry.actorName} (Directorate)` : entry.actorName
+  if (entry.actorIsStaff) return `${entry.actorName} (Directorate)`
+  return entry.actorTitle ? `${entry.actorTitle} ${entry.actorName}` : entry.actorName
 }
 
-/** One plain-English line, e.g. "Ada removed a member". */
+/** One plain-English line, e.g. "Secretary Ada removed Bola". */
 export function auditLine(entry: GroupAuditEntry): string {
   const phrase = PHRASES[entry.action]
-  if (phrase) return `${actorLabel(entry)} ${phrase(entry.details)}`
+  if (phrase) return `${actorLabel(entry)} ${phrase(entry.details, text(entry.targetName))}`
   return `${actorLabel(entry)}: ${humaniseAction(entry.action)}`
 }
 

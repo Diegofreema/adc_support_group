@@ -1,6 +1,7 @@
 import type { LucideIcon } from 'lucide-react'
 
 import type { ActivityTypeId } from '@/config/activity-types'
+import type { ShrunkImage } from '@/lib/image'
 import type { Activity, ActivityStatus, PaymentStatus } from '@/types/domain'
 
 export type { ActivityTypeId }
@@ -91,7 +92,8 @@ export interface ActivityDetailsInput {
 export interface NewActivityInput extends ActivityDetailsInput {
   /** Activity type slug. */
   type: string
-  photos: File[]
+  /** New photos, already shrunk on the phone. */
+  photos: ShrunkPhoto[]
   /** Already-uploaded photos to keep (edits). */
   keptPhotoUrls: string[]
   videoUrl?: string
@@ -105,8 +107,45 @@ export interface RejectInput {
   note?: string
 }
 
-/** A photo in the wizard: a new file with a local preview, or an uploaded one (no file, preview = its URL). */
+/** A photo shrunk for upload, with its list thumbnail. */
+export interface ShrunkPhoto {
+  photo: ShrunkImage
+  thumb: ShrunkImage
+}
+
+/** A new photo with its storage name (the file name without extension). */
+export interface NamedPhoto extends ShrunkPhoto {
+  id: string
+}
+
+/** A photo in the wizard: a new shrunk one with a local preview, or an uploaded one (no shrunk, preview = its URL). */
 export interface PickedPhoto {
-  file?: File
+  shrunk?: ShrunkPhoto
   preview: string
+}
+
+/** Activity fields a draft keeps; its photos are stored beside them. */
+export type DraftActivityInput = Omit<NewActivityInput, 'photos' | 'keptPhotoUrls'>
+
+/** A new activity saved on the phone because there was no signal. */
+export interface ActivityDraft {
+  clientRef: string
+  ownerId: string
+  groupId: string
+  /** ISO time it was saved. */
+  createdAt: string
+  input: DraftActivityInput
+  photos: NamedPhoto[]
+  lastError?: string
+  /** The backend refused it; it is only retried by hand. */
+  needsAttention?: boolean
+}
+
+/** What recording a new activity led to. */
+export type RecordResult = { kind: 'sent'; activity: ActivityDetail } | { kind: 'saved' }
+
+/** One page of the activities list. */
+export interface ActivityPage {
+  total: number
+  rows: ActivityDetail[]
 }

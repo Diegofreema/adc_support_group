@@ -12,7 +12,7 @@ export interface Draft {
   forProfileId?: string
 }
 
-/** Form state → service input. The date stays YYYY-MM-DD; uploaded photos are kept, new files uploaded. */
+/** Form state → service input. The date stays YYYY-MM-DD; uploaded photos are kept, new (shrunk) ones uploaded. */
 export function buildActivityInput({ type, details, photos, videoUrl, location, forProfileId }: Draft): NewActivityInput {
   return {
     ...details,
@@ -20,8 +20,8 @@ export function buildActivityInput({ type, details, photos, videoUrl, location, 
     peopleReached: Number(details.peopleReached),
     note: details.note?.trim() || undefined,
     chapterId: details.chapterId || undefined,
-    photos: photos.flatMap((photo) => (photo.file ? [photo.file] : [])),
-    keptPhotoUrls: photos.flatMap((photo) => (photo.file ? [] : [photo.preview])),
+    photos: photos.flatMap((photo) => (photo.shrunk ? [photo.shrunk] : [])),
+    keptPhotoUrls: photos.flatMap((photo) => (photo.shrunk ? [] : [photo.preview])),
     videoUrl: videoUrl.trim() || undefined,
     location,
     forProfileId,

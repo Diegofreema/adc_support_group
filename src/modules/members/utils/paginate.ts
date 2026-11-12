@@ -7,11 +7,9 @@ export interface Page<T> {
   total: number
 }
 
-/** Slice a list into a 1-based page. */
-export function paginate<T>(items: T[], page: number, pageSize: number): Page<T> {
-  const pageCount = Math.max(1, Math.ceil(items.length / pageSize))
-  const current = Math.min(Math.max(1, page), pageCount)
-  const start = (current - 1) * pageSize
-  const slice = items.slice(start, start + pageSize)
-  return { items: slice, page: current, pageCount, from: slice.length ? start + 1 : 0, to: start + slice.length, total: items.length }
+/** A 1-based page of a list the server paged: `items` is this page, `total` the whole match. */
+export function serverPage<T>(items: T[], total: number, page: number, pageSize: number): Page<T> {
+  const pageCount = Math.max(1, Math.ceil(total / pageSize))
+  const start = (page - 1) * pageSize
+  return { items, page, pageCount, from: items.length ? start + 1 : 0, to: start + items.length, total }
 }

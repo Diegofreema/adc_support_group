@@ -1,10 +1,11 @@
 import { rejectReasonText } from '../utils/reject-reasons'
 import { placeholderTones } from '../utils/activity-photos'
 import { activityTypeIcon } from '@/config/activity-types'
+import { PHOTO_CACHE_SECONDS, thumbPath, type ShrunkImage } from '@/lib/image'
 import { rpc, supabase, unwrap } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { ActivityStatus, PaymentStatus } from '@/types/domain'
-import type { ActivityDetail, ActivityTypeOption, ActivityVersion, ChapterOption, GeoFix, LinkedPayment, MemberOption, NewActivityInput, RejectInput } from '../types'
+import type { ActivityDetail, ActivityPage, ActivityTab, ActivityTypeOption, ActivityVersion, ChapterOption, DraftActivityInput, GeoFix, LinkedPayment, MemberOption, NamedPhoto, NewActivityInput, RejectInput } from '../types'
 
 /** private.support_group_activity_json */
 interface ActivityJson {
@@ -77,16 +78,19 @@ function toActivity(json: ActivityJson): ActivityDetail {
   }
 }
 
-const PAGE = 100
+/** Rows per "Load more". */
+export const ACTIVITY_PAGE_SIZE = 20
 
-/** Everything the caller may see in their group (leader: all; member: approved + own), newest first. */
-export async function listActivities(_groupId: string): Promise<ActivityDetail[]> {
-  const activities: ActivityDetail[] = []
-  for (let offset = 0; ; offset += PAGE) {
-    const page = await rpc<{ total: number; rows: ActivityJson[] }>('get_support_group_activities', { p_limit: PAGE, p_offset: offset })
-    activities.push(...page.rows.map(toActivity))
-    if (activities.length >= page.total || page.rows.length === 0) return activities
-  }
+const TAB_FILTERS: Record<ActivityTab, Record<string, unknown>> = {
+  all: {},
+  review: { p_status: 'pending' },
+  mine: { p_mine: true },
+}
+
+/** One page of a tab, newest first (leader: all; member: approved + own; mine: logged or recorded by me). */
+export async function listActivityPage(tab: ActivityTab, offset: number, limit = ACTIVITY_PAGE_SIZE): Promise<ActivityPage> {
+  const page = await rpc<{ total: number; rows: ActivityJson[] }>('get_support_group_activities', { ...TAB_FILTERS[tab], p_limit: limit, p_offset: offset })
+  return { total: Number(page.total), rows: page.rows.map(toActivity) }
 }
 
 interface PaymentJson {
@@ -139,29 +143,41 @@ export async function listChapterOptions(): Promise<ChapterOption[]> {
   return chapters.map((chapter) => ({ value: chapter.id, label: `${chapter.name} chapter` }))
 }
 
-const PHOTO_TYPES: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp', 'image/gif': 'gif' }
+const BUCKET = 'activity-media'
 
-function activeGroupId(): string {
+export function activeGroupId(): string {
   const groupId = sessionStore.getUser()?.activeGroupId
   if (!groupId) throw new Error('You are not in a group')
   return groupId
 }
 
-/** Upload one photo to the group's folder in activity-media; returns its public URL. */
-async function uploadPhoto(groupId: string, file: File): Promise<string> {
-  const ext = PHOTO_TYPES[file.type]
-  if (!ext) throw new Error('Photos must be JPG, PNG or WebP')
-  const path = `support-groups/${groupId}/${crypto.randomUUID()}.${ext}`
-  const { error } = await supabase.storage.from('activity-media').upload(path, file, { contentType: file.type, upsert: false })
-  if (error) throw new Error(`Could not upload a photo: ${error.message}`)
-  return supabase.storage.from('activity-media').getPublicUrl(path).data.publicUrl
+/** Members can't overwrite, so an earlier upload of the same path (a re-sent draft) comes back as a duplicate. */
+function isDuplicate(error: { message: string; status?: number; statusCode?: string }): boolean {
+  return error.statusCode === '409' || error.status === 409 || /already exists|duplicate/i.test(error.message)
 }
 
-/** Uploads the new photos and returns every URL to save, kept ones first. */
-async function mediaUrls(input: NewActivityInput): Promise<string[]> {
-  const groupId = activeGroupId()
-  const uploaded = await Promise.all(input.photos.map((file) => uploadPhoto(groupId, file)))
-  return [...input.keptPhotoUrls, ...uploaded]
+async function uploadImage(path: string, image: ShrunkImage): Promise<void> {
+  const { error } = await supabase.storage.from(BUCKET).upload(path, image.blob, {
+    contentType: image.contentType,
+    cacheControl: PHOTO_CACHE_SECONDS,
+    upsert: false,
+  })
+  if (error && !isDuplicate(error)) throw new Error(`Could not upload a photo: ${error.message}`)
+}
+
+/** Upload a photo and its thumbnail beside it; returns the photo's public URL. */
+async function uploadPhoto(groupId: string, photo: NamedPhoto): Promise<string> {
+  const path = `support-groups/${groupId}/${photo.id}.${photo.photo.ext}`
+  await uploadImage(path, photo.photo)
+  await uploadImage(thumbPath(path), photo.thumb)
+  return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl
+}
+
+/** Upload new photos one after another (patchy data: one at a time finishes sooner than six at once). */
+async function uploadPhotos(groupId: string, photos: NamedPhoto[]): Promise<string[]> {
+  const urls: string[] = []
+  for (const photo of photos) urls.push(await uploadPhoto(groupId, photo))
+  return urls
 }
 
 function locationArgs(location?: GeoFix) {
@@ -169,7 +185,7 @@ function locationArgs(location?: GeoFix) {
 }
 
 /** The fields record and edit share. */
-function activityArgs(input: NewActivityInput, media: string[]) {
+function activityArgs(input: DraftActivityInput, media: string[]) {
   return {
     p_type: input.type,
     p_title: input.title,
@@ -185,19 +201,25 @@ function activityArgs(input: NewActivityInput, media: string[]) {
   }
 }
 
-/** Entries by someone with the approvals power come back approved; everyone else's wait. */
-export async function createActivity(input: NewActivityInput): Promise<ActivityDetail> {
-  const media = await mediaUrls(input)
+/**
+ * Upload a new activity's photos and record it. Entries by someone with the
+ * approvals power come back approved; everyone else's wait. The same
+ * clientRef sent twice returns the first copy, so a re-sent draft never doubles.
+ */
+export async function recordActivity(groupId: string, clientRef: string, input: DraftActivityInput, photos: NamedPhoto[]): Promise<ActivityDetail> {
+  const media = await uploadPhotos(groupId, photos)
   return toActivity(await rpc<ActivityJson>('record_support_group_activity', {
     ...activityArgs(input, media),
     p_chapter_id: input.chapterId ?? null,
     p_for_profile_id: input.forProfileId ?? null,
+    p_client_ref: clientRef,
   }))
 }
 
 /** Edit a waiting or sent-back activity; the old version is kept and it goes back for approval. */
 export async function editActivity(id: string, input: NewActivityInput): Promise<ActivityDetail> {
-  const media = await mediaUrls(input)
+  const named = input.photos.map((photo) => ({ ...photo, id: crypto.randomUUID() }))
+  const media = [...input.keptPhotoUrls, ...await uploadPhotos(activeGroupId(), named)]
   return toActivity(await rpc<ActivityJson>('edit_support_group_activity', { p_activity_id: id, ...activityArgs(input, media) }))
 }
 

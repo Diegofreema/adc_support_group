@@ -36,6 +36,6 @@ export function useRecordActivity(): ActivityWizardFlow {
     send: () => create.mutate(buildActivityInput({ ...base.draft(), forProfileId })),
     sendLabel: 'Send',
     isSending: create.isPending,
-    sentStatus: create.data?.status,
+    sentStatus: create.data?.kind === 'sent' ? create.data.activity.status : undefined,
   }
 }

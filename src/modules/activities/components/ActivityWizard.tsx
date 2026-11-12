@@ -25,7 +25,7 @@ function CurrentStep({ flow }: { flow: ActivityWizardFlow }) {
         {flow.who && <WhoDidThis choice={flow.who} />}
       </DetailsStep>
     )
-    case 2: return <PhotosStep photos={flow.photos.items} max={flow.photos.max} onAdd={flow.photos.add} onRemove={flow.photos.remove} error={flow.photoError} videoUrl={flow.videoUrl} onVideoUrlChange={flow.setVideoUrl} />
+    case 2: return <PhotosStep photos={flow.photos.items} max={flow.photos.max} adding={flow.photos.adding} onAdd={flow.photos.add} onRemove={flow.photos.remove} error={flow.photoError} videoUrl={flow.videoUrl} onVideoUrlChange={flow.setVideoUrl} />
     default: return <ReviewStep summary={flow.summary()} />
   }
 }

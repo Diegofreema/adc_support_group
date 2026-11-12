@@ -4,7 +4,10 @@ import { Plus } from 'lucide-react'
 import { buttonClassName, ErrorState, PageHeader, PageLoader, PendingGroupNote, Tabs } from '@/components/shared'
 import { useGroupLocked } from '@/hooks/use-group-verified'
 import { ActivityFeed } from '../components/ActivityFeed'
+import { LoadMoreButton } from '../components/LoadMoreButton'
 import { ReviewQueue } from '../components/ReviewQueue'
+import { DeleteDraftDialog, WaitingDrafts } from '../components/WaitingDrafts'
+import { useActivityDrafts } from '../hooks/use-activity-drafts'
 import { useActivityTabs } from '../hooks/use-activity-tabs'
 
 type View = ReturnType<typeof useActivityTabs>
@@ -15,8 +18,19 @@ export function ActivitiesPage() {
   return (
     <>
       <PageHeader title="Activities" actions={locked ? <PendingGroupNote /> : <RecordActivityLink />} />
+      <Drafts />
       <Tabs tabs={view.tabs} value={view.tab} onChange={view.setTab} label="Activities" />
       <div className="mt-5"><ActivitiesBody view={view} /></div>
+    </>
+  )
+}
+
+function Drafts() {
+  const drafts = useActivityDrafts()
+  return (
+    <>
+      <WaitingDrafts drafts={drafts.drafts} sendingRef={drafts.sendingRef} onSend={drafts.sendNow} onDelete={drafts.startDelete} />
+      <DeleteDraftDialog open={Boolean(drafts.deleting)} onOpenChange={drafts.closeDelete} onConfirm={drafts.confirmDelete} />
     </>
   )
 }
@@ -24,7 +38,12 @@ export function ActivitiesPage() {
 function ActivitiesBody({ view }: { view: View }) {
   if (view.isLoading) return <PageLoader />
   if (view.error) return <ErrorState title="Could not load activities" error={view.error} onRetry={view.retry} />
-  return view.tab === 'review' ? <ReviewQueue activities={view.visible} /> : <ActivityFeed activities={view.visible} />
+  return (
+    <>
+      {view.tab === 'review' ? <ReviewQueue activities={view.activities} /> : <ActivityFeed activities={view.activities} />}
+      <LoadMoreButton hasMore={view.hasMore} loading={view.isLoadingMore} onClick={view.loadMore} />
+    </>
+  )
 }
 
 function RecordActivityLink() {

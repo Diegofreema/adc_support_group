@@ -51,8 +51,12 @@ function useTypeChoice(initial = 'rally') {
 function useProofPhotos(initialUrls: string[] | undefined, next: () => void) {
   const list = usePhotoList(initialUrls)
   const [error, setError] = useState<string>()
-  const add = (files: File[]) => { setError(undefined); list.add(files) }
+  const add = (files: File[]) => {
+    setError(undefined)
+    void list.add(files).then((problem) => { if (problem) setError(problem) })
+  }
   const proceed = () => {
+    if (list.adding) return
     if (list.items.length === 0) return setError(PHOTO_REQUIRED)
     setError(undefined)
     next()

@@ -191,3 +191,11 @@ Decisions with the product owner, 2026-11-12: delete-my-details closes the whole
 - **Nothing deleted.** Chapters archive (`archived_at`; join codes stop working, members move out of the chapter). Handover marks the new leader's membership `promoted`. Activities' `logged_by` is `ON DELETE RESTRICT`.
 - **Leaving.** `leave_support_group` sets `left` and notifies the leader. `request_my_account_deletion` / `cancel_my_account_deletion` (7 days; leaders refused); daily cron `adc-run-account-deletions` → `private.anonymise_profile` (profile → "Former member", auth login banned, identities and sessions removed). `get_admin_sg_departures(p_kind, …)` is the Directorate log.
 - **Tests:** `tests/db/adc-support-groups.test.ts`, 26 tests, pass on live (rolled back).
+
+## Phase 2b: low data (live, migration `20261112080000`)
+
+- **Photos** are shrunk on the phone (`src/lib/image.ts`): ~1600px WebP, ≤~400 KB, plus a ~400px thumbnail stored beside it (`<id>.webp` + `<id>.thumb.webp`, 1-year cache). Lists use `<ThumbImage>`, which falls back to the full photo for older uploads. Payment proofs and the group photo are shrunk too.
+- **Offline drafts:** a new activity that can't be sent is kept in IndexedDB (`adc-activity-drafts`) with its photos and a `clientRef`; `startActivityDraftSync` (run by the app shell) sends it when the signal returns. `record_support_group_activity(..., p_client_ref)` returns the first copy if a draft is sent twice; photo paths derive from the ref, and an "already exists" upload counts as done.
+- **Server paging:** `get_support_group_activities(..., p_mine)` (logged or recorded by me) backs the All / To review / Mine tabs, 20 per page with Load more; the members table pages on the server (20) with search; only CSV export reads the whole roster.
+- `get_support_group_roster` returns `leader`; `get_admin_sg_group_history` returns `actor_title` and `target_name`.
+- **Tests:** 29, pass on live (rolled back).

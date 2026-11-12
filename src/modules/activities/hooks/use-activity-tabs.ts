@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import { activitiesForTab, pendingActivities, tabsFor } from '../utils/activity-filters'
-import { useActivities } from './use-activities'
+import { tabsFor } from '../utils/activity-filters'
+import { useActivityList, useReviewCount } from './use-activity-list'
 import type { TabItem } from '@/components/shared'
 import { hasPower } from '@/lib/permissions'
 import { useRequiredUser } from '@/stores/session-store'
@@ -9,19 +9,20 @@ import type { ActivityTab } from '../types'
 
 const TAB_LABELS: Record<ActivityTab, string> = { all: 'All', review: 'To review', mine: 'Mine' }
 
-/** View-model for the activities screen: tab state + the list for that tab. */
+/** View-model for the activities screen: tab state + that tab's server-paged list. */
 export function useActivityTabs() {
   const user = useRequiredUser()
-  const query = useActivities(user.activeGroupId ?? '')
+  const groupId = user.activeGroupId ?? ''
+  const canApprove = hasPower(user, 'approvals')
   const [tab, setTab] = useState<ActivityTab>('all')
-  const activities = query.data ?? []
-  const reviewCount = pendingActivities(activities).length
+  const list = useActivityList(groupId, tab)
+  const reviewCount = useReviewCount(groupId, canApprove)
 
-  const tabs: TabItem<ActivityTab>[] = tabsFor(hasPower(user, 'approvals')).map((value) => ({
+  const tabs: TabItem<ActivityTab>[] = tabsFor(canApprove).map((value) => ({
     value,
     label: TAB_LABELS[value],
-    count: value === 'review' ? reviewCount : undefined,
+    count: value === 'review' ? (tab === 'review' ? list.total : reviewCount) : undefined,
   }))
 
-  return { tab, setTab, tabs, isLoading: query.isLoading, error: query.error, retry: () => void query.refetch(), visible: activitiesForTab(activities, tab, user.id) }
+  return { tab, setTab, tabs, ...list }
 }

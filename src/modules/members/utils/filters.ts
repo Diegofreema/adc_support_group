@@ -14,13 +14,6 @@ export function buildFilterOptions(chapters: ChapterOption[]): PillOption<Member
   return [...FIXED_FILTERS, ...chapterPills]
 }
 
-function matchesFilter(member: MemberRecord, filter: MemberFilter): boolean {
-  if (filter === 'all') return true
-  if (filter === 'link' || filter === 'excel') return member.joinedVia === filter
-  if (filter === 'executives') return member.role === 'leader' || member.role === 'executive'
-  return member.chapterId === filter.slice('chapter:'.length)
-}
-
 function matchesSearch(member: MemberRecord, search: string): boolean {
   const needle = search.trim().toLowerCase()
   if (!needle) return true
@@ -28,13 +21,24 @@ function matchesSearch(member: MemberRecord, search: string): boolean {
   return member.fullName.toLowerCase().includes(needle) || (digits.length > 2 && member.phone.includes(digits))
 }
 
-export function filterMembers(members: MemberRecord[], filter: MemberFilter, search: string): MemberRecord[] {
-  return members.filter((member) => matchesFilter(member, filter) && matchesSearch(member, search))
+/**
+ * The search text sent to the roster RPC. A phone number is cut to its
+ * national digits ("0803 555…" → "803555…") so it matches however it's stored.
+ */
+export function rosterSearch(search: string): string {
+  const trimmed = search.trim()
+  const digits = trimmed.replace(/\D/g, '')
+  if (digits.length < 4 || !/^[\d\s+()-]+$/.test(trimmed)) return trimmed
+  return digits.replace(/^(234|0)/, '')
 }
 
-/** Leader first, then executives in the order they were added. */
-export function selectExecutives(members: MemberRecord[]): MemberRecord[] {
-  const leader = members.filter((member) => member.role === 'leader')
+/** The leader has no membership row, so they're added on top when the filter and search would include them. */
+export function showsLeader(leader: MemberRecord, filter: MemberFilter, search: string): boolean {
+  return (filter === 'all' || filter === 'executives') && matchesSearch(leader, search)
+}
+
+/** Leader first, then executives (coordinators run chapters and aren't listed here). */
+export function selectExecutives(leader: MemberRecord | null, members: MemberRecord[]): MemberRecord[] {
   const executives = members.filter((member) => member.role === 'executive')
-  return [...leader, ...executives]
+  return leader ? [leader, ...executives] : executives
 }

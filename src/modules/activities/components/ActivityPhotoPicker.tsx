@@ -6,12 +6,14 @@ import type { PickedPhoto } from '../types'
 interface ActivityPhotoPickerProps {
   photos: PickedPhoto[]
   max: number
+  /** New photos are being shrunk. */
+  adding?: boolean
   onAdd: (files: File[]) => void
   onRemove: (index: number) => void
 }
 
 /** Square grid of picked photos (real previews) with remove buttons and a camera tile. */
-export function ActivityPhotoPicker({ photos, max, onAdd, onRemove }: ActivityPhotoPickerProps) {
+export function ActivityPhotoPicker({ photos, max, adding, onAdd, onRemove }: ActivityPhotoPickerProps) {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onAdd(Array.from(event.target.files ?? []))
     event.target.value = ''
@@ -25,10 +27,10 @@ export function ActivityPhotoPicker({ photos, max, onAdd, onRemove }: ActivityPh
         </div>
       ))}
       {photos.length < max && (
-        <label className="photo-add">
+        <label className="photo-add" aria-busy={adding}>
           <Camera className="i i-lg" aria-hidden />
-          Add
-          <input type="file" accept="image/jpeg,image/png,image/webp" multiple hidden onChange={handleChange} />
+          {adding ? 'Wait…' : 'Add'}
+          <input type="file" accept="image/*" multiple hidden disabled={adding} onChange={handleChange} />
         </label>
       )}
     </div>

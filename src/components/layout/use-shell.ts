@@ -1,6 +1,7 @@
 import { navigationFor, type RoleNavigation } from '@/config/navigation'
 import { useRequiredUser } from '@/stores/session-store'
 import type { User } from '@/types/domain'
+import { useDraftSync } from './use-draft-sync'
 import { useNavBadges, type NavBadges } from './use-nav-badges'
 import { usePageMeta, type PageMeta } from './use-page-meta'
 
@@ -18,6 +19,7 @@ export interface ShellState {
 export function useShell(): ShellState {
   const user = useRequiredUser()
   const isDirectorate = user.role === 'directorate'
+  useDraftSync(!isDirectorate)
   return {
     user,
     navigation: navigationFor(user.role, user.activeGroupStatus, user.powers),

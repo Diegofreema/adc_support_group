@@ -48,6 +48,10 @@ export interface GroupAuditEntry {
   action: string
   actorName: string
   actorIsStaff: boolean
+  /** "Secretary", "Chairman"…; none for plain members and staff. */
+  actorTitle?: string
+  /** Who or what was acted on, when the backend can still name it. */
+  targetName?: string
   details: Record<string, unknown>
   at: string
 }

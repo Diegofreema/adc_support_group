@@ -19,20 +19,20 @@ export function MembersPage() {
   const list = useMemberList(groupId)
   const actions = useMemberActions()
   const chapters = useChapterOptions(groupId)
-  const exportMembers = useExportMembers()
+  const exportMembers = useExportMembers(groupId)
   const locked = useGroupLocked()
   const viewer = useRequiredUser()
 
   const headerActions = (
     <>
-      <Button icon={Download} onClick={() => exportMembers(list.filtered)}>Export</Button>
+      <Button icon={Download} disabled={exportMembers.isPending} onClick={() => exportMembers.mutate(list.query)}>Export</Button>
       {!locked && <Link to="/members/add" className={buttonClassName('primary')}><UserPlus className="i" aria-hidden />Add</Link>}
     </>
   )
 
   return (
     <>
-      <PageHeader title="Members" subtitle={`${formatNumber(list.all.length)} people`} actions={headerActions} />
+      <PageHeader title="Members" subtitle={`${formatNumber(list.count)} people`} actions={headerActions} />
       <SearchInput value={list.search} onChange={list.setSearch} placeholder="Name or phone" />
       <div className="mt-3"><FilterPills options={list.filterOptions} value={list.filter} onChange={list.setFilter} label="Filter members" /></div>
       <div className="mt-4"><MembersBody list={list} onOpen={actions.open} /></div>
@@ -45,5 +45,5 @@ export function MembersPage() {
 function MembersBody({ list, onOpen }: { list: ReturnType<typeof useMemberList>; onOpen: Parameters<typeof MembersTable>[0]['onOpen'] }) {
   if (list.isLoading) return <PageLoader />
   if (list.error) return <ErrorState title="Could not load members" error={list.error} onRetry={list.retry} />
-  return <MembersTable members={list.pageData.items} onOpen={onOpen} />
+  return <MembersTable members={list.rows} onOpen={onOpen} />
 }

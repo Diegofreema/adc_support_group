@@ -1,4 +1,5 @@
 import { invokeFunction } from '@/lib/edge-functions'
+import { shrinkForUpload } from '@/lib/image'
 import { rpc, supabase } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { Cause, CauseStatus, Payment, PaymentMethod, PaymentPurpose, PaymentStatus } from '@/types/domain'
@@ -148,7 +149,9 @@ const PROOF_TYPES: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 
 const MAX_PROOF_BYTES = 10 * 1024 * 1024
 
 /** Upload the receipt to the private proofs bucket; returns its storage path. */
-async function uploadProof(groupId: string, file: File): Promise<string> {
+async function uploadProof(groupId: string, original: File): Promise<string> {
+  // Shrink first: a camera photo of a receipt is several MB; PDFs pass through.
+  const file = await shrinkForUpload(original)
   const ext = PROOF_TYPES[file.type]
   if (!ext) throw new Error('Proof must be a photo (JPG, PNG, WebP) or a PDF')
   if (file.size > MAX_PROOF_BYTES) throw new Error('Proof must be under 10 MB')

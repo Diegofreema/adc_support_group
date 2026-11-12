@@ -12,6 +12,21 @@ export interface MemberRecord extends Member {
 /** Filter pill value: a fixed filter or "chapter:<id>". */
 export type MemberFilter = 'all' | 'link' | 'excel' | 'executives' | `chapter:${string}`
 
+/** What the roster RPC is asked for. */
+export interface RosterQuery {
+  filter: MemberFilter
+  search: string
+  limit: number
+  offset: number
+}
+
+/** One page of the roster; `leader` is the group's leader, who has no membership row. */
+export interface MemberPage {
+  total: number
+  rows: MemberRecord[]
+  leader: MemberRecord | null
+}
+
 export interface ChapterOption {
   id: string
   name: string

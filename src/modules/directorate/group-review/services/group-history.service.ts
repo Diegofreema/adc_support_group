@@ -10,6 +10,10 @@ interface AuditJson {
   action: string
   actor_name: string | null
   actor_is_staff: boolean | null
+  /** The leader's title or the member's title in the group today. */
+  actor_title: string | null
+  /** The person, activity title or chapter name acted on. */
+  target_name: string | null
   details: Record<string, unknown> | null
   at: string
 }
@@ -20,6 +24,8 @@ function toEntry(row: AuditJson): GroupAuditEntry {
     action: row.action,
     actorName: row.actor_name ?? 'Someone',
     actorIsStaff: Boolean(row.actor_is_staff),
+    actorTitle: row.actor_title?.trim() || undefined,
+    targetName: row.target_name?.trim() || undefined,
     details: row.details ?? {},
     at: row.at,
   }
