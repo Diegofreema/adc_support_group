@@ -9,18 +9,16 @@ import { RegisterDoneDialog } from '../components/register/RegisterDoneDialog'
 import { RegisterGroupStep } from '../components/register/RegisterGroupStep'
 import { RegisterLeaderStep } from '../components/register/RegisterLeaderStep'
 import { RegisterWhereStep } from '../components/register/RegisterWhereStep'
-import { LoginLink } from '../components/shared/LoginLink'
+import { EntryTopAction } from '../components/shared/EntryTopAction'
 import { useRegisterFlow, useRegistrationDraft } from '../hooks/use-register-flow'
 import type { RegistrationDraft } from '../types/auth.types'
-import { useSessionUser } from '@/stores/session-store'
 
 export function RegisterGroupPage() {
   const { edit } = useSearch({ from: '/register' })
-  const signedIn = Boolean(useSessionUser())
   return (
     <AuthLayout
       headline={edit ? <>Update your group.<br /><span>Then we check again.</span></> : <>Start a group.<br /><span>Grow it here.</span></>}
-      topAction={signedIn ? undefined : <LoginLink />}
+      topAction={<EntryTopAction />}
     >
       {edit ? <EditWizard /> : <RegisterWizard />}
     </AuthLayout>

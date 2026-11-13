@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js'
 
 import { refreshSessionUser } from './session.service'
 import { invokeFunction } from '@/lib/edge-functions'
+import { homeFor } from '@/lib/route-guards'
 import { normalisePhone } from '@/lib/phone'
 import { supabase } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
@@ -51,8 +52,5 @@ export async function logout(): Promise<void> {
   await supabase.auth.signOut()
 }
 
-/** Where each role lands after logging in (members without a polling unit pick one first). */
-export function homePathFor(user: User): string {
-  if (user.role === 'directorate') return '/admin'
-  return user.needsVotingArea ? '/voting-area' : '/home'
-}
+/** Where each role lands after logging in (see homeFor). */
+export const homePathFor = homeFor

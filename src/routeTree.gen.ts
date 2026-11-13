@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as GetStartedRouteImport } from './routes/get-started'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SetPasswordRouteImport } from './routes/set-password'
 import { Route as VotingAreaRouteImport } from './routes/voting-area'
@@ -73,6 +74,11 @@ const AppRoute = AppRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GetStartedRoute = GetStartedRouteImport.update({
+  id: '/get-started',
+  path: '/get-started',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterRoute = RegisterRouteImport.update({
@@ -321,6 +327,7 @@ const AppMoneyIncomeNewRoute = AppMoneyIncomeNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/get-started': typeof GetStartedRoute
   '/register': typeof RegisterRoute
   '/set-password': typeof SetPasswordRoute
   '/voting-area': typeof VotingAreaRoute
@@ -372,6 +379,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/get-started': typeof GetStartedRoute
   '/register': typeof RegisterRoute
   '/set-password': typeof SetPasswordRoute
   '/voting-area': typeof VotingAreaRoute
@@ -426,6 +434,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
   '/admin': typeof AdminRouteWithChildren
+  '/get-started': typeof GetStartedRoute
   '/register': typeof RegisterRoute
   '/set-password': typeof SetPasswordRoute
   '/voting-area': typeof VotingAreaRoute
@@ -480,6 +489,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/get-started'
     | '/register'
     | '/set-password'
     | '/voting-area'
@@ -531,6 +541,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/get-started'
     | '/register'
     | '/set-password'
     | '/voting-area'
@@ -584,6 +595,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/admin'
+    | '/get-started'
     | '/register'
     | '/set-password'
     | '/voting-area'
@@ -638,6 +650,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   AdminRoute: typeof AdminRouteWithChildren
+  GetStartedRoute: typeof GetStartedRoute
   RegisterRoute: typeof RegisterRoute
   SetPasswordRoute: typeof SetPasswordRoute
   VotingAreaRoute: typeof VotingAreaRoute
@@ -665,6 +678,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/get-started': {
+      id: '/get-started'
+      path: '/get-started'
+      fullPath: '/get-started'
+      preLoaderRoute: typeof GetStartedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register': {
@@ -1114,6 +1134,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   AdminRoute: AdminRouteWithChildren,
+  GetStartedRoute: GetStartedRoute,
   RegisterRoute: RegisterRoute,
   SetPasswordRoute: SetPasswordRoute,
   VotingAreaRoute: VotingAreaRoute,

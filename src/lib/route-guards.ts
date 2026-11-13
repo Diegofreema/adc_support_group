@@ -4,9 +4,14 @@ import { sessionStore } from '@/stores/session-store'
 import { hasPower } from './permissions'
 import type { Power, Role, User } from '@/types/domain'
 
-function homeFor(user: User): string {
+/**
+ * Where someone lands: staff → /admin; everyone else picks a polling unit
+ * first, then joins or starts a group (/get-started), then /home.
+ */
+export function homeFor(user: User): string {
   if (user.role === 'directorate') return '/admin'
-  return user.needsVotingArea ? '/voting-area' : '/home'
+  if (user.needsVotingArea) return '/voting-area'
+  return user.activeGroupId ? '/home' : '/get-started'
 }
 
 /** beforeLoad guard: must be logged in with one of these roles. Logged out → login, then back here. */
@@ -33,10 +38,10 @@ export function redirectIfLoggedIn() {
   if (user) throw redirect({ to: homeFor(user) })
 }
 
-/** beforeLoad guard: pages about "my group" need one. /home explains what to do otherwise. */
+/** beforeLoad guard: home and "my group" need a group. Without one → join or start one. */
 export function requireGroup() {
   const user = sessionStore.getUser()
-  if (user && !user.activeGroupId) throw redirect({ to: '/home' })
+  if (user && !user.activeGroupId) throw redirect({ to: '/get-started' })
 }
 
 /**

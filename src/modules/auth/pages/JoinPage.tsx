@@ -8,18 +8,16 @@ import { JoinDetailsStep } from '../components/join/JoinDetailsStep'
 import { JoinDoneDialog } from '../components/join/JoinDoneDialog'
 import { JoinInviteStep } from '../components/join/JoinInviteStep'
 import { JoinPhoneStep } from '../components/join/JoinPhoneStep'
-import { LoginLink } from '../components/shared/LoginLink'
+import { EntryTopAction } from '../components/shared/EntryTopAction'
 import { useInvite } from '../hooks/use-invite'
 import { useJoinFlow } from '../hooks/use-join-flow'
 import type { Invite } from '../types/auth.types'
-import { useSessionUser } from '@/stores/session-store'
 
 export function JoinPage() {
   const { code } = useParams({ from: '/join/$code' })
   const { data: invite, isError } = useInvite(code)
-  const signedIn = useSessionUser()
   return (
-    <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={signedIn ? undefined : <LoginLink redirect={`/join/${code}`} />}>
+    <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={<EntryTopAction loginRedirect={`/join/${code}`} />}>
       {isError && <EmptyState icon={Link2Off} title="Link not found" />}
       {invite && <JoinWizard invite={invite} />}
     </AuthLayout>
