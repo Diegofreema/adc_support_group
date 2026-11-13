@@ -663,3 +663,15 @@ a.list-item:hover .chev { transform: translateX(3px); color: var(--text); }
 /* Hide the browser's own reveal button (Edge) so there is one eye. */
 .password-field input::-ms-reveal, .password-field input::-ms-clear { display: none; }
 
+
+/* ── Strength map (Directorate → Strength). The 3-D map sits on the ink panel. ── */
+.strength-map { position: relative; isolation: isolate; height: 520px; overflow: hidden; border-radius: var(--r); border: 1px solid var(--line-2); background: var(--ink); }
+@media (max-width: 767px) { .strength-map { height: 380px; } }
+.strength-map-card { position: absolute; left: 12px; top: 12px; z-index: 1; pointer-events: none; }
+.strength-hover { min-width: 180px; padding: 8px 12px; border: 1px solid var(--ink-line); border-radius: var(--r); background: rgba(20, 24, 29, .94); color: var(--ink-text); font-size: .75rem; }
+.strength-hover .row-between { gap: 12px; }
+.strength-hover-title { font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; font-weight: 600; }
+.strength-hover-sub { color: #9AA3AB; font-size: .6875rem; margin-bottom: 2px; }
+.strength-legend { position: absolute; left: 12px; bottom: 10px; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--ink-text); font-size: .6875rem; pointer-events: none; }
+.strength-legend span { display: inline-block; width: 18px; height: 8px; border-radius: 2px; }
+.strength-legend span + span { margin-left: -6px; }

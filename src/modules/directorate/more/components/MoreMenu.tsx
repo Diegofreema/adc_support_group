@@ -1,4 +1,4 @@
-import { FileSpreadsheet, Send, Settings, Target, type LucideIcon } from 'lucide-react'
+import { FileSpreadsheet, MapPinned, Send, Settings, Target, type LucideIcon } from 'lucide-react'
 
 import { IconTile, List, ListItem } from '@/components/shared'
 
@@ -9,6 +9,7 @@ interface MenuEntry {
 }
 
 const ENTRIES: MenuEntry[] = [
+  { to: '/admin/strength', label: 'Strength', icon: MapPinned },
   { to: '/admin/causes', label: 'Funding causes', icon: Target },
   { to: '/admin/messages', label: 'Messages', icon: Send },
   { to: '/admin/reports', label: 'Reports', icon: FileSpreadsheet },

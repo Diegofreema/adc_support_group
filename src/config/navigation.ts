@@ -1,6 +1,6 @@
 import {
   BarChart3, Banknote, Bell, CalendarDays, CircleUserRound, ContactRound, FileSpreadsheet, House, LayoutGrid,
-  Megaphone, Network, Send, Settings, ShieldCheck, Target, Trophy, UsersRound, Wallet, type LucideIcon,
+  MapPinned, Megaphone, Network, Send, Settings, ShieldCheck, Target, Trophy, UsersRound, Wallet, type LucideIcon,
 } from 'lucide-react'
 
 import type { GroupStatus, Power, Role } from '@/types/domain'
@@ -79,6 +79,7 @@ const directorateNav: RoleNavigation = {
       title: 'Directorate',
       items: [
         { to: '/admin', label: 'Overview', icon: BarChart3 },
+        { to: '/admin/strength', label: 'Strength', icon: MapPinned },
         { to: '/admin/groups', label: 'Groups to verify', icon: ShieldCheck, badgeKey: 'groupsToVerify' },
         { to: '/admin/activities', label: 'Activities', icon: Megaphone, badgeKey: 'activitiesToCheck' },
       ],
@@ -104,7 +105,7 @@ const directorateNav: RoleNavigation = {
     { to: '/admin/groups', label: 'Groups', icon: ShieldCheck },
     { to: '/admin/activities', label: 'Activities', icon: Megaphone },
     { to: '/admin/payments', label: 'Money', icon: Banknote },
-    { to: '/admin/more', label: 'More', icon: LayoutGrid, matches: ['/admin/causes', '/admin/messages', '/admin/reports', '/admin/settings'] },
+    { to: '/admin/more', label: 'More', icon: LayoutGrid, matches: ['/admin/strength', '/admin/causes', '/admin/messages', '/admin/reports', '/admin/settings'] },
   ],
 }
 

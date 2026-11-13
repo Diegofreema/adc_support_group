@@ -18,6 +18,7 @@ interface ProfileRow {
   email: string | null
   role: string
   status: string
+  polling_unit_code: string | null
 }
 
 interface MySupportGroup {
@@ -65,13 +66,15 @@ export function toUser(profile: ProfileRow, mine: MySupportGroup | null): User {
     powerChapterId: mine?.power_chapter_id ?? undefined,
     chapterName: mine?.membership?.chapter_name ?? undefined,
     stateAdmin: profile.role === 'state_admin' || undefined,
+    // Staff have no voting area; everyone else picks their polling unit first.
+    needsVotingArea: (!(profile.role in STAFF_TITLES) && !profile.polling_unit_code) || undefined,
   }
 }
 
 async function userFor(session: Session): Promise<User | null> {
   const { data: profile, error } = await supabase
     .from('profiles')
-    .select('id, full_name, phone, email, role, status')
+    .select('id, full_name, phone, email, role, status, polling_unit_code')
     .eq('id', session.user.id)
     .maybeSingle<ProfileRow>()
   if (error) throw new Error(error.message)

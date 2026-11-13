@@ -62,7 +62,12 @@ Agreed with the product owner on 2026-11-12, after an audit of the app. The goal
 
 ## Not in scope
 
-- Election-day and polling-unit features.
+- Election-day features (agents, results).
+
+## Voting areas (added 2026-11)
+
+- Every member picks the polling unit where they vote, once, before using the app (staff excepted). It is checked against the INEC list (`set_my_voting_area`) and can be changed on the profile.
+- The Directorate sees support by polling unit: strongest and weakest units, members per 1,000 registered voters, and a map.
 
 ## Phases
 

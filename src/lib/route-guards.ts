@@ -5,7 +5,8 @@ import { hasPower } from './permissions'
 import type { Power, Role, User } from '@/types/domain'
 
 function homeFor(user: User): string {
-  return user.role === 'directorate' ? '/admin' : '/home'
+  if (user.role === 'directorate') return '/admin'
+  return user.needsVotingArea ? '/voting-area' : '/home'
 }
 
 /** beforeLoad guard: must be logged in with one of these roles. Logged out → login, then back here. */
@@ -15,6 +16,15 @@ export function requireRole(roles: Role[]) {
     if (!user) throw redirect({ to: '/', search: { redirect: safeRedirectPath(location.href) } })
     if (!roles.includes(user.role)) throw redirect({ to: homeFor(user) })
   }
+}
+
+/**
+ * beforeLoad guard for the signed-in app: someone without a polling unit picks
+ * one first (/voting-area), then comes back here.
+ */
+export function requireVotingArea({ location }: { location: { href: string } }) {
+  const user = sessionStore.getUser()
+  if (user?.needsVotingArea) throw redirect({ to: '/voting-area', search: { redirect: safeRedirectPath(location.href) } })
 }
 
 /** beforeLoad guard for public pages: logged-in users skip login. */

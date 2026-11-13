@@ -44,6 +44,8 @@ export interface User {
   chapterName?: string
   /** Directorate: a state admin sees one state and none of the national settings. */
   stateAdmin?: boolean
+  /** Not staff and no polling unit yet: the voting-area step comes before anything else. */
+  needsVotingArea?: boolean
 }
 
 export interface Group extends Place {

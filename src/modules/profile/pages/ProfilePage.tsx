@@ -11,6 +11,7 @@ import { EmailSection } from '../components/EmailSection'
 import { LeaveGroupConfirm } from '../components/LeaveGroupConfirm'
 import { ProfileDetailsForm } from '../components/ProfileDetailsForm'
 import { ProfileHeader } from '../components/ProfileHeader'
+import { VotingAreaCard } from '../components/VotingAreaCard'
 import { SecurityList } from '../components/SecurityList'
 import { useAccountDeletion } from '../hooks/use-account-deletion'
 import { useLeaveGroup } from '../hooks/use-leave-group'
@@ -29,6 +30,7 @@ export function ProfilePage() {
       <ProfileHeader name={profile.fullName} phone={profile.phone} />
       {profile.pendingDeletion && <DeletionPendingCard pending={profile.pendingDeletion} onCancel={deletion.cancel} isPending={deletion.isPending} />}
       <ProfileDetailsForm profile={profile} />
+      <VotingAreaCard area={profile.votingArea} />
       <EmailSection profile={profile} />
       <MyGroupsList groups={profile.groups} />
       <DeliveryNote profile={profile} />

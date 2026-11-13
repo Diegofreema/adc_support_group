@@ -14,6 +14,11 @@ interface ProfileRow {
   state: string | null
   lga: string | null
   ward: string | null
+  voting_state: string | null
+  voting_lga: string | null
+  voting_ward: string | null
+  polling_unit_code: string | null
+  polling_unit_name: string | null
 }
 
 interface MySupportGroup {
@@ -46,7 +51,7 @@ function groupsOf(mine: MySupportGroup): MyGroup[] {
 async function readProfileRow(userId: string): Promise<ProfileRow> {
   const { data, error } = await supabase
     .from('profiles')
-    .select('full_name, phone, email, state, lga, ward')
+    .select('full_name, phone, email, state, lga, ward, voting_state, voting_lga, voting_ward, polling_unit_code, polling_unit_name')
     .eq('id', userId)
     .single<ProfileRow>()
   if (error) throw new Error(error.message)
@@ -70,6 +75,9 @@ export async function fetchProfile(userId: string): Promise<Profile> {
     state: row.state ?? '',
     lga: row.lga ?? '',
     ward: row.ward ?? '',
+    votingArea: row.polling_unit_code
+      ? { state: row.voting_state ?? '', lga: row.voting_lga ?? '', ward: row.voting_ward ?? '', pollingUnitCode: row.polling_unit_code, pollingUnitName: row.polling_unit_name ?? '' }
+      : null,
     groups: groupsOf(mine),
     isLeader: mine.is_leader,
     pendingDeletion: toPendingDeletion(mine.pending_deletion),

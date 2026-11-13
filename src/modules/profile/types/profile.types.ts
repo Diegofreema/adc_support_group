@@ -1,4 +1,5 @@
 import type { MyGroup } from '@/modules/home'
+import type { VotingArea } from '@/modules/voting-area'
 
 export interface Profile {
   fullName: string
@@ -9,6 +10,8 @@ export interface Profile {
   state: string
   lga: string
   ward: string
+  /** Where they vote (null until chosen). */
+  votingArea: VotingArea | null
   groups: MyGroup[]
   isLeader: boolean
   /** Set while a "delete my details" request waits its 7 days. */

@@ -14,6 +14,7 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as SetPasswordRouteImport } from './routes/set-password'
+import { Route as VotingAreaRouteImport } from './routes/voting-area'
 import { Route as AppGroupRouteImport } from './routes/_app/group'
 import { Route as AppHomeRouteImport } from './routes/_app/home'
 import { Route as AppLeaderboardRouteImport } from './routes/_app/leaderboard'
@@ -29,6 +30,7 @@ import { Route as AdminMoreRouteImport } from './routes/admin/more'
 import { Route as AdminPaymentsRouteImport } from './routes/admin/payments'
 import { Route as AdminReportsRouteImport } from './routes/admin/reports'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
+import { Route as AdminStrengthRouteImport } from './routes/admin/strength'
 import { Route as JoinCodeRouteImport } from './routes/join.$code'
 import { Route as AppActivitiesIndexRouteImport } from './routes/_app/activities/index'
 import { Route as AppActivitiesActivityIdRouteImport } from './routes/_app/activities/$activityId'
@@ -81,6 +83,11 @@ const RegisterRoute = RegisterRouteImport.update({
 const SetPasswordRoute = SetPasswordRouteImport.update({
   id: '/set-password',
   path: '/set-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VotingAreaRoute = VotingAreaRouteImport.update({
+  id: '/voting-area',
+  path: '/voting-area',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppGroupRoute = AppGroupRouteImport.update({
@@ -156,6 +163,11 @@ const AdminReportsRoute = AdminReportsRouteImport.update({
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStrengthRoute = AdminStrengthRouteImport.update({
+  id: '/strength',
+  path: '/strength',
   getParentRoute: () => AdminRoute,
 } as any)
 const JoinCodeRoute = JoinCodeRouteImport.update({
@@ -311,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/register': typeof RegisterRoute
   '/set-password': typeof SetPasswordRoute
+  '/voting-area': typeof VotingAreaRoute
   '/group': typeof AppGroupRoute
   '/home': typeof AppHomeRoute
   '/leaderboard': typeof AppLeaderboardRoute
@@ -325,6 +338,7 @@ export interface FileRoutesByFullPath {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/strength': typeof AdminStrengthRoute
   '/join/$code': typeof JoinCodeRoute
   '/admin/': typeof AdminIndexRoute
   '/activities/$activityId': typeof AppActivitiesActivityIdRoute
@@ -360,6 +374,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/register': typeof RegisterRoute
   '/set-password': typeof SetPasswordRoute
+  '/voting-area': typeof VotingAreaRoute
   '/group': typeof AppGroupRoute
   '/home': typeof AppHomeRoute
   '/leaderboard': typeof AppLeaderboardRoute
@@ -374,6 +389,7 @@ export interface FileRoutesByTo {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/strength': typeof AdminStrengthRoute
   '/join/$code': typeof JoinCodeRoute
   '/admin': typeof AdminIndexRoute
   '/activities/$activityId': typeof AppActivitiesActivityIdRoute
@@ -412,6 +428,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/register': typeof RegisterRoute
   '/set-password': typeof SetPasswordRoute
+  '/voting-area': typeof VotingAreaRoute
   '/_app/group': typeof AppGroupRoute
   '/_app/home': typeof AppHomeRoute
   '/_app/leaderboard': typeof AppLeaderboardRoute
@@ -426,6 +443,7 @@ export interface FileRoutesById {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/strength': typeof AdminStrengthRoute
   '/join/$code': typeof JoinCodeRoute
   '/admin/': typeof AdminIndexRoute
   '/_app/activities/$activityId': typeof AppActivitiesActivityIdRoute
@@ -464,6 +482,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/register'
     | '/set-password'
+    | '/voting-area'
     | '/group'
     | '/home'
     | '/leaderboard'
@@ -478,6 +497,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/reports'
     | '/admin/settings'
+    | '/admin/strength'
     | '/join/$code'
     | '/admin/'
     | '/activities/$activityId'
@@ -513,6 +533,7 @@ export interface FileRouteTypes {
     | '/'
     | '/register'
     | '/set-password'
+    | '/voting-area'
     | '/group'
     | '/home'
     | '/leaderboard'
@@ -527,6 +548,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/reports'
     | '/admin/settings'
+    | '/admin/strength'
     | '/join/$code'
     | '/admin'
     | '/activities/$activityId'
@@ -564,6 +586,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/register'
     | '/set-password'
+    | '/voting-area'
     | '/_app/group'
     | '/_app/home'
     | '/_app/leaderboard'
@@ -578,6 +601,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/reports'
     | '/admin/settings'
+    | '/admin/strength'
     | '/join/$code'
     | '/admin/'
     | '/_app/activities/$activityId'
@@ -616,6 +640,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   RegisterRoute: typeof RegisterRoute
   SetPasswordRoute: typeof SetPasswordRoute
+  VotingAreaRoute: typeof VotingAreaRoute
   JoinCodeRoute: typeof JoinCodeRoute
 }
 
@@ -654,6 +679,13 @@ declare module '@tanstack/react-router' {
       path: '/set-password'
       fullPath: '/set-password'
       preLoaderRoute: typeof SetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/voting-area': {
+      id: '/voting-area'
+      path: '/voting-area'
+      fullPath: '/voting-area'
+      preLoaderRoute: typeof VotingAreaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/group': {
@@ -759,6 +791,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/admin/settings'
       preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/strength': {
+      id: '/admin/strength'
+      path: '/strength'
+      fullPath: '/admin/strength'
+      preLoaderRoute: typeof AdminStrengthRouteImport
       parentRoute: typeof AdminRoute
     }
     '/join/$code': {
@@ -1049,6 +1088,7 @@ interface AdminRouteChildren {
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminReportsRoute: typeof AdminReportsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminStrengthRoute: typeof AdminStrengthRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminGroupsGroupIdRoute: typeof AdminGroupsGroupIdRoute
   AdminGroupsIndexRoute: typeof AdminGroupsIndexRoute
@@ -1062,6 +1102,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminReportsRoute: AdminReportsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
+  AdminStrengthRoute: AdminStrengthRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminGroupsGroupIdRoute: AdminGroupsGroupIdRoute,
   AdminGroupsIndexRoute: AdminGroupsIndexRoute,
@@ -1075,6 +1116,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   RegisterRoute: RegisterRoute,
   SetPasswordRoute: SetPasswordRoute,
+  VotingAreaRoute: VotingAreaRoute,
   JoinCodeRoute: JoinCodeRoute,
 }
 export const routeTree = rootRouteImport

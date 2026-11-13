@@ -51,7 +51,8 @@ export async function logout(): Promise<void> {
   await supabase.auth.signOut()
 }
 
-/** Where each role lands after logging in. */
+/** Where each role lands after logging in (members without a polling unit pick one first). */
 export function homePathFor(user: User): string {
-  return user.role === 'directorate' ? '/admin' : '/home'
+  if (user.role === 'directorate') return '/admin'
+  return user.needsVotingArea ? '/voting-area' : '/home'
 }
