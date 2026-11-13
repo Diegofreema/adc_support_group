@@ -1,4 +1,5 @@
 /** Minimal CSV handling for member uploads (no quoted commas inside cells). */
+import { neutraliseFormula } from '@/lib/csv-safe'
 
 function splitLine(line: string): string[] {
   return line.split(',').map((cell) => cell.trim().replace(/^"|"$/g, ''))
@@ -16,8 +17,8 @@ export function parseCsv(text: string): { headers: string[]; rows: Record<string
 }
 
 function escapeCell(value: string | number): string {
-  const text = String(value)
-  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
+  const text = typeof value === 'string' ? neutraliseFormula(value) : String(value)
+  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
 }
 
 export function toCsv(headers: string[], rows: (string | number)[][]): string {

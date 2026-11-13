@@ -1,7 +1,8 @@
+import { neutraliseFormula } from '@/lib/csv-safe'
 import type { ExportTable } from '../types'
 
 function cell(value: string | number | null | undefined): string {
-  const text = value === null || value === undefined ? '' : String(value)
+  const text = value === null || value === undefined ? '' : typeof value === 'string' ? neutraliseFormula(value) : String(value)
   return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text
 }
 
