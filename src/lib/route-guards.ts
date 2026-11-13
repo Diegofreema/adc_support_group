@@ -51,8 +51,20 @@ export function requirePower(power: Power) {
   }
 }
 
-/** Only internal paths ("/join/abc"), never "//evil.com" or "https://…". */
+const PROBE_ORIGIN = 'https://adc.invalid'
+
+/**
+ * Only internal paths ("/join/abc"), never "//evil.com", "https://…", or a
+ * path with backslashes or control characters that a browser may normalise
+ * into another origin.
+ */
 export function safeRedirectPath(value: unknown): string | undefined {
-  if (typeof value !== 'string') return undefined
-  return value.startsWith('/') && !value.startsWith('//') && !value.startsWith('/\\') ? value : undefined
+  if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) return undefined
+  // eslint-disable-next-line no-control-regex -- rejecting control characters is the point
+  if (/[\\\u0000-\u001f\u007f]/.test(value)) return undefined
+  try {
+    return new URL(value, PROBE_ORIGIN).origin === PROBE_ORIGIN ? value : undefined
+  } catch {
+    return undefined
+  }
 }

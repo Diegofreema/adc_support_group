@@ -3,6 +3,8 @@ import { ExternalLink, Play } from 'lucide-react'
 import { IconTile } from '@/components/shared'
 
 export function ActivityVideoLink({ url }: { url: string }) {
+  // Only web links open: never javascript: or data: from an older row.
+  if (!/^https:\/\//i.test(url)) return null
   return (
     <a className="list-item card mt-4 !min-h-0 !px-4 !py-3.5" href={url} target="_blank" rel="noreferrer">
       <IconTile icon={Play} tone="grey" />
