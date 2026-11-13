@@ -45,7 +45,8 @@ export function useJoinFlow(invite: Invite | undefined) {
       return joinGroup(values, invite!, challengeId)
     },
     onSuccess: (result: JoinResult) => {
-      if (!result.emailSaved) notify("You're in, but your email wasn't saved. Add it in your profile.", 'error')
+      if (result.email && result.emailCodeSent) notify(`We sent a code to ${result.email}. Enter it in your profile to add your email.`)
+      if (result.email && !result.emailCodeSent) notify("You're in, but we couldn't send a code to your email. Add it in your profile.", 'error')
       done.open()
     },
   })

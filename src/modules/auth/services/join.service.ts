@@ -2,7 +2,8 @@ import { refreshSessionUser } from './session.service'
 import { completeSignup } from './verification.service'
 import type { Invite } from '../types/auth.types'
 import type { JoinValues } from '../utils/schemas'
-import { rpc, supabase } from '@/lib/supabase'
+import { invokeFunction } from '@/lib/edge-functions'
+import { rpc } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { GroupStatus, User } from '@/types/domain'
 
@@ -41,16 +42,26 @@ async function joinByCode(code: string): Promise<User> {
   return user
 }
 
-/** Save the optional email on the person's own profile (RLS allows self-update). */
-async function saveEmail(userId: string, email: string): Promise<boolean> {
-  const { error } = await supabase.from('profiles').update({ email: email.trim().toLowerCase() }).eq('id', userId)
-  return !error
+/**
+ * Send a code to the optional email. It only goes on the profile once the
+ * person enters that code (Profile → Email), so nobody can claim an address
+ * they don't own.
+ */
+async function sendEmailCode(email: string): Promise<boolean> {
+  try {
+    await invokeFunction('auth-email-verify-initiate', { email: email.trim() })
+    return true
+  } catch {
+    return false
+  }
 }
 
 export interface JoinResult {
   user: User
-  /** False when an email was given but couldn't be saved (the join itself worked). */
-  emailSaved: boolean
+  /** No email was given, or one was and a confirmation code went to it. */
+  emailCodeSent: boolean
+  /** The email that was given, if any. */
+  email?: string
 }
 
 /**
@@ -70,10 +81,8 @@ export async function joinGroup(values: JoinValues, invite: Invite, challengeId:
     gender: GENDERS[values.gender],
   })
   const user = await joinByCode(invite.code)
-  if (!values.email) return { user, emailSaved: true }
-  const emailSaved = await saveEmail(user.id, values.email)
-  const refreshed = emailSaved ? await refreshSessionUser().catch(() => null) : null
-  return { user: refreshed ?? user, emailSaved }
+  if (!values.email) return { user, emailCodeSent: true }
+  return { user, emailCodeSent: await sendEmailCode(values.email), email: values.email.trim() }
 }
 
 /** Someone already signed in opens a join link: one tap. */
