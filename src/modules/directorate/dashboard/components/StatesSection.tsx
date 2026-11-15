@@ -15,6 +15,7 @@ export function StatesSection({ rows }: { rows: StateRow[] }) {
       <SectionTitle title="By state" action={<Link to="/admin/reports">Export</Link>} />
       <div className="mb-3"><ZonePills value={zone} onChange={setZone} /></div>
       <StateTable rows={statesInZone(rows, zone)} />
+      <p className="small muted mt-2">Members are counted once each. Someone in groups in more than one state is counted in each of those states.</p>
     </section>
   )
 }

@@ -1,6 +1,6 @@
 import { formatNumber } from '@/lib/format'
 
-/** "2.4" members per 1,000 voters, or "—" with no voter count. */
+/** "2.4" supporters per 1,000 voters, or "—" with no voter count. */
 export function formatPer1000(value: number | null): string {
   return value === null ? '—' : value.toFixed(value >= 10 ? 0 : 1)
 }

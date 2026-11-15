@@ -15,7 +15,7 @@ function areaLabel(level: StrengthLevel, row: StrengthArea): string {
 export function AreaTable({ level, rows, onOpen }: { level: StrengthLevel; rows: StrengthArea[]; onOpen: (row: StrengthArea) => void }) {
   const columns: Column<StrengthArea>[] = [
     { key: 'area', header: HEADER[level], main: true, cell: (row) => <span className="bold">{areaLabel(level, row)}</span> },
-    { key: 'members', header: 'Members', numeric: true, cell: (row) => formatNumber(row.members) },
+    { key: 'members', header: 'Supporters', numeric: true, cell: (row) => formatNumber(row.members) },
     { key: 'voters', header: 'Voters', numeric: true, cell: (row) => formatNumber(row.voters) },
     { key: 'per1000', header: 'Per 1,000', numeric: true, cell: (row) => formatPer1000(row.per1000) },
   ]

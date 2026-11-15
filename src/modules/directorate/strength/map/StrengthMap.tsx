@@ -93,15 +93,15 @@ export default function StrengthMap({ strength, points, onOpenState }: Props) {
 function StateCard({ name, row }: { name: string; row: StrengthArea | undefined }) {
   return (
     <HoverCard title={name} rows={row ? [
-      ['Members', formatNumber(row.members)],
+      ['Supporters', formatNumber(row.members)],
       ['Per 1,000 voters', formatPer1000(row.per1000)],
       ['Units with none', `${formatNumber(row.unitsEmpty)} of ${formatNumber(row.units)}`],
-    ] : [['Members', '0']]} />
+    ] : [['Supporters', '0']]} />
   )
 }
 
 function UnitCard({ unit }: { unit: MapUnit }) {
-  return <HoverCard title={unit.code} subtitle={unit.lga} rows={[['Members', formatNumber(unit.members)]]} />
+  return <HoverCard title={unit.code} subtitle={unit.lga} rows={[['Supporters', formatNumber(unit.members)]]} />
 }
 
 function HoverCard({ title, subtitle, rows }: { title: string; subtitle?: string; rows: [string, string][] }) {
@@ -119,8 +119,8 @@ function Legend({ nation }: { nation: boolean }) {
     <div className="strength-legend">
       <span style={{ background: hexCss(strengthHex(0)) }} />{nation ? 'Weakest' : 'Fewest'}
       <span style={{ background: hexCss(strengthHex(0.5)) }} />
-      <span style={{ background: hexCss(strengthHex(1)) }} />{nation ? 'Strongest per 1,000 voters' : 'Most members'}
-      {!nation && <><span style={{ background: '#3a4d3e' }} />No members</>}
+      <span style={{ background: hexCss(strengthHex(1)) }} />{nation ? 'Strongest per 1,000 voters' : 'Most supporters'}
+      {!nation && <><span style={{ background: '#3a4d3e' }} />No supporters</>}
     </div>
   )
 }
