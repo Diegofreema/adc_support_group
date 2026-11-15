@@ -19,6 +19,14 @@ export interface ActivityOption {
 export interface PayerOption {
   id: string
   name: string
+  phone: string | null
+  email: string | null
+}
+
+/** One page of payer matches, and how many members match in all. */
+export interface PayerSearch {
+  total: number
+  payers: PayerOption[]
 }
 
 /**

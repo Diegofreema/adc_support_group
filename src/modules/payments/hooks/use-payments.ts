@@ -1,7 +1,9 @@
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, queryOptions, useQuery } from '@tanstack/react-query'
+
+import { useDebouncedValue } from '@/hooks/use-debounced-value'
 
 import {
-  getPayment, listActivityOptions, listChapters, listOpenCauses, listPayerOptions, listPayments,
+  getPayment, listActivityOptions, listChapters, listOpenCauses, listPayments, searchPayers,
 } from '../services/payments.service'
 
 export const paymentKeys = {
@@ -11,7 +13,7 @@ export const paymentKeys = {
   causes: () => [...paymentKeys.all, 'causes'] as const,
   chapters: () => [...paymentKeys.all, 'chapters'] as const,
   activities: () => [...paymentKeys.all, 'activity-options'] as const,
-  payers: () => [...paymentKeys.all, 'payer-options'] as const,
+  payers: (query: string) => [...paymentKeys.all, 'payer-search', query] as const,
   giving: (amount: number, payerId?: string) => [...paymentKeys.all, 'giving', amount, payerId ?? 'me'] as const,
 }
 
@@ -36,6 +38,14 @@ export function useActivityOptions() {
 }
 
 /** Leader only: the roster RPC refuses everyone else. */
-export function usePayerOptions(enabled: boolean) {
-  return useQuery(queryOptions({ queryKey: paymentKeys.payers(), queryFn: listPayerOptions, enabled }))
+/** Payer matches for what's typed; waits for a short pause in typing. */
+export function usePayerSearch(query: string, enabled: boolean) {
+  const settled = useDebouncedValue(query.trim().toLowerCase(), 250)
+  return useQuery(queryOptions({
+    queryKey: paymentKeys.payers(settled),
+    queryFn: () => searchPayers(settled),
+    enabled,
+    placeholderData: keepPreviousData,
+    staleTime: 60_000,
+  }))
 }

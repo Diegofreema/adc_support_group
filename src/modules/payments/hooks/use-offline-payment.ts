@@ -2,14 +2,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
 import { useWatch } from 'react-hook-form'
 
-import { offlinePaymentSchema, type OfflinePaymentForm } from '../utils/offline-schema'
+import { offlinePaymentSchema, PAYER_UNCHOSEN, type OfflinePaymentForm } from '../utils/offline-schema'
 import { parseAmount } from '../utils/amount'
 import { useGivingCheck } from './use-giving-check'
 import { usePayLookups } from './use-pay-lookups'
 import { useReportOfflinePayment } from './use-pay-mutation'
-import { usePayerOptions } from './use-payments'
 import { notify } from '@/lib/toast'
-import { hasPower } from '@/lib/permissions'
 import { useRequiredUser } from '@/stores/session-store'
 import { useAppForm } from '@/hooks/use-app-form'
 
@@ -24,7 +22,6 @@ export function useOfflinePayment() {
   const navigate = useNavigate()
   const user = useRequiredUser()
   const lookups = usePayLookups()
-  const payers = usePayerOptions(hasPower(user, 'money')).data ?? []
   const report = useReportOfflinePayment()
   const form = useAppForm<OfflinePaymentForm>({
     resolver: zodResolver(offlinePaymentSchema),
@@ -32,7 +29,7 @@ export function useOfflinePayment() {
   })
 
   const [payerField, amountField] = useWatch({ control: form.control, name: ['payerId', 'amount'] })
-  const payerId = payerField || undefined
+  const payerId = payerField && payerField !== PAYER_UNCHOSEN ? payerField : undefined
   const giving = useGivingCheck(parseAmount(amountField), payerId)
 
   const onValid = (values: OfflinePaymentForm) =>
@@ -40,5 +37,5 @@ export function useOfflinePayment() {
       onSuccess: () => { notify('Sent for check'); void navigate({ to: '/payments' }) },
     })
 
-  return { form, lookups, payers, leaderName: user.fullName, giving, givingForSomeoneElse: Boolean(payerId), submit: form.handleSubmit(onValid), isSending: report.isPending }
+  return { form, lookups, leaderName: user.fullName, giving, givingForSomeoneElse: Boolean(payerId), submit: form.handleSubmit(onValid), isSending: report.isPending }
 }

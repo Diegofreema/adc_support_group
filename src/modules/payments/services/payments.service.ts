@@ -4,7 +4,7 @@ import { rpc } from '@/lib/supabase'
 import { sessionStore } from '@/stores/session-store'
 import type { Cause, CauseStatus, Payment, PaymentMethod, PaymentPurpose, PaymentStatus } from '@/types/domain'
 import type {
-  ActivityOption, ChapterOption, FunzCheckout, GivingCheck, OfflinePaymentInput, PayDraft, PayerOption, PaymentCheck,
+  ActivityOption, ChapterOption, FunzCheckout, GivingCheck, OfflinePaymentInput, PayDraft, PayerSearch, PaymentCheck,
 } from '../types'
 
 /** private.support_group_payment_json */
@@ -114,17 +114,20 @@ export async function listActivityOptions(): Promise<ActivityOption[]> {
   return rows.map((row) => ({ id: row.id, title: row.title, date: `${row.occurred_on}T12:00:00` }))
 }
 
-const ROSTER_PAGE = 500
+const PAYER_MATCHES = 8
 
-/** Members the leader can name as the payer (get_support_group_roster is leader only). */
-export async function listPayerOptions(): Promise<PayerOption[]> {
-  const payers: PayerOption[] = []
-  for (let offset = 0; ; offset += ROSTER_PAGE) {
-    const page = await rpc<{ total: number; rows: { profile_id: string; full_name: string }[] }>(
-      'get_support_group_roster', { p_limit: ROSTER_PAGE, p_offset: offset },
-    )
-    payers.push(...page.rows.map((row) => ({ id: row.profile_id, name: row.full_name })))
-    if (payers.length >= page.total || page.rows.length === 0) return payers
+/**
+ * Members the leader can name as the payer, found by name, email or phone
+ * (get_support_group_roster is leader / executive only). Empty search: the
+ * first few, so there is something to tap before typing.
+ */
+export async function searchPayers(query: string): Promise<PayerSearch> {
+  const page = await rpc<{ total: number; rows: { profile_id: string; full_name: string; phone: string | null; email: string | null }[] }>(
+    'get_support_group_roster', { p_search: query.trim() || null, p_limit: PAYER_MATCHES },
+  )
+  return {
+    total: page.total,
+    payers: page.rows.map((row) => ({ id: row.profile_id, name: row.full_name, phone: row.phone, email: row.email })),
   }
 }
 

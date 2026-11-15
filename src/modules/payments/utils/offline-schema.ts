@@ -1,11 +1,14 @@
 import { z } from 'zod'
 
+/** payerId while the leader is choosing again (after "Change"). */
+export const PAYER_UNCHOSEN = 'unchosen'
+
 const PROOF_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf']
 
 export const offlinePaymentSchema = z.object({
   forId: z.string().min(1, 'What was it for?'),
   chapterId: z.string(),
-  payerId: z.string(),
+  payerId: z.string().refine((value) => value !== PAYER_UNCHOSEN, 'Choose who paid'),
   amount: z.string().refine((value) => {
     const amount = Number(value.replace(/\D/g, ''))
     return amount > 0 && amount <= 10_000_000

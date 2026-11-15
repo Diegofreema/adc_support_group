@@ -304,3 +304,36 @@ a.card:active, button.card:active { transform: scale(.99); box-shadow: var(--ele
 .board-place-1 { background: #F6D776; color: #6B4E00; }
 .board-place-2 { background: #DDE1E6; color: #3B4652; }
 .board-place-3 { background: #E9B98F; color: #6A3A12; }
+
+/* ==========================================================================
+   Combo box: search a long list and pick one (e.g. "Who paid")
+   ========================================================================== */
+.combo { position: relative; }
+.combo .input { padding-right: 48px; }
+.combo-spinner { position: absolute; right: 16px; top: 50%; margin-top: -9px; color: var(--text-3); }
+/* 44px clear button inside the field */
+.combo-clear { position: absolute; right: 5px; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: none; color: var(--text-3); border-radius: var(--r-sm); cursor: pointer; }
+.combo-clear .i { position: static; transform: none; }
+.combo-clear:active { background: var(--surface-4); transform: translateY(-50%) scale(.94); }
+/* The list drops from the field: fades and settles in (pose to pose, slow out) */
+.combo-panel {
+  position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 6px);
+  background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r);
+  box-shadow: var(--elev-3); overflow: hidden;
+  transform-origin: top center; animation: combo-in var(--dur-base) var(--ease-out);
+}
+@keyframes combo-in { from { opacity: 0; transform: translateY(-4px) scale(.98); } }
+.combo-list { max-height: min(340px, 50vh); overflow-y: auto; overscroll-behavior: contain; padding: 4px; margin: 0; list-style: none; }
+.combo-option { display: flex; gap: 12px; align-items: center; min-height: 52px; padding: 8px 10px; border-radius: var(--r-sm); cursor: pointer; transition: background-color var(--dur-fast) var(--ease-out); }
+.combo-option.is-active { background: var(--surface-3); }
+.combo-option:active { background: var(--surface-4); transform: scale(.99); }
+.combo-text { display: grid; min-width: 0; flex: 1; }
+.combo-label { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.combo-detail { font-size: .875rem; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.combo-status:empty { display: none; }
+.combo-status { margin: 0; padding: 10px 14px; border-top: 1px solid var(--line); font-size: .875rem; color: var(--text-2); }
+.combo-list:empty + .combo-status { border-top: 0; }
+/* Picked: the person, plus a big Change button */
+.combo-picked { display: flex; gap: 12px; align-items: center; min-height: 64px; padding: 10px 8px 10px 12px; border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--surface); animation: combo-in var(--dur-base) var(--ease-out); }
+.combo-picked.is-invalid { border-color: var(--red); }
+.combo-change { min-height: 48px; flex: none; }
