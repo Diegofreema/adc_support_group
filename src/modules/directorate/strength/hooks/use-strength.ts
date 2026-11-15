@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { fetchStrength, fetchStrengthPoints } from '../services/strength.service'
 import type { StrengthArea, StrengthScope } from '../types'
 
+/** These are heavy to work out and change slowly: keep them for 5 minutes. */
+const STALE = 5 * 60_000
+
 /** The area being looked at, its numbers, and the map points of its state. */
 export function useStrength() {
   const [scope, setScope] = useState<StrengthScope>({})
@@ -11,6 +14,8 @@ export function useStrength() {
     queryKey: ['admin', 'strength', scope],
     queryFn: () => fetchStrength(scope),
     placeholderData: keepPreviousData,
+    staleTime: STALE,
+    gcTime: STALE * 2,
   })
   // A state admin's first answer is their state even though nothing was asked.
   const state = strength.data?.state ?? undefined
@@ -18,6 +23,8 @@ export function useStrength() {
     queryKey: ['admin', 'strength-points', state],
     queryFn: () => fetchStrengthPoints(state!),
     enabled: Boolean(state),
+    staleTime: STALE,
+    gcTime: STALE * 2,
   })
   const data = strength.data
 
