@@ -37,8 +37,9 @@ function Attendance({ event }: { event: GroupEvent }) {
     <>
       <h1 className="h1">Attendance</h1>
       <p className="muted mt-1">{event.title} · {eventWhenLabel(event.startsAt, event.endsAt)}</p>
-      {view.counts && <div className="mt-5"><AttendanceCounts coming={view.counts.coming} present={view.counts.present} /></div>}
+      {!locked && <p className="small muted mt-2">Tick each person who came. It saves straight away.</p>}
       {locked && <Banner tone="info" className="mt-4">{locked}</Banner>}
+      {view.counts && <div className="mt-5"><AttendanceCounts coming={view.counts.coming} present={view.counts.present} /></div>}
       <div className="mt-5"><AttendanceFilters filter={view.filter} onFilter={view.setFilter} search={view.search} onSearch={view.setSearch} /></div>
       <div className="mt-4">
         {view.isLoading ? <SkeletonList /> : view.error ? <ErrorState title="Could not load the list" error={view.error} onRetry={view.retry} /> : (

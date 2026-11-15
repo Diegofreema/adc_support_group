@@ -14,7 +14,7 @@ export function BuyPointsDialog({ open, onOpenChange, packId, onPackChange, onCo
   const actions = (
     <>
       <Button onClick={() => onOpenChange(false)}>Cancel</Button>
-      <Button variant="primary" onClick={onConfirm} disabled={busy}>{busy ? 'Please wait…' : 'Pay with Funz'}</Button>
+      <Button variant="primary" onClick={onConfirm} loading={busy}>Pay with Funz</Button>
     </>
   )
   return (

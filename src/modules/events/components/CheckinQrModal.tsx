@@ -27,7 +27,7 @@ export function CheckinQrModal({ event, code, open, onOpenChange }: CheckinQrMod
     </>
   )
   return (
-    <Modal open={open} onOpenChange={onOpenChange} title="Check-in QR" description="Members scan this at the venue." actions={actions} centered>
+    <Modal open={open} onOpenChange={onOpenChange} title="Check-in QR" description="Members scan this with their phone camera when they arrive." actions={actions} centered>
       <div ref={holder} className="flex justify-center [&_.qr]:h-64 [&_.qr]:w-64">
         <QrCode value={checkinUrl(code)} />
       </div>

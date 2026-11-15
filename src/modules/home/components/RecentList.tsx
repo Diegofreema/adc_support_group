@@ -9,7 +9,7 @@ import { activityTypeIcon } from '@/config/activity-types'
 export function RecentList({ items }: { items: RecentItem[] }) {
   return (
     <>
-      <SectionTitle title="Recent" action={<Link to="/activities">See all</Link>} />
+      <SectionTitle title="Latest" action={<Link to="/activities">See all</Link>} />
       <List>
         {items.map((item) => (
           <RecentRow key={item.id} item={item} />

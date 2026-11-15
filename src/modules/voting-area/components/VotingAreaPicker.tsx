@@ -38,17 +38,17 @@ export function VotingAreaPicker({ value, onChange, idPrefix }: VotingAreaPicker
   return (
     <>
       <Field label="State" htmlFor={id('state')}>
-        <SelectInput id={id('state')} options={NIGERIAN_STATES} placeholder="Choose" value={value.state} onChange={pick('state')} />
+        <SelectInput id={id('state')} options={NIGERIAN_STATES} placeholder="Choose your state" value={value.state} onChange={pick('state')} />
       </Field>
       <Field label="LGA" htmlFor={id('lga')}>
-        <SelectInput id={id('lga')} options={lgas} placeholder={loading ? 'Loading…' : 'Choose'} value={value.lga} onChange={pick('lga')} disabled={!value.state || loading} />
+        <SelectInput id={id('lga')} options={lgas} placeholder={loading ? 'Loading…' : value.state ? 'Choose your LGA' : 'Choose a state first'} value={value.lga} onChange={pick('lga')} disabled={!value.state || loading} />
       </Field>
       <Field label="Ward" htmlFor={id('ward')}>
-        <SelectInput id={id('ward')} options={wards} placeholder="Choose" value={value.ward} onChange={pick('ward')} disabled={!value.lga} />
+        <SelectInput id={id('ward')} options={wards} placeholder={value.lga ? 'Choose your ward' : 'Choose an LGA first'} value={value.ward} onChange={pick('ward')} disabled={!value.lga} />
       </Field>
-      <Field label="Polling unit" htmlFor={id('unit')} hint="As printed on your voter's card.">
+      <Field label="Polling unit" htmlFor={id('unit')} hint="It's printed on your voter's card (PVC).">
         {pollingUnits.length > SEARCH_FROM_UNITS && <div className="mb-2"><SearchInput value={query} onChange={setQuery} placeholder="Search units in this ward" /></div>}
-        <SelectInput id={id('unit')} options={units} placeholder="Choose" value={value.code} onChange={pick('code')} disabled={!value.ward} />
+        <SelectInput id={id('unit')} options={units} placeholder={value.ward ? 'Choose your polling unit' : 'Choose a ward first'} value={value.code} onChange={pick('code')} disabled={!value.ward} />
       </Field>
     </>
   )

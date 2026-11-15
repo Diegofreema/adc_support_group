@@ -17,7 +17,7 @@ export function RegisterCheckStep({ form, onBack, onSubmit, loading, submitLabel
   const error = form.formState.errors.confirmed?.message
   return (
     <>
-      <StepHeading title="Check" />
+      <StepHeading title="Check and send" helper="Look it over. Tap Back to change anything." />
       <Card className="mt-5"><KeyValueList items={registerSummary(form.getValues())} /></Card>
       <div className="mt-5">
         <Checkbox {...form.register('confirmed')}>This group supports Atiku Abubakar</Checkbox>

@@ -14,7 +14,7 @@ interface JoinInviteStepProps {
 export function JoinInviteStep({ invite, onJoin, signedInName }: JoinInviteStepProps) {
   return (
     <>
-      <StepHeading title="Join group" />
+      <StepHeading title="Join this group" />
       <InviteCard invite={invite} />
       <WizardActions onNext={onJoin} nextLabel={signedInName ? `Join as ${signedInName}` : 'Join'} />
       {!signedInName && <HaveAccount redirect={`/join/${invite.code}`} />}

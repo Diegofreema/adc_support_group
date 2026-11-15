@@ -13,7 +13,6 @@ export interface Invite {
   photoUrl?: string
 }
 
-export type LoginMethod = 'phone' | 'email'
 
 export interface RegistrationReceipt {
   groupName: string

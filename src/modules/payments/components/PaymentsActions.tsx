@@ -8,7 +8,7 @@ export function PaymentsActions({ canRecordOffline, locked }: { canRecordOffline
   if (locked) return <PendingGroupNote />
   return (
     <>
-      {canRecordOffline && <Link to="/payments/offline" className={buttonClassName('secondary')}><Landmark className="i" aria-hidden />Paid offline?</Link>}
+      {canRecordOffline && <Link to="/payments/offline" className={buttonClassName('secondary')}><Landmark className="i" aria-hidden />Record cash or transfer</Link>}
       <Link to="/payments/new" className={buttonClassName('primary')}><HandCoins className="i" aria-hidden />Pay</Link>
     </>
   )

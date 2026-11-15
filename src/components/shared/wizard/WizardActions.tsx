@@ -21,7 +21,7 @@ export function WizardActions({ onBack, onNext, nextLabel = 'Next', nextIcon, su
     <ActionBar>
       <div className="row">
         {onBack && <Button size="lg" icon={ArrowLeft} aria-label="Back" onClick={onBack} />}
-        <Button variant="primary" size="lg" block className="grow" icon={nextIcon} type={submit ? 'submit' : 'button'} onClick={submit ? undefined : onNext} disabled={loading || disabled}>
+        <Button variant="primary" size="lg" block className="grow" icon={nextIcon} type={submit ? 'submit' : 'button'} onClick={submit ? undefined : onNext} loading={loading} disabled={disabled}>
           {loading ? 'Please wait…' : nextLabel}
         </Button>
       </div>

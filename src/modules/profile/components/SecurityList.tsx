@@ -10,7 +10,7 @@ interface SecurityListProps {
 export function SecurityList({ onChangePassword, onLogout }: SecurityListProps) {
   return (
     <>
-      <SectionTitle title="Security" />
+      <SectionTitle title="Password and log out" />
       <List>
         <ListItem title="Change password" leading={<IconTile icon={KeyRound} tone="grey" />} onClick={onChangePassword} />
         <ListItem title={<span className="red">Log out</span>} leading={<IconTile icon={LogOut} tone="red" />} onClick={onLogout} />

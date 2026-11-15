@@ -11,15 +11,15 @@ interface PayForStepProps {
 }
 
 const OPTIONS: { value: PayFor; label: string }[] = [
-  { value: 'cause', label: 'Cause' },
-  { value: 'general', label: 'General' },
+  { value: 'cause', label: 'A cause' },
+  { value: 'general', label: 'Group needs' },
 ]
 
 export function PayForStep({ draft, causes, onChange }: PayForStepProps) {
   return (
     <>
-      <h1 className="h1">Pay for</h1>
-      <div className="mt-5"><Segmented options={OPTIONS} value={draft.payFor} onChange={(payFor) => onChange({ payFor })} label="Pay for" /></div>
+      <h1 className="h1">What are you paying for?</h1>
+      <div className="mt-5"><Segmented options={OPTIONS} value={draft.payFor} onChange={(payFor) => onChange({ payFor })} label="Paying for" /></div>
       <div className="mt-4">
         {draft.payFor === 'cause'
           ? <CauseChoices causes={causes} value={draft.causeId} onChange={(causeId) => onChange({ causeId })} />

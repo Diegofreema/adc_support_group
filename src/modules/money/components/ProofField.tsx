@@ -12,7 +12,7 @@ interface ProofFieldProps {
 export function ProofField({ label, fileName, error, optional, onFile }: ProofFieldProps) {
   return (
     <Field label={label} error={error} optional={optional}>
-      <Dropzone label="Add photo" hint="Photo or PDF, up to 10 MB" accept="image/jpeg,image/png,image/webp,application/pdf" fileName={fileName} onFile={onFile} />
+      <Dropzone label="Add a photo" hint="Take a picture of the receipt, or add a PDF" accept="image/jpeg,image/png,image/webp,application/pdf" fileName={fileName} onFile={onFile} />
     </Field>
   )
 }

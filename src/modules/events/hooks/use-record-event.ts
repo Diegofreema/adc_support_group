@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { notify } from '@/lib/toast'
 import { recordEventActivity } from '../services/event-record.service'
@@ -10,6 +9,7 @@ import { recordFormSchema, toCount, type RecordForm } from '../utils/event-schem
 import type { GroupEvent, RecordEventInput } from '../types'
 import { useEventCache } from './use-event-cache'
 import { useEventPhotos } from './use-event-photos'
+import { useAppForm } from '@/hooks/use-app-form'
 
 const PHOTO_REQUIRED = 'Add at least one photo'
 
@@ -28,7 +28,7 @@ function useRecordMutation(eventId: string) {
 
 /** "Make it an activity": guests, people reached (present + guests until edited), photos, note. */
 export function useRecordEvent(event: GroupEvent) {
-  const form = useForm<RecordForm>({
+  const form = useAppForm<RecordForm>({
     resolver: zodResolver(recordFormSchema),
     defaultValues: { guests: '', peopleReached: String(event.presentCount || ''), note: '' },
   })

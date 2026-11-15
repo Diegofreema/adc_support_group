@@ -7,6 +7,7 @@ import type { ChapterLevel } from '../types'
 import { suggestChapterName } from '../utils/chapter-name'
 import { EMPTY_CHAPTER, newChapterSchema, type NewChapterForm } from '../utils/chapter-schema'
 import type { PlaceValue } from '@/lib/geo/places'
+import { useAppForm } from '@/hooks/use-app-form'
 
 /** Keeps the name filled in from the place until the user types their own. */
 function useSuggestedName(form: ReturnType<typeof useForm<NewChapterForm>>, groupName: string) {
@@ -19,7 +20,7 @@ function useSuggestedName(form: ReturnType<typeof useForm<NewChapterForm>>, grou
 }
 
 export function useNewChapterForm(groupId: string, groupName: string, onDone: () => void) {
-  const form = useForm<NewChapterForm>({ resolver: zodResolver(newChapterSchema), defaultValues: EMPTY_CHAPTER })
+  const form = useAppForm<NewChapterForm>({ resolver: zodResolver(newChapterSchema), defaultValues: EMPTY_CHAPTER })
   const name = useSuggestedName(form, groupName)
   const create = useCreateChapter(groupId)
   const validate = { shouldValidate: form.formState.isSubmitted }

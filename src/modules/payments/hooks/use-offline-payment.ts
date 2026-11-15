@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from '@tanstack/react-router'
-import { useForm, useWatch } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 
 import { offlinePaymentSchema, type OfflinePaymentForm } from '../utils/offline-schema'
 import { parseAmount } from '../utils/amount'
@@ -11,6 +11,7 @@ import { usePayerOptions } from './use-payments'
 import { notify } from '@/lib/toast'
 import { hasPower } from '@/lib/permissions'
 import { useRequiredUser } from '@/stores/session-store'
+import { useAppForm } from '@/hooks/use-app-form'
 
 /** Local calendar day. */
 const today = () => {
@@ -25,7 +26,7 @@ export function useOfflinePayment() {
   const lookups = usePayLookups()
   const payers = usePayerOptions(hasPower(user, 'money')).data ?? []
   const report = useReportOfflinePayment()
-  const form = useForm<OfflinePaymentForm>({
+  const form = useAppForm<OfflinePaymentForm>({
     resolver: zodResolver(offlinePaymentSchema),
     defaultValues: { forId: '', chapterId: '', payerId: '', amount: '', date: today(), method: 'transfer', reference: '' },
   })

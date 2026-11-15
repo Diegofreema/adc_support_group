@@ -16,7 +16,7 @@ export function CheckinPage() {
       {checkin.error && <CheckinFailed error={checkin.error} onRetry={checkin.retry} />}
       {checkin.isPending && (
         <>
-          <p className="bold text-center">Checking you in…</p>
+          <p className="bold row justify-center !gap-2.5"><span className="spinner" aria-hidden />Checking you in…</p>
           <PageLoader shape="detail" label="Checking you in" />
         </>
       )}

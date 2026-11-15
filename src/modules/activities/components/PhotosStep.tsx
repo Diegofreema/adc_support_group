@@ -20,11 +20,11 @@ export function PhotosStep({ photos, max, adding, onAdd, onRemove, error, videoU
   return (
     <>
       <h1 className="h1">Add photos</h1>
-      <p className="muted mt-1">At least 1, up to {max}.</p>
+      <p className="muted mt-1">Photos show the activity really happened. Add at least 1 (up to {max}).</p>
       <div className="mt-5"><ActivityPhotoPicker photos={photos} max={max} adding={adding} onAdd={onAdd} onRemove={onRemove} /></div>
       {error && <p className="error-text" role="alert"><CircleAlert className="i i-sm" aria-hidden />{error}</p>}
-      <Field label="Video link" htmlFor="act-video" optional className="mt-6">
-        <TextInput id="act-video" type="url" placeholder="YouTube, TikTok, Facebook" value={videoUrl} onChange={(event) => onVideoUrlChange(event.target.value)} />
+      <Field label="Video link" htmlFor="act-video" hint="Paste a link from YouTube, TikTok or Facebook." optional className="mt-6">
+        <TextInput id="act-video" type="url" placeholder="https://" value={videoUrl} onChange={(event) => onVideoUrlChange(event.target.value)} />
       </Field>
     </>
   )

@@ -10,6 +10,7 @@ import { ALL } from '../../shared/constants/options'
 import { directorateKeys } from '../../shared/query-keys'
 import type { ActivityFilterValues, ReviewStage } from '../types'
 import { notify } from '@/lib/toast'
+import { loadFailure } from '../../shared/hooks/load-failure'
 
 
 /** View-model for the review queue; filters are applied by the server. */
@@ -23,7 +24,7 @@ export function useActivityQueue() {
   useKeepPageInRange(paging, list.data?.total)
   const counts = useQuery(stageCountsQuery).data
   const typeOptions = useActivityTypeOptions()
-  return { stage, setStage, filters, setFilter, typeOptions, rows: list.data?.rows ?? [], total: list.data?.total ?? 0, paging, counts, isLoading: list.isLoading }
+  return { stage, setStage, filters, setFilter, typeOptions, rows: list.data?.rows ?? [], total: list.data?.total ?? 0, paging, counts, isLoading: list.isLoading, ...loadFailure(list) }
 }
 
 function useQueueMutation<Args>(fn: (args: Args) => Promise<unknown>, message: string) {

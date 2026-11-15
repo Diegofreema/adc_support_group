@@ -1,7 +1,7 @@
 import { Save } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 
-import { Button, Card, CardHead, Field, Skeleton, SkeletonRegion, TextInput } from '@/components/shared'
+import { Button, Card, CardHead, ErrorState, Field, Skeleton, SkeletonRegion, TextInput } from '@/components/shared'
 import { formatNaira, formatNumber } from '@/lib/format'
 import { useGivingLimit } from '../hooks/use-settings'
 
@@ -29,14 +29,15 @@ function LimitForm({ current, onSave, busy }: { current: number | null; onSave: 
           <TextInput id="giving-limit" inputMode="numeric" placeholder="Leave empty for no limit" value={value} onChange={(event) => setValue(formatLimit(parseLimit(event.target.value)))} />
         </div>
       </Field>
-      <Button type="submit" variant="primary" icon={Save} className="mt-3" disabled={!valid || busy || limit === current}>Save</Button>
+      <Button type="submit" variant="primary" icon={Save} className="mt-3" disabled={!valid || limit === current} loading={busy}>Save</Button>
     </form>
   )
 }
 
 /** The yearly campaign giving limit: going past it warns the payer and flags the payment. It never blocks. */
 export function GivingLimitSection() {
-  const { limit, isLoading, canEdit, save } = useGivingLimit()
+  const { limit, isLoading, error, retry, canEdit, save } = useGivingLimit()
+  if (error) return <ErrorState title="Couldn't load the giving limit" error={error} onRetry={retry} />
   if (isLoading) return <GivingLimitSkeleton />
   return (
     <Card>

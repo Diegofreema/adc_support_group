@@ -11,7 +11,7 @@ export function NotificationsHeader({ unread, onMarkRead }: NotificationsHeaderP
   return (
     <div className="row-between page-head">
       <span className="muted bold">{unread > 0 ? `${unread} new` : 'All caught up'}</span>
-      {unread > 0 && <Button variant="ghost" size="sm" icon={CheckCheck} onClick={onMarkRead}>Mark read</Button>}
+      {unread > 0 && <Button variant="ghost" size="sm" icon={CheckCheck} onClick={onMarkRead}>Mark all as read</Button>}
     </div>
   )
 }

@@ -9,10 +9,10 @@ const MINE_CLASS = 'bg-[var(--green-soft)] shadow-[inset_4px_0_0_var(--green)]'
 export function BoardRowItem({ row, measure }: { row: BoardRow; measure: BoardMeasure }) {
   return (
     <div className={cn('list-item', row.isMine && MINE_CLASS)} aria-current={row.isMine || undefined}>
-      <span className="num bold w-8 shrink-0 text-center">{row.place}</span>
+      <span className={cn('board-place num bold shrink-0', row.place <= 3 && `board-place-${row.place}`)}>{row.place}</span>
       <GroupPicture row={row} />
       <span className="grow min-w-0">
-        <span className="title truncate block">{row.name}</span>
+        <span className="title block line-clamp-2">{row.name}</span>
         {row.isMine && <span className="block small green bold">Your group</span>}
       </span>
       <span className="text-right shrink-0">

@@ -23,7 +23,7 @@ export function SwitchGroupDialog({ open, onOpenChange, groups, currentId }: Swi
   const actions = (
     <>
       <Button onClick={() => onOpenChange(false)}>Cancel</Button>
-      <Button variant="primary" disabled={!target || switchGroup.isPending} onClick={() => target && switchGroup.mutate(target)}>Switch</Button>
+      <Button variant="primary" disabled={!target} loading={switchGroup.isPending} onClick={() => target && switchGroup.mutate(target)}>Switch</Button>
     </>
   )
   return (

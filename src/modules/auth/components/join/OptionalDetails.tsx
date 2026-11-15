@@ -12,7 +12,7 @@ export function OptionalDetails({ form }: { form: UseFormReturn<JoinValues> }) {
     <details className="group mt-4">
       <summary className="flex min-h-12 cursor-pointer list-none items-center gap-2 font-semibold text-secondary-foreground [&::-webkit-details-marker]:hidden">
         <ChevronDown className="i transition-transform group-open:rotate-180" aria-hidden />
-        More <span className="faint">(optional)</span>
+        Add email or gender <span className="faint">(optional)</span>
       </summary>
       <Field label="Email" htmlFor="join-email" hint="We'll email you instead of SMS when we can." error={form.formState.errors.email?.message} className="mt-2">
         <TextInput id="join-email" type="email" autoComplete="email" {...form.register('email')} />

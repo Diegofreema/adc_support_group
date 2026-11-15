@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Banner, Button, Field, Modal, SinglePhotoField, TextArea, TextInput } from '@/components/shared'
 import type { Group } from '@/types/domain'
 import { useSaveGroupEdits } from '../hooks/use-group-mutations'
+import { friendlyError } from '@/lib/errors'
 
 interface EditGroupDialogProps {
   group: Group
@@ -39,7 +40,7 @@ function EditGroupForm({ group, onClose }: { group: Group; onClose: () => void }
       <Field label="About" htmlFor="edit-group-about" optional>
         <TextArea id="edit-group-about" rows={3} maxLength={500} value={about} onChange={(event) => setAbout(event.target.value)} />
       </Field>
-      {save.error && <Banner tone="danger" className="mt-4">{save.error.message}</Banner>}
+      {save.error && <Banner tone="danger" className="mt-4">{friendlyError(save.error)}</Banner>}
     </Modal>
   )
 }

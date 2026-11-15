@@ -18,12 +18,12 @@ export function RequestCodeForm({ initialPhone = '', onSent, secondary }: Reques
   const phoneField = form.register('phone', { onChange: resetChoice })
   return (
     <form onSubmit={onSubmit} noValidate>
-      <Field label="Phone number" htmlFor="code-phone" hint="The number on your ADC account." error={form.formState.errors.phone?.message}>
+      <Field label="Phone number" htmlFor="code-phone" hint="The number you joined with." error={form.formState.errors.phone?.message}>
         <PhoneInput id="code-phone" {...phoneField} />
       </Field>
       {channels ? (
         <fieldset className="mt-5">
-          <legend className="label">Send the code to:</legend>
+          <legend className="label">Where should we send the code?</legend>
           <div className="mt-2 grid gap-2.5">
             <ChannelButton channel="email" label={`Email ${channels.email}`} onPick={sendVia} disabled={isPending} />
             <ChannelButton channel="sms" label={`SMS ${channels.sms}`} onPick={sendVia} disabled={isPending} />
@@ -32,7 +32,7 @@ export function RequestCodeForm({ initialPhone = '', onSent, secondary }: Reques
       ) : (
         <div className="dialog-actions">
           {secondary}
-          <Button type="submit" variant="primary" disabled={isPending}>{isPending ? 'Sending…' : 'Send code'}</Button>
+          <Button type="submit" variant="primary" loading={isPending}>{isPending ? 'Sending…' : 'Send code'}</Button>
         </div>
       )}
     </form>

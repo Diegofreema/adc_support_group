@@ -1,6 +1,6 @@
 import { useQueryErrorResetBoundary } from '@tanstack/react-query'
 import { Link, useRouter, type ErrorComponentProps } from '@tanstack/react-router'
-import { CloudOff, RotateCw, UsersRound } from 'lucide-react'
+import { CloudOff, LogIn, RotateCw, UsersRound } from 'lucide-react'
 
 import { Button, buttonClassName, EmptyState } from '@/components/shared'
 import { describeError } from './error-kind'
@@ -41,10 +41,12 @@ export function RouteError({ error, reset }: ErrorComponentProps) {
         title={what.kind === 'unknown' ? 'Something went wrong loading this page' : what.title}
         action={(
           <div className="grid justify-items-center gap-2">
-            <p className="muted small">{what.kind === 'unknown' ? 'Check your connection and try again.' : what.helper}</p>
-            {what.kind === 'update'
-              ? <Button variant="primary" icon={RotateCw} onClick={() => window.location.reload()}>Reload</Button>
-              : <Button variant="primary" icon={RotateCw} onClick={retry}>Retry</Button>}
+            {/* The real cause, never a guess: an unknown error doesn't blame the connection. */}
+            <p className="muted small max-w-[40ch] text-center">{what.kind === 'unknown' ? 'Please try again. If it keeps happening, tell your group leader.' : what.helper}</p>
+            {what.kind === 'update' && <Button variant="primary" icon={RotateCw} onClick={() => window.location.reload()}>Reload</Button>}
+            {what.kind === 'logged-out' && <Link to="/" className={buttonClassName('primary')}><LogIn className="i" aria-hidden />Log in again</Link>}
+            {what.kind === 'not-allowed' && <Link to="/" className={buttonClassName('primary')} onClick={reset}>Go to home</Link>}
+            {(what.kind === 'unknown' || what.kind === 'offline') && <Button variant="primary" icon={RotateCw} onClick={retry}>Try again</Button>}
           </div>
         )}
       />

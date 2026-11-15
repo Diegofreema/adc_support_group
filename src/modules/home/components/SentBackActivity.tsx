@@ -19,7 +19,7 @@ export function SentBackActivity({ activity }: { activity: MyActivity }) {
       </div>
       <div className="row mt-3">
         <div className="reason grow">{activity.reason}</div>
-        <Link to="/activities/new" className={buttonClassName('secondary', 'sm')}><Pencil className="i i-sm" aria-hidden />Fix</Link>
+        <Link to="/activities/new" className={buttonClassName('secondary', 'sm')}><Pencil className="i i-sm" aria-hidden />Fix it</Link>
       </div>
     </div>
   )

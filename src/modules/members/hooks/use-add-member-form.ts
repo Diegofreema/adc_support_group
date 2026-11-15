@@ -1,15 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 
 import { useAddMember } from './use-member-mutations'
 import { EMPTY_MEMBER, newMemberSchema, type NewMemberForm } from '../utils/member-schema'
 import type { AddedMember } from '../types'
 import type { PlaceValue } from '@/lib/geo/places'
+import { useAppForm } from '@/hooks/use-app-form'
 
 /** Form state + submit for adding one person. */
 export function useAddMemberForm() {
-  const form = useForm<NewMemberForm>({ resolver: zodResolver(newMemberSchema), defaultValues: EMPTY_MEMBER })
+  const form = useAppForm<NewMemberForm>({ resolver: zodResolver(newMemberSchema), defaultValues: EMPTY_MEMBER })
   const addMember = useAddMember()
   const [lastAdded, setLastAdded] = useState<AddedMember | null>(null)
   const [state, lga, ward, chapterId] = useWatch({ control: form.control, name: ['state', 'lga', 'ward', 'chapterId'] })

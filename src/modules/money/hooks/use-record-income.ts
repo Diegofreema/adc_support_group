@@ -1,17 +1,17 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 
 import { useRequiredUser } from '@/stores/session-store'
 import { recordIncome } from '../services/record.service'
 import { parseAmount, today } from '../utils/amount'
 import { incomeSchema, type IncomeForm } from '../utils/schemas'
 import { useMoneyMutation } from './use-money-mutation'
+import { useAppForm } from '@/hooks/use-app-form'
 
 /** "Record income": amount, date, where it came from, optional payer and proof. */
 export function useRecordIncome() {
   const user = useRequiredUser()
   const save = useMoneyMutation(recordIncome, 'Income recorded')
-  const form = useForm<IncomeForm>({
+  const form = useAppForm<IncomeForm>({
     resolver: zodResolver(incomeSchema),
     defaultValues: { amount: '', occurredOn: today(), description: '', member: null },
   })

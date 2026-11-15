@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm, useWatch } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 
 import { useRequiredUser } from '@/stores/session-store'
 import { recordDues } from '../services/record.service'
@@ -7,6 +7,7 @@ import type { DuesInfo, MemberOption } from '../types'
 import { today } from '../utils/amount'
 import { recordDuesSchema, type RecordDuesForm } from '../utils/schemas'
 import { useMoneyMutation } from './use-money-mutation'
+import { useAppForm } from '@/hooks/use-app-form'
 
 interface Prefill {
   member?: MemberOption
@@ -17,7 +18,7 @@ interface Prefill {
 export function useRecordDues(dues: DuesInfo, prefill: Prefill) {
   const user = useRequiredUser()
   const save = useMoneyMutation(recordDues, 'Dues recorded')
-  const form = useForm<RecordDuesForm>({
+  const form = useAppForm<RecordDuesForm>({
     resolver: zodResolver(recordDuesSchema),
     defaultValues: {
       member: prefill.member ? { id: prefill.member.id, name: prefill.member.name } : null,

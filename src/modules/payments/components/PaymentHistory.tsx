@@ -5,7 +5,7 @@ import type { Payment } from '@/types/domain'
 import { PaymentRow } from './PaymentRow'
 
 export function PaymentHistory({ payments }: { payments: Payment[] }) {
-  if (payments.length === 0) return <EmptyState icon={Wallet} title="No payments yet" />
+  if (payments.length === 0) return <EmptyState icon={Wallet} title="No payments yet" description="Payments you make show here, with a receipt for each." />
   return (
     <List>
       {payments.map((payment) => <PaymentRow key={payment.id} payment={payment} />)}

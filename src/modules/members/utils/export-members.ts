@@ -1,7 +1,7 @@
 import type { MemberRecord } from '../types'
 import { toCsv } from './csv'
 
-const JOINED_LABEL: Record<MemberRecord['joinedVia'], string> = { link: 'Link', excel: 'Excel', manual: 'Added' }
+const JOINED_LABEL: Record<MemberRecord['joinedVia'], string> = { link: 'Joined by link', excel: 'From a list', manual: 'Added by hand' }
 
 export function joinedViaLabel(joinedVia: MemberRecord['joinedVia']): string {
   return JOINED_LABEL[joinedVia]

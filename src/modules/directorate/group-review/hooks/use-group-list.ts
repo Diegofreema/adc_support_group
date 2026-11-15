@@ -8,6 +8,7 @@ import { useKeepPageInRange, usePaging } from '../../shared/hooks/use-paging'
 import { useCategoryOptions } from '../../shared/hooks/use-lookups'
 import { ALL } from '../../shared/constants/options'
 import type { GroupFilterValues, GroupTab } from '../types'
+import { loadFailure } from '../../shared/hooks/load-failure'
 
 
 /** View-model for the groups list: tab, filters (applied by the server), one page of rows and counts. */
@@ -22,5 +23,5 @@ export function useGroupList() {
   const counts = useQuery(groupCountsQuery).data
   const categoryOptions = useCategoryOptions()
   const filtered = Boolean(search.trim() || filters.state || filters.category)
-  return { tab, setTab, filters, setFilter, filtered, categoryOptions, rows: list.data?.rows ?? [], total: list.data?.total ?? 0, paging, counts, isLoading: list.isLoading }
+  return { tab, setTab, filters, setFilter, filtered, categoryOptions, rows: list.data?.rows ?? [], total: list.data?.total ?? 0, paging, counts, isLoading: list.isLoading, ...loadFailure(list) }
 }

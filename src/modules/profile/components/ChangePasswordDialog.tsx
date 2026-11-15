@@ -42,7 +42,7 @@ function SendStep({ password, onCancel }: { password: ChangePassword; onCancel: 
       {password.error && <Banner tone="danger" className="mt-4">{password.error}</Banner>}
       <div className="dialog-actions">
         <Button onClick={onCancel}>Cancel</Button>
-        <Button variant="primary" onClick={password.sendCode} disabled={password.isPending}>Send code</Button>
+        <Button variant="primary" onClick={password.sendCode} loading={password.isPending}>Send code</Button>
       </div>
     </>
   )
@@ -53,17 +53,17 @@ function CodeStep({ password, onCancel }: { password: ChangePassword; onCancel: 
   const errors = form.formState.errors
   return (
     <form onSubmit={password.onSubmit} noValidate>
-      <p className="muted small">Code sent to {password.challenge?.sentTo}</p>
+      <p className="muted small">We sent a 6-digit code to {password.challenge?.sentTo}.</p>
       <Field label="Code" error={errors.code?.message}>
         <Controller control={form.control} name="code" render={({ field }) => <OtpInput value={field.value} onChange={field.onChange} />} />
       </Field>
-      <Field label="New password" htmlFor="pw-next" error={errors.next?.message}>
-        <PasswordInput id="pw-next" autoComplete="new-password" placeholder="8+ characters" {...form.register('next')} />
+      <Field label="New password" htmlFor="pw-next" hint="At least 8 characters, with a number." error={errors.next?.message}>
+        <PasswordInput id="pw-next" autoComplete="new-password" {...form.register('next')} />
       </Field>
       {password.error && <Banner tone="danger" className="mt-4">{password.error}</Banner>}
       <div className="dialog-actions">
         <Button onClick={onCancel}>Cancel</Button>
-        <Button type="submit" variant="primary" disabled={password.isPending}>Save</Button>
+        <Button type="submit" variant="primary" loading={password.isPending}>Save new password</Button>
       </div>
     </form>
   )

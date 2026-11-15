@@ -6,15 +6,17 @@ import type { NotificationFilter } from '../types/notification.types'
 import { countUnread, filterNotifications, groupByDay } from '../utils/group-notifications'
 import { notify } from '@/lib/toast'
 import { navBadgesQuery } from '@/services/nav-badges.service'
+import { loadFailure } from '@/hooks/load-failure'
 
 const notificationsQuery = queryOptions({ queryKey: ['notifications'], queryFn: fetchNotifications })
 
 /** Notification list view-model: filter, sections, unread count. */
 export function useNotifications() {
   const [filter, setFilter] = useState<NotificationFilter>('all')
-  const { data = [], isLoading } = useQuery(notificationsQuery)
+  const query = useQuery(notificationsQuery)
+  const data = query.data ?? []
   const sections = groupByDay(filterNotifications(data, filter))
-  return { filter, setFilter, sections, unread: countUnread(data), isLoading }
+  return { filter, setFilter, sections, unread: countUnread(data), isLoading: query.isLoading, ...loadFailure(query) }
 }
 
 export function useMarkAllRead() {

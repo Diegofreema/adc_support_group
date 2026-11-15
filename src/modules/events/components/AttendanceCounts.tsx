@@ -8,8 +8,8 @@ export function AttendanceCounts({ coming, present }: { coming: number; present:
     <StatGrid
       columns={2}
       stats={[
-        { label: 'Coming', value: formatNumber(coming), icon: CalendarCheck },
-        { label: 'Present', value: formatNumber(present), icon: UserCheck },
+        { label: 'Said coming', value: formatNumber(coming), icon: CalendarCheck },
+        { label: 'Came', value: formatNumber(present), icon: UserCheck },
       ]}
     />
   )

@@ -11,7 +11,7 @@ export function JoinGroupCard() {
         <IconTile icon={LinkIcon} />
         <div>
           <h2 className="h3">Join a group</h2>
-          <p className="small muted mt-0.5">Got an invite link from a leader? Paste it below.</p>
+          <p className="small muted mt-0.5">Use the link your group leader sent you.</p>
         </div>
       </div>
       <div className="mt-4">

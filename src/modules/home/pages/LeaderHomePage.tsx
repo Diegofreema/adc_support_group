@@ -27,10 +27,10 @@ function LeaderHome({ dashboard }: { dashboard: LeaderDashboard }) {
   const { group } = dashboard
   return (
     <>
-      <TwoColumn
+      <TwoColumn stagger
         left={(
           <>
-            <LeaderGroupCard group={group} onSwitch={switcher.open} />
+            <LeaderGroupCard group={group} onSwitch={dashboard.groups.length > 1 ? switcher.open : undefined} />
             <LeaderQuickActions onInvite={invite.open} />
             <TodoList items={dashboard.todos} />
           </>

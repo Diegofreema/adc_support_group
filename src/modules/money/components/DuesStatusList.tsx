@@ -12,7 +12,7 @@ interface DuesStatusListProps {
 
 /** Each member with Paid / Not paid; unpaid rows get a "Record" shortcut. */
 export function DuesStatusList({ people, period }: DuesStatusListProps) {
-  if (people.length === 0) return <EmptyState icon={Users} title="No one here" />
+  if (people.length === 0) return <EmptyState icon={Users} title="No one in this list" description="Try another filter, or check the spelling." />
   return <List>{people.map((person) => <PersonRow key={person.profileId} person={person} period={period} />)}</List>
 }
 

@@ -13,7 +13,7 @@ export function RecordIncomePage() {
       <form className="mt-5" onSubmit={submit} noValidate>
         <IncomeFields form={form} />
         <ActionBar>
-          <Button type="submit" variant="primary" size="lg" block icon={Check} disabled={isSaving}>{isSaving ? 'Saving…' : 'Save'}</Button>
+          <Button type="submit" variant="primary" size="lg" block icon={Check} loading={isSaving}>{isSaving ? 'Saving…' : 'Save income'}</Button>
         </ActionBar>
       </form>
     </div>

@@ -1,4 +1,4 @@
-import { Card, ConfirmDialog, SkeletonList, SkeletonRegion } from '@/components/shared'
+import { Card, ConfirmDialog, ErrorState, SkeletonList, SkeletonRegion } from '@/components/shared'
 import { useCategories } from '../hooks/use-settings'
 import { useTarget } from '../hooks/use-target'
 import type { Category } from '../types'
@@ -8,11 +8,12 @@ import { RenameModal } from './RenameModal'
 
 /** Group categories leaders pick from when they register. */
 export function CategoriesSection() {
-  const { items, isLoading, add, rename, remove } = useCategories()
+  const { items, isLoading, error, retry, add, rename, remove } = useCategories()
   const renaming = useTarget<Category>()
   const removing = useTarget<Category>()
   const saveName = (name: string) => renaming.target && rename.mutate({ id: renaming.target.id, name }, { onSuccess: renaming.close })
   const confirmRemove = () => removing.target && remove.mutate(removing.target)
+  if (error) return <ErrorState title="Couldn't load the categories" error={error} onRetry={retry} />
   return (
     <>
       {isLoading

@@ -21,9 +21,9 @@ export function DecisionCard({ groupId }: { groupId: string }) {
   return (
     <Card>
       <CardHead title="Decision" />
-      <Button variant="primary" block icon={BadgeCheck} disabled={verify.isPending} onClick={() => verify.mutate(undefined)}>Verify</Button>
+      <Button variant="primary" block icon={BadgeCheck} loading={verify.isPending} onClick={() => verify.mutate(undefined)}>{verify.isPending ? 'Verifying…' : 'Verify group'}</Button>
       <Button block icon={MessageCircleQuestion} className="mt-2" onClick={focusAskInfo}>Ask for info</Button>
-      <Button variant="danger" block icon={X} className="mt-2" onClick={reject.dialog.open}>Reject</Button>
+      <Button variant="danger" block icon={X} className="mt-2" onClick={reject.dialog.open}>Reject group</Button>
       <ReasonModal open={reject.dialog.isOpen} onOpenChange={reject.dialog.setOpen} title="Reject group" reasons={REJECT_REASONS} form={reject.form} confirmLabel="Reject" onConfirm={reject.submit} showPreview />
     </Card>
   )

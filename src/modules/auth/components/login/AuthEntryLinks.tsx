@@ -10,7 +10,8 @@ export function AuthEntryLinks() {
   const joinDialog = useDisclosure()
   return (
     <>
-      <div className="row mt-8 !gap-2.5">
+      <p className="or-divider mt-8">New here?</p>
+      <div className="row !gap-2.5">
         <Button variant="secondary" block className="flex-1" icon={LinkIcon} onClick={joinDialog.open}>Join a group</Button>
         <Link to="/register" className={`${buttonClassName('secondary', 'md', true)} flex-1`}>
           <Flag className="i" aria-hidden />New group

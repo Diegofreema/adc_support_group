@@ -1,10 +1,11 @@
-import { Card, SkeletonList, SkeletonRegion, Toggle } from '@/components/shared'
+import { Card, ErrorState, SkeletonList, SkeletonRegion, Toggle } from '@/components/shared'
 import { useActivityTypes } from '../hooks/use-settings'
 import { AddItemRow } from './AddItemRow'
 
 /** Activity types members can record; switch off to hide one. */
 export function ActivityTypesSection() {
-  const { items, isLoading, add, toggle } = useActivityTypes()
+  const { items, isLoading, error, retry, add, toggle } = useActivityTypes()
+  if (error) return <ErrorState title="Couldn't load the activity types" error={error} onRetry={retry} />
   return (
     <>
       {isLoading && <SkeletonRegion label="Loading activity types"><SkeletonList rows={6} leading={false} /></SkeletonRegion>}

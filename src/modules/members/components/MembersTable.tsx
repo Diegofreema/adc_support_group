@@ -11,9 +11,10 @@ interface MembersTableProps {
 function buildColumns(onOpen: (member: MemberRecord) => void): Column<MemberRecord>[] {
   return [
     { key: 'name', header: 'Name', main: true, cell: (member) => <MemberNameCell member={member} onOpen={() => onOpen(member)} /> },
-    { key: 'ward', header: 'Ward', cell: (member) => member.ward },
-    { key: 'chapter', header: 'Chapter', cell: (member) => member.chapterName ?? 'Whole group' },
-    { key: 'joined', header: 'Joined by', cell: (member) => (member.role === 'leader' ? <span className="muted">Started the group</span> : <JoinedViaChip joinedVia={member.joinedVia} />) },
+    // Phones show just who they are; ward, chapter and how they joined are one tap away in the member card.
+    { key: 'ward', header: 'Ward', className: 'hide-mobile', cell: (member) => member.ward },
+    { key: 'chapter', header: 'Chapter', className: 'hide-mobile', cell: (member) => member.chapterName ?? 'Whole group' },
+    { key: 'joined', header: 'Joined by', className: 'hide-mobile', cell: (member) => (member.role === 'leader' ? <span className="muted">Started the group</span> : <JoinedViaChip joinedVia={member.joinedVia} />) },
   ]
 }
 

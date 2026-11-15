@@ -1,13 +1,14 @@
 import { ArrowRightLeft } from 'lucide-react'
 
-import { Button, Card, EmptyState, Skeleton, SkeletonRegion } from '@/components/shared'
+import { Button, Card, EmptyState, ErrorState, Skeleton, SkeletonRegion } from '@/components/shared'
 import { formatDay } from '@/lib/format'
 import { useHandovers } from '../hooks/use-settings'
 import type { Handover } from '../types'
 
 /** Leaders asking to hand their group to someone else. */
 export function HandoversSection() {
-  const { items, isLoading, decide } = useHandovers()
+  const { items, isLoading, error, retry, decide } = useHandovers()
+  if (error) return <ErrorState title="Couldn't load the handovers" error={error} onRetry={retry} />
   if (isLoading) return <HandoversSkeleton />
   if (!items.length) return <EmptyState icon={ArrowRightLeft} title="No handovers" />
   return (

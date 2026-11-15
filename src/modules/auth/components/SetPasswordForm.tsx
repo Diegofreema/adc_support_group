@@ -30,16 +30,16 @@ export function SetPasswordForm() {
       <IconTile icon={KeyRound} className="mb-4" />
       <StepHeading title={welcome ? 'Set your password' : 'New password'} helper={`Enter the code we sent to ${sentTo}.`} />
       <Field label="Code" htmlFor="reset-code" error={errors.code?.message} className="mt-6">
-        <TextInput id="reset-code" inputMode="numeric" autoComplete="one-time-code" maxLength={6} placeholder="6 digits" {...form.register('code')} />
+        <TextInput id="reset-code" className="num" inputMode="numeric" autoComplete="one-time-code" maxLength={6} placeholder="6 numbers" {...form.register('code')} />
       </Field>
       <Field label="New password" htmlFor="new-password" error={errors.password?.message}>
         <PasswordInput id="new-password" autoComplete="new-password" {...form.register('password')} />
         <PasswordRules rules={rules} />
       </Field>
-      <Field label="Repeat password" htmlFor="repeat-password" error={errors.repeat?.message}>
+      <Field label="Type it again" htmlFor="repeat-password" error={errors.repeat?.message}>
         <PasswordInput id="repeat-password" autoComplete="new-password" {...form.register('repeat')} />
       </Field>
-      <Button type="submit" variant="primary" size="lg" block className="mt-6" disabled={isPending}>Save and sign in</Button>
+      <Button type="submit" variant="primary" size="lg" block className="mt-6" loading={isPending}>{isPending ? 'Saving…' : 'Save and log in'}</Button>
     </form>
   )
 }

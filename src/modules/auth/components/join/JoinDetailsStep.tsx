@@ -18,10 +18,10 @@ export function JoinDetailsStep({ form, onBack, onFinish, loading }: JoinDetails
   const errors = form.formState.errors
   return (
     <>
-      <StepHeading title="Where you are" />
+      <StepHeading title="Almost done" helper="Where you live, and a password for next time." />
       <PlaceSelects compact idPrefix="join" value={place.value} onChange={place.onChange} errors={place.errors} />
-      <Field label="Password" htmlFor="join-password" error={errors.password?.message}>
-        <PasswordInput id="join-password" autoComplete="new-password" placeholder="8+ characters" {...form.register('password')} />
+      <Field label="Make a password" htmlFor="join-password" hint="At least 8 characters, with a number." error={errors.password?.message}>
+        <PasswordInput id="join-password" autoComplete="new-password" {...form.register('password')} />
       </Field>
       <OptionalDetails form={form} />
       <WizardActions onBack={onBack} onNext={onFinish} nextLabel="Finish" loading={loading} />

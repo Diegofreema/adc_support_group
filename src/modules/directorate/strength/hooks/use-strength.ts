@@ -29,5 +29,5 @@ export function useStrength() {
     else setScope({ state: data.state!, lga: data.lga!, ward: row.area })
   }
 
-  return { scope, setScope, strength: data, error: strength.error, isFetching: strength.isFetching, points: points.data ?? [], open }
+  return { scope, setScope, strength: data, error: strength.error, retry: () => void strength.refetch(), isFetching: strength.isFetching, points: points.data ?? [], open }
 }

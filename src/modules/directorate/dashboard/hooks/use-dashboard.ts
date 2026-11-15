@@ -8,5 +8,5 @@ import type { Period } from '../types'
 export function useDashboard() {
   const [period, setPeriod] = useState<Period>('all')
   const query = useQuery({ ...dashboardQuery(period), placeholderData: keepPreviousData })
-  return { period, setPeriod, dashboard: query.data, isLoading: query.isLoading, error: query.error }
+  return { period, setPeriod, dashboard: query.data, isLoading: query.isLoading, error: query.error, retry: () => void query.refetch() }
 }

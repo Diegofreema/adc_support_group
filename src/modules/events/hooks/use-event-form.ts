@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 
 import { ACTIVITY_TYPES } from '@/config/activity-types'
 import { useRequiredUser } from '@/stores/session-store'
@@ -9,6 +8,8 @@ import type { EventTypeOption, GroupEvent } from '../types'
 import { useEventChapters, useEventTypes } from './use-events'
 import { useSaveEvent } from './use-save-event'
 import { useVenueLocation } from './use-venue-location'
+import { useAppForm } from '@/hooks/use-app-form'
+import { friendlyError } from '@/lib/errors'
 
 /** Backend types; the config list until they load. */
 function useTypeOptions(): EventTypeOption[] {
@@ -31,7 +32,7 @@ function useChapterChoice(editing: boolean) {
 /** Everything the new / edit event screen needs. */
 export function useEventForm(event?: GroupEvent) {
   const types = useTypeOptions()
-  const form = useForm<EventForm>({
+  const form = useAppForm<EventForm>({
     resolver: zodResolver(eventFormSchema),
     defaultValues: event ? eventToForm(event) : emptyEventForm(types[0]?.value),
   })
@@ -46,7 +47,7 @@ export function useEventForm(event?: GroupEvent) {
     ...chapter,
     submit: form.handleSubmit((values) => save.mutate(buildEventInput(values, location.point))),
     isSaving: save.isPending,
-    saveError: save.error?.message,
+    saveError: save.error ? friendlyError(save.error) : undefined,
   }
 }
 

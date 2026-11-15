@@ -1,4 +1,4 @@
-import { formatCompact } from '@/lib/format'
+import { formatNaira } from '@/lib/format'
 import { QUICK_AMOUNTS } from '../utils/amount'
 
 interface QuickAmountsProps {
@@ -8,10 +8,10 @@ interface QuickAmountsProps {
 
 export function QuickAmounts({ value, onPick }: QuickAmountsProps) {
   return (
-    <div className="pills" role="group" aria-label="Quick amounts">
+    <div className="pills pills-wrap" role="group" aria-label="Quick amounts">
       {QUICK_AMOUNTS.map((amount) => (
         <button key={amount} type="button" className="pill" aria-pressed={value === amount} onClick={() => onPick(amount)}>
-          {formatCompact(amount)}
+          {formatNaira(amount)}
         </button>
       ))}
     </div>

@@ -3,8 +3,8 @@ import type { AttendanceFilter } from '../types'
 
 const FILTERS: PillOption<AttendanceFilter>[] = [
   { value: 'all', label: 'All' },
-  { value: 'coming', label: 'Coming' },
-  { value: 'present', label: 'Present' },
+  { value: 'coming', label: 'Said coming' },
+  { value: 'present', label: 'Came' },
 ]
 
 interface AttendanceFiltersProps {

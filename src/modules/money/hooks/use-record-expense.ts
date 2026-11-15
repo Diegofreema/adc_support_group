@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 
 import { useRequiredUser } from '@/stores/session-store'
 import { recordExpense } from '../services/record.service'
@@ -7,12 +6,13 @@ import type { ExpenseCategory } from '../types'
 import { parseAmount, today } from '../utils/amount'
 import { expenseSchema, type ExpenseForm } from '../utils/schemas'
 import { useMoneyMutation } from './use-money-mutation'
+import { useAppForm } from '@/hooks/use-app-form'
 
 /** "Record expense": amount, date, what for, receipt. */
 export function useRecordExpense() {
   const user = useRequiredUser()
   const save = useMoneyMutation(recordExpense, 'Expense recorded')
-  const form = useForm<ExpenseForm>({
+  const form = useAppForm<ExpenseForm>({
     resolver: zodResolver(expenseSchema),
     defaultValues: { amount: '', occurredOn: today(), category: '', description: '' },
   })

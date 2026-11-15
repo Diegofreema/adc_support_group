@@ -1,0 +1,306 @@
+/* ==========================================================================
+   Motion & feedback layer (UX revamp, phase 0)
+   Loaded after ledger.css and unlayered, so it refines the Ledger rules
+   without rewriting them. Every timing and easing comes from the tokens below.
+   Motion explains what happened; it never decorates. Reduced-motion is honoured
+   at the bottom of this file.
+   ========================================================================== */
+
+:root {
+  /* Snappy timing */
+  --dur-press: 90ms;   /* finger down */
+  --dur-fast: 160ms;   /* hovers, colour changes, exits */
+  --dur-base: 220ms;   /* most enters */
+  --dur-slow: 360ms;   /* large surfaces (dialogs, page content) */
+
+  /* Slow in, slow out: ease-out to arrive, ease-in to leave, spring to settle */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-in: cubic-bezier(.55, 0, 1, .45);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --ease-spring: cubic-bezier(.34, 1.56, .64, 1); /* small overshoot = follow through */
+
+  /* Solid drawing: one light source from above, three heights */
+  --elev-1: 0 1px 2px rgba(20, 24, 29, .06), 0 1px 1px rgba(20, 24, 29, .04);
+  --elev-2: 0 6px 16px -6px rgba(20, 24, 29, .16), 0 2px 4px -2px rgba(20, 24, 29, .08);
+  --elev-3: 0 24px 60px -24px rgba(20, 24, 29, .38), 0 8px 20px -8px rgba(20, 24, 29, .14);
+  --shadow: var(--elev-3);
+
+  /* Readability: faint text now passes WCAG AA on white and on paper (≈5:1) */
+  --text-3: #636B74;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(8px); } }
+/* Dialog travels up on a slight curve while it grows, then settles */
+@keyframes dialog-in {
+  0% { opacity: 0; transform: translateY(14px) scale(.94); }
+  60% { opacity: 1; transform: translateY(-2px) scale(1.005); }
+  100% { transform: none; }
+}
+@keyframes dialog-out { to { opacity: 0; transform: translateY(6px) scale(.97); } }
+@keyframes pop { 0% { transform: scale(.4); opacity: 0; } 70% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
+@keyframes nav-hop { 0% { transform: translateY(0); } 40% { transform: translateY(-4px) scale(1.08); } 100% { transform: translateY(0); } }
+@keyframes marker-in { from { transform: scaleX(0); } }
+@keyframes marker-in-y { from { transform: scaleY(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Reusable one-shot feedback for pages (e.g. after a save) */
+.anim-pop { animation: pop var(--dur-slow) var(--ease-spring); }
+.anim-shake { animation: shake 380ms var(--ease-out); }
+.anim-rise { animation: rise-in var(--dur-base) var(--ease-out) backwards; }
+
+/* Tap highlight is replaced by our own press states */
+a, button, label, [role="button"], summary { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+/* ---------- Page content: arrives in a short stagger ---------- */
+.main > *, .auth-inner > * { animation: rise-in var(--dur-slow) var(--ease-out) backwards; }
+.main > :nth-child(2), .auth-inner > :nth-child(2) { animation-delay: 40ms; }
+.main > :nth-child(3), .auth-inner > :nth-child(3) { animation-delay: 80ms; }
+.main > :nth-child(4), .auth-inner > :nth-child(4) { animation-delay: 120ms; }
+.main > :nth-child(n+5), .auth-inner > :nth-child(n+5) { animation-delay: 160ms; }
+
+/* ---------- Buttons: squash on press, spring back on release ---------- */
+.btn {
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-spring),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.btn:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: translateY(2px) scale(.98);
+  transition-duration: var(--dur-press);
+  transition-timing-function: var(--ease-out);
+}
+/* Bigger hit area: no button is smaller than a fingertip */
+.btn-sm { min-height: 44px; }
+/* Working: stays solid (it's busy, not broken), shows a spinner, blocks double taps */
+.btn[aria-busy="true"] { cursor: progress; }
+.btn[aria-busy="true"]:disabled { opacity: 1; box-shadow: var(--edge); }
+.btn[aria-busy="true"] .btn-label { opacity: .85; }
+.spinner {
+  width: 18px; height: 18px; flex: none; border-radius: 50%;
+  border: 2.25px solid currentColor; border-right-color: transparent;
+  animation: spin 700ms linear infinite;
+}
+.btn .spinner { animation-name: spin; }
+
+/* Icon buttons: 48px target, press shrink */
+.icon-btn { width: 48px; height: 48px; transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring); }
+.icon-btn:active:not(:disabled) { transform: scale(.9); transition-duration: var(--dur-press); }
+.icon-btn .badge-dot { top: 12px; right: 13px; animation: pop var(--dur-slow) var(--ease-spring); }
+
+/* Quick-action keys: press, and the icon nudges up on hover (secondary action) */
+.quick a, .quick button { min-height: 76px; transition: transform var(--dur-fast) var(--ease-spring), box-shadow var(--dur-press) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+.quick a:active, .quick button:active { transform: translateY(2px) scale(.97); transition-duration: var(--dur-press); }
+.quick .q-icon { transition: transform var(--dur-base) var(--ease-spring); }
+@media (hover: hover) { .quick a:hover .q-icon, .quick button:hover .q-icon { transform: translateY(-2px); } }
+
+/* ---------- Forms: readable labels, clear focus, unmistakable errors ---------- */
+/* Sentence-case labels in the body font are far easier to read than small mono caps */
+.label { font-family: var(--font-body); font-size: .9375rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--text); }
+.hint { font-size: .875rem; color: var(--text-2); }
+.input, .select, .textarea {
+  transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
+}
+.input:focus, .select:focus, .textarea:focus { box-shadow: inset 0 -2px 0 var(--green), 0 0 0 3px var(--green-soft); }
+.input-group:focus-within .prefix { border-color: var(--green); color: var(--text); }
+.field.has-error .input, .field.has-error .select, .field.has-error .textarea, .field.has-error .amount-input {
+  border-color: var(--red); background-color: #FFFBFB;
+  animation: shake 380ms var(--ease-out);
+}
+.field.has-error .select, .field.has-error .textarea { box-shadow: inset 0 -2px 0 var(--red); }
+.field.has-error .input-group .prefix { border-color: var(--red); color: var(--red); }
+.field.has-error .input:focus { box-shadow: inset 0 -2px 0 var(--red), 0 0 0 3px var(--red-soft); }
+.error-text { font-size: .875rem; animation: rise-in var(--dur-base) var(--ease-out); }
+.error-text .i { animation: pop var(--dur-slow) var(--ease-spring); }
+.amount-input { transition: border-color var(--dur-fast) var(--ease-out); }
+
+/* Choices: the whole card is the target; the dot pops when picked */
+.choice { transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring); }
+.choice:active { transform: scale(.985); transition-duration: var(--dur-press); }
+.choice:has(input:checked) .dot::after { animation: pop var(--dur-base) var(--ease-spring); }
+.choice-tile .tile-icon { transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-base) var(--ease-spring); }
+.choice-tile:has(input:checked) .tile-icon { transform: scale(1.06); }
+.choice-tile:has(input:checked)::after, .choice-tile:has(input:checked)::before { animation: fade-in var(--dur-fast) var(--ease-out); }
+
+/* Segmented and toggle: the thumb springs into place */
+.segmented button { min-height: 44px; transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+.toggle { width: 52px; height: 30px; }
+.toggle::after { content: ""; position: absolute; inset: -9px -4px; } /* 48px tap area */
+.toggle span { transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out); }
+.toggle span::before { width: 24px; height: 24px; transition: transform var(--dur-base) var(--ease-spring); }
+.toggle input:checked + span::before { transform: translateX(22px); }
+.toggle input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
+.check { min-height: 44px; align-items: center; }
+.check input { width: 22px; height: 22px; margin: 0; }
+
+/* ---------- Lists, tabs, pills: visible press on touch ---------- */
+.list-item { transition: background-color var(--dur-fast) var(--ease-out); }
+a.list-item:active, button.list-item:active, .table-cards tr[role="link"]:active { background: var(--surface-4); transition-duration: var(--dur-press); }
+a.list-item:hover::before { animation: marker-in-y var(--dur-fast) var(--ease-out); }
+.list-item .chev { transition: transform var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.tab { transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-base) var(--ease-out); }
+.pill { min-height: 44px; padding: 0 14px; font-size: .875rem; transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring); }
+.pill:active { transform: scale(.95); transition-duration: var(--dur-press); }
+.photo .x::after { content: ""; position: absolute; inset: -8px; } /* tap area beyond the small badge */
+.dropzone, .photo-add { transition: border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+
+/* Small mono labels: a touch bigger so they can be read without squinting */
+.eyebrow, .mono-label, .stat-label, .step-count, .chip, .tag, .table th { font-size: .75rem; }
+.list-item .meta { font-size: .875rem; }
+
+/* ---------- Progress and wizard: bars fill instead of jumping ---------- */
+.progress > span { transition: width var(--dur-slow) var(--ease-out); }
+.stepper span { transition: background-color var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out); transform-origin: left; }
+.stepper span.now { animation: marker-in var(--dur-slow) var(--ease-out); }
+
+/* ---------- Empty state ---------- */
+.empty .icon-tile { animation: pop var(--dur-slow) var(--ease-spring) 80ms backwards; }
+.empty-desc { max-width: 34ch; margin: 6px auto 0; color: var(--text-2); }
+
+/* ---------- Dialogs: stage the focus ---------- */
+.dialog-backdrop { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.dialog-backdrop[data-state="open"] { animation: fade-in var(--dur-base) var(--ease-out); }
+.dialog-backdrop[data-state="closed"] { animation: fade-out var(--dur-fast) var(--ease-in) forwards; }
+.dialog { box-shadow: var(--elev-3); }
+.dialog[data-state="open"] { animation: dialog-in var(--dur-slow) var(--ease-out); }
+.dialog[data-state="closed"] { animation: dialog-out var(--dur-fast) var(--ease-in) forwards; }
+.dialog .dialog-actions .btn { min-height: 52px; }
+
+/* ---------- Toasts (sonner): icon pops on success, wiggles on error ---------- */
+[data-sonner-toast] [data-icon] { display: grid; place-items: center; }
+[data-sonner-toast][data-type="success"] [data-icon] { color: #6FD39A; animation: pop var(--dur-slow) var(--ease-spring) 60ms backwards; }
+[data-sonner-toast][data-type="error"] [data-icon] { color: #FF9BA0; animation: shake 420ms var(--ease-out) 80ms; }
+[data-sonner-toast][data-type="warning"] [data-icon] { color: #F2C46D; }
+[data-sonner-toast][data-type="info"] [data-icon] { color: #8DB8EE; }
+
+/* ---------- Bottom tabs: bigger labels, marker grows in, icon hops ---------- */
+.bottomnav { box-shadow: 0 -4px 16px -8px rgba(20, 24, 29, .12); }
+.bottomnav a { font-size: .75rem; transition: color var(--dur-fast) var(--ease-out); }
+.bottomnav a .nav-ico { transition: transform var(--dur-fast) var(--ease-spring), color var(--dur-fast) var(--ease-out); }
+.bottomnav a:active .nav-ico { transform: scale(.86); transition-duration: var(--dur-press); }
+.bottomnav a[aria-current="page"] .nav-ico { animation: nav-hop var(--dur-slow) var(--ease-out); }
+.bottomnav a[aria-current="page"]::before { animation: marker-in var(--dur-base) var(--ease-spring); }
+
+/* Sidebar (desktop) */
+.side-link { transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out); }
+.side-link[aria-current="page"]::before { animation: marker-in-y var(--dur-base) var(--ease-spring); }
+.switcher { transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring); }
+.switcher:active { transform: scale(.985); transition-duration: var(--dur-press); }
+
+/* Cards that are links lift on hover (solid drawing) */
+a.card, button.card { transition: box-shadow var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring), border-color var(--dur-fast) var(--ease-out); }
+@media (hover: hover) { a.card:hover, button.card:hover { box-shadow: var(--elev-2); transform: translateY(-1px); border-color: var(--line-3); } }
+a.card:active, button.card:active { transform: scale(.99); box-shadow: var(--elev-1); }
+
+/* ---------- Reduced motion: keep feedback, drop movement ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* A spinner that stops looks frozen; let it turn, slowly */
+  .spinner { animation-duration: 1.4s !important; animation-iteration-count: infinite !important; }
+}
+
+/* ==========================================================================
+   Phase 1: sign-in and onboarding
+   ========================================================================== */
+/* Text links that act (Forgot password?, Send again, Log out): full tap height, no layout shift */
+.text-link {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-block: -10px; padding: 0 8px; margin-inline: -8px;
+  border: 0; background: none; color: var(--green); font-weight: 600; font-size: .875rem; cursor: pointer; border-radius: var(--r-sm);
+  transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring);
+}
+.text-link:hover { background: var(--green-soft); }
+.text-link:active { transform: scale(.96); transition-duration: var(--dur-press); }
+.text-link:disabled { color: var(--text-3); cursor: default; background: none; }
+.field .row-between .label { margin-bottom: 8px; }
+
+/* Success screens: the tick pops, then a ring ripples out once */
+.result .icon-tile { position: relative; animation: stamp var(--dur-slow) var(--ease-spring) 120ms backwards; }
+@keyframes stamp { from { opacity: 0; transform: scale(.4) rotate(-20deg); } to { opacity: 1; transform: scale(1) rotate(-4deg); } }
+.result .icon-tile::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; border: 2px solid var(--green); opacity: 0; animation: ripple 700ms var(--ease-out) 300ms; }
+@keyframes ripple { from { opacity: .6; transform: scale(1); } to { opacity: 0; transform: scale(1.8); } }
+
+/* "Or" divider between the two ways in */
+.or-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: var(--text-3); font-size: .875rem; font-weight: 600; }
+.or-divider::before, .or-divider::after { content: ""; flex: 1; height: 1px; background: var(--line-2); }
+
+/* Code boxes: a filled box is confirmed with a green underline */
+.otp input { transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-spring); }
+.otp input.filled { border-color: var(--green-line); box-shadow: inset 0 -2px 0 var(--green); }
+.otp.has-error input { border-color: var(--red); animation: shake 380ms var(--ease-out); }
+
+/* ==========================================================================
+   Phase 2: home screens
+   ========================================================================== */
+/* Cards arrive in reading order: left column first, then the right */
+.stagger > div > * { animation: rise-in var(--dur-slow) var(--ease-out) backwards; }
+.stagger > div > :nth-child(2) { animation-delay: 60ms; }
+.stagger > div > :nth-child(3) { animation-delay: 120ms; }
+.stagger > div > :nth-child(4) { animation-delay: 180ms; }
+.stagger > div > :nth-child(5) { animation-delay: 240ms; }
+.stagger > div > :nth-child(n+6) { animation-delay: 300ms; }
+/* The page wrapper itself shouldn't also rise when its cards do */
+.main > .stagger { animation: none; }
+
+/* Hero: the number is the star, so it settles with a little weight */
+.hero-num { display: inline-block; font-variant-numeric: tabular-nums; }
+.hero-card .btn-primary { min-height: 56px; font-size: 1rem; }
+
+/* Quick actions: two-word labels wrap neatly instead of overflowing */
+.quick a, .quick button { font-size: .875rem; line-height: 1.2; padding: 12px 4px; justify-content: center; }
+
+/* ==========================================================================
+   Phase 3: money and payments
+   ========================================================================== */
+/* Quick amounts wrap onto two lines instead of hiding off-screen (no hidden choices) */
+.pills-wrap { flex-wrap: wrap; overflow: visible; }
+/* Amounts: digits don't jiggle as they change, and the total pulses when it updates */
+.amount-input input, .display.num { font-variant-numeric: tabular-nums; }
+.amount-input { transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out); }
+.amount-input:focus-within { box-shadow: 0 0 0 3px var(--green-soft); }
+.amount-input:focus-within span { color: var(--green); }
+/* Page header actions on phones (every page): full-width keys, the primary one first and closest to hand */
+@media (max-width: 639px) {
+  .page-head-row { align-items: stretch; }
+  .page-head-row > .row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .page-head-row > .row > .btn-primary { order: -1; }
+}
+
+/* ==========================================================================
+   Phase 4: events and activities
+   ========================================================================== */
+/* Attendance: the whole row is the tick target, the box is big, and a tick pops */
+.attendee { padding: 0; }
+.attendee .check { width: 100%; padding: 14px 16px; min-height: 66px; align-items: center; gap: 14px; cursor: pointer; }
+.attendee .check input { width: 28px; height: 28px; }
+.attendee .check input:checked { animation: pop var(--dur-base) var(--ease-spring); }
+.attendee.is-present { background: var(--green-soft); transition: background-color var(--dur-base) var(--ease-out); }
+.attendee:active { background: var(--surface-4); }
+/* Photo grid: remove buttons are easier to hit */
+.photo .x { width: 32px; height: 32px; }
+.photo-add { min-height: 96px; }
+
+/* ==========================================================================
+   Phase 5: people and communication
+   ========================================================================== */
+/* Member rows: the whole name block opens the member */
+.member-open { border: 0; background: none; padding: 6px 0; margin: -6px 0; min-height: 48px; border-radius: var(--r-sm); cursor: pointer; color: inherit; }
+.member-open:active { background: var(--surface-4); }
+@media (hover: hover) { .member-open:hover .chev { transform: translateX(3px); color: var(--text); } }
+.member-open .chev { transition: transform var(--dur-fast) var(--ease-out); }
+/* Leaderboard: top three get gold, silver, bronze; everyone else a plain number */
+.board-place { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; }
+.board-place-1 { background: #F6D776; color: #6B4E00; }
+.board-place-2 { background: #DDE1E6; color: #3B4652; }
+.board-place-3 { background: #E9B98F; color: #6A3A12; }

@@ -1,13 +1,14 @@
 import { PencilLine } from 'lucide-react'
 
-import { Banner, Button, Card, EmptyState, Skeleton, SkeletonRegion } from '@/components/shared'
+import { Banner, Button, Card, EmptyState, ErrorState, Skeleton, SkeletonRegion } from '@/components/shared'
 import { countLabel, formatDay } from '@/lib/format'
 import { useNameChanges } from '../hooks/use-settings'
 import type { NameChange } from '../types'
 
 /** Leaders asking to rename a verified group. */
 export function NameChangesSection() {
-  const { items, isLoading, decide } = useNameChanges()
+  const { items, isLoading, error, retry, decide } = useNameChanges()
+  if (error) return <ErrorState title="Couldn't load the name changes" error={error} onRetry={retry} />
   if (isLoading) return <NameChangesSkeleton />
   if (!items.length) return <EmptyState icon={PencilLine} title="No name changes" />
   return (

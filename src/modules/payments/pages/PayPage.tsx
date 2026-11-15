@@ -2,6 +2,7 @@ import { CreditCard } from 'lucide-react'
 
 import { PendingGroupNote, WizardActions, WizardProgress } from '@/components/shared'
 import { useGroupLocked } from '@/hooks/use-group-verified'
+import { formatNaira } from '@/lib/format'
 import { AmountStep } from '../components/AmountStep'
 import { GivingLimitNote } from '../components/GivingLimitNote'
 import { PayCheckStep } from '../components/PayCheckStep'
@@ -40,13 +41,13 @@ function CurrentStep({ flow }: { flow: Flow }) {
   switch (flow.wizard.step) {
     case 0: return <PayForStep draft={draft} causes={lookups.causes} onChange={update} />
     case 1: return <AmountStep draft={draft} activities={lookups.activities} chapters={lookups.chapters} defaultChapterLabel={lookups.defaultChapterLabel} onChange={update} />
-    default: return <PayCheckStep summary={flow.summary()} />
+    default: return <PayCheckStep amount={draft.amount} summary={flow.summary()} />
   }
 }
 
 function StepActions({ flow }: { flow: Flow }) {
   const { wizard } = flow
   const onBack = wizard.isFirst ? undefined : wizard.back
-  if (wizard.isLast) return <WizardActions onBack={onBack} onNext={flow.submit} nextLabel="Pay with Funz" nextIcon={CreditCard} loading={flow.isPaying} />
+  if (wizard.isLast) return <WizardActions onBack={onBack} onNext={flow.submit} nextLabel={`Pay ${formatNaira(flow.draft.amount)}`} nextIcon={CreditCard} loading={flow.isPaying} />
   return <WizardActions onBack={onBack} onNext={flow.next} />
 }

@@ -28,7 +28,7 @@ export function GroupPage() {
   const handover = useRequestHandover(groupId)
   if (isLoading) return <PageLoader shape="detail" />
   if (isError) {
-    return <EmptyState icon={CloudOff} title="Couldn't load your group" action={<Button icon={RotateCw} onClick={() => void refetch()}>Retry</Button>} />
+    return <EmptyState icon={CloudOff} title="Couldn't load your group" action={<Button icon={RotateCw} onClick={() => void refetch()}>Try again</Button>} />
   }
   if (!group) return <EmptyState icon={SearchX} title="Group not found" />
   return (

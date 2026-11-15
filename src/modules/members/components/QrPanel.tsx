@@ -17,8 +17,8 @@ export function QrPanel({ joinCode, inviteName }: { joinCode: string; inviteName
   return (
     <Card className="center">
       <div ref={qrRef} className="mx-auto w-fit"><QrCode value={joinLink(joinCode)} /></div>
-      <p className="small muted mt-3">Scan to join</p>
-      <Button variant="primary" block icon={Download} className="mt-4" onClick={download}>Download</Button>
+      <p className="small muted mt-3">People scan this with their phone camera to join.</p>
+      <Button variant="primary" block icon={Download} className="mt-4" onClick={download}>Save QR picture</Button>
     </Card>
   )
 }

@@ -21,13 +21,13 @@ export function MemberDialog({ member, viewer, onClose, onMakeExecutive, onMove,
   if (!member) return null
   const can = memberPermissions(viewer, member)
   return (
-    <Modal open onOpenChange={(open) => !open && onClose()} title="Member">
+    <Modal open onOpenChange={(open) => !open && onClose()} title={member.fullName}>
       <MemberDetails member={member} />
       <div className="grid mt-4">
         {can.canMakeExecutive && <Button block icon={Crown} onClick={() => onMakeExecutive(member)}>Make executive</Button>}
-        {can.canEditPowers && <Button block icon={KeyRound} onClick={() => onPowers(member)}>Powers</Button>}
-        {can.canMove && <Button block icon={ArrowRightLeft} onClick={() => onMove(member)}>Move chapter</Button>}
-        {can.canRemove && <Button block variant="danger" icon={UserMinus} onClick={() => onRemove(member)}>Remove</Button>}
+        {can.canEditPowers && <Button block icon={KeyRound} onClick={() => onPowers(member)}>What they can do</Button>}
+        {can.canMove && <Button block icon={ArrowRightLeft} onClick={() => onMove(member)}>Move to another chapter</Button>}
+        {can.canRemove && <Button block variant="danger" icon={UserMinus} onClick={() => onRemove(member)}>Remove from group</Button>}
       </div>
       <Button variant="ghost" block className="mt-2" onClick={onClose}>Close</Button>
     </Modal>

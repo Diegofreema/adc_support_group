@@ -12,8 +12,7 @@ export function MemberDetails({ member }: { member: MemberRecord }) {
       <div className="row">
         <Avatar name={member.fullName} size="lg" />
         <div>
-          <p className="h3">{member.fullName}</p>
-          <p className="muted small">{formatPhone(member.phone)}</p>
+          <p className="bold">{formatPhone(member.phone)}</p>
           <PowerTags member={member} />
         </div>
       </div>

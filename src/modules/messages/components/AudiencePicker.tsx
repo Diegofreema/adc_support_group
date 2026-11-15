@@ -17,7 +17,7 @@ function toOption(option: AudienceOption): ChoiceOption<Audience> {
 
 export function AudiencePicker({ audiences, value, onChange, chapters, chapterId, onChapterChange }: AudiencePickerProps) {
   return (
-    <Field label="To">
+    <Field label="Who should get it?">
       <ChoiceList name="audience" label="To" options={audiences.map(toOption)} value={value} onChange={onChange} />
       {value === 'chapter' && (
         <SelectInput

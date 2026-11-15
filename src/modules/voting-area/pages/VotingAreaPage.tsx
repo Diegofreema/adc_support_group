@@ -21,7 +21,7 @@ export function VotingAreaPage() {
         <h1 className="h1">Your voting area</h1>
         <p className="muted mt-1">Choose the polling unit where you are registered to vote. You can change it later on your profile.</p>
         <div className="mt-6"><VotingAreaPicker idPrefix="voting" value={choice} onChange={setChoice} /></div>
-        <Button type="submit" variant="primary" size="lg" block className="mt-6" disabled={!choice.code || save.isPending}>Save and continue</Button>
+        <Button type="submit" variant="primary" size="lg" block className="mt-6" disabled={!choice.code} loading={save.isPending}>Save and continue</Button>
       </form>
     </AuthLayout>
   )

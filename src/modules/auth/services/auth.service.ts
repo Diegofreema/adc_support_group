@@ -27,7 +27,7 @@ async function signIn({ identifier, password }: Credentials): Promise<void> {
   const value = identifier.trim()
   if (value.includes('@')) {
     const { error } = await supabase.auth.signInWithPassword({ email: value.toLowerCase(), password })
-    if (error) throw new Error('Wrong email or password. Joined with your phone? Use the Phone tab.')
+    if (error) throw new Error('Wrong email or password. If you joined with your phone, type your phone number instead.')
     return
   }
   // Phone accounts sign in through the shared edge function (the phone is

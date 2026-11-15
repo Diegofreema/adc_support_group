@@ -1,11 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { requestPasswordReset, type ChannelChoices, type CodeChannel } from '../services/verification.service'
 import { requestCodeSchema, type RequestCodeValues } from '../utils/schemas'
 import { notify } from '@/lib/toast'
+import { useAppForm } from '@/hooks/use-app-form'
 
 export interface CodeSent {
   phone: string
@@ -19,7 +19,7 @@ export interface CodeSent {
  * Used by "Forgot password" and the welcome link for imported members.
  */
 export function useRequestResetCode(initialPhone: string, onSent: (sent: CodeSent) => void) {
-  const form = useForm<RequestCodeValues>({ resolver: zodResolver(requestCodeSchema), defaultValues: { phone: initialPhone } })
+  const form = useAppForm<RequestCodeValues>({ resolver: zodResolver(requestCodeSchema), defaultValues: { phone: initialPhone } })
   const [channels, setChannels] = useState<ChannelChoices | null>(null)
   const mutation = useMutation({
     mutationFn: ({ phone, channel }: { phone: string; channel?: CodeChannel }) => requestPasswordReset(phone, channel),

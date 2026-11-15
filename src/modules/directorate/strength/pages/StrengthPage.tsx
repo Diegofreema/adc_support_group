@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 
-import { Banner, PageHeader, SectionTitle, SkeletonRegion, SkeletonStats, SkeletonTable, StatGrid, type StatItem } from '@/components/shared'
+import { ErrorState, PageHeader, SectionTitle, SkeletonRegion, SkeletonStats, SkeletonTable, StatGrid, type StatItem } from '@/components/shared'
 import { useRequiredUser } from '@/stores/session-store'
 import { AreaTable } from '../components/AreaTable'
 import { StrengthBreadcrumb } from '../components/StrengthBreadcrumb'
@@ -15,11 +15,11 @@ const StrengthMap = lazy(() => import('../map/StrengthMap'))
 /** Where the groups are strong or weak, polling unit by polling unit. */
 export function StrengthPage() {
   const user = useRequiredUser()
-  const { setScope, strength, error, isFetching, points, open } = useStrength()
+  const { setScope, strength, error, retry, isFetching, points, open } = useStrength()
   return (
     <>
       <PageHeader title="Strength" subtitle="Members by where they vote, against registered voters." />
-      {error && !strength && <Banner tone="danger" title="Could not load strength">{error.message}</Banner>}
+      {error && !strength && <ErrorState title="Could not load strength" error={error} onRetry={retry} />}
       {!strength && !error && <SkeletonRegion label="Loading strength"><SkeletonStats count={4} /><div className="mt-6"><SkeletonTable /></div></SkeletonRegion>}
       {strength && (
         <div aria-busy={isFetching}>

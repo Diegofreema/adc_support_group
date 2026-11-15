@@ -10,9 +10,9 @@ export function ExpenseFields({ form }: { form: UseFormReturn<ExpenseForm> }) {
   return (
     <>
       <Field label="Amount" htmlFor="expense-amount" error={errors.amount?.message}><AmountInput id="expense-amount" {...register('amount')} /></Field>
-      <Field label="Date" htmlFor="expense-date" error={errors.occurredOn?.message}><TextInput id="expense-date" type="date" {...register('occurredOn')} /></Field>
-      <Field label="For" htmlFor="expense-category" error={errors.category?.message}><SelectInput id="expense-category" placeholder="Choose" options={CATEGORY_OPTIONS} {...register('category')} /></Field>
-      <Field label="What was it" htmlFor="expense-description" error={errors.description?.message}><TextInput id="expense-description" maxLength={300} placeholder="e.g. Bus to the rally" {...register('description')} /></Field>
+      <Field label="Date paid" htmlFor="expense-date" error={errors.occurredOn?.message}><TextInput id="expense-date" type="date" {...register('occurredOn')} /></Field>
+      <Field label="What kind of expense?" htmlFor="expense-category" error={errors.category?.message}><SelectInput id="expense-category" placeholder="Choose" options={CATEGORY_OPTIONS} {...register('category')} /></Field>
+      <Field label="What did you buy or pay for?" htmlFor="expense-description" error={errors.description?.message}><TextInput id="expense-description" maxLength={300} placeholder="e.g. Bus to the rally" {...register('description')} /></Field>
       <ProofField label="Receipt" fileName={watch('receipt')?.name} error={errors.receipt?.message} onFile={(file) => setValue('receipt', file, { shouldValidate: true })} />
     </>
   )

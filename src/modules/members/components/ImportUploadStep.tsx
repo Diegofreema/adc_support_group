@@ -17,12 +17,12 @@ interface ImportUploadStepProps {
 export function ImportUploadStep({ fileName, isReading, chapters, chapterId, onChapterChange, onFile, onTemplate, onNext }: ImportUploadStepProps) {
   return (
     <section className="mt-6">
-      <h1 className="h1">Upload file</h1>
-      <p className="muted mt-1">Excel or CSV.</p>
-      <div className="mt-5"><Dropzone label="Choose file" hint=".xlsx or .csv" accept=".xlsx,.xls,.csv" fileName={fileName} onFile={onFile} /></div>
+      <h1 className="h1">Upload your list</h1>
+      <p className="muted mt-1">An Excel or CSV file with names and phone numbers.</p>
+      <div className="mt-5"><Dropzone label="Choose your file" hint="Excel (.xlsx) or CSV" accept=".xlsx,.xls,.csv" fileName={fileName} onFile={onFile} /></div>
       <div className="mt-4"><NeededColumns onTemplate={onTemplate} /></div>
       <ChapterSelect id="import-chapter" label="Add to" chapters={chapters} value={chapterId} onChange={onChapterChange} />
-      <WizardActions nextLabel={isReading ? 'Reading…' : 'Check file'} onNext={onNext} disabled={isReading || !fileName} />
+      <WizardActions nextLabel={isReading ? 'Reading your file…' : 'Check the list'} onNext={onNext} loading={isReading} disabled={!fileName} />
     </section>
   )
 }

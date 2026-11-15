@@ -21,9 +21,9 @@ export function RegisterWhereStep({ form, onBack, onNext }: RegisterWhereStepPro
   const location = form.watch('location')
   return (
     <>
-      <StepHeading title="Where" />
+      <StepHeading title="Where is the group?" />
       <div className="mt-5">
-        <Segmented options={LOCATIONS} value={location} onChange={(next) => form.setValue('location', next)} label="Where is the group?" />
+        <Segmented options={LOCATIONS} value={location} onChange={(next) => form.setValue('location', next)} label="Country" />
       </div>
       {location === 'nigeria' ? <NigeriaFields form={form} /> : <AbroadFields form={form} />}
       <WizardActions onBack={onBack} onNext={onNext} />

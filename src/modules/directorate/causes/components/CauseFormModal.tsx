@@ -13,7 +13,7 @@ export function CauseFormModal({ editor }: { editor: CauseEditor }) {
       open={editor.isOpen}
       onOpenChange={(open) => !open && editor.close()}
       title={editor.cause ? 'Edit cause' : 'New cause'}
-      actions={<><Button onClick={editor.close}>Cancel</Button><Button variant="primary" type="submit" form={FORM_ID} disabled={editor.saving}>Save</Button></>}
+      actions={<><Button onClick={editor.close}>Cancel</Button><Button variant="primary" type="submit" form={FORM_ID} loading={editor.saving}>{editor.saving ? 'Saving…' : 'Save cause'}</Button></>}
     >
       <form id={FORM_ID} noValidate onSubmit={form.handleSubmit(editor.submit)}>
         <CauseFormFields form={form} visibleToOptions={editor.visibleToOptions} />

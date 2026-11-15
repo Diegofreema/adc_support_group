@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react'
 
-import { Button, PageHeader, SearchInput, SkeletonTable } from '@/components/shared'
+import { Button, ErrorState, PageHeader, SearchInput, SkeletonTable } from '@/components/shared'
 import { useDisclosure } from '@/hooks/use-disclosure'
 import { countLabel } from '@/lib/format'
 import { useGroupLocked } from '@/hooks/use-group-verified'
@@ -22,7 +22,7 @@ export function ChaptersPage() {
     <>
       <PageHeader title="Chapters" subtitle={countLabel(chapters.total, 'chapter', 'chapters')} actions={canCreate ? <Button variant="primary" icon={Plus} onClick={dialog.open}>New chapter</Button> : undefined} />
       <SearchInput value={chapters.search} onChange={chapters.setSearch} placeholder="Search chapters" />
-      <div className="mt-4">{chapters.isLoading ? <SkeletonTable /> : <ChaptersTable chapters={chapters.results} />}</div>
+      <div className="mt-4">{chapters.isLoading ? <SkeletonTable /> : chapters.error ? <ErrorState title="Couldn't load the chapters" error={chapters.error} onRetry={chapters.retry} /> : <ChaptersTable chapters={chapters.results} />}</div>
       {canCreate && <NewChapterDialog open={dialog.isOpen} onOpenChange={dialog.setOpen} groupId={groupId} groupName={user.activeGroupName ?? ''} />}
     </>
   )

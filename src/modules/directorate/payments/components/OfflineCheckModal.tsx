@@ -11,7 +11,7 @@ function details(payment: Payment) {
   return [
     { label: 'Amount', value: formatNaira(payment.amount) },
     { label: 'For', value: purposeLabel(payment) },
-    { label: 'How', value: methodLabel(payment.method) },
+    { label: 'Paid with', value: methodLabel(payment.method) },
     { label: 'Reference', value: payment.reference },
     { label: 'Paid by', value: payment.payerName },
     { label: 'Date', value: formatDay(payment.date) },
@@ -44,15 +44,15 @@ function Proof({ check }: { check: OfflineCheck }) {
   return (
     <div className="dropzone mb-3 !cursor-default" aria-label="Proof of payment">
       <ImageIcon className="i i-lg" aria-hidden />
-      <span className="small">{check.proofLoading ? 'Loading proof…' : 'No proof uploaded'}</span>
+      <span className="small row !gap-2">{check.proofLoading ? <><span className="spinner" aria-hidden />Loading proof…</> : 'No proof uploaded'}</span>
     </div>
   )
 }
 
 function CheckActions({ check }: { check: OfflineCheck }) {
-  return <><Button variant="danger" onClick={check.startReject}>Reject</Button><Button variant="primary" icon={Check} disabled={check.busy} onClick={check.confirmPayment}>Confirm</Button></>
+  return <><Button variant="danger" onClick={check.startReject}>Reject</Button><Button variant="primary" icon={Check} loading={check.busy} onClick={check.confirmPayment}>Confirm payment</Button></>
 }
 
 function RejectActions({ check }: { check: OfflineCheck }) {
-  return <><Button onClick={check.close}>Cancel</Button><Button variant="danger-solid" disabled={!check.form.isValid || check.busy} onClick={check.rejectPayment}>Reject</Button></>
+  return <><Button onClick={check.close}>Cancel</Button><Button variant="danger-solid" disabled={!check.form.isValid} loading={check.busy} onClick={check.rejectPayment}>Reject payment</Button></>
 }

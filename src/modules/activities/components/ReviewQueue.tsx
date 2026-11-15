@@ -9,7 +9,7 @@ import { ReviewCard } from './ReviewCard'
 /** Activities waiting for approval, with approve/reject actions. */
 export function ReviewQueue({ activities }: { activities: Activity[] }) {
   const queue = useReviewQueue()
-  if (activities.length === 0) return <EmptyState icon={ClipboardCheck} title="All caught up" />
+  if (activities.length === 0) return <EmptyState icon={ClipboardCheck} title="All caught up" description="No activities are waiting for you to check." />
   return (
     <>
       <div className="grid-2 items-start">

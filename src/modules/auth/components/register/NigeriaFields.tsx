@@ -13,7 +13,7 @@ export function NigeriaFields({ form }: { form: UseFormReturn<RegisterGroupValue
   const level = form.watch('level')
   return (
     <>
-      <Field label="Level" className="mt-5">
+      <Field label="How far does it reach?" className="mt-5">
         <LevelChoices value={level} onChange={(next) => form.setValue('level', next)} />
       </Field>
       {level !== 'national' && <PlaceSelects compact idPrefix="reg" depth={DEPTH[level]} value={place.value} onChange={place.onChange} errors={place.errors} />}

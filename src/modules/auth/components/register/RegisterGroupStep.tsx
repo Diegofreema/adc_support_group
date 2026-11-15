@@ -15,7 +15,7 @@ export function RegisterGroupStep({ form, onBack, onNext }: RegisterGroupStepPro
   const errors = form.formState.errors
   return (
     <>
-      <StepHeading title="Your group" />
+      <StepHeading title="Your group" helper="Its name and what kind of group it is." />
       <Field label="Group name" htmlFor="reg-group" error={errors.groupName?.message} className="mt-5">
         <TextInput id="reg-group" {...form.register('groupName')} />
       </Field>

@@ -21,7 +21,7 @@ export function JoinPhoneStep({ form, onBack, onNext, loading, error, loginToJoi
   const errors = form.formState.errors
   return (
     <>
-      <StepHeading title="About you" helper="We'll text you a code." />
+      <StepHeading title="About you" helper="We'll text a code to this number." />
       <Field label="Full name" htmlFor="join-name" error={errors.fullName?.message} className="mt-5">
         <TextInput id="join-name" autoComplete="name" {...form.register('fullName')} />
       </Field>

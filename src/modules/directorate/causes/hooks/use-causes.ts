@@ -5,11 +5,12 @@ import { directorateKeys } from '../../shared/query-keys'
 import type { CauseInput } from '../types'
 import { notify } from '@/lib/toast'
 import type { CauseStatus } from '@/types/domain'
+import { loadFailure } from '../../shared/hooks/load-failure'
 
 /** All causes; `isLoading` is true only until the first answer arrives. */
 export function useCauses() {
   const query = useQuery(causesQuery)
-  return { causes: query.data ?? [], isLoading: query.isLoading }
+  return { causes: query.data ?? [], isLoading: query.isLoading, ...loadFailure(query) }
 }
 
 function useInvalidateCauses() {

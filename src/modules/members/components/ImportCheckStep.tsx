@@ -20,10 +20,10 @@ interface ImportCheckStepProps {
 export function ImportCheckStep({ sheet, mapping, check, canImport, isImporting, onMap, onBack, onImport }: ImportCheckStepProps) {
   return (
     <section className="mt-6">
-      <h1 className="h1">Check columns</h1>
+      <h1 className="h1">Check your list</h1>
       <p className="muted mt-1">{sheet.fileName}</p>
       <div className="mt-5">
-        <ImportCounts items={[{ label: 'Rows', value: check.total }, { label: 'Ready', value: check.ready, tone: 'green' }, { label: 'Errors', value: check.issues.length, tone: 'red' }]} />
+        <ImportCounts items={[{ label: 'Rows', value: check.total }, { label: 'Ready', value: check.ready, tone: 'green' }, { label: 'Problems', value: check.issues.length, tone: 'red' }]} />
       </div>
       {check.issues.length > 0 && (
         <>
@@ -34,7 +34,7 @@ export function ImportCheckStep({ sheet, mapping, check, canImport, isImporting,
       <div className="mt-4"><ColumnMappingCard headers={sheet.headers} mapping={mapping} onChange={onMap} /></div>
       <SectionTitle title="Preview" />
       <ImportPreviewTable sheet={sheet} mapping={mapping} />
-      <WizardActions onBack={onBack} onNext={onImport} nextLabel={isImporting ? 'Adding…' : `Add ${formatNumber(check.ready)}`} disabled={isImporting || !canImport} />
+      <WizardActions onBack={onBack} onNext={onImport} nextLabel={isImporting ? 'Adding…' : `Add ${formatNumber(check.ready)} ${check.ready === 1 ? 'person' : 'people'}`} loading={isImporting} disabled={!canImport} />
     </section>
   )
 }

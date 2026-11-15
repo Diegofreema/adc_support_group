@@ -1,29 +1,22 @@
-import { Banner, Button, Field, PasswordInput, Segmented, type SegmentOption } from '@/components/shared'
+import { Banner, Button, Field, PasswordInput } from '@/components/shared'
 import { useDisclosure } from '@/hooks/use-disclosure'
 import { useLogin } from '../../hooks/use-login'
-import type { LoginMethod } from '../../types/auth.types'
 import { ForgotPasswordDialog } from './ForgotPasswordDialog'
 import { LoginIdentifierField } from './LoginIdentifierField'
 
-const METHODS: SegmentOption<LoginMethod>[] = [
-  { value: 'phone', label: 'Phone' },
-  { value: 'email', label: 'Email' },
-]
-
 export function LoginForm() {
-  const { form, method, setMethod, onSubmit, isPending, error } = useLogin()
+  const { form, onSubmit, isPending, error } = useLogin()
   const forgot = useDisclosure()
 
   return (
     <>
-      <Segmented options={METHODS} value={method} onChange={setMethod} label="Log in with" />
-      <form className="mt-5" onSubmit={onSubmit} noValidate>
-        <LoginIdentifierField form={form} method={method} />
+      <form onSubmit={onSubmit} noValidate>
+        <LoginIdentifierField form={form} />
         <Field label="Password" htmlFor="login-password" error={form.formState.errors.password?.message} aside={<ForgotLink onClick={forgot.open} />}>
-          <PasswordInput id="login-password" autoComplete="current-password" placeholder="••••••••" {...form.register('password')} />
+          <PasswordInput id="login-password" autoComplete="current-password" {...form.register('password')} />
         </Field>
-        {error && <Banner tone="danger" className="mt-4">{error}</Banner>}
-        <Button type="submit" variant="primary" size="lg" block className="mt-6" disabled={isPending}>
+        {error && <Banner tone="danger" className="mt-4 anim-shake">{error}</Banner>}
+        <Button type="submit" variant="primary" size="lg" block className="mt-6" loading={isPending}>
           {isPending ? 'Logging in…' : 'Log in'}
         </Button>
       </form>
@@ -33,5 +26,5 @@ export function LoginForm() {
 }
 
 function ForgotLink({ onClick }: { onClick: () => void }) {
-  return <button type="button" className="small mb-2 text-primary" onClick={onClick}>Forgot?</button>
+  return <button type="button" className="text-link" onClick={onClick}>Forgot password?</button>
 }

@@ -21,10 +21,11 @@ function Money({ summary }: { summary: MoneySummary }) {
   return (
     <>
       <BalanceCard balance={summary.balance} />
+      {/* What a treasurer does most sits right under the balance, within thumb reach. */}
+      <MoneyActions summary={summary} />
       <div className="mt-4"><MoneyTotals summary={summary} /></div>
       <CampaignGivingCard amount={summary.givenToCampaign} />
-      <MyDuesCard dues={summary.dues} recordsDues={summary.canManage} />
-      <MoneyActions summary={summary} />
+      <MyDuesCard dues={summary.dues} recordsDues={summary.canManage} canSetDues={summary.canSetDues} />
       {summary.canSeeEntries && <RecordsSection canVoid={summary.canManage} />}
     </>
   )

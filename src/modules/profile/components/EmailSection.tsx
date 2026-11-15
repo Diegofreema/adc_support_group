@@ -9,7 +9,7 @@ import type { Profile } from '../types/profile.types'
 /** The email on the account, and whether it signs them in (it does once confirmed with a code). */
 export function EmailSection({ profile }: { profile: Profile }) {
   const dialog = useDisclosure()
-  const action = !profile.email ? 'Add email' : profile.emailConfirmed ? 'Change' : 'Confirm'
+  const action = !profile.email ? 'Add email' : profile.emailConfirmed ? 'Change' : 'Confirm it'
   return (
     <>
       <SectionTitle title="Email" />
@@ -64,7 +64,7 @@ function AddressStep({ flow, onCancel }: { flow: EmailFlow; onCancel: () => void
       {flow.error && <Banner tone="danger" className="mt-4">{flow.error}</Banner>}
       <div className="dialog-actions">
         <Button onClick={onCancel}>Cancel</Button>
-        <Button type="submit" variant="primary" disabled={flow.isPending}>Send code</Button>
+        <Button type="submit" variant="primary" loading={flow.isPending}>Send code</Button>
       </div>
     </form>
   )
@@ -78,11 +78,11 @@ function CodeStep({ flow }: { flow: EmailFlow }) {
       <Field label="Code" error={error}>
         <Controller control={flow.codeForm.control} name="code" render={({ field }) => <OtpInput value={field.value} onChange={field.onChange} />} />
       </Field>
+      <p className="small muted mt-3">Didn't get it? <button type="button" className="text-link !m-0" disabled={flow.isPending} onClick={flow.resend}>Send it again</button></p>
       {flow.error && <Banner tone="danger" className="mt-4">{flow.error}</Banner>}
       <div className="dialog-actions">
         <Button onClick={flow.back}>Back</Button>
-        <Button onClick={flow.resend} disabled={flow.isPending}>Resend</Button>
-        <Button type="submit" variant="primary" disabled={flow.isPending}>Confirm</Button>
+        <Button type="submit" variant="primary" loading={flow.isPending}>Confirm email</Button>
       </div>
     </form>
   )

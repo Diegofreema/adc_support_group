@@ -175,9 +175,11 @@ export function toGroupReview(row: ReviewRow): GroupReview {
 /** The Active member badge for Home: earned, or what's still to go. */
 export function toBadge(row: MySupportGroup['active_member']): ActiveBadge | null {
   if (!row) return null
+  const share = (done: unknown, needed: unknown) => (Number(needed) > 0 ? Math.min(Number(done) / Number(needed), 1) : 0)
   return {
     earned: row.earned,
     activitiesToGo: Math.max(Number(row.activities_needed) - Number(row.activities), 0),
     eventsToGo: Math.max(Number(row.events_needed) - Number(row.events), 0),
+    progress: row.earned ? 1 : Math.max(share(row.activities, row.activities_needed), share(row.events, row.events_needed)),
   }
 }

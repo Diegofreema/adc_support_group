@@ -18,10 +18,10 @@ export function RecordDuesFields({ form, dues }: RecordDuesFieldsProps) {
   return (
     <>
       <Controller control={control} name="member" render={({ field }) => <MemberPicker label="Member" value={field.value} onChange={field.onChange} error={errors.member?.message} />} />
-      <Field label="From" htmlFor="dues-from" error={errors.fromPeriod?.message}>
+      <Field label="Starting from" htmlFor="dues-from" error={errors.fromPeriod?.message}>
         <SelectInput id="dues-from" options={periodChoices(dues.currentPeriod, dues.period, dues.startOn)} {...register('fromPeriod')} />
       </Field>
-      <Field label="How many" error={errors.periods?.message}>
+      <Field label="How many periods does it cover?" error={errors.periods?.message}>
         <Controller control={control} name="periods" render={({ field }) => <PeriodCount value={field.value} onChange={field.onChange} />} />
       </Field>
       <Field label="Date paid" htmlFor="dues-paid-on" error={errors.paidOn?.message}><TextInput id="dues-paid-on" type="date" {...register('paidOn')} /></Field>

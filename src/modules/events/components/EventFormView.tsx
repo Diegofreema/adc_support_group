@@ -22,7 +22,7 @@ export function EventFormView({ flow, heading, submitLabel, fixedChapterLabel }:
       <EventChapterField form={flow.form} chapters={flow.chapters} coordinator={flow.coordinator} fixedLabel={fixedChapterLabel} />
       <EventNoteField flow={flow} />
       {flow.saveError && <Banner tone="danger" className="mt-5">{flow.saveError}</Banner>}
-      <Button type="submit" variant="primary" size="lg" block className="mt-6" disabled={flow.isSaving}>{flow.isSaving ? 'Saving…' : submitLabel}</Button>
+      <Button type="submit" variant="primary" size="lg" block className="mt-6" loading={flow.isSaving}>{flow.isSaving ? 'Saving…' : submitLabel}</Button>
     </form>
   )
 }

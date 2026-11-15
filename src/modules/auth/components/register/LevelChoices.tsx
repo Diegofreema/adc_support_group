@@ -4,10 +4,10 @@ import type { RegisterGroupValues } from '../../utils/schemas'
 type Level = RegisterGroupValues['level']
 
 const LEVELS: ChoiceOption<Level>[] = [
-  { value: 'national', title: 'National' },
-  { value: 'state', title: 'State' },
-  { value: 'lga', title: 'LGA' },
-  { value: 'ward', title: 'Ward' },
+  { value: 'national', title: 'National', description: 'All of Nigeria' },
+  { value: 'state', title: 'State', description: 'One state' },
+  { value: 'lga', title: 'LGA', description: 'One local government' },
+  { value: 'ward', title: 'Ward', description: 'One ward' },
 ]
 
 /** Two-column radio cards for how far the group reaches. */

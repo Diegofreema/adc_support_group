@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Download } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 
-import { PageHeader, Skeleton, SkeletonList, SkeletonRegion, SkeletonStats, SkeletonTable, StatGrid, buttonClassName } from '@/components/shared'
+import { ErrorState, PageHeader, Skeleton, SkeletonList, SkeletonRegion, SkeletonStats, SkeletonTable, StatGrid, buttonClassName } from '@/components/shared'
 import { Pager } from '../../shared/components/Pager'
 import { CauseTotalsList } from '../components/CauseTotalsList'
 import { OfflineCheckModal } from '../components/OfflineCheckModal'
@@ -38,6 +38,8 @@ export function PaymentsPage() {
 
 /** Skeleton, list or table for the open tab. */
 function TabBody({ tab, overview, overLimit, onCheck }: { tab: PaymentsTab; overview: Overview; overLimit: OverLimit; onCheck: Check['open'] }) {
+  const failure = tab === 'to-confirm' ? overview.waitingFailure : tab === 'all' ? overview.paymentsFailure : tab === 'over-limit' ? overLimit : overview.causesFailure
+  if (failure.error) return <ErrorState title="Couldn't load the payments" error={failure.error} onRetry={failure.retry} />
   if (tab === 'to-confirm') {
     return overview.waitingLoading ? <Loading><SkeletonList rows={4} /></Loading> : <OfflineQueue payments={overview.waiting} onCheck={onCheck} />
   }

@@ -1,5 +1,6 @@
 import { MutationCache, QueryClient } from '@tanstack/react-query'
 
+import { friendlyError, logRawError } from './errors'
 import { notify } from './toast'
 
 declare module '@tanstack/react-query' {
@@ -21,7 +22,8 @@ export const queryClient = new QueryClient({
   // Every failed action tells the user why, unless its form already does.
   mutationCache: new MutationCache({
     onError: (error, _variables, _context, mutation) => {
-      if (!mutation.meta?.inlineError) notify(error.message, 'error')
+      logRawError(error, 'mutation')
+      if (!mutation.meta?.inlineError) notify(friendlyError(error), 'error')
     },
   }),
 })

@@ -12,15 +12,15 @@ interface ChannelPickerProps {
 
 export function ChannelPicker({ value, onChange, cost, balance }: ChannelPickerProps) {
   return (
-    <Field label="Via">
+    <Field label="How should it reach them?">
       <Segmented options={CHANNEL_OPTIONS} value={value} onChange={onChange} label="Send via" />
-      {value === 'free' ? <p className="faint small mt-2">Free</p> : <SmsCostNote cost={cost} balance={balance} />}
+      {value === 'free' ? <p className="muted small mt-2">They see it in the app and by email. It costs nothing.</p> : <SmsCostNote cost={cost} balance={balance} />}
     </Field>
   )
 }
 
 function SmsCostNote({ cost, balance }: { cost: SmsCost; balance: number }) {
-  if (cost.enough) return <p className="faint small mt-2 num">{formatNumber(cost.points)} points</p>
+  if (cost.enough) return <p className="muted small mt-2 num">This uses {formatNumber(cost.points)} of your {formatNumber(balance)} points.</p>
   return (
     <Banner tone="warn" className="mt-3">
       Needs <b className="num">{formatNumber(cost.points)}</b> points. You have <b className="num">{formatNumber(balance)}</b>.

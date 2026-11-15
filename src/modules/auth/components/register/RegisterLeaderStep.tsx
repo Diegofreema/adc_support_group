@@ -18,12 +18,12 @@ interface RegisterLeaderStepProps {
 export function RegisterLeaderStep({ form, onBack, onNext, onPickPhoto, photo, existingPhotoUrl }: RegisterLeaderStepProps) {
   return (
     <>
-      <StepHeading title="Leader" />
+      <StepHeading title="About you, the leader" helper="A clear photo helps the Directorate check your group." />
       <SinglePhotoField file={photo} onPick={onPickPhoto} currentUrl={existingPhotoUrl} />
       <Field label="Your title" htmlFor="reg-title" error={form.formState.errors.leaderTitle?.message} className="mt-5">
         <TextInput id="reg-title" placeholder="National Coordinator" {...form.register('leaderTitle')} />
       </Field>
-      <Field label="CAC number" htmlFor="reg-cac" optional>
+      <Field label="CAC number" htmlFor="reg-cac" hint="Only if the group is registered with CAC." optional>
         <TextInput id="reg-cac" placeholder="RC / IT number" {...form.register('cacNumber')} />
       </Field>
       <WizardActions onBack={onBack} onNext={onNext} />

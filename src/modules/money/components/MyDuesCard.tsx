@@ -1,4 +1,5 @@
-import { CalendarCheck } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { CalendarCheck, Settings } from 'lucide-react'
 
 import { Card, CardHead, StatusChip, Tag } from '@/components/shared'
 import { formatNaira } from '@/lib/format'
@@ -6,10 +7,10 @@ import type { DuesInfo } from '../types'
 import { PERIOD_WORDS } from '../utils/periods'
 
 /** My dues: how much, and whether I've paid for now. */
-export function MyDuesCard({ dues, recordsDues }: { dues: DuesInfo; recordsDues: boolean }) {
+export function MyDuesCard({ dues, recordsDues, canSetDues }: { dues: DuesInfo; recordsDues: boolean; canSetDues: boolean }) {
   return (
     <Card className="mt-4">
-      <CardHead title="My dues" />
+      <CardHead title="My dues" action={canSetDues ? <Link to="/money/dues-settings" className="text-link"><Settings className="i i-sm" aria-hidden />Dues settings</Link> : undefined} />
       {dues.enabled && dues.amount && dues.period ? <DuesOn dues={dues} amount={dues.amount} period={PERIOD_WORDS[dues.period]} recordsDues={recordsDues} /> : <p className="muted">Dues are off.</p>}
     </Card>
   )

@@ -3,8 +3,8 @@ import type { ChapterOption, MemberFilter, MemberRecord } from '../types'
 
 const FIXED_FILTERS: PillOption<MemberFilter>[] = [
   { value: 'all', label: 'All' },
-  { value: 'link', label: 'Link' },
-  { value: 'excel', label: 'Excel' },
+  { value: 'link', label: 'Joined by link' },
+  { value: 'excel', label: 'From a list' },
   { value: 'executives', label: 'Executives' },
 ]
 

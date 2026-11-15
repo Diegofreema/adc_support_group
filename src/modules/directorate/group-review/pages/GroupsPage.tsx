@@ -1,4 +1,4 @@
-import { PageHeader, SkeletonRegion, SkeletonTable } from '@/components/shared'
+import { ErrorState, PageHeader, SkeletonRegion, SkeletonTable } from '@/components/shared'
 import { Pager } from '../../shared/components/Pager'
 import { GroupFilters } from '../components/GroupFilters'
 import { GroupTabs } from '../components/GroupTabs'
@@ -6,7 +6,7 @@ import { GroupsTable } from '../components/GroupsTable'
 import { useGroupList } from '../hooks/use-group-list'
 
 export function GroupsPage() {
-  const { tab, setTab, filters, setFilter, filtered, categoryOptions, rows, total, paging, counts, isLoading } = useGroupList()
+  const { tab, setTab, filters, setFilter, filtered, categoryOptions, rows, total, paging, counts, isLoading, error, retry } = useGroupList()
   return (
     <>
       <PageHeader title="Groups" />
@@ -15,6 +15,7 @@ export function GroupsPage() {
       <div className="mt-4">
         {isLoading
           ? <SkeletonRegion label="Loading groups"><SkeletonTable /></SkeletonRegion>
+          : error ? <ErrorState title="Couldn't load the groups" error={error} onRetry={retry} />
           : <GroupsTable tab={tab} rows={rows} filtered={filtered} />}
       </div>
       <Pager paging={paging} total={total} />

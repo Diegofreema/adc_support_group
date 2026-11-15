@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { fetchRegistrationDraft, registerGroup } from '../services/register.service'
 import { startSignup } from '../services/verification.service'
@@ -12,6 +11,7 @@ import { useDisclosure } from '@/hooks/use-disclosure'
 import { useWizard } from '@/hooks/use-wizard'
 import { notify } from '@/lib/toast'
 import { useSessionUser } from '@/stores/session-store'
+import { useAppForm } from '@/hooks/use-app-form'
 
 const DEFAULTS: RegisterGroupValues = {
   fullName: '', phone: '', code: '', password: '',
@@ -40,7 +40,7 @@ export function useRegistrationDraft(enabled: boolean) {
 export function useRegisterFlow(draft?: RegistrationDraft) {
   const user = useSessionUser()
   const signedIn = Boolean(user)
-  const form = useForm<RegisterGroupValues>({
+  const form = useAppForm<RegisterGroupValues>({
     resolver: zodResolver(signedIn ? registerSignedInSchema : registerGroupSchema),
     // Signed in: name and phone come from the account (shown on "Check").
     defaultValues: { ...DEFAULTS, fullName: user?.fullName ?? '', phone: user?.phone ?? '', ...draft?.values },

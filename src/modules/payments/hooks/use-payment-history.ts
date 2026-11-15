@@ -4,6 +4,7 @@ import { filterByChapter, paymentTotals } from '../utils/payment-totals'
 import { useChapterOptions, usePayments } from './use-payments'
 import { hasPower } from '@/lib/permissions'
 import { useRequiredUser } from '@/stores/session-store'
+import { loadFailure } from '@/hooks/load-failure'
 
 /** Payments screen view-model: totals, chapter filter, filtered history. */
 export function usePaymentHistory() {
@@ -14,6 +15,7 @@ export function usePaymentHistory() {
   const [chapter, setChapter] = useState('')
   return {
     isLoading: query.isLoading,
+    ...loadFailure(query),
     canRecordOffline: hasPower(user, 'money'),
     totals: paymentTotals(payments),
     chapters,

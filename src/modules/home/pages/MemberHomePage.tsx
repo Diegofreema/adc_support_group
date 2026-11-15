@@ -18,12 +18,12 @@ export function MemberHomePage() {
   const next = useNextEvents()
   if (!data) return <PageLoader shape="dashboard" />
   return (
-    <TwoColumn
+    <TwoColumn stagger
       left={(
         <>
+          <MemberActivityCard approvedCount={data.approvedCount} approvedGrowth={data.approvedGrowth} groupCount={data.groups.length} />
           {data.badge && <ActiveMemberCard badge={data.badge} />}
           <NextEvents events={next.events} onAnswer={next.answer} pendingId={next.pendingId} />
-          <MemberActivityCard approvedCount={data.approvedCount} approvedGrowth={data.approvedGrowth} groupCount={data.groups.length} />
           {data.groups.length > 0 && <MyGroupsList groups={data.groups} />}
           <MyActivitiesList activities={data.activities} />
         </>

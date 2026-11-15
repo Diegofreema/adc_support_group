@@ -17,7 +17,7 @@ export function VotingAreaCard({ area }: { area: VotingArea | null }) {
             <VotingAreaPicker idPrefix="profile-voting" value={choice} onChange={setChoice} />
             <div className="grid-2 mt-6 !grid-cols-2">
               <Button onClick={() => setEditing(false)}>Cancel</Button>
-              <Button type="submit" variant="primary" disabled={!choice.code || save.isPending}>Save</Button>
+              <Button type="submit" variant="primary" disabled={!choice.code} loading={save.isPending}>Save</Button>
             </div>
           </form>
         ) : (
@@ -29,7 +29,7 @@ export function VotingAreaCard({ area }: { area: VotingArea | null }) {
               { label: 'State', value: area.state },
             ]} />}
             <Button block className={area ? 'mt-4' : undefined} onClick={() => { setChoice(EMPTY_CHOICE); setEditing(true) }}>
-              {area ? 'Change' : 'Choose where I vote'}
+              {area ? 'Change where I vote' : 'Choose where I vote'}
             </Button>
           </>
         )}

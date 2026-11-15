@@ -1,19 +1,19 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { useForm, useWatch } from 'react-hook-form'
 
 import { homePathFor, login } from '../services/auth.service'
-import type { LoginMethod } from '../types/auth.types'
 import { loginSchema, type LoginValues } from '../utils/schemas'
+import { useAppForm } from '@/hooks/use-app-form'
+import { friendlyError } from '@/lib/errors'
 
-const DEFAULTS: LoginValues = { method: 'phone', identifier: '', password: '' }
+const DEFAULTS: LoginValues = { identifier: '', password: '' }
 
 /** Login form state, validation and submit. */
 export function useLogin() {
   const navigate = useNavigate()
   const { redirect } = useSearch({ from: '/' })
-  const form = useForm<LoginValues>({ resolver: zodResolver(loginSchema), defaultValues: DEFAULTS })
+  const form = useAppForm<LoginValues>({ resolver: zodResolver(loginSchema), defaultValues: DEFAULTS })
   const mutation = useMutation({
     mutationFn: login,
     meta: { inlineError: true },
@@ -21,13 +21,7 @@ export function useLogin() {
     onSuccess: (user) => (redirect ? navigate({ href: redirect }) : navigate({ to: homePathFor(user) })),
   })
 
-  const method = useWatch({ control: form.control, name: 'method' })
-  const setMethod = (next: LoginMethod) => {
-    form.setValue('method', next)
-    form.setValue('identifier', '')
-    form.clearErrors('identifier')
-  }
   const onSubmit = form.handleSubmit((values) => mutation.mutate({ identifier: values.identifier, password: values.password }))
 
-  return { form, method, setMethod, onSubmit, isPending: mutation.isPending, error: mutation.error?.message }
+  return { form, onSubmit, isPending: mutation.isPending, error: mutation.error ? friendlyError(mutation.error) : undefined }
 }

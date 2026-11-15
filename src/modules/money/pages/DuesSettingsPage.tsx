@@ -22,7 +22,7 @@ function DuesSettingsForm({ summary }: { summary: MoneySummary }) {
     <form className="mt-5" onSubmit={submit} noValidate>
       <DuesSettingsFields form={form} />
       <ActionBar>
-        <Button type="submit" variant="primary" size="lg" block icon={Check} disabled={isSaving}>{isSaving ? 'Saving…' : 'Save'}</Button>
+        <Button type="submit" variant="primary" size="lg" block icon={Check} loading={isSaving}>{isSaving ? 'Saving…' : 'Save'}</Button>
       </ActionBar>
     </form>
   )

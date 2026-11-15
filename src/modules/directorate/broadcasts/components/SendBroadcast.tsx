@@ -29,11 +29,11 @@ export function SendBroadcast({ composer }: { composer: BroadcastComposer }) {
   const reason = blockedReason(composer)
   return (
     <div className="mt-6">
-      <Button variant="primary" size="lg" block icon={Send} disabled={!composer.canSend || composer.sending} onClick={confirm.open}>
-        {composer.sending ? 'Sending…' : 'Send'}
+      <Button variant="primary" size="lg" block icon={Send} disabled={!composer.canSend} loading={composer.sending} onClick={confirm.open}>
+        {composer.sending ? 'Sending…' : 'Send message'}
       </Button>
       {reason && <p className="small faint mt-2 text-center">{reason}</p>}
-      <ConfirmDialog open={confirm.isOpen} onOpenChange={confirm.setOpen} title={confirmTitle(composer.reach.count, composer.draft.audience, composer.draft.channel)} description={confirmText(composer)} confirmLabel="Send" onConfirm={composer.submit} />
+      <ConfirmDialog open={confirm.isOpen} onOpenChange={confirm.setOpen} title={confirmTitle(composer.reach.count, composer.draft.audience, composer.draft.channel)} description={confirmText(composer)} confirmLabel="Yes, send it" onConfirm={composer.submit} />
     </div>
   )
 }

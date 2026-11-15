@@ -36,7 +36,7 @@ export function ReviewThreadCard({ group }: { group: ReviewGroup }) {
             id={ASK_INFO_INPUT_ID} aria-label="Ask for info" placeholder="e.g. Send your CAC certificate"
             value={ask.message} onChange={(event) => ask.setMessage(event.target.value)}
           />
-          <Button type="submit" icon={Send} className="mt-2" disabled={!ask.canSend || ask.isSending}>Ask for info</Button>
+          <Button type="submit" icon={Send} className="mt-2" disabled={!ask.canSend} loading={ask.isSending}>{ask.isSending ? 'Sending…' : 'Send question'}</Button>
         </form>
       )}
     </Card>

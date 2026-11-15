@@ -1,4 +1,4 @@
-import { PageHeader, SectionTitle, SkeletonList, SkeletonStats } from '@/components/shared'
+import { ErrorState, PageHeader, SectionTitle, SkeletonList, SkeletonStats } from '@/components/shared'
 import { useGroupLocked } from '@/hooks/use-group-verified'
 import { ChapterFilter } from '../components/ChapterFilter'
 import { PaymentHistory } from '../components/PaymentHistory'
@@ -14,7 +14,7 @@ export function PaymentsPage() {
       <PageHeader title="Payments" actions={<PaymentsActions canRecordOffline={view.canRecordOffline} locked={locked} />} />
       {view.isLoading ? <SkeletonStats count={3} /> : <PaymentTotalsRow totals={view.totals} />}
       <SectionTitle title="History" action={<ChapterFilter chapters={view.chapters} value={view.chapter} onChange={view.setChapter} />} />
-      {view.isLoading ? <SkeletonList /> : <PaymentHistory payments={view.history} />}
+      {view.isLoading ? <SkeletonList /> : view.error ? <ErrorState title="Couldn't load your payments" error={view.error} onRetry={view.retry} /> : <PaymentHistory payments={view.history} />}
     </>
   )
 }

@@ -1,7 +1,7 @@
 import { Plus, Target } from 'lucide-react'
 import { useState } from 'react'
 
-import { Button, EmptyState, FilterPills, PageHeader, Skeleton, SkeletonRegion } from '@/components/shared'
+import { Button, EmptyState, ErrorState, FilterPills, PageHeader, Skeleton, SkeletonRegion } from '@/components/shared'
 import { CauseCard } from '../components/CauseCard'
 import { CauseFormModal } from '../components/CauseFormModal'
 import { useCauseEditor } from '../hooks/use-cause-editor'
@@ -11,7 +11,7 @@ import type { CauseFilter } from '../types'
 
 export function CausesPage() {
   const [status, setStatus] = useState<CauseFilter>('open')
-  const { causes, isLoading } = useCauses()
+  const { causes, isLoading, error, retry } = useCauses()
   const editor = useCauseEditor()
   const statusChange = useSetCauseStatus()
   const visible = causesWithStatus(causes, status)
@@ -24,7 +24,8 @@ export function CausesPage() {
           {visible.map((cause) => <CauseCard key={cause.id} cause={cause} onEdit={editor.openEdit} onToggleStatus={(next) => { statusChange.mutate({ id: cause.id, status: next }); setStatus(next) }} />)}
         </div>
       )}
-      {!isLoading && !visible.length && <EmptyState icon={Target} title="No causes" />}
+      {error && <ErrorState title="Couldn't load the causes" error={error} onRetry={retry} />}
+      {!isLoading && !error && !visible.length && <EmptyState icon={Target} title="No causes" />}
       <CauseFormModal editor={editor} />
     </>
   )

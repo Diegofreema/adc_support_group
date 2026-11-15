@@ -8,6 +8,7 @@ import {
 import { directorateKeys } from '../../shared/query-keys'
 import { setSmsBudget, smsBudgetQuery } from '../../shared/services/admin-settings'
 import { useRequiredUser } from '@/stores/session-store'
+import { loadFailure } from '../../shared/hooks/load-failure'
 
 /** Lists here also feed the filters and pickers on other directorate screens. */
 function useWithLookupRefresh(kind: string) {
@@ -24,6 +25,7 @@ export function useCategories() {
   return {
     items: (query.data ?? []).filter((category) => category.isActive),
     isLoading: query.isLoading,
+    ...loadFailure(query),
     add: useSettingsMutation(['lists'], withRefresh(addCategory), 'Category added'),
     rename: useSettingsMutation(['lists'], withRefresh(renameCategory), 'Category renamed'),
     remove: useSettingsMutation(['lists'], withRefresh(removeCategory), 'Category removed'),
@@ -36,6 +38,7 @@ export function useActivityTypes() {
   return {
     items: query.data ?? [],
     isLoading: query.isLoading,
+    ...loadFailure(query),
     add: useSettingsMutation(['lists'], withRefresh(addActivityType), 'Type added'),
     toggle: useSettingsMutation(['lists'], withRefresh(setActivityTypeEnabled), ({ enabled }) => (enabled ? 'Type turned on' : 'Type turned off')),
   }
@@ -43,7 +46,7 @@ export function useActivityTypes() {
 
 export function useStaff() {
   const query = useQuery(staffQuery)
-  return { items: query.data ?? [], isLoading: query.isLoading }
+  return { items: query.data ?? [], isLoading: query.isLoading, ...loadFailure(query) }
 }
 
 export function useHandovers() {
@@ -53,7 +56,7 @@ export function useHandovers() {
     await queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
   }, ({ approve }) => (approve ? 'Handover approved' : 'Handover declined'))
   const query = useQuery(handoversQuery)
-  return { items: query.data ?? [], count: query.data?.length, isLoading: query.isLoading, decide }
+  return { items: query.data ?? [], count: query.data?.length, isLoading: query.isLoading, ...loadFailure(query), decide }
 }
 
 export function useNameChanges() {
@@ -63,7 +66,7 @@ export function useNameChanges() {
     await queryClient.invalidateQueries({ queryKey: [...directorateKeys.all, 'dashboard'] })
   }, ({ approve }) => (approve ? 'New name approved' : 'Name change declined'))
   const query = useQuery(nameChangesQuery)
-  return { items: query.data ?? [], count: query.data?.length, isLoading: query.isLoading, decide }
+  return { items: query.data ?? [], count: query.data?.length, isLoading: query.isLoading, ...loadFailure(query), decide }
 }
 
 /** Staff read the budget; only a super admin can change it. */
@@ -73,6 +76,7 @@ export function useSmsBudget() {
   return {
     budget: query.data ?? null,
     isLoading: query.isLoading,
+    ...loadFailure(query),
     canEdit: user.title === 'Super admin',
     save: useSettingsMutation(['lists'], (value: number) => setSmsBudget(value), 'SMS budget saved'),
   }
@@ -85,6 +89,7 @@ export function useGivingLimit() {
   return {
     limit: query.data ?? null,
     isLoading: query.isLoading,
+    ...loadFailure(query),
     canEdit: user.title === 'Super admin',
     save: useSettingsMutation(['giving-limit'], setGivingLimit, (limit) => (limit === null ? 'Giving limit removed' : 'Giving limit saved')),
   }

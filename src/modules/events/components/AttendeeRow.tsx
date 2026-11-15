@@ -26,7 +26,7 @@ function AttendeeMarks({ person }: { person: Attendee }) {
 /** One person: tick = present. */
 export function AttendeeRow({ person, disabled, onMark }: AttendeeRowProps) {
   return (
-    <div className="list-item">
+    <div className={`list-item attendee${person.present ? ' is-present' : ''}`}>
       <Checkbox checked={person.present} disabled={disabled} onChange={(event) => onMark(person.profileId, event.target.checked)}>
         <span className="title block">{person.name}</span>
         {person.phone && <span className="meta block">{person.phone}</span>}

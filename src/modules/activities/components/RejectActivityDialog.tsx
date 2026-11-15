@@ -22,7 +22,7 @@ export function RejectActivityDialog({ open, onOpenChange, onConfirm }: RejectAc
     </>
   )
   return (
-    <Modal open={open} onOpenChange={onOpenChange} title="Send back" description="Tell them what to fix." actions={actions}>
+    <Modal open={open} onOpenChange={onOpenChange} title="Send it back?" description="Pick what they need to fix. They can fix it and send it again." actions={actions}>
       <ChoiceList name="reject-reason" label="Reason" options={REJECT_REASONS} value={reason} onChange={setReason} />
       <Field label="Note" htmlFor="reject-note" optional className="mt-4">
         <TextArea id="reject-note" value={note} onChange={(event) => setNote(event.target.value)} rows={3} />

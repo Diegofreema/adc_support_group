@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate, useSearch } from '@tanstack/react-router'
-import { useForm, useWatch } from 'react-hook-form'
+import { useWatch } from 'react-hook-form'
 
 import { homePathFor } from '../services/auth.service'
 import { setPassword } from '../services/password.service'
@@ -9,6 +9,7 @@ import type { CodeSent } from './use-request-reset-code'
 import { passwordRules } from '../utils/password-rules'
 import { setPasswordSchema, type SetPasswordValues } from '../utils/schemas'
 import { notify } from '@/lib/toast'
+import { useAppForm } from '@/hooks/use-app-form'
 
 /**
  * New password with a code; signs in on success. The code comes from
@@ -18,7 +19,7 @@ import { notify } from '@/lib/toast'
 export function useSetPassword() {
   const navigate = useNavigate()
   const { phone, challenge, via, welcome } = useSearch({ from: '/set-password' })
-  const form = useForm<SetPasswordValues>({
+  const form = useAppForm<SetPasswordValues>({
     resolver: zodResolver(setPasswordSchema),
     defaultValues: { code: '', password: '', repeat: '' },
   })

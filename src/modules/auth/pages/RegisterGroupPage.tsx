@@ -12,6 +12,7 @@ import { RegisterWhereStep } from '../components/register/RegisterWhereStep'
 import { EntryTopAction } from '../components/shared/EntryTopAction'
 import { useRegisterFlow, useRegistrationDraft } from '../hooks/use-register-flow'
 import type { RegistrationDraft } from '../types/auth.types'
+import { friendlyError } from '@/lib/errors'
 
 export function RegisterGroupPage() {
   const { edit } = useSearch({ from: '/register' })
@@ -28,7 +29,7 @@ export function RegisterGroupPage() {
 /** "Edit details" / "Edit and resubmit": the same steps, prefilled. */
 function EditWizard() {
   const draft = useRegistrationDraft(true)
-  if (draft.isError) return <EmptyState icon={CloudOff} title={draft.error.message} />
+  if (draft.isError) return <EmptyState icon={CloudOff} title="We couldn't load your group's details" description={friendlyError(draft.error)} />
   if (!draft.data) return <PageLoader shape="form" />
   return <RegisterWizard draft={draft.data} />
 }

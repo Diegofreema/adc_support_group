@@ -24,7 +24,7 @@ export function PowersDialog({ member, onClose, onSave }: PowersDialogProps) {
     </>
   )
   return (
-    <Modal open onOpenChange={(open) => !open && onClose()} title="Powers" description={`What ${member.fullName.split(' ')[0]} can do`} actions={actions}>
+    <Modal open onOpenChange={(open) => !open && onClose()} title={`What can ${member.fullName.split(' ')[0]} do?`} description="Tick what they are allowed to do in this group." actions={actions}>
       <div className="grid gap-3">
         {ALL_POWERS.map((power) => (
           <PowerOption key={power} power={power} member={member} checked={extras.includes(power)} onToggle={toggle} />

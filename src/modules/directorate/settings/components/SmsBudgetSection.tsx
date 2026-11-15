@@ -1,7 +1,7 @@
 import { Save } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 
-import { Banner, Button, Card, CardHead, Field, Skeleton, SkeletonRegion, SkeletonStats, StatGrid, TextInput } from '@/components/shared'
+import { Banner, Button, Card, CardHead, ErrorState, Field, Skeleton, SkeletonRegion, SkeletonStats, StatGrid, TextInput } from '@/components/shared'
 import { formatNumber } from '@/lib/format'
 import { SmsBudgetWarning } from '../../shared/components/SmsBudgetWarning'
 import type { SmsBudget } from '../../shared/services/admin-settings'
@@ -20,7 +20,7 @@ function BudgetForm({ current, onSave, busy }: { current: number; onSave: (value
       <Field label="Monthly budget (SMS)" htmlFor="sms-budget" error={valid ? undefined : 'Enter 0 or more'}>
         <div className="row">
           <TextInput id="sms-budget" className="grow" inputMode="numeric" value={value} onChange={(event) => setValue(event.target.value)} />
-          <Button type="submit" variant="primary" icon={Save} disabled={!valid || busy || amount === current}>Save</Button>
+          <Button type="submit" variant="primary" icon={Save} disabled={!valid || amount === current} loading={busy}>Save</Button>
         </div>
       </Field>
     </form>
@@ -37,7 +37,8 @@ function budgetStats(budget: SmsBudget) {
 
 /** SMS for important messages to people without email; paid by the Directorate. */
 export function SmsBudgetSection() {
-  const { budget, isLoading, canEdit, save } = useSmsBudget()
+  const { budget, isLoading, error, retry, canEdit, save } = useSmsBudget()
+  if (error) return <ErrorState title="Couldn't load the SMS budget" error={error} onRetry={retry} />
   if (isLoading) return <SmsBudgetSkeleton />
   if (!budget) return <Banner tone="info">The SMS budget is not available yet.</Banner>
   return (

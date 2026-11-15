@@ -29,7 +29,7 @@ export function GroupHeader({ group, canEdit = false }: { group: Group; canEdit?
       {group.about && <p className="muted mt-3">{group.about}</p>}
       {editable && group.pendingName && (
         <Banner tone="warn" className="mt-4" title={`New name waiting for approval: ${group.pendingName}`}>
-          <Button size="sm" variant="ghost" disabled={withdraw.isPending} onClick={() => withdraw.mutate()}>Withdraw</Button>
+          <Button size="sm" variant="ghost" loading={withdraw.isPending} onClick={() => withdraw.mutate()}>Keep the old name</Button>
         </Banner>
       )}
       {editable && <EditGroupDialog group={group} open={edit.isOpen} onOpenChange={edit.setOpen} />}

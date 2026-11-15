@@ -29,7 +29,7 @@ export function ReasonModal({ open, onOpenChange, title, reasons, form, confirmL
       }
     >
       <ChoiceList name="reason" label="Reason" options={toReasonOptions(reasons)} value={form.value.reason} onChange={form.setReason} />
-      <Field label="Note" htmlFor="reason-note" optional className="mt-4">
+      <Field label="Add a note" htmlFor="reason-note" hint="Say exactly what to fix. They will see this." optional className="mt-4">
         <TextArea id="reason-note" value={form.value.note} onChange={(event) => form.setNote(event.target.value)} />
       </Field>
       {showPreview && form.isValid && <MessagePreview text={reasonMessage(reasons, form.value)} />}

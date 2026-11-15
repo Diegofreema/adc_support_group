@@ -7,7 +7,7 @@ import { useRestoreGroup } from '../hooks/use-groups'
 export function RestoreButton({ groupId, block }: { groupId: string; block?: boolean }) {
   const restore = useRestoreGroup()
   return (
-    <Button size={block ? undefined : 'sm'} block={block} icon={block ? RotateCcw : undefined} className={block ? undefined : '!min-h-11'} disabled={restore.isPending} onClick={(event) => { event.stopPropagation(); restore.mutate(groupId) }}>
+    <Button size={block ? undefined : 'sm'} block={block} icon={block ? RotateCcw : undefined} className={block ? undefined : '!min-h-11'} loading={restore.isPending} onClick={(event) => { event.stopPropagation(); restore.mutate(groupId) }}>
       Restore
     </Button>
   )

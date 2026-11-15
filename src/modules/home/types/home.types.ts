@@ -63,6 +63,8 @@ export interface ActiveBadge {
   earned: boolean
   activitiesToGo: number
   eventsToGo: number
+  /** 0–1: how far along the nearer path (activities or events) is. */
+  progress: number
 }
 
 export interface MemberDashboard {

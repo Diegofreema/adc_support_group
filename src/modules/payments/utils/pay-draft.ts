@@ -30,14 +30,17 @@ export function draftForLabel(draft: PayDraft, causes: Cause[]): string {
 
 /** Rows for the "Check" step. */
 export function payDraftSummary(draft: PayDraft, lookups: DraftLookups): KeyValue[] {
-  return [
+  const activity = nameOf(lookups.activities, draft.activityId, (option) => option.title)
+  const rows: (KeyValue | false)[] = [
     { label: 'For', value: draftForLabel(draft, lookups.causes) },
     { label: 'Group', value: lookups.groupName },
     { label: 'Paid by', value: lookups.payerName },
     { label: 'Counts for', value: nameOf(lookups.chapters, draft.chapterId, (chapter) => `${chapter.name} chapter`) ?? lookups.defaultChapterLabel },
     { label: 'Amount', value: formatNaira(draft.amount) },
-    { label: 'Activity', value: nameOf(lookups.activities, draft.activityId, (activity) => activity.title) ?? 'None' },
+    // Only when one was picked: an empty "Activity: None" row says nothing.
+    Boolean(activity) && { label: 'Activity', value: activity },
   ]
+  return rows.filter((row): row is KeyValue => Boolean(row))
 }
 
 /** Can the user leave this step? Steps: 0 for, 1 amount, 2 check. */

@@ -14,6 +14,7 @@ export function AddMembersPage() {
   return (
     <div className="main-narrow mx-auto">
       <h1 className="h1">Add members</h1>
+      <p className="muted mt-1">Pick the easiest way for you.</p>
       {locked ? <PendingGroupNote className="mt-5" /> : <AddMethods groupId={groupId} />}
     </div>
   )

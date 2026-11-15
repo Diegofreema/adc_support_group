@@ -11,26 +11,35 @@ interface EventManageActionsProps {
   onCancel: () => void
 }
 
-/** Organiser buttons, as far as the event's state allows. */
+/**
+ * Organiser buttons, as far as the event's state allows: the one thing to do
+ * now first and full width, day-of tools next, then Edit / Cancel (rare) below.
+ */
 export function EventManageActions({ event, onShowQr, onCancel }: EventManageActionsProps) {
   const params = { eventId: event.id }
   const scheduled = event.status === 'scheduled'
+  const showQr = scheduled && Boolean(event.checkinCode)
+  const attendance = event.status !== 'cancelled'
   return (
-    <div className="row wrap gap-2">
+    <div className="stack [--stack:10px]">
       {canRecord(event) && (
-        <Link to="/events/$eventId/record" params={params} className={buttonClassName('primary')}><Megaphone className="i" aria-hidden />Make it an activity</Link>
+        <Link to="/events/$eventId/record" params={params} className={buttonClassName('primary', 'lg', true)}><Megaphone className="i" aria-hidden />Make it an activity</Link>
       )}
       {event.activityId && (
-        <Link to="/activities/$activityId" params={{ activityId: event.activityId }} className={buttonClassName()}><Megaphone className="i" aria-hidden />See the activity</Link>
+        <Link to="/activities/$activityId" params={{ activityId: event.activityId }} className={buttonClassName('secondary', 'md', true)}><Megaphone className="i" aria-hidden />See the activity</Link>
       )}
-      {scheduled && event.checkinCode && <Button icon={QrCode} onClick={onShowQr}>Show check-in QR</Button>}
-      {event.status !== 'cancelled' && (
-        <Link to="/events/$eventId/attendance" params={params} className={buttonClassName()}><ClipboardCheck className="i" aria-hidden />Attendance</Link>
+      {(showQr || attendance) && (
+        <div className="grid grid-cols-2 gap-2.5">
+          {showQr && <Button icon={QrCode} onClick={onShowQr} className={attendance ? undefined : 'col-span-2'}>Check-in QR</Button>}
+          {attendance && <Link to="/events/$eventId/attendance" params={params} className={`${buttonClassName()} ${showQr ? '' : 'col-span-2'}`}><ClipboardCheck className="i" aria-hidden />Attendance</Link>}
+        </div>
       )}
       {scheduled && (
-        <Link to="/events/$eventId/edit" params={params} className={buttonClassName()}><Pencil className="i" aria-hidden />Edit</Link>
+        <div className="row-between border-t border-line pt-3">
+          <Link to="/events/$eventId/edit" params={params} className="text-link"><Pencil className="i i-sm" aria-hidden />Edit event</Link>
+          <button type="button" className="text-link !text-[var(--red)]" onClick={onCancel}><Ban className="i i-sm" aria-hidden />Cancel event</button>
+        </div>
       )}
-      {scheduled && <Button variant="danger" icon={Ban} onClick={onCancel}>Cancel</Button>}
     </div>
   )
 }

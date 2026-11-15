@@ -18,7 +18,7 @@ export function JoinPage() {
   const { data: invite, isError } = useInvite(code)
   return (
     <AuthLayout headline={<>You're invited.<br /><span>Join in a minute.</span></>} topAction={<EntryTopAction loginRedirect={`/join/${code}`} />}>
-      {isError && <EmptyState icon={Link2Off} title="Link not found" />}
+      {isError && <EmptyState icon={Link2Off} title="This invite link doesn't work" description="It may be old or mistyped. Ask your group leader to send it again." />}
       {invite && <JoinWizard invite={invite} />}
     </AuthLayout>
   )

@@ -6,19 +6,17 @@ import { isValidPhone } from '@/lib/phone'
 /** Validation rules for auth forms. Components never validate by hand. */
 
 const phone = z.string().trim().refine(isValidPhone, 'Enter a valid phone number')
-const newPassword = z.string().min(MIN_PASSWORD_LENGTH, `${MIN_PASSWORD_LENGTH}+ characters`).regex(/\d/, 'Add a number')
+const newPassword = z.string().min(MIN_PASSWORD_LENGTH, `Use at least ${MIN_PASSWORD_LENGTH} characters`).regex(/\d/, 'Add at least one number')
 const required = (message: string) => z.string().trim().min(1, message)
 
-export const loginSchema = z
-  .object({
-    method: z.enum(['phone', 'email']),
-    identifier: z.string().trim(),
-    password: z.string().min(4, 'Enter your password'),
-  })
-  .superRefine((values, ctx) => {
-    const valid = values.method === 'phone' ? isValidPhone(values.identifier) : z.email().safeParse(values.identifier).success
-    if (!valid) ctx.addIssue({ code: 'custom', path: ['identifier'], message: values.method === 'phone' ? 'Enter a valid phone number' : 'Enter a valid email' })
-  })
+/** One box takes a phone number or an email; an "@" means email. */
+export const loginSchema = z.object({
+  identifier: z.string().trim().refine(
+    (value) => (value.includes('@') ? z.email().safeParse(value).success : isValidPhone(value)),
+    'Enter your phone number (like 0803 123 4567) or your email',
+  ),
+  password: z.string().min(4, 'Enter your password'),
+})
 export type LoginValues = z.infer<typeof loginSchema>
 
 /** Ask for a reset / set-password code: the phone on the account. */

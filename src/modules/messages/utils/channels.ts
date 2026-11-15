@@ -2,8 +2,8 @@ import type { SegmentOption } from '@/components/shared'
 import type { Audience, Channel } from '../types'
 
 export const CHANNEL_OPTIONS: SegmentOption<Channel>[] = [
-  { value: 'free', label: 'App + Email' },
-  { value: 'sms', label: 'SMS' },
+  { value: 'free', label: 'Free: app + email' },
+  { value: 'sms', label: 'SMS (uses points)' },
 ]
 
 export const CHANNEL_LABEL: Record<Channel, string> = { free: 'App + Email', sms: 'SMS' }

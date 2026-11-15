@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { joinAsSignedIn, joinGroup, type JoinResult } from '../services/join.service'
 import { isExistingAccountError, startSignup } from '../services/verification.service'
@@ -12,6 +11,8 @@ import { useDisclosure } from '@/hooks/use-disclosure'
 import { useWizard } from '@/hooks/use-wizard'
 import { notify } from '@/lib/toast'
 import { useSessionUser } from '@/stores/session-store'
+import { useAppForm } from '@/hooks/use-app-form'
+import { friendlyError } from '@/lib/errors'
 
 const DEFAULTS: JoinValues = {
   phone: '', code: '', fullName: '', state: '', lga: '', ward: '', password: '', email: '', gender: '',
@@ -27,7 +28,7 @@ export const JOIN_STEPS = 4
  * comes back to this link.
  */
 export function useJoinFlow(invite: Invite | undefined) {
-  const form = useForm<JoinValues>({ resolver: zodResolver(joinSchema), defaultValues: DEFAULTS })
+  const form = useAppForm<JoinValues>({ resolver: zodResolver(joinSchema), defaultValues: DEFAULTS })
   const wizard = useWizard(JOIN_STEPS)
   const done = useDisclosure()
   const goNext = useStepValidation(form, wizard)
@@ -61,7 +62,7 @@ export function useJoinFlow(invite: Invite | undefined) {
     done,
     signedInName: signedIn?.fullName,
     isPending: send.isPending || join.isPending || quickJoin.isPending,
-    sendError: sendError?.message,
+    sendError: sendError ? friendlyError(sendError) : undefined,
     /** Where "Log in to join" returns to, when the phone already has an account. */
     loginToJoin: accountExists && invite ? `/join/${invite.code}` : undefined,
     start: () => (signedIn ? quickJoin.mutate() : wizard.next()),

@@ -21,15 +21,15 @@ export function ActivityPhotoPicker({ photos, max, adding, onAdd, onRemove }: Ac
   return (
     <div className="photo-grid">
       {photos.map((photo, index) => (
-        <div key={photo.preview} className="photo">
+        <div key={photo.preview} className="photo anim-pop">
           <img src={photo.preview} alt={`Photo ${index + 1}`} className="ph object-cover" />
           <button type="button" className="x" aria-label="Remove photo" onClick={() => onRemove(index)}><X className="i i-sm" /></button>
         </div>
       ))}
       {photos.length < max && (
         <label className="photo-add" aria-busy={adding}>
-          <Camera className="i i-lg" aria-hidden />
-          {adding ? 'Wait…' : 'Add'}
+          {adding ? <span className="spinner" aria-hidden /> : <Camera className="i i-lg" aria-hidden />}
+          {adding ? 'Adding…' : photos.length === 0 ? 'Add photo' : 'Add more'}
           <input type="file" accept="image/*" multiple hidden disabled={adding} onChange={handleChange} />
         </label>
       )}

@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { activityDetailsSchema, type ActivityDetailsForm } from '../utils/activity-schema'
 import type { Draft } from '../utils/build-activity-input'
@@ -13,6 +12,7 @@ import { ACTIVITY_TYPES } from '@/config/activity-types'
 import { useWizard } from '@/hooks/use-wizard'
 import type { ActivityStatus } from '@/types/domain'
 import type { ActivityTypeOption, ChapterOption } from '../types'
+import { useAppForm } from '@/hooks/use-app-form'
 
 const STEPS = 4
 const PHOTO_REQUIRED = 'Add at least one photo'
@@ -32,7 +32,7 @@ export interface DraftStart {
 }
 
 function useDetailsForm(details: Partial<ActivityDetailsForm> = {}) {
-  return useForm<ActivityDetailsForm>({
+  return useAppForm<ActivityDetailsForm>({
     resolver: zodResolver(activityDetailsSchema),
     defaultValues: { title: '', date: today(), peopleReached: '', state: '', lga: '', ward: '', note: '', chapterId: '', ...details },
   })

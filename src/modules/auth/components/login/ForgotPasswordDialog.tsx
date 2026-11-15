@@ -12,7 +12,7 @@ interface ForgotPasswordDialogProps {
 export function ForgotPasswordDialog({ open, onOpenChange }: ForgotPasswordDialogProps) {
   const navigate = useNavigate()
   return (
-    <Modal open={open} onOpenChange={onOpenChange} title="Reset password" description="We'll send you a code.">
+    <Modal open={open} onOpenChange={onOpenChange} title="Forgot your password?" description="We'll send a code so you can make a new one.">
       {open && (
         <RequestCodeForm
           onSent={({ phone, challengeId, channel }) => {

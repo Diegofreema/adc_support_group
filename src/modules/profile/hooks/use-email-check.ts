@@ -1,21 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 import { finishEmailCheck, startEmailCheck, type EmailCheck } from '../services/profile.service'
 import { emailCodeSchema, emailSchema } from '../utils/schemas'
 import { notify } from '@/lib/toast'
 import { useRequiredUser } from '@/stores/session-store'
 import { profileQuery } from './use-profile'
+import { useAppForm } from '@/hooks/use-app-form'
+import { friendlyError } from '@/lib/errors'
 
 /** Add or change the email: send a code to it, then check the code. */
 export function useEmailCheck(onDone: () => void, initialEmail = '') {
   const user = useRequiredUser()
   const queryClient = useQueryClient()
   const [check, setCheck] = useState<EmailCheck | null>(null)
-  const emailForm = useForm<{ email: string }>({ resolver: zodResolver(emailSchema), defaultValues: { email: initialEmail } })
-  const codeForm = useForm<{ code: string }>({ resolver: zodResolver(emailCodeSchema), defaultValues: { code: '' } })
+  const emailForm = useAppForm<{ email: string }>({ resolver: zodResolver(emailSchema), defaultValues: { email: initialEmail } })
+  const codeForm = useAppForm<{ code: string }>({ resolver: zodResolver(emailCodeSchema), defaultValues: { code: '' } })
 
   const send = useMutation({
     mutationFn: (email: string) => startEmailCheck(email),
@@ -51,6 +52,6 @@ export function useEmailCheck(onDone: () => void, initialEmail = '') {
     back: () => { setCheck(null); codeForm.reset(); confirm.reset() },
     reset,
     isPending: send.isPending || confirm.isPending,
-    error: (send.error ?? confirm.error)?.message,
+    error: send.error || confirm.error ? friendlyError(send.error ?? confirm.error) : undefined,
   }
 }

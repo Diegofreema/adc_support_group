@@ -8,7 +8,7 @@ export function StartGroupCard() {
   return (
     <Link
       to="/register"
-      className="card flex items-center gap-3.5 transition-colors hover:border-line-strong hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-ring"
+      className="card flex items-center gap-3.5 hover:bg-surface-muted"
     >
       <IconTile icon={Flag} tone="grey" />
       <span className="grow">

@@ -3,6 +3,7 @@ import { CircleAlert, CloudUpload, Send, Trash2 } from 'lucide-react'
 import { Button, ConfirmDialog, IconTile, List, ListItem, SectionTitle } from '@/components/shared'
 import { formatDay, countLabel } from '@/lib/format'
 import type { ActivityDraft } from '../types'
+import { friendlyError } from '@/lib/errors'
 
 interface WaitingDraftsProps {
   drafts: ActivityDraft[]
@@ -16,7 +17,8 @@ export function WaitingDrafts({ drafts, sendingRef, onSend, onDelete }: WaitingD
   if (drafts.length === 0) return null
   return (
     <section className="mb-5">
-      <SectionTitle title={`Waiting to send (${drafts.length})`} className="!mt-0" />
+      <SectionTitle title={`Saved on this phone (${drafts.length})`} className="!mt-0" />
+      <p className="small muted mb-3">There was no signal. They send by themselves when you are back online, or tap Send now.</p>
       <List>
         {drafts.map((draft) => (
           <DraftRow key={draft.clientRef} draft={draft} sending={sendingRef === draft.clientRef} onSend={onSend} onDelete={onDelete} />
@@ -41,9 +43,9 @@ function DraftRow({ draft, sending, onSend, onDelete }: DraftRowProps) {
       title={draft.input.title}
       meta={`${status} · ${formatDay(draft.input.date)} · ${countLabel(draft.photos.length, 'photo', 'photos')}`}
     >
-      {draft.lastError && <span className="small muted block mt-1">{draft.lastError}</span>}
+      {draft.lastError && <span className="small muted block mt-1">{friendlyError(draft.lastError)}</span>}
       <span className="flex gap-2 mt-3">
-        <Button size="sm" icon={Send} disabled={sending} onClick={() => onSend(draft.clientRef)}>{sending ? 'Sending…' : 'Send now'}</Button>
+        <Button size="sm" icon={Send} loading={sending} onClick={() => onSend(draft.clientRef)}>{sending ? 'Sending…' : 'Send now'}</Button>
         <Button size="sm" icon={Trash2} disabled={sending} onClick={() => onDelete(draft.clientRef)}>Delete</Button>
       </span>
     </ListItem>

@@ -11,8 +11,8 @@ export function SuspendSection({ groupId }: { groupId: string }) {
   return (
     <div className="danger-zone mt-4">
       <div className="bold">Suspend</div>
-      <div className="small faint">Stops new activities and payments</div>
-      <Button variant="danger" block icon={Pause} className="mt-3" onClick={flow.dialog.open}>Suspend</Button>
+      <div className="small muted">Pauses the group: no new activities, payments, invites or messages until you restore it.</div>
+      <Button variant="danger" block icon={Pause} className="mt-3" onClick={flow.dialog.open}>Suspend group</Button>
       <ReasonModal open={flow.dialog.isOpen} onOpenChange={flow.dialog.setOpen} title="Suspend group" reasons={SUSPEND_REASONS} form={flow.form} confirmLabel="Suspend" onConfirm={flow.submit} showPreview />
     </div>
   )

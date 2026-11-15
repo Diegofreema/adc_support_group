@@ -25,15 +25,15 @@ export function MembersPage() {
 
   const headerActions = (
     <>
-      <Button icon={Download} disabled={exportMembers.isPending} onClick={() => exportMembers.mutate(list.query)}>Export</Button>
-      {!locked && <Link to="/members/add" className={buttonClassName('primary')}><UserPlus className="i" aria-hidden />Add</Link>}
+      <Button icon={Download} loading={exportMembers.isPending} onClick={() => exportMembers.mutate(list.query)}>Download list</Button>
+      {!locked && <Link to="/members/add" className={buttonClassName('primary')}><UserPlus className="i" aria-hidden />Add members</Link>}
     </>
   )
 
   return (
     <>
       <PageHeader title="Members" subtitle={countLabel(list.count, 'person', 'people')} actions={headerActions} />
-      <SearchInput value={list.search} onChange={list.setSearch} placeholder="Name or phone" />
+      <SearchInput value={list.search} onChange={list.setSearch} placeholder="Search by name or phone" />
       <div className="mt-3"><FilterPills options={list.filterOptions} value={list.filter} onChange={list.setFilter} label="Filter members" /></div>
       <div className="mt-4"><MembersBody list={list} onOpen={actions.open} /></div>
       <Pagination page={list.pageData} onPage={list.setPage} pinned={list.count - list.pageData.total} />

@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Check, X } from 'lucide-react'
+import { Check, Undo2 } from 'lucide-react'
 
 import { Button, Card } from '@/components/shared'
 import type { Activity } from '@/types/domain'
@@ -27,10 +27,10 @@ export function ReviewCard({ activity, busy, onApprove, onReject }: ReviewCardPr
       <ActivityFacts activity={activity} />
       <div className="row-between mt-4">
         <div className="thumbs">{activityPhotos(activity).slice(0, 3).map((photo, index) => <ActivityPhotoView key={index} photo={photo} />)}</div>
-        <Link to="/activities/$activityId" params={{ activityId: activity.id }} className="small bold">View</Link>
+        <Link to="/activities/$activityId" params={{ activityId: activity.id }} className="text-link">See photos</Link>
       </div>
       <div className="grid-2 mt-4 !grid-cols-2">
-        <Button icon={X} disabled={busy} onClick={() => onReject(activity.id)}>Reject</Button>
+        <Button icon={Undo2} disabled={busy} onClick={() => onReject(activity.id)}>Send back</Button>
         <Button variant="primary" icon={Check} disabled={busy} onClick={() => onApprove(activity.id)}>Approve</Button>
       </div>
     </Card>

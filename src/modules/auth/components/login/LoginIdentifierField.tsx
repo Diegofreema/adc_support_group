@@ -1,27 +1,21 @@
 import type { UseFormReturn } from 'react-hook-form'
 
-import { Field, PhoneInput, TextInput } from '@/components/shared'
-import type { LoginMethod } from '../../types/auth.types'
+import { Field, TextInput } from '@/components/shared'
 import type { LoginValues } from '../../utils/schemas'
 
-interface LoginIdentifierFieldProps {
-  form: UseFormReturn<LoginValues>
-  method: LoginMethod
-}
-
-/** Phone or email input, depending on the chosen method. */
-export function LoginIdentifierField({ form, method }: LoginIdentifierFieldProps) {
-  const error = form.formState.errors.identifier?.message
-  if (method === 'phone') {
-    return (
-      <Field label="Phone number" htmlFor="login-phone" error={error}>
-        <PhoneInput id="login-phone" {...form.register('identifier')} />
-      </Field>
-    )
-  }
+/** One box for a phone number or an email: no switch to pick first. */
+export function LoginIdentifierField({ form }: { form: UseFormReturn<LoginValues> }) {
   return (
-    <Field label="Email" htmlFor="login-email" error={error}>
-      <TextInput id="login-email" type="email" autoComplete="email" placeholder="you@email.com" {...form.register('identifier')} />
+    <Field label="Phone number or email" htmlFor="login-identifier" error={form.formState.errors.identifier?.message}>
+      <TextInput
+        id="login-identifier"
+        autoComplete="username"
+        autoCapitalize="none"
+        autoCorrect="off"
+        spellCheck={false}
+        placeholder="0803 123 4567"
+        {...form.register('identifier')}
+      />
     </Field>
   )
 }

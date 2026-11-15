@@ -17,7 +17,7 @@ export function RecordsSection({ canVoid }: { canVoid: boolean }) {
       <Tabs tabs={view.tabs} value={view.tab} onChange={view.setTab} label="Records" />
       <div className="mt-3">
         {view.isLoading ? <SkeletonList rows={4} /> : view.error ? <ErrorState title="Could not load the records" error={view.error} onRetry={view.retry} />
-          : view.entries.length === 0 ? <EmptyState icon={Receipt} title="Nothing recorded yet" />
+          : view.entries.length === 0 ? <EmptyState icon={Receipt} title="Nothing recorded yet" description="Dues, income and expenses you record show here." />
           : <List>{view.entries.map((entry) => <EntryRow key={entry.id} entry={entry} onOpen={detail.open} />)}</List>}
       </div>
       <LoadMoreButton hasMore={view.hasMore} loading={view.isLoadingMore} onClick={view.loadMore} />

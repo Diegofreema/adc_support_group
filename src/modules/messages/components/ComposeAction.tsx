@@ -16,7 +16,7 @@ export function ComposeAction({ needsPoints, busy, onSend, onBuy }: ComposeActio
     <ActionBar>
       {needsPoints
         ? <Button variant="primary" size="lg" block icon={Coins} onClick={onBuy}>Buy points</Button>
-        : <Button variant="primary" size="lg" block icon={Send} onClick={onSend} disabled={busy}>Send</Button>}
+        : <Button variant="primary" size="lg" block icon={Send} onClick={onSend} loading={busy}>{busy ? 'Sending…' : 'Send message'}</Button>}
     </ActionBar>
   )
 }

@@ -6,6 +6,7 @@ import { directorateKeys } from '../../shared/query-keys'
 import { paymentTotals } from '../utils/totals'
 import { notify } from '@/lib/toast'
 import type { PaymentsTab } from '../types'
+import { loadFailure } from '../../shared/hooks/load-failure'
 
 /**
  * The payments screen: header numbers and tab counts always; a tab's own list
@@ -26,6 +27,7 @@ export function usePaymentsOverview(tab: PaymentsTab) {
     waiting: waitingRows, waitingCount: waiting.data?.length, causes: causes.data ?? [],
     totals: paid && waiting.data && paymentTotals(paid, waitingRows),
     totalsLoading: paidQuery.isLoading || waiting.isLoading, paymentsLoading: list.isLoading, waitingLoading: waiting.isLoading, causesLoading: causes.isLoading,
+    paymentsFailure: loadFailure(list), waitingFailure: loadFailure(waiting), causesFailure: loadFailure(causes),
   }
 }
 
@@ -35,7 +37,7 @@ export function useOverLimitPayments() {
   const query = useQuery({ ...overLimitQuery(paging.pageSize, paging.offset), placeholderData: keepPreviousData })
   const page = query.data
   useKeepPageInRange(paging, page?.total)
-  return { rows: page?.rows ?? [], total: page?.total ?? 0, count: page?.total, limit: page?.limit ?? null, paging, isLoading: query.isLoading }
+  return { rows: page?.rows ?? [], total: page?.total ?? 0, count: page?.total, limit: page?.limit ?? null, paging, isLoading: query.isLoading, ...loadFailure(query) }
 }
 
 /** Signed link to a payment's proof image (private bucket). */

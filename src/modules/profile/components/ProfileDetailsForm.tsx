@@ -9,14 +9,14 @@ export function ProfileDetailsForm({ profile }: { profile: Profile }) {
   const errors = form.formState.errors
   return (
     <>
-      <SectionTitle title="Details" />
+      <SectionTitle title="Your details" />
       <Card>
         <form onSubmit={onSubmit} noValidate>
           <Field label="Full name" htmlFor="profile-name" error={errors.fullName?.message}>
             <TextInput id="profile-name" autoComplete="name" {...form.register('fullName')} />
           </Field>
           <PlaceSelects compact idPrefix="profile" value={place.value} onChange={place.onChange} errors={place.errors} />
-          <Button type="submit" variant="primary" block className="mt-6" disabled={isPending}>Save</Button>
+          <Button type="submit" variant="primary" block className="mt-6" loading={isPending}>{isPending ? 'Saving…' : 'Save changes'}</Button>
         </form>
       </Card>
     </>

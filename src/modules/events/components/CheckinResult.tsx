@@ -3,6 +3,7 @@ import { CircleX, RotateCw } from 'lucide-react'
 
 import { Button, buttonClassName, ResultHeader } from '@/components/shared'
 import type { GroupEvent } from '../types'
+import { friendlyError } from '@/lib/errors'
 
 export function CheckinSuccess({ event }: { event: GroupEvent }) {
   return (
@@ -15,7 +16,7 @@ export function CheckinSuccess({ event }: { event: GroupEvent }) {
 
 /** The backend's words are already plain ("This event is closed"); a dropped connection says so. */
 function plainMessage(error: Error): string {
-  return /fetch|network|load failed/i.test(error.message) ? 'No connection. Try again.' : error.message
+  return friendlyError(error)
 }
 
 export function CheckinFailed({ error, onRetry }: { error: Error; onRetry: () => void }) {

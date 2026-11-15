@@ -1,4 +1,4 @@
-import { PageHeader, Skeleton, SkeletonRegion, SkeletonTable } from '@/components/shared'
+import { ErrorState, PageHeader, Skeleton, SkeletonRegion, SkeletonTable } from '@/components/shared'
 import { Pager } from '../../shared/components/Pager'
 import { ReasonModal } from '../../shared/components/ReasonModal'
 import { ActivityCardGrid } from '../components/ActivityCardGrid'
@@ -21,7 +21,7 @@ export function ActivityReviewPage() {
       <ActivityStageTabs value={queue.stage} counts={queue.counts} onChange={queue.setStage} />
       <ActivityFilters filters={queue.filters} setFilter={queue.setFilter} typeOptions={queue.typeOptions} />
       <div className="mt-4">
-        <StageBody stage={queue.stage} isLoading={queue.isLoading} rows={queue.rows} onApprove={(id) => approve.mutate(id)} onReject={reject.openFor} />
+        <StageBody stage={queue.stage} isLoading={queue.isLoading} error={queue.error} onRetry={queue.retry} rows={queue.rows} onApprove={(id) => approve.mutate(id)} onReject={reject.openFor} />
       </div>
       <Pager paging={queue.paging} total={queue.total} />
       <ReasonModal open={reject.isOpen} onOpenChange={reject.setOpen} title={isChecked ? 'Overturn check' : 'Reject activity'} reasons={ACTIVITY_REJECT_REASONS} form={reject.form} confirmLabel={isChecked ? 'Overturn' : 'Reject'} onConfirm={reject.submit} showPreview />
@@ -32,12 +32,15 @@ export function ActivityReviewPage() {
 interface StageBodyProps {
   stage: ReviewStage
   isLoading: boolean
+  error: Error | null
+  onRetry: () => void
   rows: ReviewActivity[]
   onApprove: (id: string) => void
   onReject: (id: string) => void
 }
 
-function StageBody({ stage, isLoading, rows, onApprove, onReject }: StageBodyProps) {
+function StageBody({ stage, isLoading, error, onRetry, rows, onApprove, onReject }: StageBodyProps) {
+  if (error) return <ErrorState title="Couldn't load the activities" error={error} onRetry={onRetry} />
   if (isLoading) return <SkeletonRegion label="Loading activities">{stage === 'to-check' ? <CardGridSkeleton /> : <SkeletonTable />}</SkeletonRegion>
   if (stage === 'to-check') return <ActivityCardGrid activities={rows} onApprove={onApprove} onReject={onReject} />
   return <ActivityTable rows={rows} onOverturn={stage === 'checked' ? onReject : undefined} />

@@ -6,7 +6,7 @@ import type { User } from '@/types/domain'
 export function MoreProfileCard({ user }: { user: User }) {
   return (
     <List>
-      <ListItem to="/profile" title={<span className="h3">{user.fullName}</span>} meta={userCaption(user)} leading={<Avatar name={user.fullName} size="lg" />} />
+      <ListItem to="/profile" title={<span className="h3">{user.fullName}</span>} meta={<>{userCaption(user)}<span className="block green small bold mt-0.5">See my profile</span></>} leading={<Avatar name={user.fullName} size="lg" />} />
     </List>
   )
 }

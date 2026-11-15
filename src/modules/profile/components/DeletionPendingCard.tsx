@@ -13,7 +13,7 @@ export function DeletionPendingCard({ pending, onCancel, isPending }: DeletionPe
   return (
     <Banner tone="warn" title={`Your details will be deleted on ${formatDay(pending.dueAt)}`} className="mb-4">
       <p className="small">You can't log in after that. Changed your mind?</p>
-      <Button size="sm" className="mt-2" onClick={onCancel} disabled={isPending}>Cancel deletion</Button>
+      <Button size="sm" className="mt-2" onClick={onCancel} loading={isPending}>Keep my details</Button>
     </Banner>
   )
 }

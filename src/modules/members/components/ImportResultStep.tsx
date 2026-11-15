@@ -11,14 +11,14 @@ export function ImportResultStep({ result, onDownloadIssues }: { result: ImportR
   const hasIssues = result.notAdded.length > 0
   return (
     <section className="mt-6">
-      <ResultHeader title="Done" subtitle="New people set their password from the link they get." />
+      <ResultHeader title="Members added" subtitle="New people get a link to set their own password." />
       <div className="mt-6">
         <ImportCounts items={[{ label: 'New', value: result.added, tone: 'green' }, { label: 'Linked', value: result.linked }, { label: 'Not added', value: result.notAdded.length, tone: 'red' }]} />
       </div>
       <div className="mt-6"><WelcomeSummaryNote summary={result.welcome} /></div>
       {hasIssues && (
         <>
-          <SectionTitle title="Not added" action={<Button variant="ghost" size="sm" icon={Download} onClick={onDownloadIssues}>Download</Button>} />
+          <SectionTitle title="Not added" action={<Button variant="ghost" size="sm" icon={Download} onClick={onDownloadIssues}>Download to fix</Button>} />
           <ImportIssueList issues={result.notAdded} />
         </>
       )}

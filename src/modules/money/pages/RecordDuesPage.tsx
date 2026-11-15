@@ -41,7 +41,7 @@ function RecordDuesForm({ dues }: { dues: ActiveDues }) {
       <RecordDuesFields form={form} dues={dues} />
       <DuesTotal total={total} covers={covers} />
       <ActionBar>
-        <Button type="submit" variant="primary" size="lg" block icon={Check} disabled={isSaving}>{isSaving ? 'Saving…' : 'Save'}</Button>
+        <Button type="submit" variant="primary" size="lg" block icon={Check} loading={isSaving}>{isSaving ? 'Saving…' : 'Save dues'}</Button>
       </ActionBar>
     </form>
   )

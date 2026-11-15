@@ -2,7 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Download } from 'lucide-react'
 
 import {
-  Banner, PageHeader, SectionTitle, SkeletonCard, SkeletonList, SkeletonRegion, SkeletonStats, SkeletonTable, StatGrid,
+  ErrorState, PageHeader, SectionTitle, SkeletonCard, SkeletonList, SkeletonRegion, SkeletonStats, SkeletonTable, StatGrid,
   buttonClassName,
 } from '@/components/shared'
 import { SplitLayout } from '@/components/layout/SplitLayout'
@@ -17,12 +17,12 @@ import { headlineStats } from '../utils/stats'
 import type { Dashboard, Period } from '../types'
 
 export function DashboardPage() {
-  const { period, setPeriod, dashboard, error } = useDashboard()
+  const { period, setPeriod, dashboard, error, retry } = useDashboard()
   return (
     <>
       <PageHeader title="Overview" actions={<HeaderActions period={period} onPeriod={setPeriod} />} />
       <SmsBudgetWarning className="mb-4" />
-      {error && !dashboard && <Banner tone="danger" title="Could not load the overview">{error.message}</Banner>}
+      {error && !dashboard && <ErrorState title="Could not load the overview" error={error} onRetry={retry} />}
       {!dashboard && !error && <DashboardSkeleton />}
       {dashboard && <DashboardBody dashboard={dashboard} />}
     </>
@@ -33,7 +33,8 @@ function HeaderActions({ period, onPeriod }: { period: Period; onPeriod: (value:
   return (
     <>
       <PeriodSelect value={period} onChange={onPeriod} />
-      <Link to="/admin/reports" className={buttonClassName('primary', 'sm')}><Download className="i i-sm" aria-hidden />Export</Link>
+      {/* Secondary: the overview's job is the to-do list, not exporting. */}
+      <Link to="/admin/reports" className={buttonClassName('secondary', 'sm')}><Download className="i i-sm" aria-hidden />Export</Link>
     </>
   )
 }
@@ -44,7 +45,7 @@ function DashboardBody({ dashboard }: { dashboard: Dashboard }) {
       <StatGrid stats={headlineStats(dashboard.totals)} />
       <div className="mt-6">
         <SplitLayout
-          main={<><SectionTitle title="To do" className="mt-0" /><TodoList todo={dashboard.todo} /><StatesSection rows={dashboard.states} /></>}
+          main={<><SectionTitle title="Needs your attention" className="mt-0" /><TodoList todo={dashboard.todo} /><StatesSection rows={dashboard.states} /></>}
           side={<><TopGroupsCard groups={dashboard.topGroups} /><CategoriesCard categories={dashboard.categories} /></>}
         />
       </div>

@@ -57,7 +57,7 @@ function VoidActions({ detail }: { detail: EntryDetail }) {
   return (
     <>
       <Button onClick={detail.stopVoid}>Back</Button>
-      <Button variant="danger-solid" disabled={!ready || detail.busy} onClick={detail.confirmVoid}>{detail.busy ? 'Wait…' : 'Void entry'}</Button>
+      <Button variant="danger-solid" disabled={!ready} loading={detail.busy} onClick={detail.confirmVoid}>{detail.busy ? 'Voiding…' : 'Void entry'}</Button>
     </>
   )
 }

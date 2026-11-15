@@ -15,7 +15,7 @@ export function AddMemberForm({ chapters }: { chapters: ChapterOption[] }) {
           <Field label="Full name" htmlFor="am-name" error={errors.fullName?.message}>
             <TextInput id="am-name" placeholder="As people know them" {...form.register('fullName')} />
           </Field>
-          <Field label="Phone" htmlFor="am-phone" error={errors.phone?.message}>
+          <Field label="Phone number" htmlFor="am-phone" error={errors.phone?.message}>
             <PhoneInput id="am-phone" {...form.register('phone')} />
           </Field>
           <PlaceSelects idPrefix="am" value={place} onChange={setPlace} errors={{ state: errors.state?.message, lga: errors.lga?.message, ward: errors.ward?.message }} />
@@ -23,7 +23,7 @@ export function AddMemberForm({ chapters }: { chapters: ChapterOption[] }) {
           <Field label="Email" htmlFor="am-email" optional error={errors.email?.message}>
             <TextInput id="am-email" type="email" placeholder="name@email.com" {...form.register('email')} />
           </Field>
-          <Button variant="primary" size="lg" block type="submit" className="mt-6" disabled={isSaving}>Add member</Button>
+          <Button variant="primary" size="lg" block type="submit" className="mt-6" loading={isSaving}>{isSaving ? 'Adding…' : 'Add member'}</Button>
         </form>
       </Card>
       {lastAdded && <AddedMemberNote added={lastAdded} />}

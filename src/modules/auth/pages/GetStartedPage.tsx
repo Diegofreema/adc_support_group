@@ -13,15 +13,11 @@ export function GetStartedPage() {
   return (
     <AuthLayout
       headline={<>One last step.<br /><span>Find your group.</span></>}
-      topAction={<button type="button" className="small bold" onClick={logout}>Log out</button>}
+      topAction={<button type="button" className="text-link !text-[var(--text-2)]" onClick={logout}>Log out</button>}
     >
       <StepHeading title={`Welcome, ${firstName}`} helper="Join the group that invited you, or start your own." />
       <div className="mt-6"><JoinGroupCard /></div>
-      <div className="my-4 flex items-center gap-3" aria-hidden>
-        <span className="h-px flex-1 bg-line" />
-        <span className="label !mb-0">or</span>
-        <span className="h-px flex-1 bg-line" />
-      </div>
+      <p className="or-divider" aria-hidden>or</p>
       <StartGroupCard />
     </AuthLayout>
   )
